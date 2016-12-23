@@ -1,0 +1,53 @@
+@import "./style/variable";
+
+#react-app {
+  height: 100vh;
+  > * {
+    height: 100%;
+  }
+}
+
+.container {
+  padding: 10px 15px 0 15px;
+  background-color: #F9F6F6;
+  height: 100%;
+  &.has-footer {
+    height: ~"calc(100% - 40px)";
+  }
+}
+
+.button-circle {
+  display: inline-block;
+  height: @button_circle_height;
+  line-height: @button_circle_height;
+  color: @color_theme;
+  border: 1px solid @color_theme;
+  border-radius: @button_circle_height/2;
+  padding: 0 @button_circle_height/2;
+  margin: 5px 0;
+  &.selected {
+    background-color: @color_theme;
+    color: white;
+  }
+}
+
+.button-footer {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: @button_footer_height;
+  text-align: center;
+  line-height: @button_footer_height;
+  background-color: @color_theme;
+  color: white;
+  > .left {
+    display: inline-block;
+    width: ~"calc(50% - 1px)";
+    border-right: 1px solid white;
+  }
+  > .right {
+    display: inline-block;
+    width: 50%;
+  }
+}
