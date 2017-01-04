@@ -78,7 +78,6 @@ export default class Main extends React.Component<any, any> {
    * @param type
    */
   handleMenuClick(e, type) {
-    console.log(this.context);
     const {dispatch, location = {}} = this.props;
     const {pathname = "/home", query = null} = location;
     // 请求后端查询要前往的地址

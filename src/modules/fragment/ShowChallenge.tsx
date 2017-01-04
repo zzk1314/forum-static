@@ -35,6 +35,7 @@ export default class ShowChallenge extends React.Component<any,any> {
       tipDisVote: false,
       challengeId:null,
       planId:null,
+      picList:[],
     }
   }
 
@@ -63,6 +64,7 @@ export default class ShowChallenge extends React.Component<any,any> {
             voteStatus: res.msg.voteStatus,
             planId:res.msg.planId,
             challengeId:res.msg.challengeId,
+            picList:res.msg.picList,
           })
         }
       })
@@ -136,7 +138,7 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   render() {
-    const {title, upName, upTime, headImg, content, isMine, voteCount, submitId, voteStatus} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, voteCount, submitId, voteStatus,picList=[]} = this.state;
     console.log("vote status", submitId, voteStatus);
     const renderEdit = () => {
       if (isMine) {
@@ -170,6 +172,18 @@ export default class ShowChallenge extends React.Component<any,any> {
           <div className="content">
             <pre>{content}</pre>
           </div>
+          <div className="picContainer">
+            <ul className="picList">
+              {picList.map((pic, sequence) => {
+                // 循环存放picList
+                return (
+                  <li key={sequence} className="picItem" name={pic.id}>
+                    <img src={pic.picSrc}/>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
         <div className="voteContainer">
           {this.state.tipVote?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>:null}
@@ -179,7 +193,8 @@ export default class ShowChallenge extends React.Component<any,any> {
             className="chipRoot"
             style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}
           >
-            <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip"><img
+            <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">
+              <img src={`http://www.confucius.mobi/images/${voteStatus?"pcDisVote.png":"pcVoted.png"}`}
               className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
               style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span
               className="voteCount">{voteCount}</span></div>

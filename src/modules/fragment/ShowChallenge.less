@@ -40,10 +40,33 @@
   .showContentContainer {
     min-height:500px;
     .content {
+      min-height:300px;
       pre {
         white-space: pre-wrap;
         word-wrap: break-word;
         text-indent: 2em;
+      }
+    }
+    .picContainer {
+      .picList {
+        margin: 0 auto;
+        list-style-type: none;
+        overflow: hidden;
+        padding:0;
+        display: block;
+        li:nth-child(5n+6) {
+          clear: both;
+        }
+        .picItem {
+          margin: 0 -5px 5px -5px;
+          padding: 0 13px 0 5px;
+          float: left;
+          width: 120px;
+          img {
+            display: block;
+            max-width: 100%;
+          }
+        }
       }
     }
   }

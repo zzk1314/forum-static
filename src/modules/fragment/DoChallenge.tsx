@@ -257,7 +257,7 @@ export default class DoChallenge extends React.Component<any,any> {
           } else if (_.isEqual(res.code, 200)) {
             // 加载成功
             console.log(res);
-            let {id, content, submitId, moduleId, picList, submitted, pcurl, submitUrl} = res.msg;
+            let {id, content, submitId, moduleId, picList, submitted, pcurl, submitUrl,description} = res.msg;
             // 关于这个大作业，设置基础字段,如果submit为true则显示list，如果为false并且doingId是这个则显示做作业，否则不能只展示三篇章
             this.setState({
               homeworkAnswer: content,
@@ -267,7 +267,8 @@ export default class DoChallenge extends React.Component<any,any> {
               submitted: submitted,
               pcurl: pcurl,
               submitUrl: submitUrl,
-              challengeId: id
+              challengeId: id,
+              description:description,
             })
           }
         })
@@ -280,18 +281,55 @@ export default class DoChallenge extends React.Component<any,any> {
 
   componentWillReceiveProps(newProps) {
     console.log("receiveProps");
-    const {dispatch, course, location} = this.props;
-    if (!_.isEqual(this.props.location.query.problemId, newProps.location.query.problemId)) {
-      // 更新
-      this.loadProblemList()
-        .then((res) => this.initPage(res, newProps))
-        .then((res) => this.loadChallenges({
-          problemList: res.problemList,
-          problemId: newProps.location.query.problemId
-        }))
-        .then((res) => this.dealResult(res, newProps))
-        .catch(err => console.log("error:", err));
+    const {user} = newProps;
+    // if (!_.isEqual(this.props.location.query.problemId, newProps.location.query.problemId)) {
+    //   // 更新
+    //   this.loadProblemList()
+    //     .then((res) => this.initPage(res, newProps))
+    //     .then((res) => this.loadChallenges({
+    //       problemList: res.problemList,
+    //       problemId: newProps.location.query.problemId
+    //     }))
+    //     .then((res) => this.dealResult(res, newProps))
+    //     .catch(err => console.log("error:", err));
+    // }
+    if(this.props.location.query.planId!==newProps.props.location.query.planId || this.props.location.query.cid!==newProps.props.location.query.cid){
+      const {cid, planId} = location.query;
+      const submit = _.get(user, `course.fragment.${planId}.${cid}`);
+      if (_.isUndefined(submit)) {
+        pget(`/pc/fragment/c/mine/${planId}/${cid}`, this.context.router)
+          .then(res => {
+            if (_.isEqual(res.code, 100001)) {
+              // 为付费，跳转到二维码界面
+              this.context.router.push({
+                pathname: "/servercode",
+              })
+            } else if (_.isEqual(res.code, 100002)) {
+              alert("超过提交时限");
+              this.context.router.push({
+                pathname: "/servercode",
+              });
+            } else if (_.isEqual(res.code, 200)) {
+              // 加载成功
+              console.log(res);
+              let {id, content, submitId, moduleId, picList, submitted, pcurl, submitUrl,description} = res.msg;
+              // 关于这个大作业，设置基础字段,如果submit为true则显示list，如果为false并且doingId是这个则显示做作业，否则不能只展示三篇章
+              this.setState({
+                homeworkAnswer: content,
+                submitId: submitId,
+                picList: picList,
+                moduleId: moduleId,
+                submitted: submitted,
+                pcurl: pcurl,
+                submitUrl: submitUrl,
+                challengeId: id,
+                description:description,
+              })
+            }
+          })
+      }
     }
+
   }
 
   onUploadSuccess(url) {
@@ -375,7 +413,7 @@ export default class DoChallenge extends React.Component<any,any> {
       return (
         <div className="doWorkArea">
           <div className="myWorkTitle">我的作业</div>
-          <div className="desc">{description}</div>
+          <div className="desc">{this.state.description}</div>
           <div className="tipTitle">小提示</div>
           <div className="tips">
             作业支持提交后电脑端修改啦！<br/>

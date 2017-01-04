@@ -64,7 +64,7 @@ export default class Login extends React.Component<any,any>{
       alert("该浏览器不支持socket");
     }
     // 创建socket www.confucius.mobi
-    this.webSocket = new WebSocket("ws://127.0.0.1:8080/session");
+    this.webSocket = new WebSocket("ws://www.confucius.mobi/session");
     console.log(this.webSocket);
     this.webSocket.onopen = e=>{console.log("链接打开!");};
     // 处理消息

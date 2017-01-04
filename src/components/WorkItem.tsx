@@ -52,7 +52,7 @@ export default class WorkItem extends React.Component<any,any> {
           </div>
           <div className="rightArea">
             <div className="voteContainer">
-              <img src={`www.confucius.mobi/images/${voteCount>0?"pcVoted.png":"pcDisVote.png"}`}/> <span className="vote">{voteCount}</span>
+              <img src={`http://www.confucius.mobi/images/${voteCount>0?"pcVoted.png":"pcDisVote.png"}`}/> <span className="vote">{voteCount}</span>
             </div>
           </div>
         </div>

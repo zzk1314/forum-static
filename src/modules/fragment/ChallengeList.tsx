@@ -11,14 +11,15 @@ export default class ChallengeList extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
+
   constructor(props) {
     super(props);
   }
 
-  componentWillReceiveProps(newProps){
-    if(newProps.location.query.cid!==this.props.location.query.cid){
+  componentWillReceiveProps(newProps) {
+    if (newProps.location.query.cid !== this.props.location.query.cid) {
       console.log("reRender");
-      const {location,user,dispatch} = newProps;
+      const {location, user, dispatch} = newProps;
       const cid = _.get(location, "query.cid");
       if (_.isUndefined(cid)) {
         console.error("cid没有定义");
@@ -45,7 +46,7 @@ export default class ChallengeList extends React.Component<any,any> {
   componentWillMount() {
     // 加载个人作业
     console.log("加载作业");
-    const {location, dispatch, user} = this.props;
+    const {location, dispatch, user, course} = this.props;
     const cid = _.get(location, "query.cid");
     if (_.isUndefined(cid)) {
       console.error("cid没有定义");
@@ -56,12 +57,27 @@ export default class ChallengeList extends React.Component<any,any> {
         pget(`/pc/fragment/c/list/mine/${cid}`, this.context.router)
           .then(res => {
             if (res.code === 200) {
-              console.log(res);
+              console.log("mine",res);
               dispatch(set(`user.fragment.challenge.mine.${cid}`, res.msg));
             } else {
               this.context.router.push({pathname: "/servercode"});
             }
-          }).catch(err => console.log(err));
+          }).then(() => {
+          console.log("加载其他人的");
+          const cOList = _.get(user, `fragment.challenge.mine.${cid}`);
+          if (_.isUndefined(cOList)) {
+            pget(`/pc/fragment/c/list/other/${cid}`, this.context.router)
+              .then(res => {
+                if (res.code === 200) {
+                  console.log("other", res);
+                  dispatch(set(`user.fragment.challenge.other.${cid}`, res.msg));
+                } else {
+                  this.context.router.push({pathname: "/servercode"});
+                }
+              }).catch(err => console.log(err));
+          }
+
+        }).catch(err => console.log(err));
       } else {
         console.log("clis已缓存", cidList);
       }
@@ -122,6 +138,25 @@ export default class ChallengeList extends React.Component<any,any> {
       )
     }
 
+    const renderOther = () => {
+      const {user} = this.props;
+      const cid = _.get(location, "query.cid", -1);
+      const cOList = _.get(user, `fragment.challenge.other.${cid}`, []);
+      console.log("render other", cid, cOList);
+      return (
+        <div className="otherContainer">
+          {cOList.map((item, index) => {
+            const {headImg, upName, upTime, content, voteCount, onEditClick, onShowClick, onVoteClick, planId, canVote, submitId} = cOList[index];
+            console.log("render item", item);
+            return (
+              <WorkItem key={index} {...cOList[index]} onShowClick={()=>this.onShowClick(item.submitId)}
+                        onVoteClick={()=>this.onVoteClick(submitId,canVote)}/>
+            )
+          })}
+        </div>
+      )
+    }
+
     const {headImg, upName, upTime, content, voteCount, onEditClick, onShowClick, onVoteClick} = this.props;
 
     return (
@@ -132,8 +167,11 @@ export default class ChallengeList extends React.Component<any,any> {
           </div>
           {renderMine()}
         </div>
-        <div className="otherChallengeContainer">
-
+        <div className="myChallengeContainer">
+          <div className="titleContainer">
+            <div className="title">其他作业</div>
+          </div>
+          {renderOther()}
         </div>
       </div>
     )

@@ -20,8 +20,8 @@ const routes = (
       <Route path="fragment/c" component={DoChallenge}/>
       <Route path="fragment/c/list" component={ChallengeList}/>
       <Route path="fragment/c/show" component={ShowChallenge}/>
+      <Route path="servercode" component={ServerCode}/>
     </Route>
-    <Route path="servercode" component={ServerCode}/>
   </Route>
 )
 

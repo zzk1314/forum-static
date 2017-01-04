@@ -94,7 +94,8 @@ export default class Fragment extends React.Component<any,any> {
   componentWillMount() {
     console.log("fragment willMount");
     const {dispatch, user, location} = this.props;
-    console.log(location);
+    const {pathname,query} = location;
+    dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
     this.getUser()
       .then((res) => this.loadProblemList());
 
