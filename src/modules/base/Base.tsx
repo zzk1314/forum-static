@@ -102,7 +102,6 @@ export default class Main extends React.Component<any, any> {
     } else if (type === MenuType.Home) {
       this.context.router.push({
         pathname: "/home",
-        query: {debug: true}
       })
     }
   }

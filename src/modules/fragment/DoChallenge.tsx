@@ -133,7 +133,7 @@ export default class DoChallenge extends React.Component<any,any> {
       console.log("没有传递页面参数")
       this.context.router.push({
         pathname: "/fragment/c",
-        query: {debug: true, problemId: doingId}
+        query: {problemId: doingId}
       });
       throw new BreakSignal("没有设置挑战id，重新访问");
     }
@@ -200,7 +200,6 @@ export default class DoChallenge extends React.Component<any,any> {
       // 为付费，跳转到二维码界面
       this.context.router.push({
         pathname: "/servercode",
-        query: {debug: true}
       })
     } else if (_.isEqual(res.code, 200)) {
       // 加载成功
@@ -221,7 +220,7 @@ export default class DoChallenge extends React.Component<any,any> {
         // 已提交并且不编辑
         this.context.router.push({
           pathname: "/fragment/c/list",
-          query: {debug: true, cid: res.msg.id}
+          query: {cid: res.msg.id}
         })
         throw new BreakSignal("进入作业列表");
       }
@@ -249,13 +248,11 @@ export default class DoChallenge extends React.Component<any,any> {
             // 为付费，跳转到二维码界面
             this.context.router.push({
               pathname: "/servercode",
-              query: {debug: true}
             })
           } else if (_.isEqual(res.code, 100002)) {
             alert("超过提交时限");
             this.context.router.push({
               pathname: "/servercode",
-              query: {debug: true}
             });
           } else if (_.isEqual(res.code, 200)) {
             // 加载成功

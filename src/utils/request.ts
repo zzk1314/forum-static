@@ -25,7 +25,6 @@ export function pget(url: string,router:Object ,query?: Object) {
         // 没有登录，跳转
         router.push({
           pathname:"/login",
-          query:{debug:true}
         });
         // 停止promise链
         throw new BreakSignal(res||"test");

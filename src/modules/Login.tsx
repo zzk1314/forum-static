@@ -164,7 +164,6 @@ export default class Login extends React.Component<any, any> {
   jumpToServerQr(){
     this.context.router.push({
       pathname:"/servercode",
-      query:{debug:true}
     })
   }
 
