@@ -8,7 +8,7 @@ module.exports = {
 	],
 	output: {
 		path: path.join(__dirname, "__build__"),
-		filename: "bundle.js",
+		filename: "pc_bundle.js",
 		publicPath: "/",
 		chunkFilename: "[id].chunk.js"
 	},

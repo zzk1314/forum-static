@@ -1,0 +1,103 @@
+.showContainer {
+  margin-left: 8px;
+  .showTitleContainer {
+    overflow: hidden;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    .title {
+      display: inline-block;
+      color: #999999;
+      font-size: 28px;
+      .edit {
+        cursor: pointer;
+        margin-top: 8px;
+        font-size: 13px;
+        color: #55cbcb;
+      }
+    }
+    .author {
+      margin-top: 10px;
+      float: right;
+      .avatar {
+        float: left;
+      }
+      .upInfo {
+        margin-left: 4px;
+        float: right;
+        .upName {
+          font-size: 16px;
+          color: #333333;
+        }
+        .upTime {
+          margin-top: 4px;
+          color: #999999;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .showContentContainer {
+    min-height:500px;
+    .content {
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        text-indent: 2em;
+      }
+    }
+  }
+  .voteContainer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom:60px;
+    position: relative;
+    .voteTip{
+      position: absolute;
+      top: -31px;
+      font-size: 12px;
+      color: #fff;
+      background: #aaa;
+      padding: 6px;
+    }
+    .disVoteTip{
+      position: absolute;
+      top: -31px;
+      font-size: 12px;
+      color: #fff;
+      background: #aaa;
+      padding: 6px;
+    }
+    .chipRoot {
+      height: 60px;
+      min-width: 180px;
+      border-radius: 50px !important;
+      .chip {
+        font-size:16px;
+        margin-top: 15px;
+        margin-left: 14px;
+        position: relative;
+        .chipIcon {
+          float: left;
+          margin-top: 6px;
+          margin-right: 5px;
+          width: 20px;
+          height: 20px;
+        }
+        .chipSplit {
+          display: inline-block;
+          width: 1px;
+          height: 40px;
+          position: absolute;
+          left: 77px;
+          top: -5px;
+          border-left: 1px solid #f7a466;
+        }
+        .voteCount{
+          margin-left:34px;
+        }
+      }
+    }
+  }
+}
