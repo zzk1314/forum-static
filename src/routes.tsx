@@ -9,13 +9,14 @@ import ServerCode from "./modules/ServerCode"
 import DoChallenge from "./modules/fragment/DoChallenge"
 import ChallengeList from "./modules/fragment/ChallengeList"
 import ShowChallenge from "./modules/fragment/ShowChallenge"
-
+import Stranger from "./modules/Stranger"
 
 const routes = (
   <Route path="/" component={Base}>
     <IndexRoute component={Home}/>
     <Route path="home" component={Home}/>
     <Route path="login" component={Login}/>
+    <Route path="stranger" component={Stranger}/>
     <Route component={Fragment}>
       <Route path="fragment/c" component={DoChallenge}/>
       <Route path="fragment/c/list" component={ChallengeList}/>

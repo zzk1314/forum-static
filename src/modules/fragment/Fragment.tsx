@@ -7,6 +7,7 @@ import "./Fragment.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
+import Loading from "../../components/Loading"
 import VerticalList from "../../components/VerticalList"
 
 @connect(state => state)
@@ -33,12 +34,12 @@ export default class Fragment extends React.Component<any,any> {
     if (_.isEmpty(user)) {
       // ajax获取
       return pget(`/account/get`, this.context.router).then(res => {
-        console.log("ajax加载用户信息");
+        console.log("fragment 中ajax加载用户信息");
         dispatch(set("user", res.msg));
         return res.msg;
       })
     } else {
-      console.log("已有缓存的用户信息");
+      console.log("fragment 中已有缓存的用户信息");
       return Promise.resolve(user);
     }
   }
@@ -57,7 +58,7 @@ export default class Fragment extends React.Component<any,any> {
       const {pathname = "/home", query = null} = location;
       dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
       return pget(`/pc/fragment/page`, this.context.router).then(res => {
-        console.log("ajax加载问题列表");
+        console.log("ajax加载问题列表",res);
         dispatch(set("course.fragment.problemList", res.msg.problemList));
         dispatch(set("user.course.fragment.doingId", res.msg.doingId));
         const doingId = res.msg.doingId;
@@ -81,15 +82,15 @@ export default class Fragment extends React.Component<any,any> {
    * @param problemId 问题id
    * 结构：
    * user.course.fragment.doing
-   *                     .myChallenge:[problemId]:[challengeList]
+   *                     .myChallenge:[problemId]:[challengeList] // 自己的挑战列表
    *                                          [0]:[...challenge...]
-   *                     .otherChallenge:[problemId]:[challengeList]
+   *                     .otherChallenge:[problemId]:[challengeList] // 其他人的挑战列表
    *                                           目前只有一个challenge
    *                                           challenge:{
    *                                           }
-   * course.fragment.problemList:[problem]
-   *
-   * page.fragment.curChallengeId
+   * course.fragment.problemList:[problem] // 问题列表
+   *                .doingId //  正在做的问题id
+   * page.fragment.curProblemId
    */
   componentWillMount() {
     console.log("fragment willMount");
@@ -104,7 +105,7 @@ export default class Fragment extends React.Component<any,any> {
 
 
   /**
-   * 选择了问题
+   * 选择了问题,请求跳转
    */
   chooseProblem(problemId) {
     const {dispatch} = this.props;
@@ -116,7 +117,7 @@ export default class Fragment extends React.Component<any,any> {
           // 请求成功，进行跳转
           this.context.router.push({
             pathname:res.msg.pathName,
-            query:res.msg.query
+            query:res.msg.query,
           })
           dispatch(set("page.curProblemId",problemId));
         } else {
@@ -124,24 +125,31 @@ export default class Fragment extends React.Component<any,any> {
         }
       }).catch(err=>console.log(err));
     // this.context.router.push({pathname:`/home/fragment/challenge`,query:{id:problem.id}})
-    // 加载自己的问题
   }
 
   render() {
-    const {course, dispatch, page, user = {}} = this.props;
-    const problemList = _.get(course, "fragment.problemList", []);
-    const doingId = _.get(user, "course.fragment.doingId");
-    const curProblemId = _.get(page, "curProblemId", doingId);
-
+    const {course, dispatch, page, user = {},loading} = this.props;
+    const problemList = _.get(course, "fragment.problemList", []); // 问题列表，默认为[]
+    const doingId = _.get(user, "course.fragment.doingId"); // 正在做的问题id
+    const curProblemId = _.get(page, "curProblemId", doingId); // 当前现实的问题id，默认为正在做的问题id
+    const fragmentLoading = _.get(loading,"fragment",false); // 是否显示loading动画
+    const paperStyle = { // loading的样式
+      position: "fixed",
+      width: "150px",
+      height: "150px",
+      left: "45%",
+      top: "30%"
+    }
     return (
       <div className="fragmentContent" ref="fragmentContent">
         <div className="leftList">
           <VerticalList onChangeCall={(problemId)=>this.chooseProblem(problemId)} problemList={problemList}
-                        dispatch={dispatch} defaultValue={curProblemId}/>
+                        activeNav={curProblemId}/>
         </div>
         <div className="rightContent">
           {this.props.children}
         </div>
+        {fragmentLoading?<Loading paperStyle={paperStyle} size={150}/>:null}
       </div>
     )
   }

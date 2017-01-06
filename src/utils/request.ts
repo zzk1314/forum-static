@@ -14,11 +14,9 @@ export function appendQs(query: Object): string {
 }
 
 export function pget(url: string,router:Object ,query?: Object) {
-  console.log(url);
 	return get(`${url}${appendQs(query)}`).then((res) => {
 	  // 获取code进行判断
 	  let code = _.get(res.data,"code");
-	  console.log("load",res);
 	  // 未登录的并且传递了router
 	  if(_.isEqual(code,401)){
 	    if(!_.isNull(router) && !_.isUndefined(router)){

@@ -24,6 +24,9 @@ const style = {
   item: {
     margin: "50px auto",
     padding: "24px 0"
+  },
+  itemActive:{
+    color:"#55cbcb"
   }
 }
 
@@ -31,34 +34,24 @@ export default class VerticalList extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      onChangeCall: props.onChangeCall
+      onChangeCall: props.onChangeCall,
+      activeNav:props.activeNav,
     }
-  }
-
-  componentWillMount() {
-
   }
 
   handleRequestChange = (event, index) => {
-    console.log("click",index);
     this.state.onChangeCall(index);
   };
 
-
   render() {
-    const {problemList, defaultValue} = this.props;
-    console.log("problemList",problemList);
-    console.log("defaultValue",defaultValue);
+    const {problemList=[],activeNav} = this.props;
     const textItem = (item) => {
-      console.log('equal',typeof defaultValue);
       return <div key={item.id}
-                  className={_.isEqual(Number(defaultValue),item.id)?"listItem-choose":"listItem"}>{item.problem}</div>
+                  className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}</div>
     }
 
     return (
-      <SelectableList
-        value={defaultValue}
-        onChange={this.handleRequestChange}>
+      <List>
         <Subheader style={style.listTitle}>
           <div className="listTitle">难题</div>
         </Subheader>
@@ -67,6 +60,7 @@ export default class VerticalList extends React.Component<any,any> {
           return (
             <ListItem
               key={index}
+              onClick={(e)=>this.handleRequestChange(e,item.id)}
               innerDivStyle={_.isEqual(index,0)?style.firstItem:style.item}
               children={textItem(item)}
               value={item.id}
@@ -74,7 +68,7 @@ export default class VerticalList extends React.Component<any,any> {
             </ListItem>
           )
         })}
-      </SelectableList>
+      </List>
     )
   }
 }

@@ -143,7 +143,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     const renderEdit = () => {
       if (isMine) {
         return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
-          <img style={{width:"10px",height:"10px",marginRight:"4px"}}/> <span >修改作业</span>
+          <img src="http://www.confucius.mobi/images/pcEdit.png" style={{width:"10px",height:"10px",marginRight:"4px"}}/> <span >修改作业</span>
         </div>)
       }
     }
@@ -194,7 +194,7 @@ export default class ShowChallenge extends React.Component<any,any> {
             style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}
           >
             <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">
-              <img src={`http://www.confucius.mobi/images/${voteStatus?"pcDisVote.png":"pcVoted.png"}`}
+              <img src={`http://www.confucius.mobi/images/${voteStatus?"pcVoteWhite.png":"pcVoted.png"}`}
               className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
               style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span
               className="voteCount">{voteCount}</span></div>

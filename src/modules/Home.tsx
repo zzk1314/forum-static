@@ -7,7 +7,8 @@ import * as _ from "lodash"
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import LoginQrCode from "../components/LoginQrCode"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import { pget, ppost } from "utils/request"
+import {pget, ppost} from "utils/request"
+import Loading from "../components/Loading"
 const P = "current";
 
 const style = {
@@ -24,10 +25,11 @@ const style = {
     boxShadow: "0 0 2px 0 rgba(0,0,0,.5)",
     height: "64px"
   },
-  banner:{
-    height:"64px",
-  }
+  banner: {
+    height: "64px",
+  },
 }
+
 
 
 @connect(state => state)
@@ -35,6 +37,7 @@ export default class extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
+
   /**
    * 构造函数，配置本页面用到的一些本地变量x`
    * @param props
@@ -42,9 +45,8 @@ export default class extends React.Component<any,any> {
   constructor(props) {
     console.log("constructor home");
     super(props);
-    const { dispatch } = this.props;
-    this.state = {
-    }
+    const {dispatch} = this.props;
+    this.state = {}
     /**
      * page:{ // 页面相关的数据
      *  curNav,// 当前菜单路径
@@ -110,11 +112,11 @@ export default class extends React.Component<any,any> {
    * #与？的变化不会引起该操作
    */
   componentWillMount() {
-    console.log("home willMount")   ;
+    console.log("home willMount");
 
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log("home didMount");
   }
 
@@ -123,7 +125,7 @@ export default class extends React.Component<any,any> {
    * 组件内部是不能修改props的
    * @param newProps 变化后的props
    */
-  componentWillReceiveProps(newProps){
+  componentWillReceiveProps(newProps) {
     console.log("home receiveProps");
   }
 
@@ -133,9 +135,19 @@ export default class extends React.Component<any,any> {
    * @returns {any}
    */
   render() {
+    const {loading} = this.props;
+    const homeLoading = _.get(loading,"home",false);
+    const paperStyle = {
+      position: "fixed",
+      width: "150px",
+      height: "150px",
+      left: "45%",
+      top: "30%"
+    }
     return (
       <div className="messageContainer">
         这是首页
+        {homeLoading?<Loading paperStyle={paperStyle} size={150}/>:null}
       </div>
     )
   }

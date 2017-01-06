@@ -83,10 +83,12 @@ export default class Main extends React.Component<any, any> {
     // 请求后端查询要前往的地址
     dispatch(set("page.curNav", type));
     dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
+    dispatch(set("loading.home",true));
     if (type === MenuType.Fragment) {
       // 进入碎片化
       pget("/pc/fragment/where",this.context.router)
         .then(res=>{
+          dispatch(set("loading.home",false));
           if(res.code===200){
             // 请求成功
             console.log("查询成功，开始跳转",res.msg);
@@ -99,14 +101,11 @@ export default class Main extends React.Component<any, any> {
           }
         }).catch(err=>console.log(err));
     } else if (type === MenuType.Home) {
+      dispatch(set("loading.home",false));
       this.context.router.push({
         pathname: "/home",
       })
     }
-  }
-
-  test(e) {
-    this.setState({open:!this.state.open})
   }
 
   render() {
@@ -115,7 +114,6 @@ export default class Main extends React.Component<any, any> {
     const weixin = _.get(user, "weixin", {});
     // 渲染头像
     const renderAvatar = () => {
-
       if (_.isEqual(curNav, "fragment") && !_.isUndefined(user)) {
         if (_.isEmpty(weixin)) {
           return (
@@ -140,7 +138,7 @@ export default class Main extends React.Component<any, any> {
     const renderLogo = () => {
       return (
         <div className="logoContainer">
-          <img src="http://zzk.s1.natapp.cc/images/logo.png"/>
+          <img src="http://www.confucius.mobi/images/logo.png"/>
           <span className="logoName">圈外</span>
         </div>
       )
@@ -175,16 +173,7 @@ export default class Main extends React.Component<any, any> {
         </Toolbar>
       )
     }
-    const handleClose = () => {
-      const {dispatch} = this.props;
-      this.setState({open:false});
-    };
-    const actions =[
-      {label:"test",onClick:()=>{console.log("click test")},primary:true}
-    ]
 
-
-    console.log(this.state.open);
     return (
       <MuiThemeProvider>
         <div className="container">
