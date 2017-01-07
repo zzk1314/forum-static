@@ -23,6 +23,8 @@ export default class Login extends React.Component<any, any> {
       qrPicUrl: null,
       snackOpen: false,
       message: "",
+      userName:null,
+      headImage:null,
     }
     this.webSocket = null;
     this.timer = null;
@@ -63,7 +65,7 @@ export default class Login extends React.Component<any, any> {
       alert("该浏览器不支持socket");
     }
     // 创建socket www.confucius.mobi
-    this.webSocket = new WebSocket("ws://www.confucius.mobi:8080/session");
+    this.webSocket = new WebSocket("ws://127.0.0.1:8080/session");
     console.log(this.webSocket);
     this.webSocket.onopen = e => {
       console.log("链接打开!");
@@ -107,24 +109,20 @@ export default class Login extends React.Component<any, any> {
           // 显示用户名和用户头像
           // 显示用户头像和名字，1秒后消失
           dispatch(set("user.info", data.data));
-          console.log("login success", data.data);
+          const {weixinName,headimgUrl} = data.data.weixin;
+          this.setState({userName:weixinName,headImage:headimgUrl});
+          console.log("login success", weixinName,headimgUrl);
           const role = _.get(data,"data.role","stranger");
           if(_.isEqual("stranger",role)){
             this.showMsg("请先关注圈外公众号了解更多信息");
             setTimeout(()=>{
-              this.context.router.push({
-                pathname:"/stranger"
-              })
+              window.location.href="/servercode";
             },2000);
-            return;
           } else {
-            this.showMsg("恭喜您登录成功,即将挑战到碎片化模块");
-            this.jumpToFragment();
+            this.showMsg("恭喜您登录成功,即将跳转到之前页面");
+            this.jumpBack();
           }
-
           this.closeSocket();
-          // 跳转到之前的页面
-          // 调用登录成功后的回调方法
           break;
         }
         case "PERMISSION_DENIED": {
@@ -134,8 +132,8 @@ export default class Login extends React.Component<any, any> {
           this.closeSocket();
           // 跳转到服务号页面
           setTimeout(()=>{
-            this.context.router.push({pathname:"/stranger"});
-          });
+            window.location.href="/servercode";
+          },2000);
           break;
         }
         case "ERROR": {
@@ -189,40 +187,19 @@ export default class Login extends React.Component<any, any> {
     this.webSocket && this.webSocket.close();
   }
 
-  /**
-   * 没有该权限，挑战到服务号二维码界面
-   */
-  jumpToServerQr() {
-    this.context.router.push({
-      pathname: "/servercode",
-    })
-  }
 
   /**
    *  登录成功，跳到进入登录界面之前的界面
    */
-  jumpToFragment() {
+  jumpBack() {
     //  获得url
-    const {page, dispatch} = this.props;
-    // const wannaRoute = _.get(page,"wannaRoute",{pathname:"/home",query:null});
-    dispatch(set("page.avatarVisible", true));
-    dispatch(set("page.curNav", "fragment"));
-
-    pget("/pc/fragment/where", this.context.router)
-      .then(res => {
-        if (res.code === 200) {
-          // 请求成功
-          console.log("查询成功，开始跳转", res.msg);
-          setTimeout(() => {
-            this.context.router.push({
-              pathname: res.msg.pathName,
-              query: res.msg.query
-            })
-          }, 1000);
-        } else {
-          alert(res.msg);
-        }
-      }).catch(err => console.log(err));
+    setTimeout(()=>{
+      if(this.props.location.query.callbackUrl){
+        window.location.href=this.props.location.query.callbackUrl;
+      } else {
+        window.location.href="/home";
+      }
+    },2000)
   }
 
   showMsg(msg) {
@@ -234,22 +211,20 @@ export default class Login extends React.Component<any, any> {
 
 
   render() {
-    const {location, user} = this.props;
-    console.log(location);
-    const weixin = _.get(user, "info.weixin", {});
+    const {userName,headImage} = this.state;
     const renderTips = () => {
-      if (_.isEmpty(weixin)) {
+      if (!userName) {
         // 用户仍未登录
         return <p className="loginTip">微信扫一扫，登录圈外</p>
       } else {
-        return <p className="loginTip"><span style={{color:"#55cbcb"}}>{weixin.weixinName}</span>,已登录圈外,</p>
+        return <p className="loginTip"><span style={{color:"#55cbcb"}}>{userName}</span>,已登录圈外,</p>
       }
     }
 
     return (
       <div className="messageContainer">
         <div className="qrContainer">
-          <img className="qrImg" onLoad src={weixin.headimgUrl?weixin.headimgUrl:this.state.qrPicUrl}/>
+          <img className="qrImg"  src={headImage?headImage:this.state.qrPicUrl}/>
           {renderTips()}
         </div>
         <Snackbar

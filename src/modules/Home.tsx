@@ -24,7 +24,7 @@ const style = {
   banner: {
     height: "64px",
   },
-}
+};
 
 
 @connect(state => state)
@@ -40,65 +40,7 @@ export default class extends React.Component<any,any> {
   constructor(props) {
     console.log("constructor home");
     super(props);
-    const {dispatch} = this.props;
     this.state = {}
-    /**
-     * page:{ // 页面相关的数据
-     *  curNav,// 当前菜单路径
-     * }
-     * login:{ // 登录相关的数据
-     *  qrVisible,// 登录二维码是否显示
-     *
-     * }
-     * user:{ // 用户数据
-     *  role:// 角色,目前只有student，stranger
-     *  weixin:{ // 微信数据
-     *    openid,
-     *    weixinName,
-     *    headimgUrl
-     *  },
-     *  course:{ // 课程数据
-     *   confucius:{ // 体系化课程
-     *   },
-     *   fragment:{ // 碎片化课程
-     *    problemList:[{
-     *      id,// 问题id
-     *      status,//问题状态（0-待解决，1-解决中，2-已解决）
-     *      problem,// 工作生活中遇到的问题
-     *      pic,// 头图链接
-     *      challengeList:[{// 这里刚开始只放解决中的问题
-     *        id, // 挑战任务id
-     *        description, // "图文混排内容", //html
-     *        pic, // "http://someurl",  //图片url
-     *        problemId,//问题id
-     *        pcurl,"http://someurl", //pc端url
-     *        submitted, true, //是否提交过
-     *        content, "balbal" //提交内容
-     *      }]
-     *    ]
-     *   }
-     * }
-     * course:{ // 课程数据,一般是不会变化的
-     *  fragment:{
-     *   problemList:[{
-     *      id,// 问题id
-     *      status,//问题状态（0-待解决，1-解决中，2-已解决）
-     *      problem,// 工作生活中遇到的问题
-     *      pic,// 头图链接
-     *      challengeList:[{// 加载完后刷新页面，然后这里静默加载
-     *        id, // 挑战任务id
-     *        description, // "图文混排内容", //html
-     *        pic, // "http://someurl",  //图片url
-     *        problemId,//问题id
-     *        pcurl,"http://someurl", //pc端url
-     *        submitted, true, //是否提交过
-     *        content, "balbal" //提交内容
-     *      }]
-     *  }
-     * }
-     */
-
-
   }
 
   /**

@@ -14,43 +14,46 @@ export default class ChallengeList extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-
+    this.state = {
+      mine: [],
+      other: [],
+    }
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("reRender");
     if (newProps.location.query.cid !== this.props.location.query.cid) {
-      console.log("reRender");
       const {location, user, dispatch} = newProps;
       const cid = _.get(location, "query.cid");
       if (_.isUndefined(cid)) {
         console.error("cid没有定义");
       } else {
-        const cidList = _.get(user, `course.fragment.challenge.mine.${cid}`);
-        if (_.isUndefined(cidList)) {
-          console.log("ajax请求cidlist", cid);
-          dispatch(set("loading.fragment", true));
-          pget(`/pc/fragment/c/list/mine/${cid}`, this.context.router)
+        dispatch(set("loading.fragment", true));
+        pget(`/pc/fragment/c/list/mine/${cid}`, this.context.router)
+          .then(res => {
+            if (res.code === 200) {
+              return res.msg;
+            } else {
+              dispatch(set("loading.fragment", false));
+              this.context.router.push({pathname: "/servercode"});
+              throw new BreakSignal("stop");
+            }
+          }).then((mine) => {
+          pget(`/pc/fragment/c/list/other/${cid}`)
             .then(res => {
               dispatch(set("loading.fragment", false));
               if (res.code === 200) {
-                console.log("recive加载我的")
-                dispatch(set(`user.fragment.challenge.mine.${cid}`, res.msg));
+                this.setState({other: res.msg,mine:mine});
               } else {
                 this.context.router.push({pathname: "/servercode"});
               }
-            }).catch(err => {
+            }).catch(err=>{
             console.log(err);
             dispatch(set("loading.fragment", false));
-          });
-        } else {
-          console.log("clis已缓存", cidList);
+          })
+        }).catch(err => {
+          console.log(err);
           dispatch(set("loading.fragment", false));
-
-        }
+        });
       }
     }
   }
@@ -60,30 +63,25 @@ export default class ChallengeList extends React.Component<any,any> {
     const {location, dispatch, user} = this.props;
     const cid = _.get(location, "query.cid");
     if (_.isUndefined(cid)) {
-      // todo 提示
       console.error("cid没有定义");
     } else {
-      console.log("ajax请求cidlist", cid);
-      pget(`/pc/fragment/c/list/mine/${cid}`, this.context.router)
+      dispatch(set("loading.fragment", true));
+      pget(`/pc/fragment/c/list/mine/${cid}`)
         .then(res => {
-          console.log("loadmin over",res.msg);
           if (res.code === 200) {
-            dispatch(set(`user.fragment.challenge.mine[${cid}]`, res.msg));
-            dispatch(set("page.curProblemId",))
+            return res.msg
           } else {
             this.context.router.push({pathname: "/servercode"});
             // 终止promise，不查其他人了
             throw new BreakSignal("加载mine失败");
           }
           return res.msg;
-        }).then(() => {
-        console.log("加载其他人的");
-        pget(`/pc/fragment/c/list/other/${cid}`, this.context.router)
+        }).then((mine) => {
+        pget(`/pc/fragment/c/list/other/${cid}`)
           .then(res => {
-            console.log("load other end",res.msg);
             dispatch(set("loading.fragment", false));
             if (res.code === 200) {
-              dispatch(set(`user.fragment.challenge.other[${cid}]`, res.msg));
+              this.setState({other: res.msg,mine:mine});
             } else {
               this.context.router.push({pathname: "/servercode"});
             }
@@ -99,7 +97,6 @@ export default class ChallengeList extends React.Component<any,any> {
   }
 
   onShowClick(submitId) {
-    console.log("显示", submitId);
     this.context.router.push({
       pathname: "/fragment/c/show",
       query: {submitId: submitId}
@@ -107,7 +104,6 @@ export default class ChallengeList extends React.Component<any,any> {
   }
 
   onEditClick(cid, planId) {
-    console.log("做作业", cid, planId);
     this.context.router.push({
       pathname: "/fragment/c",
       query: {
@@ -118,12 +114,10 @@ export default class ChallengeList extends React.Component<any,any> {
   }
 
   onVoteClick(submitId, canVote) {
-    console.log("点赞", submitId, canVote);
-    if (canVote) {
+    if (canVote && submitId) {
       ppost("/pc/fragment/c/vote", {referencedId: submitId, status: 1})
         .then(res => {
           if (_.isEqual(res.code, 200)) {
-            console.log("点赞成功");
             this.setState({voteCount: Number(voteCount) + 1, voteStatus: 1})
           }
         }).catch(err => console.log(err));
@@ -131,17 +125,16 @@ export default class ChallengeList extends React.Component<any,any> {
   }
 
   render() {
-    const {location, user} = this.props;
-    const cid = _.get(location, "query.cid", -1);
-    const cList = _.get(user, `fragment.challenge.mine[${cid}]`, []);
+    const cid = _.get(this.props.location, "query.cid");
+    const {mine=[],other=[]} = this.state;
     const renderMine = () => {
       return (
         <div className="mineContainer">
-          {cList.map((item, index) => {
+          {mine.map((item, index) => {
             // headImg, upName, upTime, content, voteCount, onEditClick, onShowClick, onVoteClick,
-            const {planId, canVote, submitId} = cList[index];
+            const {planId, canVote, submitId} = item;
             return (
-              <WorkItem key={index} {...cList[index]} onShowClick={()=>this.onShowClick(item.submitId)}
+              <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}
                         onEditClick={()=>this.onEditClick(cid,planId)}
                         onVoteClick={()=>this.onVoteClick(submitId,canVote)}/>
             )
@@ -149,15 +142,15 @@ export default class ChallengeList extends React.Component<any,any> {
         </div>
       )
     }
-    const cOList = _.get(user, `fragment.challenge.other[${cid}]`, []);
-    console.log("cid",cid,cList,cOList);
+
+
     const renderOther = () => {
       return (
         <div className="otherContainer">
-          {cOList.map((item, index) => {
-            const {canVote, submitId} = cOList[index];
+          {other.map((item, index) => {
+            const {canVote, submitId} = item;
             return (
-              <WorkItem key={index} {...cOList[index]} onShowClick={()=>this.onShowClick(item.submitId)}
+              <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}
                         onVoteClick={()=>this.onVoteClick(submitId,canVote)}/>
             )
           })}

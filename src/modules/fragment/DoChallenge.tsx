@@ -23,7 +23,6 @@ export default class DoChallenge extends React.Component<any,any> {
       picList: [],
       submitId: null,
       moduleId: null,
-      pcurl: null,
       alert: {
         actions: null,
         modal: true
@@ -44,20 +43,9 @@ export default class DoChallenge extends React.Component<any,any> {
     const {cid, planId} = location.query;
     pget(`/pc/fragment/c/mine/${planId}/${cid}`, this.context.router)
       .then(res => {
-        if (_.isEqual(res.code, 100001)) {
-          // 未付费，跳转到二维码界面
-          this.context.router.push({
-            pathname: "/servercode",
-          })
-        } else if (_.isEqual(res.code, 100002)) {
-          // TODO
-          alert("超过提交时限");
-          this.context.router.push({
-            pathname: "/servercode",
-          });
-        } else if (_.isEqual(res.code, 200)) {
+        if (_.isEqual(res.code, 200)) {
           // 加载成功
-          let {id, content, submitId, moduleId, picList = [], submitted, pcurl, submitUrl, description} = res.msg;
+          let {id, content, submitId, moduleId, picList = [], submitted, description} = res.msg;
           this.setState({
             homeworkAnswer: content,
             submitId: submitId,
@@ -67,41 +55,10 @@ export default class DoChallenge extends React.Component<any,any> {
             challengeId: id,
             description: description,
           })
+        } else {
+          this.showAlert(res.msg,"异常code");
         }
       })
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.location.query.planId !== newProps.location.query.planId || this.props.location.query.cid !== newProps.location.query.cid) {
-      const {cid, planId} = newProps.location.query;
-      pget(`/pc/fragment/c/mine/${planId}/${cid}`, this.context.router)
-        .then(res => {
-          if (_.isEqual(res.code, 100001)) {
-            // 未付费，跳转到二维码界面
-            this.context.router.push({
-              pathname: "/servercode",
-            })
-          } else if (_.isEqual(res.code, 100002)) {
-            alert("超过提交时限");
-            this.context.router.push({
-              pathname: "/servercode",
-            });
-          } else if (_.isEqual(res.code, 200)) {
-            // 加载成功
-            let {id, content, submitId, moduleId, picList = [], submitted, pcurl, submitUrl, description} = res.msg;
-            // 关于这个大作业，设置基础字段,如果submit为true则显示list，如果为false并且doingId是这个则显示做作业，否则不能只展示三篇章
-            this.setState({
-              homeworkAnswer: content,
-              submitId: submitId,
-              picList: picList,
-              moduleId: moduleId,
-              submitted: submitted,
-              challengeId: id,
-              description: description,
-            })
-          }
-        });
-    }
   }
 
   /**
@@ -147,9 +104,9 @@ export default class DoChallenge extends React.Component<any,any> {
 
   showAlert(content, title) {
     this.setState({alertContent: content, alertTitle: title = "", showAlertModal: true})
-    setTimeout(()=>{
-      this.setState({showAlertModal:false});
-    },1000);
+    setTimeout(() => {
+      this.setState({showAlertModal: false});
+    }, 1000);
   }
 
 

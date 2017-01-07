@@ -49,7 +49,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       pget(`/pc/fragment/c/show/${submitId}`, this.context.router,).then((res) => {
         //
         if (res.code === 200) {
-          console.log(res.msg);
           this.setState({
             title: res.msg.title,
             upName: res.msg.upName,
@@ -74,7 +73,6 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   goEdit(e) {
-    console.log("返回修改");
     // 进入修改页面
     const {planId, isMine,challengeId} = this.state;
     if (isMine && planId && challengeId) {
@@ -85,7 +83,6 @@ export default class ShowChallenge extends React.Component<any,any> {
     } else {
       console.error("返回失败，出现异常");
     }
-
   }
 
   clickVote(e) {
@@ -93,7 +90,6 @@ export default class ShowChallenge extends React.Component<any,any> {
     const {voteStatus, submitId, voteCount} = this.state;
     if (_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
-      console.log("error vote", voteStatus, submitId);
       return
     } else {
       // 开始请求
@@ -139,7 +135,6 @@ export default class ShowChallenge extends React.Component<any,any> {
 
   render() {
     const {title, upName, upTime, headImg, content, isMine, voteCount, submitId, voteStatus,picList=[]} = this.state;
-    console.log("vote status", submitId, voteStatus);
     const renderEdit = () => {
       if (isMine) {
         return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
