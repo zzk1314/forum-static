@@ -27,7 +27,6 @@ const style = {
 }
 
 
-
 @connect(state => state)
 export default class extends React.Component<any,any> {
   static contextTypes = {
@@ -132,7 +131,7 @@ export default class extends React.Component<any,any> {
    */
   render() {
     const {loading} = this.props;
-    const homeLoading = _.get(loading,"home",false);
+    const homeLoading = _.get(loading, "home", false);
     const paperStyle = {
       position: "fixed",
       width: "150px",
@@ -143,13 +142,66 @@ export default class extends React.Component<any,any> {
     return (
       <div className="messageContainer">
         <div className="homePage">
-          <div className="content1Container">
+          <div className="homeContentContainer">
             <div className="leftBorder"></div>
             <div className="title">为每一个想成长的人提供价值</div>
             <div className="rightBorder"></div>
           </div>
         </div>
-        {homeLoading?<Loading paperStyle={paperStyle} size={150}/>:null}
+        <div className="homeShowContainer">
+          <div className="showItem">
+            <div className="title">Grow Up</div>
+            <div className="item">解决问题</div>
+            <div className="item">提升能力</div>
+            <div className="item">养成习惯</div>
+            <div className="item">交流经验</div>
+            <div className="code">
+              <img style={{width:"100px",height:"100px"}}/>
+            </div>
+          </div>
+          <div className="showItem">
+            <div className="title">Grow Up</div>
+            <div className="item">解决问题</div>
+            <div className="item">提升能力</div>
+            <div className="item">养成习惯</div>
+            <div className="item">交流经验</div>
+            <div className="code">
+              <img style={{width:"100px",height:"100px"}}/>
+            </div>
+          </div>
+          <div className="showItem">
+            <div className="title">Grow Up</div>
+            <div className="item">解决问题</div>
+            <div className="item">提升能力</div>
+            <div className="item">养成习惯</div>
+            <div className="item">交流经验</div>
+            <div className="code">
+              <img style={{width:"100px",height:"100px"}}/>
+            </div>
+          </div>
+          <div className="showItem">
+            <div className="title">Grow Up</div>
+            <div className="item">解决问题</div>
+            <div className="item">提升能力</div>
+            <div className="item">养成习惯</div>
+            <div className="item">交流经验</div>
+            <div className="code">
+              <img style={{width:"100px",height:"100px"}}/>
+            </div>
+          </div>
+
+        </div>
+        <div className="homeBottomContainer">
+          <div className="bottomContent">
+            <img style={{width:"70px",height:"70px", marginRight: "20px"}}/>
+            <img style={{width:"70px",height:"70px",marginRight: "30px"}}/>
+            <div className="linkContainer">
+              <a style={{marginRight:"30px",cursor:"pointer"}}>意见反馈</a>
+              <a style={{cursor:"pointer"}}>圈圈的书</a>
+            </div>
+          </div>
+        </div>
+        {homeLoading ?<Loading paperStyle={paperStyle} size={150}/>: null}
       </div>
     )
   }

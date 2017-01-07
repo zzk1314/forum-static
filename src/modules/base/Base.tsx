@@ -6,14 +6,11 @@ import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar';
 import * as _ from "lodash"
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import TweenOne from 'rc-tween-one'
 import "./Base.less"
 import {pget, ppost} from "utils/request"
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {get} from "axios"
-import AlertMessage from "../../components/AlertMessage"
 import test from "../../utils/auth"
-const P = "base"
 
 const style = {
   container: {
