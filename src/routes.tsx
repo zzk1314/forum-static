@@ -18,7 +18,7 @@ const routes = (
     <Route path="home" component={Home}/>
     <Route path="login" component={Login}/>
     <Route path="stranger" component={Stranger}/>
-    <Route path="/pc/static/reject" component={Reject} />
+    <Route path="pc/static/reject" component={Reject} />
     <Route component={Fragment}>
       <Route path="fragment/c" component={DoChallenge}/>
       <Route path="fragment/c/list" component={ChallengeList}/>
