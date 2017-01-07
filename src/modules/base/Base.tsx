@@ -7,7 +7,7 @@ import Avatar from 'material-ui/Avatar';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./Base.less"
-import {style,MenuType} from "./Base.ts";
+import {style} from "./Base.ts";
 
 
 @connect(state => state)
@@ -19,12 +19,11 @@ export default class Main extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
-
     this.state = {open:false}
   }
 
   render() {
-    const {page} = this.props;
+    console.log("render");
     // 渲染头像
     const renderAvatar = () => {
       if (this.props.location.pathname.indexOf("fragment") > 0) {

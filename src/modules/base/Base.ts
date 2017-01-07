@@ -18,8 +18,3 @@ export const style = {
     fontWeight: "300",
   },
 };
-
-export const MenuType = {
-  Home: "home",
-  Fragment: "fragment",
-}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Route, IndexRoute} from "react-router";
-import Base from "modules/base/Base";
+import Base from "modules/base/Base.tsx";
 import Fragment from "./modules/fragment/Fragment"
 import Home from "./modules/Home"
 import Challenge from "./modules/fragment/DoChallenge"
