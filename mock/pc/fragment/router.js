@@ -118,7 +118,7 @@ router.get("/pc/fragment/page", (req, res) => {
         }], "doingId": 3
       }, "code": 200
     })
-  }, Math.random() * 1500);
+  }, 1);
 });
 
 router.get("/pc/fragment/problem/where", (req, res) => {

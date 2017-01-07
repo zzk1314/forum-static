@@ -1,15 +1,11 @@
 import * as React from "react"
 import {connect} from "react-redux"
 import {Grid, Row, Col} from "react-flexbox-grid"
-import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
 import * as _ from "lodash"
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import LoginQrCode from "../components/LoginQrCode"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {pget, ppost} from "utils/request"
 import Loading from "../components/Loading"
-const P = "current";
+import "./Home.less"
 
 const style = {
   container: {
@@ -146,7 +142,13 @@ export default class extends React.Component<any,any> {
     }
     return (
       <div className="messageContainer">
-        这是首页
+        <div className="homePage">
+          <div className="content1Container">
+            <div className="leftBorder"></div>
+            <div className="title">为每一个想成长的人提供价值</div>
+            <div className="rightBorder"></div>
+          </div>
+        </div>
         {homeLoading?<Loading paperStyle={paperStyle} size={150}/>:null}
       </div>
     )

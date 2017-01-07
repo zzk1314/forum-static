@@ -62,7 +62,7 @@ export default class Main extends React.Component<any, any> {
     if (_.isEmpty(user)) {
       pget(`/account/get`).then(res => {
         console.log("预加载用户信息");
-        dispatch(set("user", res.msg));
+        dispatch(set("user.info", res.msg));
       }).catch(err => console.log(err));
     }
   }
@@ -81,6 +81,7 @@ export default class Main extends React.Component<any, any> {
     const {dispatch, location = {}} = this.props;
     const {pathname = "/home", query = null} = location;
     // 请求后端查询要前往的地址
+    console.log(type);
     dispatch(set("page.curNav", type));
     dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
     dispatch(set("loading.home",true));
@@ -111,7 +112,7 @@ export default class Main extends React.Component<any, any> {
   render() {
     const {page, user, show = false, location} = this.props;
     const curNav = _.get(page, "curNav", "home");
-    const weixin = _.get(user, "weixin", {});
+    const weixin = _.get(user, "info.weixin", {});
     // 渲染头像
     const renderAvatar = () => {
       if (_.isEqual(curNav, "fragment") && !_.isUndefined(user)) {
@@ -164,7 +165,7 @@ export default class Main extends React.Component<any, any> {
               primary={curNav==="fragment"}
               ref="getFragmentMenu"
               onClick={(e)=>this.handleMenuClick(e,"fragment")}
-              label={"碎片化"}
+              label={"UP"}
             />
           </ToolbarGroup>
           <ToolbarGroup>

@@ -106,7 +106,7 @@ export default class Login extends React.Component<any, any> {
         case "LOGIN_SUCCESS": {
           // 显示用户名和用户头像
           // 显示用户头像和名字，1秒后消失
-          dispatch(set("user", data.data));
+          dispatch(set("user.info", data.data));
           console.log("login success", data.data);
           const role = _.get(data,"data.role","stranger");
           if(_.isEqual("stranger",role)){
@@ -206,6 +206,8 @@ export default class Login extends React.Component<any, any> {
     const {page, dispatch} = this.props;
     // const wannaRoute = _.get(page,"wannaRoute",{pathname:"/home",query:null});
     dispatch(set("page.avatarVisible", true));
+    dispatch(set("page.curNav", "fragment"));
+
     pget("/pc/fragment/where", this.context.router)
       .then(res => {
         if (res.code === 200) {
@@ -234,7 +236,7 @@ export default class Login extends React.Component<any, any> {
   render() {
     const {location, user} = this.props;
     console.log(location);
-    const weixin = _.get(user, "weixin", {});
+    const weixin = _.get(user, "info.weixin", {});
     const renderTips = () => {
       if (_.isEmpty(weixin)) {
         // 用户仍未登录

@@ -34,12 +34,10 @@ export default class Fragment extends React.Component<any,any> {
     if (_.isEmpty(user)) {
       // ajax获取
       return pget(`/account/get`, this.context.router).then(res => {
-        console.log("fragment 中ajax加载用户信息");
-        dispatch(set("user", res.msg));
+        dispatch(set("user.info", res.msg));
         return res.msg;
       })
     } else {
-      console.log("fragment 中已有缓存的用户信息");
       return Promise.resolve(user);
     }
   }
@@ -58,7 +56,7 @@ export default class Fragment extends React.Component<any,any> {
       const {pathname = "/home", query = null} = location;
       dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
       return pget(`/pc/fragment/page`, this.context.router).then(res => {
-        console.log("ajax加载问题列表",res);
+        console.log("ajax加载问题列表",res.msg);
         dispatch(set("course.fragment.problemList", res.msg.problemList));
         dispatch(set("user.course.fragment.doingId", res.msg.doingId));
         const doingId = res.msg.doingId;
@@ -94,13 +92,15 @@ export default class Fragment extends React.Component<any,any> {
    */
   componentWillMount() {
     console.log("fragment willMount");
-    const {dispatch, user, location} = this.props;
-    const {pathname,query} = location;
-    dispatch(set("page.wannaRoute", {pathname: pathname, query: query}));
+    const {dispatch, page}= this.props;
+    const tempCurPro = _.get(page,"tempCurPro");
     this.getUser()
       .then((res) => this.loadProblemList());
 
     dispatch(set("page.curNav", "fragment"));
+    if(!_.isUndefined(tempCurPro)){
+      dispatch(set("page.curProblem",tempCurPro));
+    }
   }
 
 
@@ -108,7 +108,7 @@ export default class Fragment extends React.Component<any,any> {
    * 选择了问题,请求跳转
    */
   chooseProblem(problemId) {
-    const {dispatch} = this.props;
+    const {dispatch,page} = this.props;
     console.log("choose:", problemId);
     pget(`/pc/fragment/problem/where?problemId=${problemId}`,this.context.router)
       .then(res=>{
@@ -119,6 +119,10 @@ export default class Fragment extends React.Component<any,any> {
             pathname:res.msg.pathName,
             query:res.msg.query,
           })
+          if(res.msg.pathName!=="/servercode" && res.msg.pathName!=="/login"){
+            const curNav = _.get(page,"curProblemId",0);
+            dispatch(set("page.tempCurPro",curNav));
+          }
           dispatch(set("page.curProblemId",problemId));
         } else {
           console.log(res.msg);

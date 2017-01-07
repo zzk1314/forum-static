@@ -72,7 +72,6 @@ export default class DoChallenge extends React.Component<any,any> {
   }
 
   componentWillReceiveProps(newProps) {
-    const {user} = newProps;
     if (this.props.location.query.planId !== newProps.location.query.planId || this.props.location.query.cid !== newProps.location.query.cid) {
       const {cid, planId} = newProps.location.query;
       pget(`/pc/fragment/c/mine/${planId}/${cid}`, this.context.router)
@@ -122,14 +121,12 @@ export default class DoChallenge extends React.Component<any,any> {
   submitChallenge() {
     const {homeworkAnswer, submitId} = this.state;
     if (_.isEmpty(homeworkAnswer)) {
-      console.log("作业没写完");
       this.showAlert("作业还没写完哦");
       return;
     }
 
     ppost(`/pc/fragment/c/submit/${submitId}`, {answer: homeworkAnswer}).then(res => {
       if (res.code === 200) {
-        console.log("成功");
         this.showAlert("提交成功");
         setTimeout(() => {
           this.context.router.push({
@@ -150,6 +147,9 @@ export default class DoChallenge extends React.Component<any,any> {
 
   showAlert(content, title) {
     this.setState({alertContent: content, alertTitle: title = "", showAlertModal: true})
+    setTimeout(()=>{
+      this.setState({showAlertModal:false});
+    },1000);
   }
 
 

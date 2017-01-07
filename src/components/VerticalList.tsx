@@ -25,8 +25,8 @@ const style = {
     margin: "50px auto",
     padding: "24px 0"
   },
-  itemActive:{
-    color:"#55cbcb"
+  itemActive: {
+    color: "#55cbcb"
   }
 }
 
@@ -35,7 +35,7 @@ export default class VerticalList extends React.Component<any,any> {
     super(props);
     this.state = {
       onChangeCall: props.onChangeCall,
-      activeNav:props.activeNav,
+      activeNav: props.activeNav,
     }
   }
 
@@ -44,16 +44,18 @@ export default class VerticalList extends React.Component<any,any> {
   };
 
   render() {
-    const {problemList=[],activeNav} = this.props;
+    const {problemList = [], activeNav} = this.props;
     const textItem = (item) => {
       return <div key={item.id}
-                  className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}</div>
+                  className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}
+        {_.isEqual(Number(activeNav),item.id)?<div style={{    float: "right", marginRight: "10px"}}><img src="http://www.confucius.mobi/images/curNav.png"/></div>:null}
+      </div>
     }
 
     return (
       <List>
         <Subheader style={style.listTitle}>
-          <div className="listTitle">难题</div>
+          <div className="listTitle">主题</div>
         </Subheader>
         <Divider style={style.divider}/>
         {problemList.map((item, index) => {

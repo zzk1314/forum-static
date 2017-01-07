@@ -14,9 +14,7 @@ export default class WorkItem extends React.Component<any,any> {
 
   render() {
     const {headImg, upName, upTime, content, voteCount, onEditClick, onShowClick, onVoteClick} = this.props;
-    console.log("render", this.props);
     const renderControl = () => {
-      console.log("onEdit", onEditClick);
       if (_.isUndefined(onEditClick)) {
         // 不修改，使其他人的作业
         return (
@@ -52,7 +50,7 @@ export default class WorkItem extends React.Component<any,any> {
           </div>
           <div className="rightArea">
             <div className="voteContainer">
-              <img src={`http://www.confucius.mobi/images/${voteCount>0?"pcVoted.png":"pcDisVote.png"}`}/> <span className="vote">{voteCount}</span>
+              <img src={`http://www.confucius.mobi/images/pcDisVote.png`}/> <span className="vote">{voteCount}</span>
             </div>
           </div>
         </div>
