@@ -20,11 +20,10 @@ export default class Main extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
-    this.state = {open:false}
+    this.state = {open:false};
   }
 
   render() {
-    console.log("render");
     // 渲染头像
     const renderAvatar = () => {
       if (this.props.location.pathname.indexOf("fragment") > 0) {

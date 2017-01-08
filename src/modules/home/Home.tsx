@@ -69,16 +69,22 @@ export default class extends React.Component<any,any> {
         <div className="footer">
           <div className="footer-container">
             <div className="img-item">
-              <img/>
+              <img src={imgSrc.subscribeCode}/>
               <div>圈外订阅号</div>
             </div>
             <div className="img-item">
               <img src={imgSrc.serverCode}/>
               <div>圈外服务号</div>
             </div>
-            <div style={{marginLeft: 40}}><a style={{textDecoration:"none",color: "#cccccc"}}>意见反馈</a></div>
+            <div style={{marginLeft: 40}}>
+              <div className="email" style={{textDecoration:"none",color: "#cccccc",position:"relative"}}>意见反馈
+                <div className="email-link">iquanwaivip@163.com</div>
+              </div>
+            </div>
             <div style={{marginLeft: 30}}><a style={{textDecoration:"none",color: "#cccccc"}}
                                              href="https://book.douban.com/subject/26936065/">圈圈的书</a></div>
+            <div style={{position:"absolute",width:"280px",top:"59px",right:"-250px"}}><a style={{textDecoration:"none",color: "#cccccc"}}
+                                             href="http://www.miitbeian.gov.cn/">ICP备15006409号</a></div>
           </div>
         </div>
       </div>

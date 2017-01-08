@@ -1,5 +1,6 @@
 export const imgSrc={
   serverCode:"http://www.iquanwai.com/images/serverQrCode.jpg",
+  subscribeCode:"http://www.iquanwai.com/images/subscribeCode.jpg",
   edit:"http://www.iquanwai.com/images/pcEdit.png",
   voteWhite:"http://www.iquanwai.com/images/pcVoteWhite.png",
   voted:"http://www.iquanwai.com/images/pcVoted.png",

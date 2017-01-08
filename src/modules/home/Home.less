@@ -1,5 +1,6 @@
 .home {
   background-color: white;
+  margin-top: 1px;
   .home-container {
     width: 1000px;
     margin: 0 auto;
@@ -99,6 +100,7 @@
       float: right;
       margin-right: 460px;
       padding: 25px 0;
+      position: relative;
       > * {
         display: inline-block;
         vertical-align: middle;
@@ -116,6 +118,23 @@
       }
       > .img-item + .img-item {
         margin-left: 20px;
+      }
+      .email {
+        cursor:pointer;
+        &:hover {
+          > .email-link {
+            display: block;
+          }
+        }
+        > .email-link {
+          display: none;
+          position: absolute;
+          top: -41px;
+          left: -22px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
       }
     }
   }
