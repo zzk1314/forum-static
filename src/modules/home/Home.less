@@ -1,0 +1,122 @@
+.home {
+  background-color: white;
+  .home-container {
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 100px;
+    .main-theme {
+      font-size: 36px;
+      color: #666666;
+      height: 136px;
+      line-height: 136px;
+      vertical-align: middle;
+      text-align: center;
+      &::before {
+        display: inline-block;
+        position: relative;
+        content: '';
+        border: 2px solid #cccccc;
+        border-right: none;
+        width: 92px;
+        height: 136px;
+        vertical-align: middle;
+        left: 2rem;
+      }
+      &::after {
+        display: inline-block;
+        position: relative;
+        content: '';
+        border: 2px solid #cccccc;
+        border-left: none;
+        width: 92px;
+        height: 136px;
+        vertical-align: middle;
+        right: 2rem;
+      }
+    }
+
+    .intro-card-list {
+      margin-top: 80px;
+      padding: 0 104px;
+      height: 320px;
+      > .intro-card {
+        display: inline-block;
+        width: 120px;
+        height: 180px;
+        text-align: center;
+        cursor: default;
+        border-radius: 10px;
+        padding-top: 20px;
+        vertical-align: top;
+        > .title {
+          font-size: 20px;
+          color: #666666;
+          margin-bottom: 10px;
+        }
+        > .intro {
+          font-size: 16px;
+          color: #999999;
+          line-height: 30px;
+        }
+        > .qrcode {
+          display: none;
+          position: relative;
+          top: 50px;
+          width: 120px;
+          height: 120px;
+          text-align: center;
+          img {
+            width: 110px;
+            height: 110px;
+          }
+        }
+        &:hover {
+          box-shadow: 0 0 8px rgba(153, 153, 153, 0.32);
+          > .qrcode {
+            display: block;
+          }
+        }
+      }
+      > .intro-card + .intro-card {
+        margin-left: 104px;
+      }
+    }
+
+  }
+
+  .footer-img {
+    display: block;
+    width: 100%;
+  }
+
+  .footer {
+    background-color: #393838;
+    height: 130px;
+    font-size: 14px;
+    color: #cccccc;
+    text-align: center;
+    .footer-container {
+      float: right;
+      margin-right: 460px;
+      padding: 25px 0;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > .img-item {
+        > img {
+          display: block;
+          width: 60px;
+          height: 60px;
+        }
+        > div {
+          font-size: 12px;
+          margin-top: 10px;
+        }
+      }
+      > .img-item + .img-item {
+        margin-left: 20px;
+      }
+    }
+  }
+}

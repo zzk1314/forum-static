@@ -65,7 +65,7 @@ export default class Login extends React.Component<any, any> {
       alert("该浏览器不支持socket");
     }
     // 创建socket www.confucius.mobi
-    this.webSocket = new WebSocket("ws://127.0.0.1:8080/session");
+    this.webSocket = new WebSocket(window.ENV.loginSocketUrl);
     console.log(this.webSocket);
     this.webSocket.onopen = e => {
       console.log("链接打开!");
@@ -127,8 +127,18 @@ export default class Login extends React.Component<any, any> {
         }
         case "PERMISSION_DENIED": {
           console.log("权限不足，role为stranger的时候会出现");
-          this.showMsg("您暂时还没报名，请关注公众号");
+          this.showMsg("您暂时还没报名，请关注公众号了解更多!");
           clearTimeout(this.timer);
+          this.closeSocket();
+          // 跳转到服务号页面
+          setTimeout(()=>{
+            window.location.href="/servercode";
+          },2000);
+          break;
+        }
+        case "NOT_FOLLOW" :{
+          console.log("NOT_FOLLOW");
+          this.showMsg("请先关注圈外公众号了解更多信息");
           this.closeSocket();
           // 跳转到服务号页面
           setTimeout(()=>{
@@ -195,6 +205,7 @@ export default class Login extends React.Component<any, any> {
     //  获得url
     setTimeout(()=>{
       if(this.props.location.query.callbackUrl){
+        console.log(this.props.location.query.callbackUrl);
         window.location.href=this.props.location.query.callbackUrl;
       } else {
         window.location.href="/home";

@@ -1,13 +1,14 @@
 import * as React from "react"
 import {connect} from "react-redux"
 import "./Login.less"
+import {imgSrc} from "utils/imgSrc"
 
 @connect(state => state)
 export default class Stranger extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      qrSrc:"http://www.confucius.mobi/images/serverQrCode.jpg"
+      qrSrc:imgSrc.serverCode,
     }
   }
 

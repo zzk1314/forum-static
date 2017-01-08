@@ -2,8 +2,7 @@ import * as React from "react";
 import {Route, IndexRoute} from "react-router";
 import Base from "modules/base/Base.tsx";
 import Fragment from "./modules/fragment/Fragment"
-import Home from "./modules/Home"
-import Challenge from "./modules/fragment/DoChallenge"
+import Home from "./modules/home/Home"
 import Login from "./modules/Login"
 import ServerCode from "./modules/ServerCode"
 import DoChallenge from "./modules/fragment/DoChallenge"

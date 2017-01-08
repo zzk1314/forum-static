@@ -2,14 +2,14 @@ import * as React from "react"
 import {connect} from "react-redux"
 import "./Login.less"
 import Snackbar from 'material-ui/Snackbar';
-
+import {imgSrc} from "utils/imgSrc";
 
 @connect(state => state)
 export default class ServerCode extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      qrSrc:"http://www.confucius.mobi/images/serverQrCode.jpg",
+      qrSrc:imgSrc.serverCode,
       message:"您还没有制定任何计划哦,请先去公众号制定计划吧！",
       snackOpen:false,
     }

@@ -8,6 +8,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./Base.less"
 import {style} from "./Base.ts";
+import {imgSrc} from "utils/imgSrc"
 
 
 @connect(state => state)
@@ -50,7 +51,7 @@ export default class Main extends React.Component<any, any> {
     const renderLogo = () => {
       return (
         <div className="logoContainer">
-          <img src="http://www.confucius.mobi/images/logo.png"/>
+          <img src={imgSrc.logo}/>
           <span className="logoName">圈外</span>
         </div>
       )
@@ -70,7 +71,7 @@ export default class Main extends React.Component<any, any> {
             />
             <FlatButton
               labelStyle={style.navLabel}
-              primary={this.props.location.pathname.indexOf("fragment") > -1}
+              primary={this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1}
               onClick={()=>window.location.href="/community"}
               label={"碎片化"}
             />

@@ -2,6 +2,7 @@ import * as React from "react"
 import * as _ from "lodash"
 import Avatar from 'material-ui/Avatar';
 import "./WorkItem.less"
+import {imgSrc} from "utils/imgSrc"
 
 
 export default class WorkItem extends React.Component<any,any> {
@@ -50,7 +51,7 @@ export default class WorkItem extends React.Component<any,any> {
           </div>
           <div className="rightArea">
             <div className="voteContainer">
-              <img src={`http://www.confucius.mobi/images/pcDisVote.png`}/> <span className="vote">{voteCount}</span>
+              <img src={imgSrc.disVote}/> <span className="vote">{voteCount}</span>
             </div>
           </div>
         </div>

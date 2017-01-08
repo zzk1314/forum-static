@@ -1,12 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-let SelectableList = makeSelectable(List);
 import * as _ from "lodash";
 import "./VerticalList.less"
 import Divider from 'material-ui/Divider';
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
+import {imgSrc} from "utils/imgSrc"
 
 const style = {
   divider: {
@@ -48,7 +47,7 @@ export default class VerticalList extends React.Component<any,any> {
     const textItem = (item) => {
       return <div key={item.id}
                   className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}
-        {_.isEqual(Number(activeNav),item.id)?<div style={{    float: "right", marginRight: "10px"}}><img src="http://www.confucius.mobi/images/curNav.png"/></div>:null}
+        {_.isEqual(Number(activeNav),item.id)?<div style={{    float: "right", marginRight: "10px"}}><img src={imgSrc.curNav}/></div>:null}
       </div>
     }
 
