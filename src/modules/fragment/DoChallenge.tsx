@@ -8,6 +8,7 @@ import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import AlertMessage from "../../components/AlertMessage"
 import Snackbar from 'material-ui/Snackbar';
+
 @connect(state => state)
 export default class DoChallenge extends React.Component<any,any> {
 
@@ -72,6 +73,7 @@ export default class DoChallenge extends React.Component<any,any> {
     this.setState({picList: temp});
   }
 
+
   /**
    * 提交作业
    */
@@ -82,14 +84,17 @@ export default class DoChallenge extends React.Component<any,any> {
       return;
     }
 
+    const {location} = this.props;
+    // 根据 cid和planid加载
+    const {cid} = location.query;
     ppost(`/pc/fragment/c/submit/${submitId}`, {answer: homeworkAnswer}).then(res => {
       if (res.code === 200) {
         this.showAlert("提交成功");
         setTimeout(() => {
           this.context.router.push({
-            pathname: "/fragment/c/show",
+            pathname: "/fragment/c/list",
             query: {
-              submitId: submitId,
+              cid: cid,
             }
           })
         }, 1000);
@@ -115,12 +120,11 @@ export default class DoChallenge extends React.Component<any,any> {
     const renderDoWorkArea = () => {
       return (
         <div className="doWorkArea">
-          <div className="myWorkTitle">我的作业</div>
-          <div className="desc">{this.state.description}</div>
+          <div className="myWorkTitle">我的心得</div>
+          <div className="desc" dangerouslySetInnerHTML={{__html:this.state.description}}></div>
           <div className="tipTitle">小提示</div>
           <div className="tips">
-            作业支持提交后电脑端修改啦！<br/>
-            还可以上传图片给圈圈和助教。<br/>
+            用心完成作业，你将会获得500积分！<br/>
             如果作业较长，需列出提纲，可以用编号的形式展现层次。
           </div>
           <textarea cols="30" rows="10"

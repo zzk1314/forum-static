@@ -8,6 +8,7 @@ import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import Loading from "../../components/Loading"
+import Loader from "../../components/Loader"
 import VerticalList from "../../components/VerticalList"
 
 @connect(state => state)
@@ -60,18 +61,12 @@ export default class Fragment extends React.Component<any,any> {
   }
 
   render() {
-    const {course, dispatch, page, user = {}, loading} = this.props;
+    const {loading} = this.props;
     const problemList = _.get(this.state, "problemList"); // 问题列表，默认为[]
     const doingId = _.get(this.state, "doingId"); // 正在做的问题id
     const curProblemId = _.get(this.state, "curProblem", doingId); // 当前现实的问题id，默认为正在做的问题id
     const fragmentLoading = _.get(loading, "fragment", false); // 是否显示loading动画
-    const paperStyle = { // loading的样式
-      position: "fixed",
-      width: "150px",
-      height: "150px",
-      left: "45%",
-      top: "30%"
-    }
+
     return (
       <div className="fragmentContent" ref="fragmentContent">
         <div className="leftList">
@@ -81,7 +76,7 @@ export default class Fragment extends React.Component<any,any> {
         <div className="rightContent">
           {this.props.children}
         </div>
-        {fragmentLoading ?<Loading paperStyle={paperStyle} size={150}/>: null}
+        {fragmentLoading ?<Loader/>: null}
       </div>
     )
   }

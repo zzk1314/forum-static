@@ -1,10 +1,10 @@
 import * as React from "react"
 import Upload from "rc-upload"
 import "./PicUpload.less"
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import * as _ from "lodash"
 import AlertMessage from "./AlertMessage"
+import Loader from "./Loader"
 
 export default class PicUpload extends React.Component<any,any>{
   constructor(props){
@@ -16,6 +16,7 @@ export default class PicUpload extends React.Component<any,any>{
       open:false,
       title:"",
       content:"",
+      load:false,
     }
     this.supportTypes = Array.from(["jpeg","jpg","png","bmp"]);
   }
@@ -24,12 +25,12 @@ export default class PicUpload extends React.Component<any,any>{
   private supportTypes:Array<String>;
 
   onError(err,response,file){
-    this.setState({disabled:false});
+    this.setState({disabled:false,load:false});
     this.alertMsg("网络异常，请稍后重试");
   }
 
   onSuccess(response,file){
-    this.setState({disabled:false});
+    this.setState({disabled:false,load:false});
     let {code} = response;
     if(_.isEqual(code,200)){
       this.props.onUploadSuccess(response.msg.picUrl);
@@ -40,7 +41,7 @@ export default class PicUpload extends React.Component<any,any>{
   }
 
   onStart(){
-    this.setState({disabled:true});
+    this.setState({disabled:true,load:true});
   }
 
   beforeUpload(file,files){
@@ -90,6 +91,7 @@ export default class PicUpload extends React.Component<any,any>{
 
 
   render(){
+    const {load} = this.state;
     const handleClose = () => {
       this.setState({open:false});
     };
@@ -112,6 +114,7 @@ export default class PicUpload extends React.Component<any,any>{
               label="上传图片"/>
         </Upload>
         <AlertMessage title={this.state.title} content={this.state.content} open={this.state.open} handleClose={()=>handleClose(this)}/>
+        {load?<Loader/>:null}
       </div>
     )
   }

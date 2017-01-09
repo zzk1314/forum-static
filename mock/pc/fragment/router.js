@@ -140,7 +140,7 @@ router.get("/pc/fragment/problem/where", (req, res) => {
   }, Math.random() * 1500);
 });
 
-router.get("/pc/fragment/problems", (req, res) => {
+router.get("/pc/fragment/problem/problems", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
       "msg": {
@@ -215,7 +215,7 @@ router.get("/pc/fragment/c/mine/**", (req, res) => {
         "planId": null
       }, "code": 200
     });
-  }, Math.random() * 1500)
+  }, Math.random() * 3000)
 });
 
 router.post("/pc/fragment/c/submit/**", (req, res) => {

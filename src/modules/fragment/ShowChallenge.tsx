@@ -139,7 +139,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     const renderEdit = () => {
       if (isMine) {
         return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
-          <img src={imgSrc.edit} style={{width:"10px",height:"10px",marginRight:"4px"}}/> <span >修改作业</span>
+          <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/> <span >修改作业</span>
         </div>)
       }
     }

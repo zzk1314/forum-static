@@ -20,7 +20,7 @@ export default class Main extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
-    this.state = {open:false};
+    this.state = {open: false};
   }
 
   render() {
@@ -50,7 +50,7 @@ export default class Main extends React.Component<any, any> {
     const renderLogo = () => {
       return (
         <div className="logoContainer">
-          <img src={imgSrc.logo}/>
+          <img style={{width:"36px",marginTop:"5px"}} src={imgSrc.logo}/>
           <span className="logoName">圈外</span>
         </div>
       )
@@ -72,7 +72,7 @@ export default class Main extends React.Component<any, any> {
               labelStyle={style.navLabel}
               primary={this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1}
               onClick={()=>window.location.href="/community"}
-              label={"碎片化"}
+              label={"Rise"}
             />
           </ToolbarGroup>
           <ToolbarGroup>
