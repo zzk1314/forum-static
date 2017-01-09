@@ -7,7 +7,7 @@ export const style = {
     padding: 0,
     height: "91px",
     width: "1000px",
-    margin: "0 auto"
+    margin: "0 auto",
   },
   avatar: {
     marginRight: "6px",
@@ -16,5 +16,6 @@ export const style = {
   navLabel: {
     fontSize: "20px",
     fontWeight: "300",
+    fontFamily:"思源黑体cn,Helvetica Neue",
   },
 };
