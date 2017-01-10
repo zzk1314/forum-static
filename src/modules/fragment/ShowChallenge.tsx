@@ -158,7 +158,7 @@ export default class ShowChallenge extends React.Component<any,any> {
               />
             </div>
             <div className="upInfo">
-              <div className="upName">{upName}</div>
+              <div className={isMine?"upName-isMine":"upName"}>{upName}</div>
               <div className="upTime">{upTime + "上传"}</div>
             </div>
           </div>

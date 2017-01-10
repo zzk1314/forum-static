@@ -18,7 +18,7 @@ export default class PicUpload extends React.Component<any,any>{
       content:"",
       load:false,
     }
-    this.supportTypes = Array.from(["jpeg","jpg","png","bmp"]);
+    this.supportTypes = ["jpeg","jpg","png","bmp"];
   }
 
 
