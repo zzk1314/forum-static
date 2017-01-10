@@ -63,16 +63,14 @@ export default class Main extends React.Component<any, any> {
           <ToolbarGroup >
             {renderLogo()}
             <FlatButton
-              labelStyle={style.navLabel}
-              primary={this.props.location.pathname.indexOf("home") > -1}
+              labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
               onClick={()=>window.location.href="/home"}
               label="首页"
             />
             <FlatButton
-              labelStyle={style.navLabel}
-              primary={this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1}
+              labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
               onClick={()=>window.location.href="/community"}
-              label={"Rise"}
+              label="Rise"
             />
           </ToolbarGroup>
           <ToolbarGroup>

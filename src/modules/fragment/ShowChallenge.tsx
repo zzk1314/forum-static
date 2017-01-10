@@ -10,7 +10,10 @@ import Chip from 'material-ui/Chip';
 import {imgSrc} from "utils/imgSrc"
 
 const style = {
-  chip: {}
+  divider:{
+    backgroundColor:"#f5f5f5",
+    marginLeft:"-8px"
+  }
 }
 @connect(state => state)
 export default class ShowChallenge extends React.Component<any,any> {
@@ -158,12 +161,12 @@ export default class ShowChallenge extends React.Component<any,any> {
               />
             </div>
             <div className="upInfo">
-              <div className={isMine?"upName-isMine":"upName"}>{upName}</div>
+              <div className="upName">{upName}</div>
               <div className="upTime">{upTime + "上传"}</div>
             </div>
           </div>
         </div>
-        <Divider/>
+        <Divider style={style.divider}/>
         <div className="showContentContainer">
           <div className="content">
             <pre>{content}</pre>

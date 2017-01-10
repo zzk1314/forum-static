@@ -9,7 +9,7 @@ import {imgSrc} from "utils/imgSrc"
 
 const style = {
   divider: {
-    backgroundColor: "#f5f5f5"
+    backgroundColor: "#f5f5f5",
   },
   listTitle: {
     height: "65px",
@@ -47,7 +47,8 @@ export default class VerticalList extends React.Component<any,any> {
     const textItem = (item) => {
       return <div key={item.id}
                   className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}
-        {_.isEqual(Number(activeNav),item.id)?<div style={{    float: "right", marginRight: "10px"}}><img src={imgSrc.curNav}/></div>:null}
+        {_.isEqual(Number(activeNav), item.id) ?
+          <div style={{    float: "right", marginRight: "10px"}}><img src={imgSrc.curNav}/></div>: null}
       </div>
     }
 

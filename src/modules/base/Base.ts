@@ -5,7 +5,7 @@ export const style = {
   banner: {
     backgroundColor: "white",
     padding: 0,
-    height: "91px",
+    height: "80px",
     width: "1000px",
     margin: "0 auto",
   },
@@ -18,4 +18,10 @@ export const style = {
     fontWeight: "300",
     fontFamily:"思源黑体cn,Helvetica Neue",
   },
+  navLabelActive:{
+    fontSize: "20px",
+    fontWeight: "300",
+    fontFamily:"思源黑体cn,Helvetica Neue",
+    color:"#55cbcb"
+  }
 };
