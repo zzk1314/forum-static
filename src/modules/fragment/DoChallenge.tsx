@@ -125,7 +125,7 @@ export default class DoChallenge extends React.Component<any,any> {
           <div className="tipTitle">小提示</div>
           <div className="tips">
             用心完成作业，你将会获得500积分！<br/>
-            如果作业较长，需列出提纲，可以用编号的形式展现层次。
+            用标题区分你的内容,如:<br/>一、小目标；<br/>二、应用任务 <br/>1，具体任务描述（如帮助小明梳理职业困惑）；<br/>三、日常学习心得；<br/>四，学习完成总结
           </div>
           <textarea cols="30" rows="10"
                     value={this.state.homeworkAnswer}
