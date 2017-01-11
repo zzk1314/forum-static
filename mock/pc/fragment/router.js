@@ -198,11 +198,15 @@ router.get("/pc/fragment/c/mine/**", (req, res) => {
         "picList": [{
           "moduleId": 2,
           "referencedId": 3,
-          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170104150312-8r2wqjuov-23.png"
+          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170110191544-j2x2j8tpo-43.png"
         }, {
           "moduleId": 2,
           "referencedId": 3,
-          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170105094542-269i6z7vw-23.png"
+          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170111060101-pxc4whoai-43.png",
+        },{
+          "moduleId": 2,
+          "referencedId": 3,
+          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170111060101-pxc4whoai-43.png",
         }],
         "submitId": 23,
         "moduleId": 2,
