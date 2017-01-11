@@ -226,7 +226,7 @@ export default class Login extends React.Component<any, any> {
     const renderTips = () => {
       if (!userName) {
         // 用户仍未登录
-        return <p className="loginTip">仅开放给正在训练或已完成该主题的圈柚，请先专心完成自己的训练 ：）<br/>未开始任何训练？扫码关注</p>
+        return <p className="loginTip">微信扫一扫，登录圈外</p>
       } else {
         return <p className="loginTip"><span style={{color:"#55cbcb"}}>{userName}</span>,已登录圈外,</p>
       }
