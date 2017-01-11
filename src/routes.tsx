@@ -5,6 +5,7 @@ import Fragment from "./modules/fragment/Fragment"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
 import ServerCode from "./modules/ServerCode"
+import Rise from "./modules/fragment/Rise"
 import DoChallenge from "./modules/fragment/DoChallenge"
 import ChallengeList from "./modules/fragment/ChallengeList"
 import ShowChallenge from "./modules/fragment/ShowChallenge"
@@ -19,6 +20,7 @@ const routes = (
     <Route path="stranger" component={Stranger}/>
     <Route path="pc/static/reject" component={Reject} />
     <Route component={Fragment}>
+      <Route path="rise" component={Rise}/>
       <Route path="fragment/c" component={DoChallenge}/>
       <Route path="fragment/c/list" component={ChallengeList}/>
       <Route path="fragment/c/show" component={ShowChallenge}/>

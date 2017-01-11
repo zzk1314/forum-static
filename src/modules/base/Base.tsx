@@ -64,7 +64,7 @@ export default class Main extends React.Component<any, any> {
             {renderLogo()}
             <FlatButton
               labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>window.location.href="/home"}
+              onClick={()=>this.context.router.push("/home")}
               label="首页"
             />
             <FlatButton
