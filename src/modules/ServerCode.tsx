@@ -24,7 +24,7 @@ export default class ServerCode extends React.Component<any,any> {
       <div className="messageContainer">
         <div className="qrContainer">
           <img className="qrImg" src={this.state.qrSrc}/>
-          <p className="loginTip">你还未开始该项训练。微信扫码，了解更多</p>
+          <p className="loginTip">仅开放给正在训练或已完成该主题的圈柚，请先专心完成自己的训练 ：）<br/>未开始任何训练？扫码关注</p>
         </div>
         <Snackbar
           open={this.state.snackOpen}
