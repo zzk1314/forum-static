@@ -7,9 +7,9 @@ import "./Fragment.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import Loading from "../../components/Loading"
 import Loader from "../../components/Loader"
 import VerticalList from "../../components/VerticalList"
+import { loadProblems } from "./async"
 
 @connect(state => state)
 export default class Fragment extends React.Component<any,any> {
@@ -28,11 +28,10 @@ export default class Fragment extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    const {dispatch, course, user, location, page} = this.props;
     // 加载所有作业列表
     if (!this.state.problemList || _.isEmpty(this.state.problemList)) {
       // ajax加载
-      return pget(`/pc/fragment/problem/problems`).then(res => {
+      loadProblems().then(res=>{
         if (res.code === 200) {
           this.setState({problemList: res.msg.problemList, doingId: res.msg.doingId,curProblem:res.msg.doingId});
         }
