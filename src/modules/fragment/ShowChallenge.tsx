@@ -40,6 +40,8 @@ export default class ShowChallenge extends React.Component<any,any> {
       challengeId:null,
       planId:null,
       picList:[],
+      bigPic:false,
+      bigPicSrc:null,
     }
   }
 
@@ -177,7 +179,7 @@ export default class ShowChallenge extends React.Component<any,any> {
                 // 循环存放picList
                 return (
                   <li key={sequence} className="picItem" name={pic.id}>
-                    <img src={pic.picSrc}/>
+                    <img onClick={(e)=>{this.setState({bigPic:true,bigPicSrc:e.target.src})}} src={pic.picSrc}/>
                   </li>
                 )
               })}
@@ -199,6 +201,8 @@ export default class ShowChallenge extends React.Component<any,any> {
               className="voteCount">{voteCount}</span></div>
           </Chip>
         </div>
+        {/* TODO 图片放大 */}
+        {this.state.bigPic?<div className="bigPicContainer"><img className="bigPic" src={this.state.bigPicSrc}/></div>:null}
       </div>
     )
   }

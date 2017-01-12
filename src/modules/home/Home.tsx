@@ -76,8 +76,7 @@ export default class extends React.Component<any,any> {
               <img src={imgSrc.serverCode}/>
               <div>圈外服务号</div>
             </div>
-            <div style={{marginTop:"30px",float:"right",marginLeft:"30px"}}><a style={{textDecoration:"none",color: "#FFFFFF"}}
-                                             href="https://book.douban.com/subject/26936065/">圈圈的书</a></div>
+            <div style={{marginTop:"30px",float:"right",marginLeft:"30px"}}><a style={{textDecoration:"none",color: "#FFFFFF"}} target="_blank" href="https://book.douban.com/subject/26936065/">圈圈的书</a></div>
             <div style={{marginTop:"30px",float:"right"}}>
               <div className="email" style={{textDecoration:"none",color: "#FFFFFF",position:"relative"}}>意见反馈
                 <div className="email-link">iquanwaivip@163.com</div>

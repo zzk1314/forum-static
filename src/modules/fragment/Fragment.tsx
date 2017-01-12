@@ -53,8 +53,11 @@ export default class Fragment extends React.Component<any,any> {
             pathname: res.msg.pathName,
             query: res.msg.query,
           })
+        } else if(res.code === 401){
+          console.log('error',res);
+          window.location.href="/login"
         } else {
-          console.log('error',res.msg);
+          console.log("error",res.msg);
         }
         this.setState({curProblem:problemId});
       }).catch(err => console.log(err));
