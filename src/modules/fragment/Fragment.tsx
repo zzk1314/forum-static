@@ -1,15 +1,40 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {pget, ppost} from "utils/request";
-import {List, ListItem} from 'material-ui/List';
+import {pget} from "utils/request";
+import {List, ListItem,makeSelectable} from 'material-ui/List';
 import * as _ from "lodash";
 import "./Fragment.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import Loading from "../../components/Loading"
-import Loader from "../../components/Loader"
-import VerticalList from "../../components/VerticalList"
+import VerticalBarLoading from "../../components/VerticalBarLoading"
+import {loadProblems} from "./async"
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import {imgSrc} from "utils/imgSrc"
+
+
+const style = {
+  divider: {
+    backgroundColor: "#f5f5f5",
+  },
+  listTitle: {
+    height: "65px",
+    padding: 0,
+    overflow: "hidden",
+  },
+  firstItem: {
+    margin: "16px auto 50px",
+    padding: "24px 0"
+  },
+  item: {
+    margin: "50px auto",
+    padding: "24px 0"
+  },
+  itemActive: {
+    color: "#55cbcb"
+  }
+}
 
 @connect(state => state)
 export default class Fragment extends React.Component<any,any> {
@@ -24,62 +49,83 @@ export default class Fragment extends React.Component<any,any> {
       problemList: [],
       doingId: null,
       curProblem: null,
+      problemLoading: false,
     }
   }
 
   componentWillMount() {
-    const {dispatch, course, user, location, page} = this.props;
     // 加载所有作业列表
+    console.log(this.state.problemList);
     if (!this.state.problemList || _.isEmpty(this.state.problemList)) {
       // ajax加载
-      return pget(`/pc/fragment/problem/problems`).then(res => {
+      this.setState({problemLoading: true});
+      loadProblems().then(res => {
+        console.log("load problems", res);
         if (res.code === 200) {
-          this.setState({problemList: res.msg.problemList, doingId: res.msg.doingId,curProblem:res.msg.doingId});
+          this.setState({problemList: res.msg, problemLoading: false});
         }
       });
     } else {
       // 已经缓存
-      this.setState({curProblem:this.state.doingId});
+      this.setState({curProblem: this.state.doingId});
     }
   }
 
 
   chooseProblem(problemId) {
-    pget(`/pc/fragment/problem/where?problemId=${problemId}`)
-      .then(res => {
-        if (res.code === 200) {
-          // 请求成功，进行跳转
-          this.context.router.push({
-            pathname: res.msg.pathName,
-            query: res.msg.query,
-          })
-        } else if(res.code === 401){
-          console.log('error',res);
-          window.location.href="/login"
-        } else {
-          console.log("error",res.msg);
-        }
-        this.setState({curProblem:problemId});
-      }).catch(err => console.log(err));
+    const {dispatch} = this.props;
+    // 选择难题，进入rise页面
+    dispatch(set("activeProblemId",problemId));
+    this.context.router.push({
+      pathname:"/fragment/rise",
+      query:{problemId:problemId}});
+
   }
 
+
   render() {
-    const {loading} = this.props;
-    const problemList = _.get(this.state, "problemList"); // 问题列表，默认为[]
-    const doingId = _.get(this.state, "doingId"); // 正在做的问题id
-    const curProblemId = _.get(this.state, "curProblem", doingId); // 当前现实的问题id，默认为正在做的问题id
-    const fragmentLoading = _.get(loading, "fragment", false); // 是否显示loading动画
+    const problemList = _.get(this.state, "problemList",[]); // 问题列表，默认为[]
+    const {activeProblemId} = this.props;
+
+    const textItem = (item) => {
+      return <div key={item.id}
+                  className={_.isEqual(Number(activeProblemId),item.id)?"listItem-choose":"listItem"}>{item.problem}
+        {_.isEqual(Number(activeProblemId), item.id) ?
+          <div style={{    float: "right", marginRight: "10px"}}><img src={imgSrc.curNav}/></div>: null}
+      </div>
+    }
+
+    const renderProblemList = () => {
+      return (
+        <List>
+          <Subheader style={style.listTitle}>
+            <div className="listTitle">专题</div>
+          </Subheader>
+          <Divider style={style.divider}/>
+          {problemList.map((item, index) => {
+            return (
+              <ListItem
+                key={index}
+                onClick={()=>this.chooseProblem(item.id)}
+                innerDivStyle={_.isEqual(index,0)?style.firstItem:style.item}
+                children={textItem(item)}
+                value={item.id}
+              >
+              </ListItem>
+            )
+          })}
+        </List>
+      )
+    }
 
     return (
-      <div className="fragmentContent" ref="fragmentContent">
+      <div className="fragmentContent">
         <div className="leftList">
-          <VerticalList onChangeCall={(problemId)=>this.chooseProblem(problemId)} problemList={problemList}
-                        activeNav={curProblemId}/>
+          {this.state.problemLoading ?<VerticalBarLoading/>:renderProblemList()}
         </div>
         <div className="rightContent">
           {this.props.children}
         </div>
-        {fragmentLoading ?<Loader/>: null}
       </div>
     )
   }

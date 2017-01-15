@@ -4,7 +4,8 @@ import "./PicUpload.less"
 import FlatButton from 'material-ui/FlatButton';
 import * as _ from "lodash"
 import AlertMessage from "./AlertMessage"
-import Loader from "./Loader"
+import VerticalBarLoading from "./VerticalBarLoading"
+import "./PicUpload.less"
 
 export default class PicUpload extends React.Component<any,any>{
   constructor(props){
@@ -114,7 +115,7 @@ export default class PicUpload extends React.Component<any,any>{
               label="上传图片"/>
         </Upload>
         <AlertMessage title={this.state.title} content={this.state.content} open={this.state.open} handleClose={()=>handleClose(this)}/>
-        {load?<Loader/>:null}
+        {load?<div className="uploadLoadingContainer"> <VerticalBarLoading/></div>:null}
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import * as React from "react"
 import {connect} from "react-redux"
-import {set} from "redux/actions"
+import {set,alertMsg} from "redux/actions"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar';
@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./Base.less"
 import {style} from "./Base.ts";
 import {imgSrc} from "utils/imgSrc"
-
+import AlertMessage from "../../components/AlertMessage"
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -23,7 +23,16 @@ export default class Main extends React.Component<any, any> {
     this.state = {open: false};
   }
 
+  componentWillMount(){
+  }
+
+  closeBaseAlert(){
+    const {dispatch} = this.props;
+    dispatch(set("base.showModal",false));
+  }
+
   render() {
+
     // 渲染头像
     const renderAvatar = () => {
       if (this.props.location.pathname.indexOf("fragment") > 0) {
@@ -64,12 +73,12 @@ export default class Main extends React.Component<any, any> {
             {renderLogo()}
             <FlatButton
               labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>window.location.href="/home"}
+              onClick={()=>this.context.router.push("/home")}
               label="首页"
             />
             <FlatButton
               labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>window.location.href="/community"}
+              onClick={()=>this.context.router.push("/fragment/rise")}
               label="Rise"
             />
           </ToolbarGroup>
@@ -87,6 +96,11 @@ export default class Main extends React.Component<any, any> {
             {renderBanner()}
           </div>
           {this.props.children}
+          <AlertMessage open={this.props.base.showModal}
+                        modal={false}
+                        content={this.props.base.alertMsg.msg}
+                        title={this.props.base.alertMsg.title}
+                        handleClose={()=>this.closeBaseAlert()} />
         </div>
       </MuiThemeProvider>
     )

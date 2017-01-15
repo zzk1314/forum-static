@@ -22,4 +22,7 @@ app.use("/js/", express.static(path.join(__dirname, "../js")))
 app.use(require('./common/router'))
 app.use(require('./pc/fragment/router'))
 app.use(require('./pc/account/router'))
+app.use(require('./pc/fragment/problem/router'))
+app.use(require('./pc/fragment/challenge/router'))
+app.use(require('./pc/fragment/application/router'))
 module.exports = app

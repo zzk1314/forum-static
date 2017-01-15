@@ -3,11 +3,17 @@ import * as _ from "lodash"
 import { get, post } from "axios";
 
 export class BreakSignal {
-  constructor(text){
-    this.response = text;
+  constructor(msg,title="提示"){
+    this.title = title;
+    this.msg = msg;
   }
-  private response:String;
+  private title:String;
+  private msg:String;
 };
+
+export class Stop {
+
+}
 
 export function appendQs(query: Object): string {
 	return !query ? "" : `?${qs.stringify(query)}`
