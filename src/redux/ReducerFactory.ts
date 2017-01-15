@@ -44,9 +44,10 @@ export default class ReducerFactory {
 			},
 			[ALERT_MSG]: (state, action) => {
 				console.log(1)
-				const temp_state = _.set(_.merge({}, state), ["base", "showModal"], true)
+				let temp_state = _.set(_.merge({}, state), ["base", "showModal"], true)
+        _.set(temp_state,["base","alertMsg","title"],action.payload.title);
 				console.log(temp_state)
-				return _.set(_.merge({}, temp_state), ["base", "alertMsg"], action.payload.msg)
+				return _.set(_.merge({}, temp_state), ["base", "alertMsg","msg"], action.payload.msg)
 			}
 		})
 	}

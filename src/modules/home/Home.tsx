@@ -72,7 +72,7 @@ export default class extends React.Component<any,any> {
               <img src={imgSrc.subscribeCode}/>
               <div>圈外订阅号</div>
             </div>
-            <div className="img-item">
+            <div style={{"marginRight":"-93px"}} className="img-item">
               <img src={imgSrc.serverCode}/>
               <div>圈外服务号</div>
             </div>
@@ -83,8 +83,8 @@ export default class extends React.Component<any,any> {
                 <div className="email-link">iquanwaivip@163.com</div>
               </div>
             </div>
-            <div style={{fontSize:"12px",position:"absolute",width:"280px",top:"76px",right:"-69px",color:"#cccccc"}}><a style={{textDecoration:"none",color: "#cccccc"}}
-                                             href="http://www.miitbeian.gov.cn/">ICP备15006409号</a></div>
+            {window.ENV.isDevelopment?null:<div style={{fontSize:"12px",position:"absolute",width:"280px",top:"76px",right:"-69px",color:"#cccccc"}}><a style={{textDecoration:"none",color: "#cccccc"}}
+                                             href="http://www.miitbeian.gov.cn/">ICP备15006409号</a></div>}
           </div>
         </div>
       </div>

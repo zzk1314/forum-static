@@ -1,0 +1,158 @@
+.showContainer {
+  margin-left: 8px;
+  > .backContainer{
+    padding: 0px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 48px;
+    width: 100%;
+    height: 65px;
+    overflow: hidden;
+    > .backBtn{
+      color:#999999;
+      margin-left:10px;
+      font-size:26px;
+      line-height: 65px;
+      font-weight:300;
+      cursor: pointer;
+      &:before {
+        content: '';
+        width: 8px;
+        height: 28px;
+        border-radius: 5px;
+        display: inline-block;
+        background-color:#55cbcb;
+        margin-right: 8px;
+        vertical-align: middle;
+        margin-top: -3px;
+      }
+    }
+  }
+  .showTitleContainer {
+    overflow: hidden;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    .title {
+      display: inline-block;
+      color: #999999;
+      font-size: 28px;
+      font-weight:300;
+      .edit {
+        cursor: pointer;
+        font-size: 13px;
+        color: #55cbcb;
+      }
+    }
+    .author {
+      margin-top: 10px;
+      float: right;
+      .avatar {
+        float: left;
+      }
+      .upInfo {
+        margin-left: 4px;
+        float: right;
+        .upName {
+          font-size: 16px;
+          color: #333333;
+          line-height:18px;
+        }
+        .upTime {
+          color: #999999;
+          font-size: 12px;
+          margin-bottom:6px;
+        }
+      }
+    }
+  }
+  .showContentContainer {
+    min-height:500px;
+    .content {
+      min-height:300px;
+      font-size:16px;
+      line-height:24px;
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    }
+    .picContainer {
+      .picList {
+        margin: 0 auto;
+        list-style-type: none;
+        overflow: hidden;
+        padding:0;
+        padding-left:24px;
+        display: block;
+        li:nth-child(2n+3) {
+          clear: both;
+        }
+        .picItem {
+          margin: 0 -5px 5px -5px;
+          padding: 0 13px 0 5px;
+          float: left;
+          width: 300px;
+          img {
+            display: block;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .voteContainer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom:60px;
+    position: relative;
+    .voteTip{
+      position: absolute;
+      top: -31px;
+      font-size: 12px;
+      color: #fff;
+      background: #aaa;
+      padding: 6px;
+    }
+    .disVoteTip{
+      position: absolute;
+      top: -31px;
+      font-size: 12px;
+      color: #fff;
+      background: #aaa;
+      padding: 6px;
+    }
+    .chipRoot {
+      height: 60px;
+      min-width: 180px;
+      border-radius: 50px !important;
+      .chip {
+        font-size:16px;
+        margin-top: 15px;
+        margin-left: 14px;
+        position: relative;
+        .chipIcon {
+          float: left;
+          margin-top: 6px;
+          margin-right: 5px;
+          width: 20px;
+          height: 20px;
+        }
+        .chipSplit {
+          display: inline-block;
+          width: 1px;
+          height: 40px;
+          position: absolute;
+          left: 77px;
+          top: -5px;
+          border-left: 1px solid #f7a466;
+        }
+        .voteCount{
+          margin-left:34px;
+        }
+      }
+    }
+  }
+}

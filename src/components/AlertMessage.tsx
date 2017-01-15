@@ -15,6 +15,7 @@ export default class AlertMessage extends React.Component {
     this.state = {}
   }
 
+
   render() {
     const {handleClose, open, title, modal = false, content, actions} = this.props;
     const getActions = (actions) => {

@@ -14,7 +14,7 @@ export default class WorkItem extends React.Component<any,any> {
 
 
   render() {
-    const {headImg, upName, upTime, content, voteCount, onEditClick, onShowClick, onVoteClick} = this.props;
+    const {headPic, upName, upTime, content, voteCount, onEditClick, onShowClick} = this.props;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
         // 不修改，使其他人的作业
@@ -39,7 +39,7 @@ export default class WorkItem extends React.Component<any,any> {
             <div className="author">
               <div className="avatar">
                 <Avatar
-                  src={headImg}
+                  src={headPic}
                   size={30}
                 />
               </div>

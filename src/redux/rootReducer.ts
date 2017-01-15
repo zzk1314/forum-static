@@ -2,6 +2,9 @@ import ReducerFactory from "./ReducerFactory"
 
 export default new ReducerFactory()
 	.setInitialState({
-		base: {},
+		base: {
+		  showModal:false,
+		  alertMsg:{}
+		},
 	})
 	.getReducer()

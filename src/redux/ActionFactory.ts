@@ -43,7 +43,7 @@ export default class ActionFactory {
 			close: (path) => ({ path }),
 			startLoad: (path) => ({ path }),
 			endLoad: (path) => ({ path }),
-			alertMsg: (msg) => ({ msg })
+			alertMsg: (title,msg) => ({ title,msg })
 		})
 	}
 

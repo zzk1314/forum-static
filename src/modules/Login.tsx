@@ -8,8 +8,6 @@ import "./Login.less"
 import {pget, ppost} from "utils/request";
 import Snackbar from 'material-ui/Snackbar';
 
-const P = "base"
-
 @connect(state => state)
 export default class Login extends React.Component<any, any> {
 
@@ -33,24 +31,7 @@ export default class Login extends React.Component<any, any> {
   private timer;
   private webSocket: WebSocket;
 
-  componentDidMount() {
-    console.log("didMount");
-  }
-
-  componentDidUpdate() {
-    console.log("didUpdate");
-  }
-
   componentWillMount() {
-    // const {dispatch,user} = this.props;
-    // dispatch(set("page",{"curNav":"fragment"}));
-    // // 预先加载用户信息,已登录的话就不用了
-    // if(_.isEmpty(user)){
-    //   pget(`/account/get`,null).then(res => {
-    //     dispatch(set("user",res.msg));
-    //     console.log("您已登录，请不要重复登录哦");
-    //   }).catch(err=>console.log(err));
-    // }
     this.openSocket();
   }
 
@@ -88,31 +69,20 @@ export default class Login extends React.Component<any, any> {
    */
   dispatchMessage(event: {type: String.required}) {
     console.log("socket回调，处理消息", event);
-    let {dispatch} = this.props;
-    // message消息
     if (_.isEqual(event.type, "message")) {
-      // 解析data字段
       let data = JSON.parse(event.data);
-      // data字段的type为消息具体含义
       switch (data.type) {
         case "QR_CREATE": {
           console.log("创建二维码");
-          // TODO 这里可以做个加载效果，二维码加载之前
-          // 创建二维码成功
           this.showMsg("即将加载二维码，请稍后");
           this.setState({qrPicUrl: data.picUrl});
-          // 获取二维码后60秒刷新
           this.timer = setTimeout(() => this.refreshQRCode(), 60000);
           break;
         }
         case "LOGIN_SUCCESS": {
-          // 显示用户名和用户头像
-          // 显示用户头像和名字，1秒后消失
-          dispatch(set("user.info", data.data));
-          const {weixinName,headimgUrl} = data.data.weixin;
+          const {weixinName,headimgUrl,role="stranger"} = data.data;
           this.setState({userName:weixinName,headImage:headimgUrl});
           console.log("login success", weixinName,headimgUrl);
-          const role = _.get(data,"data.role","stranger");
           if(_.isEqual("stranger",role)){
             this.showMsg("请先关注圈外公众号了解更多信息");
             setTimeout(()=>{
@@ -126,7 +96,6 @@ export default class Login extends React.Component<any, any> {
           break;
         }
         case "PERMISSION_DENIED": {
-          console.log("权限不足，role为stranger的时候会出现");
           this.showMsg("您暂时还没报名，请关注公众号了解更多!");
           clearTimeout(this.timer);
           this.closeSocket();

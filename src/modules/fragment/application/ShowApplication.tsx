@@ -1,18 +1,19 @@
 import * as React from "react"
-import "./ShowChallenge.less"
+import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
-import {pget, ppost} from "utils/request"
-import {set, startLoad, endLoad, alertMsg} from "redux/actions"
+import {loadApplicationSubmit} from "./async"
+import {vote} from "../async"
+import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
-import {imgSrc} from "utils/imgSrc"
+import {imgSrc} from "../../../utils/imgSrc"
 
 const style = {
-  divider:{
-    backgroundColor:"#f5f5f5",
-    marginLeft:"-8px"
+  divider: {
+    backgroundColor: "#f5f5f5",
+    marginLeft: "-8px"
   }
 }
 @connect(state => state)
@@ -37,9 +38,9 @@ export default class ShowChallenge extends React.Component<any,any> {
       voteStatus: null,
       tipVote: false,
       tipDisVote: false,
-      challengeId:null,
-      planId:null,
-      picList:[],
+      applicationId: null,
+      planId: null,
+      picList: [],
     }
   }
 
@@ -50,27 +51,27 @@ export default class ShowChallenge extends React.Component<any,any> {
     const submitId = _.get(location, "query.submitId", -1);
     if (!_.isEqual(submitId, -1)) {
       // 获取成功
-      pget(`/pc/fragment/c/show/${submitId}`, this.context.router,).then((res) => {
-        //
-        if (res.code === 200) {
-          this.setState({
-            title: res.msg.title,
-            upName: res.msg.upName,
-            upTime: res.msg.upTime,
-            headImg: res.msg.headImg,
-            content: res.msg.content,
-            submitId: res.msg.submitId,
-            type: res.msg.type,
-            isMine: res.msg.isMine,
-            problemId: res.msg.problemId,
-            voteCount: res.msg.voteCount,
-            voteStatus: res.msg.voteStatus,
-            planId:res.msg.planId,
-            challengeId:res.msg.challengeId,
-            picList:res.msg.picList,
-          })
-        }
-      })
+      loadApplicationSubmit(submitId)
+        .then((res) => {
+        console.log("submit",res);
+          if (res.code === 200) {
+            this.setState({
+              title: res.msg.title,
+              upName: res.msg.upName,
+              upTime: res.msg.upTime,
+              headImg: res.msg.headImg,
+              content: res.msg.content,
+              submitId: res.msg.submitId,
+              type: res.msg.type,
+              isMine: res.msg.isMine,
+              voteCount: res.msg.voteCount,
+              voteStatus: res.msg.voteStatus,
+              planId: res.msg.planId,
+              applicationId: res.msg.workId,
+              picList: res.msg.picList,
+            })
+          }
+        })
     } else {
       alert("缺少参数");
     }
@@ -78,11 +79,12 @@ export default class ShowChallenge extends React.Component<any,any> {
 
   goEdit(e) {
     // 进入修改页面
-    const {planId, isMine,challengeId} = this.state;
-    if (isMine && planId && challengeId) {
+    const {planId, isMine, applicationId} = this.state;
+    console.log(isMine,planId,applicationId,this.state);
+    if (isMine && planId && applicationId) {
       this.context.router.push({
-        pathname: "/fragment/c",
-        query: {planId: planId, cid: challengeId}
+        pathname: "/fragment/application",
+        query: {planId: planId, applicationId: applicationId}
       })
     } else {
       console.error("返回失败，出现异常");
@@ -105,7 +107,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         // 点赞
         status = 1;
       }
-      ppost("/pc/fragment/c/vote", {referencedId: submitId, status: status})
+      vote(submitId,status,2)
         .then(res => {
           if (_.isEqual(res.code, 200)) {
             // 成功
@@ -124,30 +126,46 @@ export default class ShowChallenge extends React.Component<any,any> {
     }
   }
 
-  tipDiVote(){
-    this.setState({tipDisVote:true});
-    setTimeout(()=>{
-      this.setState({tipDisVote:false});
-    },1000);
+  tipDiVote() {
+    this.setState({tipDisVote: true});
+    setTimeout(() => {
+      this.setState({tipDisVote: false});
+    }, 1000);
   }
-  tipVote(){
-    this.setState({tipVote:true});
-    setTimeout(()=>{
-      this.setState({tipVote:false});
-    },1000);
+
+  tipVote() {
+    this.setState({tipVote: true});
+    setTimeout(() => {
+      this.setState({tipVote: false});
+    }, 1000);
   }
 
   render() {
-    const {title, upName, upTime, headImg, content, isMine, voteCount, submitId, voteStatus,picList=[]} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = []} = this.state;
+    const {location} = this.props;
+    const applicationId = _.get(location, "query.applicationId");
+    const planId = _.get(location, "query.planId");
+
     const renderEdit = () => {
       if (isMine) {
         return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
-          <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/> <span >修改作业</span>
+          <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+          <span >编辑</span>
         </div>)
       }
     }
     return (
       <div className="showContainer">
+        <div className="backContainer">
+          <span onClick={()=>{this.context.router.push({
+            pathname:'/fragment/application/list',
+            query:{
+              planId:planId,
+              applicationId:applicationId
+            }
+          })}} className="backBtn">返回列表</span>
+        </div>
+        <Divider style={style.divider}/>
         <div className="showTitleContainer">
           <div className="title">
             <span>{title}</span>
@@ -166,7 +184,6 @@ export default class ShowChallenge extends React.Component<any,any> {
             </div>
           </div>
         </div>
-        <Divider style={style.divider}/>
         <div className="showContentContainer">
           <div className="content">
             <pre>{content}</pre>
@@ -176,8 +193,8 @@ export default class ShowChallenge extends React.Component<any,any> {
               {picList.map((pic, sequence) => {
                 // 循环存放picList
                 return (
-                  <li key={sequence} className="picItem" name={pic.id}>
-                    <img src={pic.picSrc}/>
+                  <li key={sequence} className="picItem">
+                    <img src={pic}/>
                   </li>
                 )
               })}
@@ -185,8 +202,8 @@ export default class ShowChallenge extends React.Component<any,any> {
           </div>
         </div>
         <div className="voteContainer">
-          {this.state.tipVote?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>:null}
-          {this.state.tipDisVote?<div className="disVoteTip">您已取消点赞</div>:null}
+          {this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}
+          {this.state.tipDisVote ?<div className="disVoteTip">您已取消点赞</div>: null}
           <Chip
             onTouchTap={(e)=>this.clickVote(e)}
             className="chipRoot"
@@ -194,7 +211,7 @@ export default class ShowChallenge extends React.Component<any,any> {
           >
             <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">
               <img src={voteStatus?imgSrc.voteWhite:imgSrc.voted}
-              className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
+                   className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
               style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span
               className="voteCount">{voteCount}</span></div>
           </Chip>

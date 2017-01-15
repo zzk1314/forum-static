@@ -43,7 +43,7 @@ export default class VerticalList extends React.Component<any,any> {
   };
 
   render() {
-    const {problemList = [], activeNav} = this.props;
+    const {problemList = [], activeNav=-1} = this.props;
     const textItem = (item) => {
       return <div key={item.id}
                   className={_.isEqual(Number(activeNav),item.id)?"listItem-choose":"listItem"}>{item.problem}
