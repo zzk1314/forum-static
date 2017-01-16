@@ -180,7 +180,7 @@ export default class Rise extends React.Component<any,any> {
   render() {
     const {applicationList, challengeList} = this.state;
     console.log(this.state);
-    const renderWorkStatus = (status, unlocked) => {
+    const renderWorkStatus = (status, unlocked,type) => {
       if (!unlocked) {
         // 未解锁
         return (
@@ -193,9 +193,15 @@ export default class Rise extends React.Component<any,any> {
             <img src="http://www.iquanwai.com/images/pcWorkGo.png"/>
           )
         } else if (status === 1) {
-          return (
-            <img style={{marginTop: "-8px"}}  src="http://www.iquanwai.com/images/pcWorkDone.png"/>
-          )
+          if(_.isEqual("application",type)){
+            return (
+              <img style={{marginTop: "-8px"}}  src="http://www.iquanwai.com/images/pcWorkDone.png"/>
+            )
+          } else {
+            return (
+              <span style={{fontSize:"16px",color:"#55cbcb"}}>记录更多</span>
+            )
+          }
         } else {
           return (
             <img src="http://www.iquanwai.com/images/pcWorkChooseDo.png"/>
@@ -234,8 +240,8 @@ export default class Rise extends React.Component<any,any> {
             return (
               <div {...clickHandler} className="rise-workItem" key={index}>
                 <div className="rise-workTitle">{item.title}</div>
-                <div className="rise-workScore">{item.score}</div>
-                <div className="rise-go">{renderWorkStatus(item.status,item.unlocked)}</div>
+                <div className="rise-workScore">{item.score}积分</div>
+                <div className="rise-go">{renderWorkStatus(item.status,item.unlocked,type)}</div>
               </div>
             )
           })}
