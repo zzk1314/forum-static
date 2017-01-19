@@ -102,7 +102,8 @@ export default class ShowChallenge extends React.Component<any,any> {
       let status = 1;
       if (_.isEqual(voteStatus, 1)) {
         // 点赞中，取消点赞
-        status = 2;
+        status = 2; // 禁止取消点赞
+        return;
       } else {
         // 点赞
         status = 1;

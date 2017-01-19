@@ -23,6 +23,7 @@ export default class Main extends React.Component<any, any> {
     this.state = {open: false};
   }
 
+
   componentWillMount(){
   }
 

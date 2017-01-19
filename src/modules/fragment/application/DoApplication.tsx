@@ -33,8 +33,12 @@ export default class DoApplication extends React.Component<any,any> {
     }
   }
 
+  componentWillUnmount(){
+    window.onbeforeunload = null;
+  }
 
   componentWillMount() {
+    window.onbeforeunload = (e)=>{ return "你还有未提交的内容，离开页面会丢失"; }
     const {location,application,dispatch} = this.props;
     // 根据 cid和planid加载
     const {applicationId, planId} = location.query;
@@ -93,7 +97,12 @@ export default class DoApplication extends React.Component<any,any> {
     submitApplication(submitId,content)
       .then(res => {
       if (res.code === 200) {
-        this.showAlert("提交成功");
+        // 展示分数
+        if(_.isNumber(res.msg)){
+          this.showAlert(`已提交，+${res.msg}积分`);
+        } else {
+          this.showAlert(`提交成功`);
+        }
         setTimeout(() => {
           this.context.router.push({
             pathname: "/fragment/application/list",
