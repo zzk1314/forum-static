@@ -95,6 +95,15 @@ export default class Fragment extends React.Component<any,any> {
       </div>
     }
 
+    const renderFeedBack = () => {
+      return (
+        <div  className="feed-back">
+          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank"><img src="http://www.iquanwai.com/images/pcFeedBack.png"/></a>
+        </div>
+      )
+    };
+
+
     const renderProblemList = () => {
       return (
         <List>
@@ -125,6 +134,7 @@ export default class Fragment extends React.Component<any,any> {
         </div>
         <div className="rightContent">
           {this.props.children}
+          {renderFeedBack()}
         </div>
       </div>
     )

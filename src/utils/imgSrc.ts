@@ -7,4 +7,5 @@ export const imgSrc={
   disVote:"http://www.iquanwai.com/images/pcDisVote.png",
   curNav:"http://www.iquanwai.com/images/curNav.png",
   logo:"http://www.iquanwai.com/images/logo.png",
+  backList:"http://www.iquanwai.com/images/backList.png",
 }

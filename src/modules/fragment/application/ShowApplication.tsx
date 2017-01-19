@@ -164,7 +164,7 @@ export default class ShowChallenge extends React.Component<any,any> {
               planId:planId,
               applicationId:applicationId
             }
-          })}} className="backBtn">返回列表</span>
+          })}} className="backBtn"><img src={imgSrc.backList} />返回列表</span>
         </div>
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
