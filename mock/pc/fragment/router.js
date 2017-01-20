@@ -6,7 +6,6 @@ router.get("/test", (req, res) => {
 });
 
 
-
 router.get("/pc/fragment/page", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
@@ -72,7 +71,30 @@ router.get("/pc/fragment/problem/where", (req, res) => {
 });
 
 
-
+router.get("/pc/fragment/comment/*/*", (req, res) => {
+  console.log(req.query);
+  setTimeout(() => {
+      res.status(200).json({
+        "msg": [
+          {
+            "id": 1,
+            "content": "测试",
+            "upName": "薛定谔的猫",
+            "upTime": "2017年01月20日",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 2,
+            "content": "test\n",
+            "upName": "薛定谔的猫",
+            "upTime": "2017年01月20日",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          }
+        ],
+        "code": 200
+      })
+  }, Math.random() * 1500);
+});
 
 router.get("/b/log", (req, res) => {
   setTimeout(() => {

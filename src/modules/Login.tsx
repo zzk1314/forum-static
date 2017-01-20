@@ -21,8 +21,8 @@ export default class Login extends React.Component<any, any> {
       qrPicUrl: null,
       snackOpen: false,
       message: "",
-      userName:null,
-      headImage:null,
+      userName: null,
+      headImage: null,
     }
     this.webSocket = null;
     this.timer = null;
@@ -80,14 +80,14 @@ export default class Login extends React.Component<any, any> {
           break;
         }
         case "LOGIN_SUCCESS": {
-          const {weixinName,headimgUrl,role="stranger"} = data.data;
-          this.setState({userName:weixinName,headImage:headimgUrl});
-          console.log("login success", weixinName,headimgUrl);
-          if(_.isEqual("stranger",role)){
+          const {weixinName, headimgUrl, role = "stranger"} = data.data;
+          this.setState({userName: weixinName, headImage: headimgUrl});
+          console.log("login success", weixinName, headimgUrl);
+          if (_.isEqual("stranger", role)) {
             this.showMsg("请先关注圈外公众号了解更多信息");
-            setTimeout(()=>{
-              window.location.href="/servercode";
-            },2000);
+            setTimeout(() => {
+              window.location.href = "/servercode";
+            }, 2000);
           } else {
             this.showMsg("恭喜您登录成功,即将跳转到之前页面");
             this.jumpBack();
@@ -100,25 +100,25 @@ export default class Login extends React.Component<any, any> {
           clearTimeout(this.timer);
           this.closeSocket();
           // 跳转到服务号页面
-          setTimeout(()=>{
-            window.location.href="/servercode";
-          },2000);
+          setTimeout(() => {
+            window.location.href = "/servercode";
+          }, 2000);
           break;
         }
-        case "NOT_FOLLOW" :{
+        case "NOT_FOLLOW" : {
           console.log("NOT_FOLLOW");
           this.showMsg("请先关注圈外公众号了解更多信息");
           this.closeSocket();
           // 跳转到服务号页面
-          setTimeout(()=>{
-            window.location.href="/servercode";
-          },2000);
+          setTimeout(() => {
+            window.location.href = "/servercode";
+          }, 2000);
           break;
         }
         case "ERROR": {
           console.log("socket异常消息:", data.msg);
           // 弹出登录异常提示框
-          this.showMsg("登录异常:"+data.msg);
+          this.showMsg("登录异常:" + data.msg);
           break;
         }
         default: {
@@ -128,7 +128,7 @@ export default class Login extends React.Component<any, any> {
       }
     } else {
       console.log("未处理的Type类型", event);
-      this.showMsg("异常的type类型",event);
+      this.showMsg("异常的type类型", event);
     }
   }
 
@@ -172,14 +172,14 @@ export default class Login extends React.Component<any, any> {
    */
   jumpBack() {
     //  获得url
-    setTimeout(()=>{
-      if(this.props.location.query.callbackUrl){
+    setTimeout(() => {
+      if (this.props.location.query.callbackUrl) {
         console.log(this.props.location.query.callbackUrl);
-        window.location.href=this.props.location.query.callbackUrl;
+        window.location.href = this.props.location.query.callbackUrl;
       } else {
-        window.location.href="/home";
+        window.location.href = "/home";
       }
-    },2000)
+    }, 2000)
   }
 
   showMsg(msg) {
@@ -191,7 +191,7 @@ export default class Login extends React.Component<any, any> {
 
 
   render() {
-    const {userName,headImage} = this.state;
+    const {userName, headImage} = this.state;
     const renderTips = () => {
       if (!userName) {
         // 用户仍未登录
@@ -204,10 +204,11 @@ export default class Login extends React.Component<any, any> {
     return (
       <div className="messageContainer">
         <div className="qrContainer">
-          <img className="qrImg"  src={headImage?headImage:this.state.qrPicUrl}/>
+          <img className="qrImg" src={headImage?headImage:this.state.qrPicUrl}/>
           {renderTips()}
         </div>
         <Snackbar
+          contentStyle={{textAlign:"center"}}
           open={this.state.snackOpen}
           message={this.state.message}
           autoHideDuration={2000}

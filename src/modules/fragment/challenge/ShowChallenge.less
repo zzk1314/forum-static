@@ -144,6 +144,51 @@
       }
     }
   }
+  > .commentContainer{
+    min-height:50px;
+    margin: 60px 5px;
+    > .more{
+      text-align: center;
+      color: #55cbcb;
+      cursor: pointer;
+      margin-bottom: 50px;
+    }
+    > .commentSubmit{
+      > textarea{
+        width:98%;
+        resize: none;
+        height:120px;
+        font-size:16px;
+        border:1px solid #dedede;
+        &::-webkit-input-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+        &::-moz-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+        &:-ms-input-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+      }
+
+      > .commentBtn {
+        margin-right:10px;
+        margin-top:8px;
+        float: right;
+        width:70px;
+        height:30px;
+        text-align: center;
+        line-height: 30px;
+        color: #FFFFFF;
+        background-color:#55cbcb;
+        font-size:16px;
+        cursor:pointer;
+      }
+    }
+  }
   > .bigPicContainer {
     position: fixed;
     width:80%;

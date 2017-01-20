@@ -23,3 +23,4 @@ export function submitApplication(submitId, content) {
 export function loadApplicationSubmit(submitId){
   return pget(`/pc/fragment/application/show/${submitId}`);
 }
+

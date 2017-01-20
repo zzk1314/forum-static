@@ -21,4 +21,10 @@ export function vote(referencedId,status,type){
   return ppost("/pc/fragment/vote", {referencedId: referencedId, status: status,type:type})
 }
 
+export function loadComments(type,submitId,page){
+  return pget(`/pc/fragment/comment/${type}/${submitId}`,{page:page});
+}
 
+export function submitComment(type,submitId,content){
+  return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
+}

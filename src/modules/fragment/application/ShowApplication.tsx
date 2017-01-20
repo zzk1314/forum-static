@@ -3,12 +3,14 @@ import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadApplicationSubmit} from "./async"
-import {vote} from "../async"
+import {vote, loadComments, submitComment} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
+import CommentList from "../../../components/CommentList"
 import {imgSrc} from "../../../utils/imgSrc"
+import Snackbar from 'material-ui/Snackbar';
 
 const style = {
   divider: {
@@ -41,19 +43,25 @@ export default class ShowChallenge extends React.Component<any,any> {
       applicationId: null,
       planId: null,
       picList: [],
+      commentList: [],
+      page: 1,
+      hasMore: false,
+      snackOpen: false,
+      message: "",
+      comment: "",
     }
   }
 
   componentWillMount() {
     // 加载数据
-    const {location} = this.props;
+    const {location, dispatch} = this.props;
     // 获取id
     const submitId = _.get(location, "query.submitId", -1);
     if (!_.isEqual(submitId, -1)) {
       // 获取成功
       loadApplicationSubmit(submitId)
         .then((res) => {
-        console.log("submit",res);
+          console.log("submit", res);
           if (res.code === 200) {
             this.setState({
               title: res.msg.title,
@@ -71,7 +79,26 @@ export default class ShowChallenge extends React.Component<any,any> {
               picList: res.msg.picList,
             })
           }
-        })
+        }).catch(err => {
+        console.log("catch", err);
+        if (err instanceof BreakSignal) {
+          dispatch(alertMsg(err.title, err.msg));
+        } else if (!(err instanceof Stop)) {
+          dispatch(alertMsg(err + ""));
+        }
+      })
+
+      loadComments(2, submitId, this.state.page)
+        .then(res => {
+          if (res.code === 200) {
+            const {list, count} = res.msg;
+            if (list.length < count) {
+              this.setState({commentList: list, hasMore: true});
+            } else {
+              this.setState({commentList: list});
+            }
+          }
+        }).catch(err => dispatch(alertMsg(err + "")))
     } else {
       alert("缺少参数");
     }
@@ -80,7 +107,7 @@ export default class ShowChallenge extends React.Component<any,any> {
   goEdit(e) {
     // 进入修改页面
     const {planId, isMine, applicationId} = this.state;
-    console.log(isMine,planId,applicationId,this.state);
+    console.log(isMine, planId, applicationId, this.state);
     if (isMine && planId && applicationId) {
       this.context.router.push({
         pathname: "/fragment/application",
@@ -94,6 +121,7 @@ export default class ShowChallenge extends React.Component<any,any> {
   clickVote(e) {
     // 点赞／或者取消点赞
     const {voteStatus, submitId, voteCount} = this.state;
+    const {dispatch} = this.props;
     if (_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
       return
@@ -108,7 +136,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         // 点赞
         status = 1;
       }
-      vote(submitId,status,2)
+      vote(submitId, status, 2)
         .then(res => {
           if (_.isEqual(res.code, 200)) {
             // 成功
@@ -123,7 +151,7 @@ export default class ShowChallenge extends React.Component<any,any> {
               this.tipVote();
             }
           }
-        }).catch(err => console.log(err));
+        }).catch(err => dispatch(alertMsg(err + "")))
     }
   }
 
@@ -141,8 +169,60 @@ export default class ShowChallenge extends React.Component<any,any> {
     }, 1000);
   }
 
+  showMsg(msg) {
+    this.setState({
+      snackOpen: true,
+      message: msg
+    });
+  }
+
+  loadMoreContent() {
+    const page = this.state.page + 1;
+    const {submitId} = this.state;
+    const {dispatch} = this.props;
+    if (_.isNumber(page) && _.isNumber(submitId)) {
+      const oldList = _.get(this.state, "commentList");
+      loadComments(2, submitId, page)
+        .then(res => {
+          if (res.code === 200) {
+            const {list, count} = res.msg;
+            list.forEach(item => oldList.push(item));
+            if(oldList.length<count){
+              this.setState({commentList: oldList, page: page});
+            } else {
+              this.setState({commentList: oldList, page: page,hasMore:false});
+            }
+          } else {
+            dispatch(alertMsg(res.msg));
+          }
+        })
+
+    }
+  }
+
+  clickSubmitComment() {
+    const {comment, commentList, submitId} = this.state;
+    const {dispatch} =  this.props;
+    console.log(comment, submitId);
+    if (!comment) {
+      this.showMsg("请先输入评论内容再提交!");
+      return;
+    } else {
+      submitComment(1, submitId, comment)
+        .then(res => {
+          if (res.code == 200) {
+            let newArr = [];
+            newArr.push(res.msg);
+            this.setState({commentList: _.union(newArr, commentList), comment: ""});
+          } else {
+            dispatch(alertMsg(res.msg));
+          }
+        }).catch(err => dispatch(alertMsg(err + "")))
+    }
+  }
+
   render() {
-    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = []} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [], showMoreBtn} = this.state;
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
@@ -164,7 +244,7 @@ export default class ShowChallenge extends React.Component<any,any> {
               planId:planId,
               applicationId:applicationId
             }
-          })}} className="backBtn"><img src={imgSrc.backList} />返回列表</span>
+          })}} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
@@ -217,6 +297,22 @@ export default class ShowChallenge extends React.Component<any,any> {
               className="voteCount">{voteCount}</span></div>
           </Chip>
         </div>
+        {commentList.length > 0 ?<Divider style={style.divider}/>: null}
+        <div className="commentContainer">
+          <CommentList comments={commentList}/>
+          {showMoreBtn ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
+          {window.ENV.openComment?<div className="commentSubmit">
+            <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
+                      onChange={(e)=>{this.setState({comment:e.target.value})}}/>
+            <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
+          </div>:null}
+        </div>
+        <Snackbar
+          contentStyle={{textAlign:"center"}}
+          open={this.state.snackOpen}
+          message={this.state.message}
+          autoHideDuration={2000}
+        />
       </div>
     )
   }

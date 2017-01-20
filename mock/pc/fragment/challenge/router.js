@@ -84,24 +84,33 @@ router.get("/pc/fragment/challenge/show/*",(req, res) => {
   setTimeout(() => {
     res.status(200).json({
       "msg": {
-        "title": "临场发言也能掷地有声",
-        "upName": "薛定谔的猫",
-        "upTime": "2017年01月13日",
-        "headImg": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
-        "content": "egwegrqrffwfwefwefewffwefewf\n\n\n\ntweew",
-        "submitId": 48,
+        "title": "面对前所未有的新问题时撬开脑洞",
+        "upName": "HolyHolly",
+        "upTime": "2017年01月20日",
+        "headImg": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7PUFkia02HFNasGiaXhvPiaJrljjzkOMpibWkCdJCCPu7CGeauTdF1DJ7Q4Z4SBR7XCq0bkjibEib6HmmQ/0",
+        "content": "脑洞大开，遇到问题能够从多角度解答14",
+        "submitId": 66,
         "type": "challenge",
-        "isMine": true,
-        "problemId": 4,
-        "voteCount": 1,
-        "voteStatus": 1,
-        "planId": 95,
-        "challengeId": 4,
-        "picList": [
+        "isMine": false,
+        "voteCount": 0,
+        "voteStatus": 0,
+        "planId": null,
+        "workId": null,
+        "picList": [],
+        "commentList": [
           {
-            "moduleId": 2,
-            "referencedId": 48,
-            "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170113142735-8fn5yadq5-48.png"
+            "id": 1,
+            "content": "测试",
+            "upName": "薛定谔的猫",
+            "upTime": "2017年01月20日",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 2,
+            "content": "test\n",
+            "upName": "薛定谔的猫",
+            "upTime": "2017年01月20日",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
           }
         ]
       },
