@@ -3,7 +3,7 @@ import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadApplicationSubmit} from "./async"
-import {vote, loadComments, submitComment} from "../async"
+import {vote, loadComments, submitComment,VoteType,CommentType} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
@@ -136,7 +136,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         // 点赞
         status = 1;
       }
-      vote(submitId, status, 2)
+      vote(submitId, status, VoteType.Application)
         .then(res => {
           if (_.isEqual(res.code, 200)) {
             // 成功
@@ -208,7 +208,7 @@ export default class ShowChallenge extends React.Component<any,any> {
       this.showMsg("请先输入评论内容再提交!");
       return;
     } else {
-      submitComment(1, submitId, comment)
+      submitComment(CommentType.Application, submitId, comment)
         .then(res => {
           if (res.code == 200) {
             let newArr = [];

@@ -28,3 +28,13 @@ export function loadComments(type,submitId,page){
 export function submitComment(type,submitId,content){
   return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
 }
+
+export const CommentType = {
+  Challenge:1,
+  Application:2,
+}
+
+export const VoteType = {
+  Challenge:1,
+  Application:2,
+}
