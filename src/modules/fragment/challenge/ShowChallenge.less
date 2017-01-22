@@ -87,6 +87,28 @@
             display: block;
             max-width: 100%;
           }
+          &:hover + .imgClickTip{
+            display: block;
+          }
+        }
+        > .imgClickTip{
+          &:hover{
+            display: block;
+          }
+          display: none;
+          width:80px;
+          height:20px;
+          background-color:#999;
+          color:#fff;
+          font-size:8px;
+          text-align: center;
+          line-height:20px;
+          border-radius:4px;
+          filter:alpha(opacity=50);
+          -moz-opacity:0.8;
+          -khtml-opacity: 0.8;
+          opacity: 0.8;
+          position: absolute;
         }
       }
     }

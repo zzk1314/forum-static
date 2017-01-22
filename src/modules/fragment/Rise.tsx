@@ -55,7 +55,6 @@ export default class Rise extends React.Component<any,any> {
       this.setState({applicationLoading: true, challengeLoading: true});
       // 加载用户信息
       loadAccount().then(res => {
-        console.log("load account", res);
         const {code, msg} = res;
         if (code === 200) {
           window.ENV.userName = msg.weixinName;
@@ -74,7 +73,6 @@ export default class Rise extends React.Component<any,any> {
         dispatch(set("activeProblemId",problemId));
         return loadRiseWorkList(problemId)
           .then(res => {
-            console.log("loadRiseWorkList", res);
             if (res.code === 200) {
               this.setState({
                 challengeList: res.msg.challengeWorkList,
@@ -104,7 +102,6 @@ export default class Rise extends React.Component<any,any> {
     this.setState({applicationLoading: true, challengeLoading: true});
     // 加载用户信息
     loadAccount().then(res => {
-      console.log("load account", res);
       const {code, msg} = res;
       if (code === 200) {
         window.ENV.userName = msg.weixinName;
@@ -123,7 +120,6 @@ export default class Rise extends React.Component<any,any> {
       dispatch(set("activeProblemId",problemId));
       return loadRiseWorkList(problemId)
         .then(res => {
-          console.log("loadRiseWorkList", res);
           if (res.code === 200) {
             this.setState({
               challengeList: res.msg.challengeWorkList,
@@ -179,7 +175,6 @@ export default class Rise extends React.Component<any,any> {
 
   render() {
     const {applicationList, challengeList} = this.state;
-    console.log(this.state);
     const renderWorkStatus = (status, unlocked,type) => {
       if (!unlocked) {
         // 未解锁

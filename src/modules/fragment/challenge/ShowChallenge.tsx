@@ -16,7 +16,7 @@ const style = {
   divider: {
     backgroundColor: "#f5f5f5",
     marginLeft: "-8px"
-  }
+  },
 }
 @connect(state => state)
 export default class ShowChallenge extends React.Component<any,any> {
@@ -49,6 +49,10 @@ export default class ShowChallenge extends React.Component<any,any> {
       snackOpen: false,
       message: "",
       comment: "",
+      imgTipStyle:{
+        left:0,
+        top:0
+      }
     }
   }
 
@@ -212,7 +216,6 @@ export default class ShowChallenge extends React.Component<any,any> {
   clickSubmitComment() {
     const {comment, commentList, submitId} = this.state;
     const {dispatch} =  this.props;
-    console.log(comment, submitId);
     if (!comment) {
       this.showMsg("请先输入评论内容再提交!");
       return;
@@ -228,6 +231,12 @@ export default class ShowChallenge extends React.Component<any,any> {
           }
         }).catch(err => dispatch(alertMsg(err + "")))
     }
+  }
+
+  showImgTip(e){
+    const {pageX,pageY} = e;
+    setTimeout(()=>this.setState({imgTipStyle:{left:pageX+10,top:pageY-10}}),50);
+
   }
 
   render() {
@@ -286,10 +295,11 @@ export default class ShowChallenge extends React.Component<any,any> {
                 // 循环存放picList
                 return (
                   <li key={sequence} className="picItem">
-                    <img src={pic}/>
+                    <a href={pic} target="_blank"><img  alt="test"  src={pic} onMouseMove={(e)=>this.showImgTip(e)}/></a>
                   </li>
                 )
               })}
+              <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
             </ul>
           </div>
         </div>

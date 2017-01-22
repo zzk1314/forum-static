@@ -93,7 +93,6 @@ export default class ApplicationList extends React.Component<any,any> {
     const planId = _.get(location, "query.planId");
 
 
-    console.log("submitId:",submitId);
     this.context.router.push({
       pathname: "/fragment/application/show",
       query: {
@@ -129,7 +128,6 @@ export default class ApplicationList extends React.Component<any,any> {
     const applicationId = _.get(this.props.location, "query.applicationId");
     const planId = _.get(this.props.location, "query.planId");
     const {mine = {}, other = []} = this.state;
-    console.log("mine:",mine);
     const renderMine = () => {
       return (
         <div className="mineContainer">

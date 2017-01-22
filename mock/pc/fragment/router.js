@@ -74,25 +74,41 @@ router.get("/pc/fragment/problem/where", (req, res) => {
 router.get("/pc/fragment/comment/*/*", (req, res) => {
   console.log(req.query);
   setTimeout(() => {
-      res.status(200).json({
-        "msg": [
-          {
-            "id": 1,
-            "content": "测试",
-            "upName": "薛定谔的猫",
-            "upTime": "2017年01月20日",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          },
-          {
-            "id": 2,
-            "content": "test\n",
-            "upName": "薛定谔的猫",
-            "upTime": "2017年01月20日",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          }
-        ],
-        "code": 200
-      })
+    res.status(200).json({
+      "msg": {
+        "list": [{
+          "id": 27,
+          "content": "test",
+          "upName": "薛定谔的猫",
+          "upTime": "2017年01月22日",
+          "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+        }, {
+          "id": 26,
+          "content": "最后一次提交评论",
+          "upName": "薛定谔的猫",
+          "upTime": "2017年01月21日",
+          "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+        }, {
+          "id": 25,
+          "content": "提交评论",
+          "upName": "薛定谔的猫",
+          "upTime": "2017年01月21日",
+          "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+        }, {
+          "id": 24,
+          "content": "绯闻绯闻分",
+          "upName": "薛定谔的猫",
+          "upTime": "2017年01月20日",
+          "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+        }, {
+          "id": 23,
+          "content": "fefef",
+          "upName": "薛定谔的猫",
+          "upTime": "2017年01月20日",
+          "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+        }], "count": 16
+      }, "code": 200
+    })
   }, Math.random() * 1500);
 });
 
@@ -101,36 +117,5 @@ router.get("/b/log", (req, res) => {
     res.status(200).json({code: 200, msg: "ok"});
   }, Math.random() * 1500)
 });
-
-router.get("/pc/fragment/c/show/**", (req, res) => {
-  setTimeout(() => {
-    res.status(200).json({
-      "msg": {
-        "title": "面对前所未有的新问题时撬开脑洞",
-        "upName": "mao",
-        "upTime": "2017年01月06日",
-        "headImg": null,
-        "content": "测试\ntesttest\n能看到我么\n还有图片\n\nceshi 测试作业提交效果\ntest",
-        "submitId": 23,
-        "type": "challenge",
-        "isMine": true,
-        "problemId": 3,
-        "voteCount": 3,
-        "voteStatus": 1,
-        "planId": 46,
-        "challengeId": 3,
-        "picList": [{
-          "moduleId": 2,
-          "referencedId": 23,
-          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170104150312-8r2wqjuov-23.png"
-        }, {
-          "moduleId": 2,
-          "referencedId": 23,
-          "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170105094542-269i6z7vw-23.png"
-        }]
-      }, "code": 200
-    })
-  }, Math.random() * 1500)
-})
 
 module.exports = router

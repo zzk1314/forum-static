@@ -61,7 +61,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       // 获取成功
       loadApplicationSubmit(submitId)
         .then((res) => {
-          console.log("submit", res);
           if (res.code === 200) {
             this.setState({
               title: res.msg.title,
@@ -203,7 +202,6 @@ export default class ShowChallenge extends React.Component<any,any> {
   clickSubmitComment() {
     const {comment, commentList, submitId} = this.state;
     const {dispatch} =  this.props;
-    console.log(comment, submitId);
     if (!comment) {
       this.showMsg("请先输入评论内容再提交!");
       return;
@@ -219,6 +217,12 @@ export default class ShowChallenge extends React.Component<any,any> {
           }
         }).catch(err => dispatch(alertMsg(err + "")))
     }
+  }
+
+  showImgTip(e){
+    const {pageX,pageY} = e;
+    setTimeout(()=>this.setState({imgTipStyle:{left:pageX+10,top:pageY-10}}),50);
+
   }
 
   render() {
@@ -275,10 +279,11 @@ export default class ShowChallenge extends React.Component<any,any> {
                 // 循环存放picList
                 return (
                   <li key={sequence} className="picItem">
-                    <img src={pic}/>
+                    <a href={pic} target="_blank"><img  alt="test"  src={pic} onMouseMove={(e)=>this.showImgTip(e)}/></a>
                   </li>
                 )
               })}
+              <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
             </ul>
           </div>
         </div>
