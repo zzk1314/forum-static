@@ -87,7 +87,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         }
       })
 
-      loadComments(2, submitId, this.state.page)
+      loadComments(CommentType.Application, submitId, this.state.page)
         .then(res => {
           if (res.code === 200) {
             const {list, count} = res.msg;
@@ -177,25 +177,28 @@ export default class ShowChallenge extends React.Component<any,any> {
 
   loadMoreContent() {
     const page = this.state.page + 1;
-    const {submitId} = this.state;
+    const {submitId, hasMore} = this.state;
     const {dispatch} = this.props;
     if (_.isNumber(page) && _.isNumber(submitId)) {
       const oldList = _.get(this.state, "commentList");
-      loadComments(2, submitId, page)
-        .then(res => {
-          if (res.code === 200) {
-            const {list, count} = res.msg;
-            list.forEach(item => oldList.push(item));
-            if(oldList.length<count){
-              this.setState({commentList: oldList, page: page});
+      if(hasMore) {
+        loadComments(CommentType.Application, submitId, page)
+          .then(res => {
+            if (res.code === 200) {
+              const {list, count} = res.msg;
+              list.forEach(item => oldList.push(item));
+              if(oldList.length<count){
+                this.setState({commentList: oldList, page: page});
+              } else {
+                this.setState({commentList: oldList, page: page,hasMore:false});
+              }
             } else {
-              this.setState({commentList: oldList, page: page,hasMore:false});
+              dispatch(alertMsg(res.msg));
             }
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        })
-
+          })
+      } else {
+        this.showMsg("没有更多评论了");
+      }
     }
   }
 
@@ -226,7 +229,7 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   render() {
-    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [], showMoreBtn} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [],hasMore} = this.state;
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
@@ -280,10 +283,10 @@ export default class ShowChallenge extends React.Component<any,any> {
                 return (
                   <li key={sequence} className="picItem">
                     <a href={pic} target="_blank"><img  alt="test"  src={pic} onMouseMove={(e)=>this.showImgTip(e)}/></a>
+                    <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
                   </li>
                 )
               })}
-              <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
             </ul>
           </div>
         </div>
@@ -305,7 +308,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
           <CommentList comments={commentList}/>
-          {showMoreBtn ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
+          {hasMore ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
                       onChange={(e)=>{this.setState({comment:e.target.value})}}/>

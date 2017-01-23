@@ -91,7 +91,7 @@ export default class ShowChallenge extends React.Component<any,any> {
           dispatch(alertMsg(err + ""));
         }
       })
-      loadComments(1, submitId, this.state.page)
+      loadComments(CommentType.Challenge, submitId, this.state.page)
         .then(res => {
           if (res.code === 200) {
             console.log(res);
@@ -193,7 +193,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     if (_.isNumber(page) && _.isNumber(submitId)) {
       const oldList = _.get(this.state, "commentList");
       if(hasMore) {
-        loadComments(1, submitId, page)
+        loadComments(CommentType.Challenge, submitId, page)
           .then(res => {
             if (res.code === 200) {
               const {list, count} = res.msg;
@@ -296,10 +296,10 @@ export default class ShowChallenge extends React.Component<any,any> {
                 return (
                   <li key={sequence} className="picItem">
                     <a href={pic} target="_blank"><img  alt="test"  src={pic} onMouseMove={(e)=>this.showImgTip(e)}/></a>
+                    <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
                   </li>
                 )
               })}
-              <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
             </ul>
           </div>
         </div>
