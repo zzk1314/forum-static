@@ -28,9 +28,9 @@ export default class CommentList extends React.Component {
 
     const renderContent = (content)=>{
       return (
-        <div className="commentContent">
+        <pre className="commentContent">
           {content}
-        </div>
+        </pre>
       )
     }
 
