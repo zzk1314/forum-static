@@ -73,10 +73,10 @@ export default class DoChallenge extends React.Component<any,any> {
     const {challenge,location,dispatch} = this.props;
     const {challengeId, planId} = location.query;
     const mine = _.get(challenge,`mine.${planId}.${challengeId}`,{});
-    const {picList = [], moduleId, submitId} = mine;
+    const {picList = []} = mine;
     let temp = [];
     picList.forEach(item => temp.push(item));
-    temp.push({picSrc: url});
+    temp.push(url);
     dispatch(set(`challenge.mine.${planId}.${challengeId}.picList`, temp));
   }
 
@@ -159,8 +159,8 @@ export default class DoChallenge extends React.Component<any,any> {
               {picList.map((pic, sequence) => {
                 // 循环存放picList
                 return (
-                  <li key={sequence} className="picItem" name={pic.id}>
-                    <img src={pic.picSrc}/>
+                  <li key={sequence} className="picItem">
+                    <img src={pic}/>
                   </li>
                 )
               })}

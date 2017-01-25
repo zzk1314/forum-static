@@ -42,3 +42,4 @@ export function ppost(url: string, body: Object) {
 function log(msg) {
 	ppost('/b/log', { result: msg, cookie: document.cookie })
 }
+

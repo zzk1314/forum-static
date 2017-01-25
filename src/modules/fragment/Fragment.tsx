@@ -55,12 +55,10 @@ export default class Fragment extends React.Component<any,any> {
 
   componentWillMount() {
     // 加载所有作业列表
-    console.log(this.state.problemList);
     if (!this.state.problemList || _.isEmpty(this.state.problemList)) {
       // ajax加载
       this.setState({problemLoading: true});
       loadProblems().then(res => {
-        console.log("load problems", res);
         if (res.code === 200) {
           this.setState({problemList: res.msg, problemLoading: false});
         }
@@ -134,7 +132,7 @@ export default class Fragment extends React.Component<any,any> {
         </div>
         <div className="rightContent">
           {this.props.children}
-          {renderFeedBack()}
+          {window.ENV.openFeedBack?renderFeedBack():null}
         </div>
       </div>
     )

@@ -80,32 +80,24 @@ router.post("/pc/fragment/challenge/submit/**", (req, res) => {
   }, Math.random() * 1500)
 });
 
-router.get("/pc/fragment/challenge/show/*",(req, res) => {
+router.get("/pc/fragment/challenge/show/*", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
       "msg": {
-        "title": "临场发言也能掷地有声",
+        "title": "用分层归类法让你的朋友圈发文更有条理",
         "upName": "薛定谔的猫",
-        "upTime": "2017年01月13日",
+        "upTime": "2017年01月21日",
         "headImg": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
-        "content": "egwegrqrffwfwefwefewffwefewf\n\n\n\ntweew",
-        "submitId": 48,
-        "type": "challenge",
+        "content": "hhr gggrgfefefewffeffew",
+        "submitId": 43,
+        "type": "application",
         "isMine": true,
-        "problemId": 4,
         "voteCount": 1,
         "voteStatus": 1,
-        "planId": 95,
-        "challengeId": 4,
-        "picList": [
-          {
-            "moduleId": 2,
-            "referencedId": 48,
-            "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170113142735-8fn5yadq5-48.png"
-          }
-        ]
-      },
-      "code": 200
+        "planId": 144,
+        "workId": 3,
+        "picList": ["http://www.confucius.mobi/images/application/application-20170121000607-ktzmpmwjd-43.png"]
+      }, "code": 200
     })
   }, Math.random() * 1500)
 });
