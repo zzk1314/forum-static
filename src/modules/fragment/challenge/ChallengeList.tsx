@@ -36,9 +36,10 @@ export default class ChallengeList extends React.Component<any,any> {
 
   componentWillMount() {
     // 加载个人作业
-    const {location, dispatch} = this.props;
+    const {location, dispatch,page} = this.props;
     const cid = _.get(location, "query.challengeId");
     const planId = _.get(location, "query.planId");
+    const scrollValue = _.get(page,"scroll");
     this.setState({mineLoading: true, otherLoading: true});
     loadMineChallenge(planId, cid)
       .then(res => {
@@ -62,6 +63,11 @@ export default class ChallengeList extends React.Component<any,any> {
         .then(res => {
           if (res.code === 200) {
             this.setState({other: res.msg, otherLoading: false});
+            if(scrollValue){
+              console.log(scrollValue);
+              scroll(scrollValue.x,scrollValue.y);
+              dispatch(set("page.scroll",{x:0,y:0}));
+            }
           } else {
             this.setState({otherLoading: false});
             throw new BreakSignal(res.msg, "提示");
@@ -79,10 +85,11 @@ export default class ChallengeList extends React.Component<any,any> {
 
   onShowClick(submitId) {
 
-    const {location} = this.props;
+    const {location,dispatch} = this.props;
     const challengeId = _.get(location, "query.challengeId");
     const planId = _.get(location, "query.planId");
-
+    const {pageXOffset=0,pageYOffset=0} = window;
+    dispatch(set("page.scroll",{x:pageXOffset,y:pageYOffset}));
     this.context.router.push({
       pathname: "/fragment/challenge/show",
       query: {
