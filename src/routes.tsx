@@ -14,6 +14,7 @@ import ShowChallenge from "./modules/fragment/challenge/ShowChallenge"
 import ShowApplication from "./modules/fragment/application/ShowApplication"
 import Stranger from "./modules/Stranger"
 import Reject from "./modules/Reject"
+import NotFoundPage from "./modules/NotFoundPage"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -32,6 +33,7 @@ const routes = (
       <Route path="fragment/application/show" component={ShowApplication}/>
       <Route path="servercode" component={ServerCode}/>
     </Route>
+    <Route path="*" component={NotFoundPage} />
   </Route>
 )
 
