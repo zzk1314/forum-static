@@ -34,7 +34,79 @@ router.get("/pc/fragment/challenge/list/other/*", (req, res) => {
           "voteCount": 2,
           "submitId": 33,
           "type": 21
-        }
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },{
+          "title": null,
+          "upName": "Diane",
+          "upTime": "2017年01月07日",
+          "headPic": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszv31ea8a1icLicIOWRxkZicHL46ePIRyStHo4rxsVQ3jice8XmKg1e68QGfM1f5ns3HpeOdAtsyLQU8Xp/0",
+          "content": "视觉设计大胜利大街卡死的啊啥的精神可嘉读书卡链接到阿斯兰的圣诞节熟练度可骄傲的的刷卡或借记卡回到家看撒谎的卡的还是的杀毒和肯德基和撒旦按时第三节课哈的好时机蝴蝶结卡哈萨克简单的回单卡的后就开始对哈市 ",
+          "voteCount": 2,
+          "submitId": 33,
+          "type": 21
+        },
       ],
       "code": 200
     })

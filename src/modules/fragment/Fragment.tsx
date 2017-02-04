@@ -74,6 +74,7 @@ export default class Fragment extends React.Component<any,any> {
     const {dispatch} = this.props;
     // 选择难题，进入rise页面
     dispatch(set("activeProblemId",problemId));
+    dispatch(set("page.scroll",{x:0,y:0}));
     this.context.router.push({
       pathname:"/fragment/rise",
       query:{problemId:problemId}});

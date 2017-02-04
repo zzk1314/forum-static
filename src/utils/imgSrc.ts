@@ -8,4 +8,5 @@ export const imgSrc={
   curNav:"http://www.iquanwai.com/images/curNav.png",
   logo:"http://www.iquanwai.com/images/logo.png",
   backList:"http://www.iquanwai.com/images/backList.png",
+  notFound:"http://www.iquanwai.com/image/404.png"
 }

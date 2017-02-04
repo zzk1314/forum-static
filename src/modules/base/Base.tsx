@@ -74,12 +74,12 @@ export default class Main extends React.Component<any, any> {
             {renderLogo()}
             <FlatButton
               labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>this.context.router.push("/home")}
+              onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
               label="首页"
             />
             <FlatButton
               labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>this.context.router.push("/fragment/rise")}
+              onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
               label="Rise"
             />
           </ToolbarGroup>
