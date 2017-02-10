@@ -1,6 +1,5 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {pget} from "utils/request";
 import {List, ListItem,makeSelectable} from 'material-ui/List';
 import * as _ from "lodash";
 import "./Fragment.less"
@@ -35,6 +34,7 @@ const style = {
     color: "#55cbcb"
   }
 }
+
 
 @connect(state => state)
 export default class Fragment extends React.Component<any,any> {
@@ -86,9 +86,32 @@ export default class Fragment extends React.Component<any,any> {
     const problemList = _.get(this.state, "problemList",[]); // 问题列表，默认为[]
     const {activeProblemId} = this.props;
 
+    const navClassName = (status,curId,id)=>{
+
+      if(_.isEqual(Number(status),1) || _.isEqual(Number(status),2)){
+        if(_.isEqual(Number(curId),id)){
+          return "listItem-choose-running"
+        } else {
+          return "listItem-running"
+        }
+      } else if(_.isEqual(Number(status),3)) {
+        if(_.isEqual(Number(curId),id)){
+          return "listItem-choose-done"
+        } else {
+          return "listItem-done"
+        }
+      } else {
+        if(_.isEqual(Number(curId),id)){
+          return "listItem-choose-lock"
+        } else {
+          return "listItem-lock"
+        }
+      }
+    }
     const textItem = (item) => {
+      console.log(navClassName(item.status,activeProblemId,item.id));
       return <div key={item.id}
-                  className={_.isEqual(Number(activeProblemId),item.id)?"listItem-choose":"listItem"}>{item.problem}
+                  className={navClassName(item.status,activeProblemId,item.id)}>{item.problem}
         {_.isEqual(Number(activeProblemId), item.id) ?
           <div style={{    float: "right", marginRight: "10px"}}><img src={imgSrc.curNav}/></div>: null}
       </div>
@@ -102,6 +125,9 @@ export default class Fragment extends React.Component<any,any> {
       )
     };
 
+    const icon={
+      running:<div>running</div>
+    }
 
     const renderProblemList = () => {
       return (

@@ -35,45 +35,82 @@
       }
     }
     .listItem {
-      &{
-        color:#333333;
-        margin-left:10px;
-        font-size:16px;
-      }
+      color:#333333;
+      margin-left:10px;
+      font-size:16px;
       &-choose{
         color:#55cbcb;
         margin-left:10px;
         font-size:16px;
       }
-      &:before {
+      &-running:before {
         content: '';
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        width: 16px;
+        height: 16px;
         display: inline-block;
-        background-color:#cccccc;
-        margin-right: 8px;
+        background: url("http://www.iquanwai.com/images/pcNavRunning.png") no-repeat center center;
+        margin-right: 4px;
         vertical-align: middle;
         margin-top: -3px;
+        margin-left:6px;
       }
-      &-choose:before {
+      &-done:before {
+         content: '';
+         width: 16px;
+         height: 16px;
+         display: inline-block;
+         background: url("http://www.iquanwai.com/images/pcNavDone.png") no-repeat center center;
+         margin-right: 4px;
+         vertical-align: middle;
+         margin-top: -3px;
+         margin-left:6px;
+      }
+      &-lock:before {
         content: '';
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        width: 16px;
+        height: 16px;
         display: inline-block;
-        background-color:#55cbcb;
-        margin-right: 8px;
+        background: url("http://www.iquanwai.com/images/pcNavLock.png") no-repeat center center;
+        margin-right: 4px;
         vertical-align: middle;
         margin-top: -3px;
+        margin-left:6px;
       }
 
+      &-choose-lock:before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url("http://www.iquanwai.com/images/pcNavLockChoice.png") no-repeat center center;
+        margin-right: 4px;
+        vertical-align: middle;
+        margin-top: -3px;
+        margin-left:6px;
+      }
+      &-choose-done:before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url("http://www.iquanwai.com/images/pcNavDoneChoice.png") no-repeat center center;
+        margin-right: 4px;
+        vertical-align: middle;
+        margin-top: -3px;
+        margin-left:6px;
+      }
+      &-choose-running:before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url("http://www.iquanwai.com/images/pcNavRunningChoice.png") no-repeat center center;
+        margin-right: 4px;
+        vertical-align: middle;
+        margin-top: -3px;
+        margin-left:6px;
+      }
     }
-
-
-
-
-
   }
   .rightContent{
     float:right;
