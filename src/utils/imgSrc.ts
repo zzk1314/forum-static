@@ -8,5 +8,11 @@ export const imgSrc={
   curNav:"http://www.iquanwai.com/images/curNav.png",
   logo:"http://www.iquanwai.com/images/logo.png",
   backList:"http://www.iquanwai.com/images/backList.png",
-  notFound:"http://www.iquanwai.com/image/404.png"
+  notFound:"http://www.iquanwai.com/images/404.png",
+  navRunning:"http://www.iquanwai.com/image/pcNavRunning.png",
+  navRunningChoice:"http://www.iquanwai.com/images/pcNavRunningChoice.png",
+  navDone:"http://www.iquanwai.com/images/pcNavDone.png",
+  navDoneChoice:"http://www.iquanwai.com/images/pcNavDoneChoice.png",
+  navLock:"http://www.iquanwai.com/images/pcNavLock.png",
+  navLockChoice:"http://www.iquanwai.com/images/pcNavLockChoice.png",
 }
