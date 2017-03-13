@@ -32,6 +32,38 @@
         border-top:none;
       }
     }
+    > .label-container{
+      border-left:1px solid #d0d0d0;
+      border-right:1px solid #d0d0d0;
+      padding-top:10px;
+      padding-bottom:10px;
+      color:#333333;
+      font-size:13px;
+      line-height:13px;
+      text-align: left;
+      padding-left:15px;
+      > .tips{
+        color:#999999;
+      }
+      > .label-item{
+        margin-top:2px;
+        margin-bottom:2px;
+        padding:5px 10px;
+        border:1px solid #999999;
+        color:#999999;
+        &.selected{
+          border:1px solid #55cbcb;
+          color:#55cbcb;
+          border-radius:5px;
+        }
+        border-radius:5px;
+        text-align: center;
+        display: inline-block;
+      }
+      & + .submit-area{
+        border-top:1px  #d0d0d0 dashed;
+      }
+    }
     .myWorkTitle {
       margin-top: 20px;
       color: #999999;

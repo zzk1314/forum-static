@@ -13,5 +13,9 @@ export function loadMineSubjectList(problemId){
 }
 
 export function submitSubject(problemId,submitId,title,content,labels){
-  return ppost(`/pc/fragment/subject/subject/submit/${problemId}`,{submitId:submitId,title:title,content:content,labelList:labels})
+  return ppost(`/pc/fragment/subject/submit/${problemId}`,{submitId:submitId,title:title,content:content,labelList:labels})
+}
+
+export function loadLabels(problemId){
+  return pget(`/pc/fragment/subject/label/${problemId}`)
 }

@@ -85,15 +85,19 @@ export default class ApplicationList extends React.Component<any,any> {
       pathname: "/fragment/subject/show",
       query: {
         submitId: submitId,
+        problemId:problemId,
       }
     })
   }
 
   onEditClick(submitId) {
+    const {location} = this.props;
+    const problemId = _.get(location, "query.problemId");
     this.context.router.push({
       pathname: "/fragment/subject/write",
       query: {
-        submitId: submitId
+        submitId: submitId,
+        problemId:problemId
       }
     })
   }

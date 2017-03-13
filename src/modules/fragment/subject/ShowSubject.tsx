@@ -243,7 +243,7 @@ export default class ShowChallenge extends React.Component<any,any> {
 
   render() {
     const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [], hasMore} = this.state;
-    const {location,activeProblemId} = this.props;
+    const {location} = this.props;
 
     const renderEdit = () => {
       if (isMine) {
@@ -259,7 +259,7 @@ export default class ShowChallenge extends React.Component<any,any> {
           <span onClick={()=>{
             this.context.router.push({
               pathname:'/fragment/subject/list',
-              query:{problemId:activeProblemId}
+              query:{problemId:location.query.problemId}
             })}} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <Divider style={style.divider}/>

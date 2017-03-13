@@ -110,7 +110,7 @@ export default class ChallengeList extends React.Component<any,any> {
     const challengeId = _.get(this.props.location, "query.challengeId");
     const planId = _.get(this.props.location, "query.planId");
 
-    const perfectListrenderMine = () => {
+    const renderMine = () => {
       const {mine = {}} = this.state;
       console.log(mine);
       return (

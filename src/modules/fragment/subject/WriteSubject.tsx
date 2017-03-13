@@ -7,7 +7,7 @@ import PicUpload from "../../../components/PicUpload"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-import {loadSubject,submitSubject} from "./async"
+import {loadSubject,submitSubject,loadLabels} from "./async"
 import {PictureModule} from "../async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 
@@ -26,14 +26,12 @@ export default class WriteSubject extends React.Component<any,any> {
         actions: null,
         modal: true
       },
-      alertTitle: "",
-      alertContent: "",
-      showAlertModal: false,
       snackOpen: false,
       snackMessage: "提交中，请稍后",
-      title:"",
-      content:"",
-      data:{},
+      data:{
+        content:"",
+        title:"",
+      },
     }
   }
 
@@ -43,12 +41,30 @@ export default class WriteSubject extends React.Component<any,any> {
 
   componentWillMount() {
     window.onbeforeunload = ()=>{ return "你还有未提交的内容，离开页面会丢失"; }
-    const {location,dispatch,subject} = this.props;
+    const {location,dispatch} = this.props;
     // 根据 cid和planid加载
     const {problemId, submitId} = location.query;
     if(!submitId){
       // 没有提交id，发布新的
-
+      this.setState({submitLoading:true});
+      loadLabels(problemId).then(res=>{
+        this.setState({submitLoading:false});
+        if (_.isEqual(res.code, 200)) {
+          // 加载成功
+          console.log("ajax:",res.msg);
+          this.setState({data:res.msg});
+          // dispatch(set(`challenge.mine.${planId}.${challengeId}`,res.msg));
+        } else {
+          throw new BreakSignal(res.msg);
+        }
+      }).catch(err=>{
+        console.log("加载作业失败",err);
+        if(err instanceof BreakSignal){
+          dispatch(alertMsg(err.title,err.msg));
+        } else {
+          dispatch(alertMsg(_.toString(err)));
+        }
+      })
     } else {
       // 有提交id，编辑旧的
       this.setState({submitLoading:true});
@@ -79,8 +95,7 @@ export default class WriteSubject extends React.Component<any,any> {
    * 上传图片成功
    */
   onUploadSuccess(url) {
-    const {location,dispatch} = this.props;
-    const {problemId, submitId} = location.query;
+    const {location} = this.props;
     const data = this.state;
     const {picList = []} = data;
     let temp = [];
@@ -94,10 +109,10 @@ export default class WriteSubject extends React.Component<any,any> {
    * 提交作业
    */
   goSubmitSubject() {
-    const {location} = this.props;
+    const {location,dispatch} = this.props;
     const {problemId, submitId} = location.query;
     const {data} = this.state;
-    const {content, title} = data;
+    const {content, title,labelList} = data;
     if (_.isEmpty(content)) {
       this.showAlert("内容未输入","提示");
       return;
@@ -108,7 +123,9 @@ export default class WriteSubject extends React.Component<any,any> {
       return;
     }
     // 根据 cid和planid加载 problemId,submitId,title,content,labels
-    submitSubject(problemId,submitId,title,content,[])
+    let submitLabels = _.merge([],labelList.filter(item=>item.selected));
+    console.log(submitLabels);
+    submitSubject(problemId,submitId,title,content,submitLabels)
       .then(res => {
         if (res.code === 200) {
           if(_.isNumber(res.msg)){
@@ -140,12 +157,18 @@ export default class WriteSubject extends React.Component<any,any> {
     }, 1000);
   }
 
+  clickLabel(selected,seq){
+    console.log(selected,seq);
+    const {data} = this.state;
+    let labels = _.get(data,"labelList");
+    console.log(labels);
+    this.setState({data:_.merge({},data,{labelList:_.set(_.merge([],labels),`[${seq}].selected`,!selected)})});
+  }
+
 
   render() {
-    const {challenge,location,dispatch} = this.props;
-    const {challengeId, planId} = location.query;
     const {data} = this.state;
-    const {content, submitId, moduleId, picList = [], desc,title} = data;
+    const {content, submitId, picList = [], desc,title, labelList=[]} = data;
     const renderDoWorkArea = () => {
       return (
         <div className="doWorkArea">
@@ -154,6 +177,16 @@ export default class WriteSubject extends React.Component<any,any> {
           <input className="title-area" value={title}
                  placeholder="请输入标题"
                  onChange={(e)=>this.setState({data:_.merge({},data,{title:e.currentTarget.value})})}/>
+          <div className="label-container">
+            <span className="tips">选择标签:</span>
+            {
+              labelList.map((item,seq)=>{
+                return (
+                  <div key={seq} className={`label-item ${item.selected?"selected":''}`} style={{marginLeft:`10px`,marginRight:`10px`}} onClick={()=>this.clickLabel(item.selected,seq)}>{item.name}</div>
+                )
+              })
+            }
+          </div>
           <textarea cols="30" rows="10"
                     placeholder="请输入你要分享的内容"
                     value={content}
@@ -167,14 +200,14 @@ export default class WriteSubject extends React.Component<any,any> {
           </div>
           <div className="picContainer">
             <ul className="picList">
-              {picList.map((pic, sequence) => {
+              {picList?picList.map((pic, sequence) => {
                 // 循环存放picList
                 return (
                   <li key={sequence} className="picItem">
                     <img src={pic}/>
                   </li>
                 )
-              })}
+              }):null}
             </ul>
           </div>
         </div>
