@@ -63,7 +63,7 @@ export default class PicUpload extends React.Component<any,any>{
           // 支持的图片类型
           // 再走其他判断逻辑
         } else {
-          this.alertMsg("该图片类型不支持,请转换为一下类型:"+this.supportTypes.toString());
+          this.alertMsg("该图片类型不支持,请转换为以下类型:"+this.supportTypes.toString());
           return false;
         }
       } else {

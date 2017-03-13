@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {List, ListItem,makeSelectable} from 'material-ui/List';
 import * as _ from "lodash";
-import "./Fragment.less"
+import "./ProblemList.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
@@ -90,26 +90,25 @@ export default class Fragment extends React.Component<any,any> {
 
       if(_.isEqual(Number(status),1) || _.isEqual(Number(status),2)){
         if(_.isEqual(Number(curId),id)){
-          return "listItem-choose-running"
+          return "listItem running-chose"
         } else {
-          return "listItem-running"
+          return "listItem running"
         }
       } else if(_.isEqual(Number(status),3)) {
         if(_.isEqual(Number(curId),id)){
-          return "listItem-choose-done"
+          return "listItem done-chose"
         } else {
-          return "listItem-done"
+          return "listItem done"
         }
       } else {
         if(_.isEqual(Number(curId),id)){
-          return "listItem-choose-lock"
+          return "listItem lock-chose"
         } else {
-          return "listItem-lock"
+          return "listItem lock"
         }
       }
     }
     const textItem = (item) => {
-      console.log(navClassName(item.status,activeProblemId,item.id));
       return <div key={item.id}
                   className={navClassName(item.status,activeProblemId,item.id)}>{item.problem}
         {_.isEqual(Number(activeProblemId), item.id) ?
@@ -124,10 +123,6 @@ export default class Fragment extends React.Component<any,any> {
         </div>
       )
     };
-
-    const icon={
-      running:<div>running</div>
-    }
 
     const renderProblemList = () => {
       return (

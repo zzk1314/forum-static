@@ -23,10 +23,6 @@ export default class Main extends React.Component<any, any> {
     this.state = {open: false};
   }
 
-
-  componentWillMount(){
-  }
-
   closeBaseAlert(){
     const {dispatch} = this.props;
     dispatch(set("base.showModal",false));
@@ -57,44 +53,32 @@ export default class Main extends React.Component<any, any> {
       }
     }
 
-    const renderLogo = () => {
-      return (
-        <div className="logoContainer">
-          <img style={{width:"36px",marginTop:"5px"}} src={imgSrc.logo}/>
-          <span className="logoName">圈外</span>
-        </div>
-      )
-    };
-
-    // 这里是设置容器的的
-    const renderBanner = () => {
-      return (
-        <Toolbar style={style.banner}>
-          <ToolbarGroup >
-            {renderLogo()}
-            <FlatButton
-              labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
-              label="首页"
-            />
-            <FlatButton
-              labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
-              onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
-              label="Rise"
-            />
-          </ToolbarGroup>
-          <ToolbarGroup>
-            {renderAvatar()}
-          </ToolbarGroup>
-        </Toolbar>
-      )
-    }
 
     return (
       <MuiThemeProvider>
         <div className="container">
           <div className="topBannerContainer">
-            {renderBanner()}
+            <Toolbar style={style.banner}>
+              <ToolbarGroup >
+                <div className="logoContainer">
+                  <img style={{width:"36px",marginTop:"5px"}} src={imgSrc.logo}/>
+                  <span className="logoName">圈外</span>
+                </div>
+                <FlatButton
+                  labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
+                  onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
+                  label="首页"
+                />
+                <FlatButton
+                  labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
+                  onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
+                  label="Rise"
+                />
+              </ToolbarGroup>
+              <ToolbarGroup>
+                {renderAvatar()}
+              </ToolbarGroup>
+            </Toolbar>
           </div>
           {this.props.children}
           <AlertMessage open={this.props.base.showModal}

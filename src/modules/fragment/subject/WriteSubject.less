@@ -1,0 +1,99 @@
+.write-subject-container {
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  .doWorkArea {
+    .desc {
+      margin-top: 20px;
+      color: #333333;
+      font-size: 16px;
+      line-height: 28px;
+      margin-bottom:20px;
+    }
+    .title-area{
+      outline: none;
+      border: 1px  #cccccc;
+      width: 98%;
+      padding: 1%;
+      resize: none;
+      font-size:16px;
+      color:#333333;
+      border-style:solid solid dashed solid;
+      &:-moz-placeholder{
+        color:#999999;
+      }
+      &:-ms-input-placeholder{
+        color:#999999;
+      }
+      &::-webkit-input-placeholder{
+        color:#999999;
+      }
+      &+textarea{
+        border-top:none;
+      }
+    }
+    .myWorkTitle {
+      margin-top: 20px;
+      color: #999999;
+      font-size: 26px;
+      &:before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-radius: 10px;
+        display: inline-block;
+        background-color: #55cbcb;
+        margin-right: 10px;
+        vertical-align: middle;
+        margin-top: -3px;
+      }
+    }
+    .tipTitle {
+      color: #55cbcb;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .tips {
+      font-size: 12px;
+      margin-top: -2px;
+      line-height: 26px;
+    }
+    textarea {
+      outline: none;
+      border: 1px solid #cccccc;
+      width: 98%;
+      padding: 1%;
+      resize: none;
+      font-size: 16px;
+      overflow-y: auto;
+      height: 360px;
+    }
+    .submitBtnGroup {
+      margin: 20px auto;
+    }
+    .picContainer {
+      .picList {
+        margin: 0 auto 120px;
+        list-style-type: none;
+        overflow: hidden;
+        padding:0;
+        padding-left:24px;
+        display: block;
+        li:nth-child(2n+3) {
+          clear: both;
+        }
+        .picItem {
+          margin: 0 -5px 5px -5px;
+          padding: 0 13px 0 5px;
+          float: left;
+          width: 300px;
+          img {
+            display: block;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+
+  }
+}

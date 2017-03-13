@@ -58,22 +58,7 @@ export default class ChallengeList extends React.Component<any,any> {
           this.context.router.push({pathname: "/servercode"});
           throw new Stop();
         }
-      }).then(() => {
-      return loadOtherChallenge(cid)
-        .then(res => {
-          if (res.code === 200) {
-            this.setState({other: res.msg, otherLoading: false});
-            if(scrollValue){
-              console.log(scrollValue);
-              scroll(scrollValue.x,scrollValue.y);
-              dispatch(set("page.scroll",{x:0,y:0}));
-            }
-          } else {
-            this.setState({otherLoading: false});
-            throw new BreakSignal(res.msg, "提示");
-          }
-        })
-    }).catch(err => {
+      }).catch(err => {
       console.log("catch", err);
       if (err instanceof BreakSignal) {
         dispatch(alertMsg(err.title, err.msg));
@@ -125,7 +110,7 @@ export default class ChallengeList extends React.Component<any,any> {
     const challengeId = _.get(this.props.location, "query.challengeId");
     const planId = _.get(this.props.location, "query.planId");
 
-    const renderMine = () => {
+    const perfectListrenderMine = () => {
       const {mine = {}} = this.state;
       console.log(mine);
       return (
@@ -135,20 +120,7 @@ export default class ChallengeList extends React.Component<any,any> {
         </div>
       )
     }
-    const renderOther = () => {
-      const {other = []} = this.state;
 
-      return (
-        <div className="otherContainer">
-          {other.map((item, index) => {
-            const {submitId} = item;
-            return (
-              <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
-            )
-          })}
-        </div>
-      )
-    }
     return (
       <div className="challengeListContainer">
         <div className="myChallengeContainer">
@@ -157,12 +129,6 @@ export default class ChallengeList extends React.Component<any,any> {
           </div>
           <Divider style={style.divider}/>
           {this.state.mineLoading ?<VerticalBarLoading/>: renderMine()}
-        </div>
-        <div className="myChallengeContainer">
-          <div className="title">
-            <span className="title-text">群众的智慧</span>
-          </div>
-          {this.state.otherLoading ?<VerticalBarLoading/>: renderOther()}
         </div>
       </div>
     )

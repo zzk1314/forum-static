@@ -3,16 +3,24 @@ var webpack = require("webpack")
 
 module.exports = {
 	devtool: false, // 增加开发速度
-	entry: [
-		"./src/index.tsx"
-	],
+	// entry: [
+	// 	"./src/index.tsx"
+	// ],
+  entry: {
+    'pc_bundle':"./src/index.tsx",
+    'vendor':['react','react-dom','react-redux']
+  },
 	output: {
 		path: path.join(__dirname, "__build__"),
-		filename: "pc_bundle.js",
+		filename: "[name].js",
 		publicPath: "/",
 		chunkFilename: "[id].chunk.js"
 	},
 	plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      chunks: ["pc_bundle", "vendor"]
+    }),
 		new webpack.DefinePlugin({
 			"process.env.NODE_ENV": JSON.stringify("production")
 		}),

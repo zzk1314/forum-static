@@ -32,9 +32,15 @@ export function submitComment(type,submitId,content){
 export const CommentType = {
   Challenge:1,
   Application:2,
+  Subject:3,
 }
 
 export const VoteType = {
   Challenge:1,
   Application:2,
+  Subject:3,
+}
+
+export const PictureModule = {
+  Subject:4,
 }

@@ -1,6 +1,5 @@
 import * as React from "react"
-import "./CommentList.less"
-import Avatar from 'material-ui/Avatar';
+import Author from './Author'
 
 export default class CommentList extends React.Component {
   constructor(props) {
@@ -9,43 +8,42 @@ export default class CommentList extends React.Component {
 
   render() {
     const {comments = []} = this.props;
-
-    const renderAvatar = (headPic,upName,upTime) => {
-      return (
-        <div className="author">
-          <div className="avatar">
-            <Avatar
-              src={headPic}
-              size={30}
-            />
-          </div>
-          <div className="upInfo">
-            <div className="upName">{upName}</div>
-            <div className="upTime">{upTime + "上传"}</div>
-          </div>
-        </div>)
-    }
-
-    const renderContent = (content)=>{
-      return (
-        <pre className="commentContent">
-          {content}
-        </pre>
-      )
-    }
-
-    const renderComment = (comment,index) => {
-      const {headPic,upName,upTime,content} = comment;
-      return (
-        <div className="comment" key={index}>
-          {renderAvatar(headPic,upName,upTime)}
-          {renderContent(content)}
-        </div>)
-    }
-
     return (
       <div className="comment-list">
-        {comments.map((item,index)=>renderComment(item,index))}
+        {comments.map((item,index)=><Comment {...item} index />)}
+      </div>
+    )
+  }
+}
+
+class Comment extends React.Component{
+  constructor(props){
+    super(props);
+    this.style = {
+      comment:{
+        marginBottom: '20px',
+        paddingBottom: '20px',
+        borderBottom: '1px solid #f5f5f5',
+      },
+      commentContent:{
+        marginTop: '18px',
+        color: '#666666',
+        fontSize: '16px',
+        marginLeft: '5px',
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+      }
+    }
+  }
+
+  render(){
+    const {headPic,upName,upTime,index,content} = this.props;
+    return (
+      <div style={this.style.comment} key={index}>
+        <Author headPic={headPic} upName={upName} upTime={upTime}/>
+        <pre style={this.style.commentContent}>
+          {content}
+        </pre>
       </div>
     )
   }
