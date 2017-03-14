@@ -75,7 +75,7 @@ export default class Login extends React.Component<any, any> {
         case "QR_CREATE": {
           console.log("创建二维码");
           this.showMsg("即将加载二维码，请稍后");
-          this.setState({qrPicUrl: data.picUrl});
+          this.setState({qrPicUrl: data.msg});
           this.timer = setTimeout(() => this.refreshQRCode(), 60000);
           break;
         }
@@ -175,9 +175,9 @@ export default class Login extends React.Component<any, any> {
     setTimeout(() => {
       if (this.props.location.query.callbackUrl) {
         console.log(this.props.location.query.callbackUrl);
-        window.location.href =  `http://${window.location.host}?callbackUrl=${this.props.location.query.callbackUrl}&key=${key}`;
+        window.location.href =  `http://${window.location.hostname}/account/login?callbackUrl=${this.props.location.query.callbackUrl}&key=${key}`;
       } else {
-        window.location.href = `http://${window.location.host}?callbackUrl=http://${window.location.host}`;
+        window.location.href = `http://${window.location.hostname}/account/login?callbackUrl=http://${window.location.host}`;
       }
     }, 2000)
   }
