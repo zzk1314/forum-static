@@ -1,7 +1,7 @@
 import {pget,ppost} from "../../../utils/request"
 
-export function loadSubjectList(problemId){
-  return pget(`/pc/fragment/subject/list?problemId=${problemId}`);
+export function loadSubjectList(problemId,page){
+  return pget(`/pc/fragment/subject/list`,{problemId:problemId,page:page});
 }
 
 export function loadSubject(submitId){

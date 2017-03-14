@@ -40,20 +40,18 @@ export default class ApplicationList extends React.Component<any,any> {
       title:null,
       perfectList:[],
       normalList:[],
+      end:false,
+      page:1
     }
   }
 
+  ajaxLoadSubjectList(problemId,page,dispatch){
 
-  componentWillMount() {
-    // 加载个人作业
-    const {location, dispatch, page,activeProblemId} = this.props;
-    const problemId = _.get(location, "query.problemId");
-    const scrollValue = _.get(page,"scroll");
-    this.setState({perfectLoading: true, otherLoading: true});
-    loadSubjectList(problemId || activeProblemId)
+    loadSubjectList(problemId,page)
       .then(res => {
         if (res.code === 200) {
-          const list = res.msg;
+          console.log(res.msg);
+          const list = res.msg.list;
           let perfectList = [];
           let normalList = [];
           if(list && list.length!==0){
@@ -62,13 +60,13 @@ export default class ApplicationList extends React.Component<any,any> {
               item.perfect?perfectList.push(item):normalList.push(item);
             });
           }
-          this.setState({perfectList: perfectList, normalList: normalList,perfectLoading: false,otherLoading:false})
+          this.setState({perfectList: this.state.perfectList.concat(perfectList), normalList: this.state.normalList.concat(normalList),perfectLoading: false,otherLoading:false,end:res.msg.end,page:page})
           return res.msg;
         } else if(res.code === 401) {
           this.context.router.push({
             pathname:"/login",
             query:{
-              callbackUrl:`/fragment/application/list?applicationId=${applicationId}&planId=${planId}`
+              callbackUrl:`/fragment/subject/list?problemId=${problemId}`
             }
           })
         } else {
@@ -86,6 +84,16 @@ export default class ApplicationList extends React.Component<any,any> {
         dispatch(alertMsg(err + ""));
       }
     })
+  }
+
+
+  componentWillMount() {
+    // 加载个人作业
+    const {location, dispatch, page,activeProblemId} = this.props;
+    const problemId = _.get(location, "query.problemId");
+    const scrollValue = _.get(page,"scroll");
+    this.setState({perfectLoading: true, otherLoading: true});
+    this.ajaxLoadSubjectList(problemId || activeProblemId,1,dispatch)
   }
 
   onShowClick(submitId) {
@@ -125,10 +133,19 @@ export default class ApplicationList extends React.Component<any,any> {
     })
   }
 
+  showMore(){
+    // 加载个人作业
+    const {location, dispatch, page,activeProblemId} = this.props;
+    const problemId = _.get(location, "query.problemId");
+    const scrollValue = _.get(page,"scroll");
+    this.setState({perfectLoading: true, otherLoading: true});
+    this.ajaxLoadSubjectList(problemId || activeProblemId,this.state.page + 1,dispatch)
+  }
+
 
   render() {
     const problemId = _.get(this.props.location, "query.problemId");
-    const {perfectList = [],normalList=[],perfectLoading,otherLoading} = this.state;
+    const {perfectList = [],normalList=[],perfectLoading,otherLoading,end} = this.state;
 
 
     const renderControl = (item) => {
@@ -222,6 +239,9 @@ export default class ApplicationList extends React.Component<any,any> {
               </div>
             )
           })}
+        </div>
+        <div className="more">
+          {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
         </div>
       </div>
     )
