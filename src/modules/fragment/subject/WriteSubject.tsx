@@ -122,6 +122,13 @@ export default class WriteSubject extends React.Component<any,any> {
       this.showAlert("标题未输入","提示");
       return;
     }
+
+    if(title.length > 64){
+      this.showAlert("标题最多输入64个字哦");
+      return;
+    }
+
+
     // 根据 cid和planid加载 problemId,submitId,title,content,labels
     let submitLabels = _.merge([],labelList.filter(item=>item.selected));
     console.log(submitLabels);
