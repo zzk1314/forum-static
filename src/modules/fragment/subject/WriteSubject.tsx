@@ -7,10 +7,19 @@ import PicUpload from "../../../components/PicUpload"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+import Divider from 'material-ui/Divider';
 import {loadSubject,submitSubject,loadLabels} from "./async"
 import {PictureModule} from "../async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
+import {imgSrc} from "../../../utils/imgSrc"
 
+const reg = /[^\/]*$/;
+const style = {
+  divider: {
+    backgroundColor: "#f5f5f5",
+    marginLeft: "-8px"
+  },
+}
 @connect(state => state)
 export default class WriteSubject extends React.Component<any,any> {
 
@@ -31,6 +40,8 @@ export default class WriteSubject extends React.Component<any,any> {
       data:{
         content:"",
         title:"",
+        picList:[],
+        labelList:[],
       },
     }
   }
@@ -95,13 +106,12 @@ export default class WriteSubject extends React.Component<any,any> {
    * 上传图片成功
    */
   onUploadSuccess(url) {
-    const {location} = this.props;
-    const data = this.state;
-    const {picList = []} = data;
-    let temp = [];
-    picList.forEach(item => temp.push(item));
-    temp.push(url);
-    this.setState({data:_.merge({},data,{picList:temp})});
+    const {data} = this.state;
+    let picList = _.get(data,"picList",[]);
+    if(!picList){
+      picList = [];
+    }
+    this.setState({data:_.merge({},data,{picList:picList.concat([url])})});
   }
 
 
@@ -112,7 +122,7 @@ export default class WriteSubject extends React.Component<any,any> {
     const {location,dispatch} = this.props;
     const {problemId, submitId} = location.query;
     const {data} = this.state;
-    const {content, title,labelList} = data;
+    const {content, title,labelList,picList = []} = data;
     if (_.isEmpty(content)) {
       this.showAlert("内容未输入","提示");
       return;
@@ -131,8 +141,9 @@ export default class WriteSubject extends React.Component<any,any> {
 
     // 根据 cid和planid加载 problemId,submitId,title,content,labels
     let submitLabels = _.merge([],labelList.filter(item=>item.selected));
-    console.log(submitLabels);
-    submitSubject(problemId,submitId,title,content,submitLabels)
+    let updatePicList = [].concat(picList.map(item=>reg.exec(item)[0]));
+    console.log(updatePicList);
+    submitSubject(problemId,submitId,title,content,submitLabels,updatePicList)
       .then(res => {
         if (res.code === 200) {
           if(_.isNumber(res.msg)){
@@ -175,11 +186,23 @@ export default class WriteSubject extends React.Component<any,any> {
 
   render() {
     const {data} = this.state;
+    const {location} = this.props;
     const {content, submitId, picList = [], desc,title, labelList=[]} = data;
     const renderDoWorkArea = () => {
       return (
         <div className="doWorkArea">
-          <div className="myWorkTitle">精华分享区</div>
+          {/*<div className="myWorkTitle">精华分享区</div>*/}
+          <div className="backContainer">
+          <span onClick={()=>{
+            this.context.router.push({
+              pathname: "/fragment/subject/list/mine",
+              query: {
+                problemId: location.query.problemId
+              }
+            })
+            }} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
+            <Divider style={style.divider}/>
+          </div>
           <div className="desc" dangerouslySetInnerHTML={{__html:desc}}></div>
           <input className="title-area" value={title}
                  placeholder="请输入标题"

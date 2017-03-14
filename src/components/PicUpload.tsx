@@ -48,7 +48,7 @@ export default class PicUpload extends React.Component<any,any>{
   beforeUpload(file,files){
     if(file){
       // 检查moduleId和ReferencedId是否存在
-      if(!this.props.moduleId || !this.props.referencedId){
+      if(!this.props.moduleId){
         this.alertMsg("上传失败,请检查网页链接是否正确");
         return false;
       }
@@ -100,7 +100,7 @@ export default class PicUpload extends React.Component<any,any>{
     return (
       <div>
         <Upload className="upload"
-                action={`/file/image/upload/${this.props.moduleId}/${this.props.referencedId}`} onSuccess={(response,file)=>{this.onSuccess(response,file);}}
+                action={`/file/image/upload/${this.props.moduleId}/${this.props.referencedId || -1}`} onSuccess={(response,file)=>{this.onSuccess(response,file);}}
                 onError={(err,response,file) => {this.onError(err,response,file);}}
                 beforeUpload={(file,files)=>{return this.beforeUpload(file,files);}}
                 onStart={(file)=>{this.onStart(file);}}
