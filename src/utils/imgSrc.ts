@@ -15,4 +15,9 @@ export const imgSrc={
   navDoneChoice:"http://www.iquanwai.com/images/pcNavDoneChoice.png",
   navLock:"http://www.iquanwai.com/images/pcNavLock.png",
   navLockChoice:"http://www.iquanwai.com/images/pcNavLockChoice.png",
+  catalogStar:"http://www.iquanwai.com/images/pcCatalogStar.png",
+  catalogLatest:"http://www.iquanwai.com/images/pcCatalogLastest.png",
+  catalogGoal:"http://www.iquanwai.com/images/pcCatalogGoal.png",
+  catalogApp:"http://www.iquanwai.com/images/pcCatalogApp.png",
+  perfect:"http://www.iquanwai.com/images/pcPerfect.png",
 }

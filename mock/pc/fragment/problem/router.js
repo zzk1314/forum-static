@@ -22,36 +22,36 @@ router.get("/pc/fragment/problem/list", (req, res) => {
 });
 
 
-router.get("/pc/fragment/problem/current", (req, res) => {
-  setTimeout(() => {
-    res.status(200).json({
-      "msg": {
-        "id": 4,
-        "status": 1,
-        "pay": true,
-        "problem": null,
-        "pic": null,
-        "challengeList": [{
-          "id": 4,
-          "description": "描述描述描述",
-          "pic": null,
-          "problemId": 4,
-          "submitted": true,
-          "content": "egwegrqr",
-          "picList": null,
-          "submitId": 48,
-          "moduleId": null,
-          "headImg": null,
-          "upName": null,
-          "upTime": null,
-          "voteCount": null,
-          "canVote": null,
-          "planId": null
-        }]
-      }, "code": 200
-    });
-  }, Math.random() * 1500);
-});
+// router.get("/pc/fragment/problem/current", (req, res) => {
+//   setTimeout(() => {
+//     res.status(200).json({
+//       "msg": {
+//         "id": 4,
+//         "status": 1,
+//         "pay": true,
+//         "problem": null,
+//         "pic": null,
+//         "challengeList": [{
+//           "id": 4,
+//           "description": "描述描述描述",
+//           "pic": null,
+//           "problemId": 4,
+//           "submitted": true,
+//           "content": "egwegrqr",
+//           "picList": null,
+//           "submitId": 48,
+//           "moduleId": null,
+//           "headImg": null,
+//           "upName": null,
+//           "upTime": null,
+//           "voteCount": null,
+//           "canVote": null,
+//           "planId": null
+//         }]
+//       }, "code": 200
+//     });
+//   }, Math.random() * 1500);
+// });
 
 router.get("/pc/fragment/problem/curId", (req, res) => {
   setTimeout(() => {

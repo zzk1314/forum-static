@@ -1,8 +1,8 @@
 import * as React from "react"
-import "./ShowChallenge.less"
+import "./ShowSubject.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
-import {loadChallengeSubmit} from "./async"
+import {loadSubject} from "./async"
 import {vote, loadComments, submitComment,VoteType,CommentType} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
@@ -41,7 +41,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       tipVote: false,
       tipDisVote: false,
       challengeId: null,
-      planId: null,
       picList: [],
       commentList: [],
       page: 1,
@@ -62,8 +61,9 @@ export default class ShowChallenge extends React.Component<any,any> {
     // 获取id
     const submitId = _.get(location, "query.submitId", -1);
     if (!_.isEqual(submitId, -1)) {
+      console.log("submit", submitId);
       // 获取成功
-      loadChallengeSubmit(submitId)
+      loadSubject(submitId)
         .then((res) => {
           console.log("submit", res);
           if (res.code === 200) {
@@ -78,7 +78,6 @@ export default class ShowChallenge extends React.Component<any,any> {
               isMine: res.msg.isMine,
               voteCount: res.msg.voteCount,
               voteStatus: res.msg.voteStatus,
-              planId: res.msg.planId,
               challengeId: res.msg.workId,
               picList: res.msg.picList,
             })
@@ -91,7 +90,7 @@ export default class ShowChallenge extends React.Component<any,any> {
           dispatch(alertMsg(err + ""));
         }
       })
-      loadComments(CommentType.Challenge, submitId, this.state.page)
+      loadComments(CommentType.Subject, submitId, this.state.page)
         .then(res => {
           if (res.code === 200) {
             console.log(res);
@@ -116,12 +115,15 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   goEdit(e) {
+    const {location, dispatch} = this.props;
     // 进入修改页面
-    const {planId, isMine, challengeId} = this.state;
-    if (isMine && planId && challengeId) {
+    const submitId = _.get(location, "query.submitId");
+    const problemId = _.get(location,"query.problemId");
+    const { isMine } = this.state;
+    if (isMine && submitId) {
       this.context.router.push({
-        pathname: "/fragment/challenge",
-        query: {planId: planId, challengeId: challengeId}
+        pathname: "fragment/subject/write",
+        query: {submitId,problemId}
       })
     } else {
       console.error("返回失败，出现异常");
@@ -145,7 +147,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         // 点赞
         status = 1;
       }
-      vote(submitId, status, VoteType.Challenge)
+      vote(submitId, status, VoteType.Subject)
         .then(res => {
           if (_.isEqual(res.code, 200)) {
             // 成功
@@ -193,7 +195,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     if (_.isNumber(page) && _.isNumber(submitId)) {
       const oldList = _.get(this.state, "commentList");
       if(hasMore) {
-        loadComments(CommentType.Challenge, submitId, page)
+        loadComments(CommentType.Subject, submitId, page)
           .then(res => {
             if (res.code === 200) {
               const {list, count} = res.msg;
@@ -220,7 +222,7 @@ export default class ShowChallenge extends React.Component<any,any> {
       this.showMsg("请先输入评论内容再提交!");
       return;
     } else {
-      submitComment(CommentType.Challenge, submitId, comment)
+      submitComment(CommentType.Subject, submitId, comment)
         .then(res => {
           if (res.code == 200) {
             let newArr = [];
@@ -242,8 +244,6 @@ export default class ShowChallenge extends React.Component<any,any> {
   render() {
     const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [], hasMore} = this.state;
     const {location} = this.props;
-    const challengeId = _.get(location, "query.challengeId");
-    const planId = _.get(location, "query.planId");
 
     const renderEdit = () => {
       if (isMine) {
@@ -254,17 +254,13 @@ export default class ShowChallenge extends React.Component<any,any> {
       }
     }
     return (
-      <div className="showContainer">
+      <div className="subject-container">
         <div className="backContainer">
           <span onClick={()=>{
-            console.log(planId,challengeId);
             this.context.router.push({
-            pathname:'/fragment/challenge/list',
-            query:{
-              planId:planId,
-              challengeId:challengeId
-            }
-          })}} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
+              pathname:'/fragment/subject/list',
+              query:{problemId:location.query.problemId}
+            })}} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
@@ -303,30 +299,30 @@ export default class ShowChallenge extends React.Component<any,any> {
             </ul>
           </div>
         </div>
-        {/*<div className="voteContainer">*/}
-          {/*{this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}*/}
-          {/*{this.state.tipDisVote ?<div className="disVoteTip">您已取消点赞</div>: null}*/}
-          {/*<Chip*/}
-            {/*onTouchTap={(e)=>this.clickVote(e)}*/}
-            {/*className="chipRoot"*/}
-            {/*style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}*/}
-          {/*>*/}
-            {/*<div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">*/}
-              {/*<img src={voteStatus?imgSrc.voteWhite:imgSrc.voted}*/}
-                   {/*className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span*/}
-              {/*style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span*/}
-              {/*className="voteCount">{voteCount}</span></div>*/}
-          {/*</Chip>*/}
-        {/*</div>*/}
-        {/*{commentList.length > 0 ?<Divider style={style.divider}/>: null}*/}
-        {/*<div className="commentContainer">*/}
-          {/*<CommentList comments={commentList}/>*/}
-          {/*{hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}*/}
-          {/*{window.ENV.openComment?<div className="commentSubmit">*/}
-            {/*<textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>*/}
-            {/*<div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>*/}
-          {/*</div>:null}*/}
-        {/*</div>*/}
+        <div className="voteContainer">
+          {this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}
+          {this.state.tipDisVote ?<div className="disVoteTip">您已取消点赞</div>: null}
+          <Chip
+            onTouchTap={(e)=>this.clickVote(e)}
+            className="chipRoot"
+            style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}
+          >
+            <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">
+              <img src={voteStatus?imgSrc.voteWhite:imgSrc.voted}
+                   className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
+              style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span
+              className="voteCount">{voteCount}</span></div>
+          </Chip>
+        </div>
+        {commentList.length > 0 ?<Divider style={style.divider}/>: null}
+        <div className="commentContainer">
+          <CommentList comments={commentList}/>
+          {hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}
+          {window.ENV.openComment?<div className="commentSubmit">
+            <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>
+            <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
+          </div>:null}
+        </div>
         <Snackbar
           contentStyle={{textAlign:"center"}}
           open={this.state.snackOpen}

@@ -14,7 +14,7 @@ export default class WorkItem extends React.Component<any,any> {
 
 
   render() {
-    const {headPic, upName, upTime, content, voteCount, onEditClick, onShowClick} = this.props;
+    const {headPic, upName, upTime, content, voteCount, onEditClick, onShowClick,showVote = true} = this.props;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
         // 不修改，使其他人的作业
@@ -50,9 +50,9 @@ export default class WorkItem extends React.Component<any,any> {
             </div>
           </div>
           <div className="rightArea">
-            <div className="voteContainer">
+            {showVote?<div className="voteContainer">
               <img src={imgSrc.disVote}/> <span className="vote">{voteCount}</span>
-            </div>
+            </div>:null}
           </div>
         </div>
         <div className="workContentContainer">

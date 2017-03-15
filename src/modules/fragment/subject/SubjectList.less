@@ -1,0 +1,145 @@
+.subject-list{
+  margin:20px;
+  > .subject-header{
+    height: 30px;
+    margin-bottom: 15px;
+    > .title{
+      float:left;
+      font-size:26px;
+      color:#999999;
+    }
+    > .mine{
+      float:right;
+      cursor: pointer;
+      width:90px;
+      height:30px;
+      border-radius:4px;
+      background-color:#55cbcb;
+      font-size:16px;
+      line-height:30px;
+      text-align: center;
+      color:#ffffff;
+    }
+  }
+  > .list {
+    min-height:100px;
+    > .header {
+      font-size: 18px;
+      line-height: 20px;
+      margin-top: 20px;
+      margin-bottom:20px;
+      color:#666666;
+      &:before {
+        content: '';
+        display: inline-block;
+        line-height: 18px;
+        width: 20px;
+        height: 20px;
+        float: left;
+        margin-right: 6px;
+      }
+      &.perfect:before {
+        background: url("http://www.iquanwai.com/images/pcPerfect.png") no-repeat center center;
+      }
+      &.normal:before {
+        background: url("http://www.iquanwai.com/images/pcCatalogLastest.png") no-repeat center center/20px 20px;
+      }
+    }
+    > .item {
+      padding-top:20px;
+      position: relative;
+      > .header {
+        overflow: hidden;
+        > .title{
+          display: inline-block;
+          font-size:22px;
+          line-height:22px;
+          float: left;
+          margin-bottom:10px;
+          color:#666666;
+        }
+        > .info{
+          float: right;
+          display: inline-block;
+          color:#999999;
+          > .vote-count{
+            display: inline-block;
+            &:before {
+              content: '';
+              display: inline-block;
+              line-height: 18px;
+              width: 13px;
+              height: 18px;
+              float: left;
+              background: url("http://www.iquanwai.com/images/pcDisVote.png") no-repeat center center/100% auto;
+              margin-right: 4px;
+            }
+          }
+          > .comment-count{
+            display: inline-block;
+            margin-left:10px;
+            &:before {
+              content: '';
+              display: inline-block;
+              line-height: 18px;
+              width: 13px;
+              height: 13px;
+              margin-top:5px;
+              float: left;
+              background: url("http://www.iquanwai.com/images/iconComment.png") no-repeat center center/100% auto;
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+      > .up-info {
+        margin-bottom:10px;
+        img{
+          vertical-align: middle;
+          margin-right:5px;
+        }
+        > .up-name {
+          display: inline-block;
+          font-size: 16px;
+          color: #333333;
+          line-height: 18px;
+          margin-right: 10px;
+        }
+        > .up-time {
+          display: inline-block;
+          color: #999999;
+          font-size: 12px;
+        }
+      }
+      > .content {
+        font-size: 16px;
+        line-height: 23px;
+        color: #666666;
+        margin-bottom:30px;
+        word-wrap: break-word;
+        -ms-word-break:break-word;
+      }
+      .control-container{
+        position: absolute;
+        right: 5px;
+        bottom: 0px;
+        margin-bottom: 35px;
+        color:#55cbcb;
+        font-size:16px;
+        .show{
+          cursor: pointer;
+        }
+        .edit{
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  > .more{
+    text-align: center;
+    margin-top:20px;
+    span{
+      cursor:pointer;
+    }
+  }
+}

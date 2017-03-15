@@ -141,8 +141,8 @@ export default class DoApplication extends React.Component<any,any> {
           <div className="desc" dangerouslySetInnerHTML={{__html:description}}></div>
           <div className="tipTitle">小提示</div>
           <div className="tips">
-            完成任务，获得相应的积分。<br/>
-            深度内容更易收到点赞，也会累计积分。
+            结合相关知识点分析问题<br/>
+            优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分
           </div>
           <textarea cols="30" rows="10"
                     value={content}
