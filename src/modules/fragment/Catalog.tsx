@@ -171,15 +171,14 @@ export default class Catalog extends React.Component<any,any> {
 
     return (
       <div className="catalog">
-        <div onClick={()=>this.goSubject()} className="item-container">
+        <div onClick={()=>this.goSubject()} className="item-container" style={{cursor: 'pointer'}}>
           <div className="title subject">精华分享</div>
           <div className="content">深度好文·遇见大咖·分享心得</div>
           <div className="detail">
-            <div className="score">30积分</div>
             <div className="go">记录更多</div>
           </div>
         </div>
-        <div onClick={()=>this.goGoal(challengeList)} className="item-container">
+        <div onClick={()=>this.goGoal(challengeList)} className="item-container" style={{cursor: 'pointer'}}>
           <div className="title goal">小目标</div>
           <div className="content">设定目标·记录进展·回顾总结</div>
           <div className="detail">
@@ -194,7 +193,7 @@ export default class Catalog extends React.Component<any,any> {
               <VerticalBarLoading/>:
               this.state.applicationList.map((item,seq) =>{
                 return (
-                  <div key={seq} onClick={()=>this.goApp(item.status,item.unlocked,item.planId,item.workId)} className="item">
+                  <div key={seq} style={{cursor: 'pointer'}} onClick={()=>this.goApp(item.status,item.unlocked,item.planId,item.workId)} className="item">
                     <div className="content">
                       {item.title}
                     </div>

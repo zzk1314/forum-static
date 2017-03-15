@@ -116,7 +116,7 @@ export default class ChallengeList extends React.Component<any,any> {
       return (
         <div className="mineContainer">
           <WorkItem  {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}
-                               onEditClick={()=>this.onEditClick(challengeId,planId)}/>
+                               onEditClick={()=>this.onEditClick(challengeId,planId)} showVote={false}/>
         </div>
       )
     }
