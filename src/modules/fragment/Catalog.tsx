@@ -96,7 +96,7 @@ export default class Catalog extends React.Component<any,any> {
     });
   }
 
-  goApp(status,unlocked,planId,workId,submitId){
+  goApp(status,unlocked,planId,workId){
     if(unlocked){
       if(status === 1){
         this.context.router.push({
@@ -194,7 +194,7 @@ export default class Catalog extends React.Component<any,any> {
               <VerticalBarLoading/>:
               this.state.applicationList.map((item,seq) =>{
                 return (
-                  <div key={seq} onClick={()=>this.goApp(item.status,item.unlocked,item.planId,item.workId,item.submitId)} className="item">
+                  <div key={seq} onClick={()=>this.goApp(item.status,item.unlocked,item.planId,item.workId)} className="item">
                     <div className="content">
                       {item.title}
                     </div>
