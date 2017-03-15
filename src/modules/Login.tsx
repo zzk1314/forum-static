@@ -75,12 +75,12 @@ export default class Login extends React.Component<any, any> {
         case "QR_CREATE": {
           console.log("创建二维码");
           this.showMsg("即将加载二维码，请稍后");
-          this.setState({qrPicUrl: data.picUrl});
+          this.setState({qrPicUrl: data.msg});
           this.timer = setTimeout(() => this.refreshQRCode(), 60000);
           break;
         }
         case "LOGIN_SUCCESS": {
-          const {weixinName, headimgUrl, role = "stranger"} = data.data;
+          const {weixinName, headimgUrl, role = "stranger",key} = data.data;
           this.setState({userName: weixinName, headImage: headimgUrl});
           console.log("login success", weixinName, headimgUrl);
           if (_.isEqual("stranger", role)) {
@@ -90,7 +90,7 @@ export default class Login extends React.Component<any, any> {
             }, 2000);
           } else {
             this.showMsg("恭喜您登录成功,即将跳转到之前页面");
-            this.jumpBack();
+            this.jumpBack(key);
           }
           this.closeSocket();
           break;
@@ -170,14 +170,14 @@ export default class Login extends React.Component<any, any> {
   /**
    *  登录成功，跳到进入登录界面之前的界面
    */
-  jumpBack() {
+  jumpBack(key) {
     //  获得url
     setTimeout(() => {
       if (this.props.location.query.callbackUrl) {
         console.log(this.props.location.query.callbackUrl);
-        window.location.href = this.props.location.query.callbackUrl;
+        window.location.href =  `http://${window.location.hostname}/account/login?callbackUrl=${this.props.location.query.callbackUrl}&key=${key}`;
       } else {
-        window.location.href = "/home";
+        window.location.href = `http://${window.location.hostname}/account/login?callbackUrl=http://${window.location.host}`;
       }
     }, 2000)
   }
