@@ -21,6 +21,15 @@ const style = {
     marginLeft: "-24px",
     width:"120%",
     height:'3px',
+  },
+  mgDivider:{
+    backgroundColor: "#f5f5f5",
+    marginLeft: "-24px",
+    width:"120%",
+    marginBottom:"-10px",
+  },
+  smDivider:{
+    backgroundColor: "#f5f5f5",
   }
 }
 
@@ -178,6 +187,7 @@ export default class ApplicationList extends React.Component<any,any> {
           <div className="header perfect">
             精彩分享
           </div>
+          <Divider style={style.mgDivider}/>
           {perfectLoading?<VerticalBarLoading/>:perfectList.map((item,seq)=>{
             return (
               <div className="item" key={seq}>
@@ -200,7 +210,7 @@ export default class ApplicationList extends React.Component<any,any> {
                   {item.content}
                 </div>
                 {renderControl(item)}
-                <Divider style={style.divider}/>
+                <Divider style={style.smDivider}/>
               </div>
             )
           })}
@@ -213,6 +223,7 @@ export default class ApplicationList extends React.Component<any,any> {
           <div className="header normal">
             最新分享
           </div>
+          <Divider style={style.mgDivider}/>
           {otherLoading?<VerticalBarLoading/>:normalList.map((item,seq)=>{
             return (
               <div className="item" key={seq}>
@@ -235,7 +246,7 @@ export default class ApplicationList extends React.Component<any,any> {
                   {item.content}
                 </div>
                 {renderControl(item)}
-                <Divider style={style.divider}/>
+                <Divider style={style.smDivider}/>
               </div>
             )
           })}

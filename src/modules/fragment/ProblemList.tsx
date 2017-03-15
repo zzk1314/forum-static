@@ -23,11 +23,11 @@ const style = {
     overflow: "hidden",
   },
   firstItem: {
-    margin: "16px auto 50px",
-    padding: "24px 0"
+    margin: "0px auto",
+    padding: "20px 0 25px"
   },
   item: {
-    margin: "50px auto",
+    margin: "0 auto",
     padding: "24px 0"
   },
   itemActive: {
@@ -46,7 +46,7 @@ export default class Fragment extends React.Component<any,any> {
   constructor() {
     super();
     this.state = {
-      problemList: [],
+      problemCatalogs: [],
       doingId: null,
       curProblem: null,
       problemLoading: false,
@@ -55,12 +55,13 @@ export default class Fragment extends React.Component<any,any> {
 
   componentWillMount() {
     // 加载所有作业列表
-    if (!this.state.problemList || _.isEmpty(this.state.problemList)) {
+    if (!this.state.problemCatalogs || _.isEmpty(this.state.problemCatalogs)) {
       // ajax加载
       this.setState({problemLoading: true});
       loadProblems().then(res => {
         if (res.code === 200) {
-          this.setState({problemList: res.msg, problemLoading: false});
+          console.log(res.msg);
+          this.setState({problemCatalogs: res.msg, problemLoading: false});
         }
       });
     } else {
@@ -83,7 +84,7 @@ export default class Fragment extends React.Component<any,any> {
 
 
   render() {
-    const problemList = _.get(this.state, "problemList",[]); // 问题列表，默认为[]
+    const problemCatalogs = _.get(this.state, "problemCatalogs",[]); // 问题列表，默认为[]
     const {activeProblemId} = this.props;
 
     const navClassName = (status,curId,id)=>{
@@ -131,16 +132,24 @@ export default class Fragment extends React.Component<any,any> {
             <div className="listTitle">专题</div>
           </Subheader>
           <Divider style={style.divider}/>
-          {problemList.map((item, index) => {
+          {problemCatalogs.map((catalog, index) => {
+
             return (
-              <ListItem
-                key={index}
-                onClick={()=>this.chooseProblem(item.id)}
-                innerDivStyle={_.isEqual(index,0)?style.firstItem:style.item}
-                children={textItem(item)}
-                value={item.id}
-              >
-              </ListItem>
+              <div className="catalog-area" key={index} style={{marginTop:`${index==0?0:40}px`}}>
+                <div className="catalog-name">{catalog.name}</div>
+                {catalog.problems.map((item,seq)=>{
+                  return (
+                    <ListItem
+                      key={seq}
+                      onClick={()=>this.chooseProblem(item.id)}
+                      innerDivStyle={_.isEqual(seq,0)?style.firstItem:style.item}
+                      children={textItem(item)}
+                      value={item.id}
+                    >
+                    </ListItem>
+                  )
+                })}
+              </div>
             )
           })}
         </List>
