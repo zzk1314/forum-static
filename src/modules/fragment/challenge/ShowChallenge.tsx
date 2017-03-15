@@ -303,30 +303,30 @@ export default class ShowChallenge extends React.Component<any,any> {
             </ul>
           </div>
         </div>
-        <div className="voteContainer">
-          {this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}
-          {this.state.tipDisVote ?<div className="disVoteTip">您已取消点赞</div>: null}
-          <Chip
-            onTouchTap={(e)=>this.clickVote(e)}
-            className="chipRoot"
-            style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}
-          >
-            <div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">
-              <img src={voteStatus?imgSrc.voteWhite:imgSrc.voted}
-                   className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
-              style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span
-              className="voteCount">{voteCount}</span></div>
-          </Chip>
-        </div>
-        {commentList.length > 0 ?<Divider style={style.divider}/>: null}
-        <div className="commentContainer">
-          <CommentList comments={commentList}/>
-          {hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}
-          {window.ENV.openComment?<div className="commentSubmit">
-            <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>
-            <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
-          </div>:null}
-        </div>
+        {/*<div className="voteContainer">*/}
+          {/*{this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}*/}
+          {/*{this.state.tipDisVote ?<div className="disVoteTip">您已取消点赞</div>: null}*/}
+          {/*<Chip*/}
+            {/*onTouchTap={(e)=>this.clickVote(e)}*/}
+            {/*className="chipRoot"*/}
+            {/*style={voteStatus===1?{backgroundColor:"#f7a466"}:{backgroundColor:"#FFF" ,border:"1px solid  #f7a466"}}*/}
+          {/*>*/}
+            {/*<div style={voteStatus==1?{color:"#FFF"}:{color:"#f7a466"}} className="chip">*/}
+              {/*<img src={voteStatus?imgSrc.voteWhite:imgSrc.voted}*/}
+                   {/*className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span*/}
+              {/*style={voteStatus==1?{borderColor:"#FFF"}:{borderColor:"#f7a466"}} className="chipSplit"/><span*/}
+              {/*className="voteCount">{voteCount}</span></div>*/}
+          {/*</Chip>*/}
+        {/*</div>*/}
+        {/*{commentList.length > 0 ?<Divider style={style.divider}/>: null}*/}
+        {/*<div className="commentContainer">*/}
+          {/*<CommentList comments={commentList}/>*/}
+          {/*{hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}*/}
+          {/*{window.ENV.openComment?<div className="commentSubmit">*/}
+            {/*<textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>*/}
+            {/*<div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>*/}
+          {/*</div>:null}*/}
+        {/*</div>*/}
         <Snackbar
           contentStyle={{textAlign:"center"}}
           open={this.state.snackOpen}

@@ -181,7 +181,7 @@ export default class Catalog extends React.Component<any,any> {
         </div>
         <div onClick={()=>this.goGoal(challengeList)} className="item-container">
           <div className="title goal">小目标</div>
-          <div className="content">设定目标、记录进展、总结心得</div>
+          <div className="content">设定目标、记录进展、回顾总结</div>
           <div className="detail">
             <div className="score">30积分</div>
             <div className="go">记录更多</div>

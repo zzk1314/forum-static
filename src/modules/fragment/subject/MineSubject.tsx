@@ -174,6 +174,7 @@ export default class ApplicationList extends React.Component<any,any> {
               </div>
             )
           })}
+          {!list || (list && list.length === 0)?<div className="no-tip">点击右上角按钮，开始写分享吧！</div>:null}
         </div>
       </div>
     )

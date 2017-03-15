@@ -140,10 +140,9 @@ export default class DoChallenge extends React.Component<any,any> {
           <div className="desc" dangerouslySetInnerHTML={{__html:description}}></div>
           <div className="tipTitle">小提示</div>
           <div className="tips">
-            目标最好是某个具体问题或场景；<br/>
-            分享之前，可以先回顾该专题的知识体系（套路）；<br/>
-            分享如何解决问题、达到目标的实际案例，更易收到点赞和评论，并累计积分；<br/>
-            深度分享更易被圈外教练们（包括圈圈）点评！
+            本题答案仅自己可见 <br/>
+            目标最好是某个具体问题或场景 <br/>
+            制定目标之前，可以先回顾该专题的知识体系<br/>
           </div>
           <textarea cols="30" rows="10"
                     value={content}
