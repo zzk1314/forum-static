@@ -57,6 +57,7 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "shelljs": "^0.7.3",
+    "simditor": "2.3.6",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
