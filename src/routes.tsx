@@ -19,6 +19,11 @@ import NotFoundPage from "./modules/NotFoundPage"
 import SubjectList from "./modules/fragment/subject/SubjectList"
 import MineSubject from "./modules/fragment/subject/MineSubject"
 import WriteSubject from "./modules/fragment/subject/WriteSubject"
+import BackendIndex from "./modules/backend/BackendIndex"
+import Welcome from "./modules/backend/Welcome"
+import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
+import PracticeView from "./modules/backend/warmup/PracticeView"
+import Discuss from "./modules/backend/warmup/Discuss"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -40,6 +45,12 @@ const routes = (
       <Route path="fragment/subject/list/mine" component={MineSubject}/>
       <Route path="fragment/subject/write" component={WriteSubject}/>
       <Route path="servercode" component={ServerCode}/>
+    </Route>
+    <Route component={BackendIndex}>
+      <Route path="backend" component={Welcome}/>
+      <Route path="backend/warmup" component={HotWarmupPractice}/>
+      <Route path="backend/warmup/view" component={PracticeView}/>
+      <Route path="backend/warmup/discuss" component={Discuss}/>
     </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>

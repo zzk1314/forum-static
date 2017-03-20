@@ -120,7 +120,7 @@ export default class Fragment extends React.Component<any,any> {
     const renderFeedBack = () => {
       return (
         <div  className="feed-back">
-          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank"><img src="http://www.iquanwai.com/images/pcFeedBack.png"/></a>
+          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank"><img src="http://www.iqycamp.com/images/pcFeedBack.png"/></a>
         </div>
       )
     };

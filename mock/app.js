@@ -25,4 +25,5 @@ app.use(require('./pc/account/router'))
 app.use(require('./pc/fragment/problem/router'))
 app.use(require('./pc/fragment/challenge/router'))
 app.use(require('./pc/fragment/application/router'))
+app.use(require('./pc/backend/router'))
 module.exports = app
