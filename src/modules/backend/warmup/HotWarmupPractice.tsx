@@ -29,6 +29,8 @@ export default class HotWarmupPractice extends React.Component<any,any> {
         this.setState({
           practiceList: res.msg
         })
+      } else if(res.code === 403) {
+        setTimeout(() => window.location.href = "/403.jsp", 500);
       } else {
         throw new BreakSignal(res.msg, "加载当前问题失败")
       }

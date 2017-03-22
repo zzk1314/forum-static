@@ -175,5 +175,131 @@ router.post("/pc/operation/highlight/discuss/*", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.post("/pc/operation/highlight/applicationSubmit/*", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": "ok"
+        }), Math.random() * 1500)
+});
+
+router.get("/pc/operation/application/submit/*", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": [
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 1,
+                    "type": 11
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 2,
+                    "type": 11,
+                    "priority":0,
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 3,
+                    "type": 11,
+                    "priority":0,
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 4,
+                    "type": 11
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 5,
+                    "type": 11
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 6,
+                    "type": 11
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "voteCount": 1,
+                    "id": 7,
+                    "type": 11
+                },
+                {
+                    "title": null,
+                    "upName": "Pat",
+                    "upTime": "2017年01月16日",
+                    "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
+                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学 ",
+                    "voteCount": 1,
+                    "id": 8,
+                    "type": 11
+                },
+            ]
+        }), Math.random() * 1500)
+});
+
+
+router.get("/pc/operation/homework/*", (req, res) => {
+    setTimeout(() => {
+        res.status(200).json({
+            "msg": [
+                {
+                    "id": 1,
+                    "description": "balbal",
+                    "pic": "http://www.iquanwai.com/images/cintro1.png",
+                    "knowledgeId": 1,
+                    "sceneId": 1,
+                    "difficulty": null,
+                    "content": "评论评论", //提交内容
+                    "submitId": 1, //提交id
+                    "submitUpdateTime": "2017-02-15" ,//最后提交时间
+                    "voteCount": 0,
+                    "commentCount": 0,
+                    "voteStatus": 0,
+                    "topic":"用分层归类法表达你的观点",
+                }
+            ],
+            "code": 200
+        });
+    }, Math.random() * 1500);
+});
+
+
 
 module.exports = router;

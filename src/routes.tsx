@@ -24,6 +24,9 @@ import Welcome from "./modules/backend/Welcome"
 import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
 import PracticeView from "./modules/backend/warmup/PracticeView"
 import Discuss from "./modules/backend/warmup/Discuss"
+import ProblemView from "./modules/backend/application/ProblemView"
+import CatalogView from "./modules/backend/application/Catalog"
+import ApplicationView from "./modules/backend/application/ApplicationList"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -51,6 +54,10 @@ const routes = (
       <Route path="backend/warmup" component={HotWarmupPractice}/>
       <Route path="backend/warmup/view" component={PracticeView}/>
       <Route path="backend/warmup/discuss" component={Discuss}/>
+      <Route path="/backend/application/problem/list" component={ProblemView}>
+        <Route path="/backend/application/catalog" component={CatalogView}/>
+        <Route path="/backend/application/list" component={ApplicationView}/>
+      </Route>
     </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>
