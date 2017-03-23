@@ -12,3 +12,4 @@ tags
 .ftppass
 
 gulpfile.js
+__build__/
