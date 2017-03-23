@@ -152,7 +152,8 @@ router.get("/pc/operation/warmup/*", (req, res) => {
                         "warmupPracticeId": 49,
                         "name":"风之伤",
                         "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                        "discussTime":"10:38"
+                        "discussTime":"10:38",
+                        "priority":0,
                     }
                 ],
             }

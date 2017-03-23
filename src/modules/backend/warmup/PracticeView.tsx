@@ -5,6 +5,7 @@ import {loadWarmUp, highlight} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
+import _ from "lodash"
 
 const sequenceMap = {
     0: 'A',
@@ -55,10 +56,16 @@ export default class practiceView extends React.Component <any, any> {
     }
 
     highlight(id){
+        const {data} = this.state
         highlight(id).then(res =>{
             if (res.code === 200) {
                 this.showAlert('提交成功')
             }
+            data.discussList.forEach((item)=>{
+                if(item.id === id){
+                    _.set(item, 'priority', 1)
+                }
+            })
         })
     }
 
@@ -97,7 +104,7 @@ export default class practiceView extends React.Component <any, any> {
         }
 
         const discussRender = (discuss, idx) => {
-            const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId} = discuss
+            const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority} = discuss
             return (
                 <div className="comment-cell" key={id}>
                     <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
@@ -111,9 +118,14 @@ export default class practiceView extends React.Component <any, any> {
                                 <div className="function-button" onClick={()=>this.reply(warmupPracticeId, id)}>
                                     回复
                                 </div>
+                                {priority === 0?
                                 <div className="function-button" onClick={()=>this.highlight(id)}>
                                     加精
+                                </div>:
+                                <div className="function-button" style={{color:'black', cursor:'auto'}}>
+                                    已加精
                                 </div>
+                                }
                             </div>
                         </div>
                         <div className="comment-content">{comment}</div>
