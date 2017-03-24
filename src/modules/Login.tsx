@@ -174,8 +174,7 @@ export default class Login extends React.Component<any, any> {
     //  获得url
     setTimeout(() => {
       if (this.props.location.query.callbackUrl) {
-        console.log(this.props.location.query.callbackUrl);
-        window.location.href =  `http://${window.location.hostname}/account/login?callbackUrl=${this.props.location.query.callbackUrl}&key=${key}`;
+        window.location.href =  `http://${window.location.hostname}/account/login?callbackUrl=${encodeURIComponent(this.props.location.query.callbackUrl)}&key=${key}`;
       } else {
         window.location.href = `http://${window.location.hostname}/account/login?callbackUrl=http://${window.location.host}`;
       }
