@@ -4337,7 +4337,7 @@
             type: 'file',
             title: _this._t('uploadImage'),
             multiple: true,
-            accept: 'image/*'
+            accept: "image/jpg,image/jpeg,image/png"
           }).appendTo($uploadItem);
         };
       })(this);
@@ -4541,13 +4541,11 @@
           if (!$img.hasClass('loading') && !$img.hasClass('uploading')) {
             return;
           }
-          width = img.width;
-          height = img.height;
+          width = '100%';
           $img.attr({
             src: src,
             width: width,
-            height: height,
-            'data-image-size': width + ',' + height
+            'data-image-size': width
           }).removeClass('loading');
           if ($img.hasClass('uploading')) {
             _this.editor.util.reflow(_this.editor.body);
@@ -4624,6 +4622,7 @@
     ImagePopover.prototype.render = function() {
       var tpl;
       tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageUrl')) + "</label>\n    <input class=\"image-src\" type=\"text\" tabindex=\"1\" />\n    <a class=\"btn-upload\" href=\"javascript:;\"\n      title=\"" + (this._t('uploadImage')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-upload\"></span>\n    </a>\n  </div>\n  <div class='settings-field'>\n    <label>" + (this._t('imageAlt')) + "</label>\n    <input class=\"image-alt\" id=\"image-alt\" type=\"text\" tabindex=\"1\" />\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageSize')) + "</label>\n    <input class=\"image-size\" id=\"image-width\" type=\"text\" tabindex=\"2\" />\n    <span class=\"times\">×</span>\n    <input class=\"image-size\" id=\"image-height\" type=\"text\" tabindex=\"3\" />\n    <a class=\"btn-restore\" href=\"javascript:;\"\n      title=\"" + (this._t('restoreImageSize')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-undo\"></span>\n    </a>\n  </div>\n</div>";
+      this.el.remove();
       this.el.addClass('image-popover').append(tpl);
       this.srcEl = this.el.find('.image-src');
       this.widthEl = this.el.find('#image-width');
@@ -4733,7 +4732,7 @@
             type: 'file',
             title: _this._t('uploadImage'),
             multiple: true,
-            accept: 'image/*'
+            accept: 'image/jpg,image/jpeg,image/png'
           }).appendTo($uploadBtn);
         };
       })(this);

@@ -19,11 +19,13 @@ import NotFoundPage from "./modules/NotFoundPage"
 import SubjectList from "./modules/fragment/subject/SubjectList"
 import MineSubject from "./modules/fragment/subject/MineSubject"
 import WriteSubject from "./modules/fragment/subject/WriteSubject"
+import Test from "./modules/Test"
 
 const routes = (
   <Route path="/" component={Base}>
     <IndexRoute component={Home}/>
     <Route path="home" component={Home}/>
+    <Route path="test" component={Test}/>
     <Route path="login" component={Login}/>
     <Route path="stranger" component={Stranger}/>
     <Route path="pc/static/reject" component={Reject} />

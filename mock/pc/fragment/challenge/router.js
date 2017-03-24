@@ -125,11 +125,7 @@ router.get("/pc/fragment/challenge/mine/**", (req, res) => {
         "submitted": true,
         "content": "egwegrqrffwfwefwefewffwefewf\n\n\n\ntweew",
         "picList": [
-          {
-            "moduleId": 2,
-            "referencedId": 4,
-            "picSrc": "http://www.confucius.mobi/images/challenge/challenge-20170113142735-8fn5yadq5-48.png"
-          }
+          "http://www.confucius.mobi/images/application/application-20170121000607-ktzmpmwjd-43.png"
         ],
         "submitId": 48,
         "moduleId": 2,
