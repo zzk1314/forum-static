@@ -54,25 +54,9 @@
         color: #55cbcb;
       }
     }
-    > .multi-container{
+    > .app-container{
       > .item{
         border-bottom:1px dashed #cccccc;
-        &:nth-child(even){
-          width: calc(50% - 3%);
-          > .content{
-            padding-left:20px;
-            border-left:1px dashed #cccccc;
-          }
-          > .detail{
-            padding-left:20px;
-            border-left:1px dashed #cccccc;
-          }
-        }
-        &:nth-child(odd){
-          margin-left:10px;
-          width: calc(50% - 3%);
-        }
-        display: inline-block;
         > .content {
           font-size: 20px;
           line-height: 20px;
@@ -80,29 +64,7 @@
           margin-top:5px;
           padding-top: 15px;
           padding-bottom: 20px;
-        }
-        > .detail {
-          margin-bottom:5px;
-          > .score {
-            display: inline-block;
-            font-size: 16px;
-            line-height: 16px;
-            color: #999999;
-            padding-bottom:35px;
-          }
-          > .go {
-            display: inline-block;
-            font-size: 16px;
-            line-height: 16px;
-            float: right;
-            margin-right: 20px;
-            color: #55cbcb;
-            img {
-              width:34px;
-              height:auto;
-              vertical-align: top;
-            }
-          }
+          cursor: pointer;
         }
       }
     }

@@ -20,6 +20,14 @@ import SubjectList from "./modules/fragment/subject/SubjectList"
 import MineSubject from "./modules/fragment/subject/MineSubject"
 import WriteSubject from "./modules/fragment/subject/WriteSubject"
 import Test from "./modules/Test"
+import BackendIndex from "./modules/backend/BackendIndex"
+import Welcome from "./modules/backend/Welcome"
+import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
+import PracticeView from "./modules/backend/warmup/PracticeView"
+import Discuss from "./modules/backend/warmup/Discuss"
+import ProblemView from "./modules/backend/application/ProblemView"
+import CatalogView from "./modules/backend/application/Catalog"
+import ApplicationView from "./modules/backend/application/ApplicationList"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -42,6 +50,16 @@ const routes = (
       <Route path="fragment/subject/list/mine" component={MineSubject}/>
       <Route path="fragment/subject/write" component={WriteSubject}/>
       <Route path="servercode" component={ServerCode}/>
+    </Route>
+    <Route component={BackendIndex}>
+      <Route path="backend" component={Welcome}/>
+      <Route path="backend/warmup" component={HotWarmupPractice}/>
+      <Route path="backend/warmup/view" component={PracticeView}/>
+      <Route path="backend/warmup/discuss" component={Discuss}/>
+      <Route path="/backend/application/problem/list" component={ProblemView}>
+        <Route path="/backend/application/catalog" component={CatalogView}/>
+        <Route path="/backend/application/list" component={ApplicationView}/>
+      </Route>
     </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>

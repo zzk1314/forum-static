@@ -1,10 +1,10 @@
-.fragmentContent{
-  width:1000px;
+.backendContent{
+  width:100%;
   margin:9px auto;
   overflow:hidden;
   .leftList{
     float:left;
-    width:306px;
+    width:180px;
     min-height:600px;
     margin:0;
     padding:0;
@@ -19,6 +19,8 @@
         font-size: 18px;
         color: #999999;
         margin-left:10px;
+        margin-top:20px;
+        cursor: pointer;
       }
     }
 
@@ -82,7 +84,8 @@
   }
   .rightContent{
     float:right;
-    width:690px;
+    width: ~"calc(100% - 184px)";
+    min-height: 600px;
     background-color:#FFF;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;

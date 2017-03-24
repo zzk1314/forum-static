@@ -41,7 +41,8 @@ router.get("/pc/fragment/application/list/other/*",(req,res)=>{
           "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？\n  答：中学阶段，孩子相对能独立生活，......",
           "voteCount": 1,
           "submitId": 27,
-          "type": 11
+          "type": 11,
+          "priority":1,
         },
         {
           "title": null,
@@ -51,7 +52,8 @@ router.get("/pc/fragment/application/list/other/*",(req,res)=>{
           "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？\n  答：中学阶段，孩子相对能独立生活，......",
           "voteCount": 1,
           "submitId": 27,
-          "type": 11
+          "type": 11,
+          "priority":0,
         },
         {
           "title": null,
@@ -61,7 +63,8 @@ router.get("/pc/fragment/application/list/other/*",(req,res)=>{
           "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？\n  答：中学阶段，孩子相对能独立生活，......",
           "voteCount": 1,
           "submitId": 27,
-          "type": 11
+          "type": 11,
+          "priority":0,
         },
         {
           "title": null,
@@ -170,6 +173,27 @@ router.get("/pc/fragment/application/show/*",(req,res)=>{
       "code": 200
     })
   }, Math.random() * 1500);
+})
+
+router.get("/pc/fragment/application/load/*",(req,res)=>{
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": {
+                "id": 1,
+                "description": "balbal",
+                "pic": "http://www.iquanwai.com/images/cintro1.png",
+                "knowledgeId": 1,
+                "sceneId": 1,
+                "difficulty": null,
+                "content": "评论评论", //提交内容
+                "submitId": 1, //提交id
+                "submitUpdateTime": "2017-02-15" ,//最后提交时间
+                "voteCount": 0,
+                "commentCount": 0,
+                "voteStatus": 0
+            }
+        }), Math.random() * 1500)
 })
 
 

@@ -65,7 +65,7 @@ export default class extends React.Component<any,any> {
             </li>
           </ul>
         </div>
-        <img className="footer-img" src="http://www.iquanwai.com/images/pc/index_panel2.png" alt=""/>
+        <img className="footer-img" src="http://www.iqycamp.com/images/pc/index_panel2.png" alt=""/>
         <div className="footer">
           <div className="footer-container">
             <div className="img-item">
