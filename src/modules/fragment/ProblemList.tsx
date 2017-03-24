@@ -132,12 +132,12 @@ export default class Fragment extends React.Component<any,any> {
             <div className="listTitle">专题</div>
           </Subheader>
           <Divider style={style.divider}/>
-          {problemCatalogs.map((catalog, index) => {
+          {problemCatalogs&&problemCatalogs.map((catalog, index) => {
 
             return (
               <div className="catalog-area" key={index} style={{marginTop:`${index==0?0:40}px`}}>
                 <div className="catalog-name">{catalog.name}</div>
-                {catalog.problems.map((item,seq)=>{
+                {catalog.problems&&catalog.problems.map((item,seq)=>{
                   return (
                     <ListItem
                       key={seq}

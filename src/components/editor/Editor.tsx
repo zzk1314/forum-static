@@ -9,6 +9,7 @@ export default class Editor extends React.Component {
   propTypes: {
     value: React.PropTypes.string,   //html 字符串
     placeholder: React.PropTypes.string,
+    moduleId: React.PropTypes.string,
     defaultImage: React.PropTypes.string  //选择外链图片时 展示的默认图片
   }
   constructor(props) {
@@ -20,12 +21,13 @@ export default class Editor extends React.Component {
   componentDidMount(){
     this.state.editor = new Simditor({
       textarea: $('#editor'),
-      toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote',
+      toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
                'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
       upload:{
-        url:'/file/image/upload/1/-1'
+        url:'/file/image/upload/' + this.props.moduleId || 2,
+        fileKey:'file'
       },
-      pasteImage:true,//支持粘贴图片  仅 Firefox 和 Chrome.
+      imageButton:'upload',
       defaultImage: this.props.defaultImage //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
     if(this.props.value && this.props.value.length>0){
