@@ -5,7 +5,6 @@ import WorkItem from "../../../components/WorkItem"
 import Divider from 'material-ui/Divider';
 import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
-import Avatar from 'material-ui/Avatar';
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
 import {loadSubjectList} from  "./async"
@@ -59,13 +58,11 @@ export default class ApplicationList extends React.Component<any,any> {
     loadSubjectList(problemId,page)
       .then(res => {
         if (res.code === 200) {
-          console.log(res.msg);
           const list = res.msg.list;
           let perfectList = [];
           let normalList = [];
           if(list && list.length!==0){
             list.forEach((item,key) => {
-              console.log(item.perfect);
               item.perfect?perfectList.push(item):normalList.push(item);
             });
           }
@@ -175,82 +172,45 @@ export default class ApplicationList extends React.Component<any,any> {
       }
     }
 
+    const renderOther = (list) => {
+      return (
+          <div className="otherContainer">
+            {list.map((item, index) => {
+              const {submitId} = item;
+              return (
+                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+              )
+            })}
+          </div>
+      )
+    }
 
+    console.log(perfectList)
     return (
       <div className="subject-list">
         <div className="subject-header">
-          <div className="title">精华分享</div>
+          <div className="title">专题分享</div>
           <div onClick={()=>this.goMine()} className="mine">我的分享</div>
         </div>
         <Divider style={style.divider}/>
+        {!_.isEmpty(perfectList)?
         <div className="list">
           <div className="header perfect">
             精彩分享
           </div>
           <Divider style={style.mgDivider}/>
-          {perfectLoading?<VerticalBarLoading/>:perfectList.map((item,seq)=>{
-            return (
-              <div className="item" key={seq}>
-                <div className="header">
-                  <div className="title">{item.title}</div>
-                  <div className="info">
-                    <div className="vote-count">被赞&nbsp;{item.voteCount}</div>
-                    <div className="comment-count">评论&nbsp;{item.commentCount}</div>
-                  </div>
-                </div>
-                <div className="up-info">
-                  <Avatar
-                    src={item.headPic}
-                    size={30}
-                  />
-                  <div className="up-name">{item.upName}</div>
-                  <div className="up-time">{item.upTime}</div>
-                </div>
-                <div className="content">
-                  {item.content}
-                </div>
-                {renderControl(item)}
-                <Divider style={style.smDivider}/>
-              </div>
-            )
-          })}
-        </div>
-
-
+          {perfectLoading?<VerticalBarLoading/>: renderOther(perfectList)}
+        </div>: null}
 
         <Divider style={style.bigDivider}/>
+        {!_.isEmpty(normalList) ?
         <div className="list">
           <div className="header normal">
             最新分享
           </div>
           <Divider style={style.mgDivider}/>
-          {otherLoading?<VerticalBarLoading/>:normalList.map((item,seq)=>{
-            return (
-              <div className="item" key={seq}>
-                <div className="header">
-                  <div className="title">{item.title}</div>
-                  <div className="info">
-                    <div className="vote-count">被赞&nbsp;{item.voteCount}</div>
-                    <div className="comment-count">评论&nbsp;{item.commentCount}</div>
-                  </div>
-                </div>
-                <div className="up-info">
-                  <Avatar
-                    src={item.headPic}
-                    size={30}
-                  />
-                  <div className="up-name">{item.upName}</div>
-                  <div className="up-time">{item.upTime}</div>
-                </div>
-                <div className="content">
-                  {item.content}
-                </div>
-                {renderControl(item)}
-                <Divider style={style.smDivider}/>
-              </div>
-            )
-          })}
-        </div>
+          {otherLoading?<VerticalBarLoading/>:renderOther(normalList)}
+        </div>: null}
         <div className="more">
           {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
         </div>

@@ -8,8 +8,8 @@ export function loadMineApplication(planId,applicationId) {
   return pget(`/pc/fragment/application/list/mine/${planId}/${applicationId}`);
 }
 
-export function loadOtherApplication(cid) {
-  return pget(`/pc/fragment/application/list/other/${cid}`);
+export function loadOtherApplication(cid, page) {
+  return pget(`/pc/fragment/application/list/other/${cid}`, {page:page});
 }
 
 export function loadSelfApplication(planId, cid) {

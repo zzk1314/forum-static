@@ -15,7 +15,22 @@ const style = {
     marginLeft: "-24px",
     marginTop:"-8px",
     width:"120%",
-  }
+  },
+  bigDivider:{
+    backgroundColor: "#f5f5f5",
+    marginLeft: "-24px",
+    width:"120%",
+    height:'3px',
+  },
+  mgDivider:{
+    backgroundColor: "#f5f5f5",
+    marginLeft: "-24px",
+    width:"120%",
+    marginBottom:"-10px",
+  },
+  smDivider:{
+    backgroundColor: "#f5f5f5",
+  },
 }
 
 @connect(state => state)
@@ -29,16 +44,20 @@ export default class ApplicationList extends React.Component<any,any> {
     this.state = {
       mine: [],
       other: [],
+      perfectList:[],
       mineLoading: false,
       otherLoading: false,
+      perfactLoading: false,
       title:null,
+      end:true,
+      index:1,
     }
   }
 
 
   componentWillMount() {
     // 加载个人作业
-    const {location, dispatch, page} = this.props;
+    const {location, dispatch, page, index} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location,"query.planId");
     const scrollValue = _.get(page,"scroll");
@@ -68,12 +87,11 @@ export default class ApplicationList extends React.Component<any,any> {
           throw new Stop();
         }
       }).then(() => {
-      return loadOtherApplication(applicationId)
+      return loadOtherApplication(applicationId, index)
         .then(res => {
           if (res.code === 200) {
-            this.setState({other: res.msg, otherLoading: false});
+            this.setState({other: res.msg.list, perfectList: res.msg.highlightList, end:res.msg.end, otherLoading: false});
             if(scrollValue){
-              console.log(scrollValue);
               scroll(scrollValue.x,scrollValue.y);
               dispatch(set("page.scroll",{x:0,y:0}));
             }
@@ -121,21 +139,59 @@ export default class ApplicationList extends React.Component<any,any> {
     })
   }
 
-  onVoteClick(submitId, canVote) {
-    if (canVote && submitId) {
-      ppost("/pc/fragment/challenge/vote", {referencedId: submitId, status: 1})
+  showMore(){
+    // 加载个人作业
+    const {location, dispatch, page,activeProblemId} = this.props;
+    const planId = _.get(location, "query.planId");
+    const applicationId = _.get(location, "query.applicationId");
+    const scrollValue = _.get(page,"scroll");
+    this.setState({otherLoading: true});
+    this.ajaxLoadSubjectList(applicationId, planId, this.state.index + 1)
+  }
+
+  ajaxLoadSubjectList(applicationId,planId,page){
+    const {dispatch} = this.props;
+    loadOtherApplication(applicationId,page)
         .then(res => {
-          if (_.isEqual(res.code, 200)) {
-            this.setState({voteCount: Number(voteCount) + 1, voteStatus: 1})
+          if (res.code === 200) {
+            const list = res.msg.list;
+            let perfectList = [];
+            let other = [];
+            if(list && list.length!==0){
+              list.forEach((item,key) => {
+                item.perfect?perfectList.push(item):other.push(item);
+              });
+            }
+            this.setState({other: this.state.other.concat(other),perfectLoading: false,otherLoading:false,end:res.msg.end,index:page})
+            return res.msg;
+          } else if(res.code === 401) {
+            this.context.router.push({
+              pathname:"/login",
+              query:{
+                callbackUrl:`/fragment/application/list?applicationId=${applicationId}&planId=${planId}`
+              }
+            })
+          } else {
+            this.setState({perfectLoading: false, otherLoading: false});
+            this.context.router.push({pathname: "/servercode"});
+            throw new Stop();
           }
-        }).catch(err => console.log(err));
-    }
+        }).catch(err => {
+      console.log("catch", err);
+      if (err instanceof BreakSignal) {
+        this.setState({mineLoading: false, otherLoading: false});
+        dispatch(alertMsg(err.title, err.msg));
+      } else if (!(err instanceof Stop)) {
+        this.setState({mineLoading: false, otherLoading: false});
+        dispatch(alertMsg(err + ""));
+      }
+    })
   }
 
   render() {
     const applicationId = _.get(this.props.location, "query.applicationId");
     const planId = _.get(this.props.location, "query.planId");
-    const {mine = {}, other = []} = this.state;
+    const {mine = {}, other = [], otherLoading, perfectList = [], end, perfactLoading} = this.state;
     const renderMine = () => {
       return (
         <div className="mineContainer">
@@ -144,10 +200,10 @@ export default class ApplicationList extends React.Component<any,any> {
         </div>
       )
     }
-    const renderOther = () => {
+    const renderOther = (list) => {
       return (
         <div className="otherContainer">
-          {other.map((item, index) => {
+          {list.map((item, index) => {
             const {submitId} = item;
             return (
               <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
@@ -157,19 +213,45 @@ export default class ApplicationList extends React.Component<any,any> {
       )
     }
     return (
-      <div className="challengeListContainer">
-        <div className="myChallengeContainer">
+      <div className="applicationListContainer">
+        <div className="myApplicationContainer">
           <div className="titleContainer">
             <div className="title">{this.state.title}</div>
           </div>
           <Divider style={style.divider}/>
           {this.state.mineLoading ?<VerticalBarLoading/>: renderMine()}
         </div>
-        <div className="myChallengeContainer">
+        <div className="myApplicationContainer">
             <div className="title">
               <span className="title-text">群众的智慧</span>
             </div>
-          {this.state.otherLoading ?<VerticalBarLoading/>: renderOther()}
+          {/*{this.state.otherLoading ?<VerticalBarLoading/>: renderOther()}*/}
+          {!_.isEmpty(perfectList)?
+          <div className="list">
+            {perfactLoading?<VerticalBarLoading/>:
+            <div>
+                <div className="header perfect">
+                  精彩分享
+                </div>
+              <Divider style={style.mgDivider}/>{renderOther(perfectList)}
+            </div>
+            }
+          </div>: null}
+
+          <Divider style={style.bigDivider}/>
+          {!_.isEmpty(other)?
+          <div className="list">
+            {otherLoading?<VerticalBarLoading/>:
+                <div>
+                  <div className="header normal">
+                    最新分享
+                  </div>
+                  <Divider style={style.mgDivider}/>{renderOther(other)}
+                </div>}
+          </div>:null}
+          <div className="more">
+            {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
+          </div>
         </div>
       </div>
     )

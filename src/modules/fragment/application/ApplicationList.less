@@ -1,6 +1,6 @@
-.challengeListContainer{
+.applicationListContainer{
   margin:20px;
-  .myChallengeContainer{
+  .myApplicationContainer{
     .titleContainer{
       margin-bottom:20px;
       .title{
@@ -17,6 +17,38 @@
         //  vertical-align: middle;
         //  margin-top: -3px;
         //}
+      }
+    }
+    > .list {
+      min-height: 100px;
+      .header {
+        font-size: 18px;
+        line-height: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #666666;
+        &:before {
+          content: '';
+          display: inline-block;
+          line-height: 18px;
+          width: 20px;
+          height: 20px;
+          float: left;
+          margin-right: 6px;
+        }
+        &.perfect:before {
+          background: url("http://www.iqycamp.com/images/pcPerfect.png") no-repeat center center;
+        }
+        &.normal:before {
+          background: url("http://www.iqycamp.com/images/pcCatalogLastest.png") no-repeat center center/20px 20px;
+        }
+      }
+    }
+    > .more{
+      text-align: center;
+      margin-top:20px;
+      span{
+        cursor:pointer;
       }
     }
     > .title{
