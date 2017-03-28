@@ -44,7 +44,7 @@ export default class Editor extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.defaultValue && !this.props.defaultValue){
-      this.state.editor.setValue(nextProps.value)
+      this.state.editor.setValue(nextProps.defaultValue)
     }
   }
 
