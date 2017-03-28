@@ -8,6 +8,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import {loadSelfChallengeSubmit,submitChallenge} from "./async"
+import Editor from "../../../components/editor/Editor"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 
 @connect(state => state)
@@ -94,6 +95,7 @@ export default class DoChallenge extends React.Component<any,any> {
       return;
     }
     // 根据 cid和planid加载
+    console.log(content);
     submitChallenge(submitId,content)
       .then(res => {
       if (res.code === 200) {
@@ -144,9 +146,11 @@ export default class DoChallenge extends React.Component<any,any> {
             目标最好是某个具体问题或场景 <br/>
             制定目标之前，可以先回顾该专题的知识体系<br/>
           </div>
-          <textarea cols="30" rows="10"
-                    value={content}
-                    onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.target.getValue()))} moduleId="2">
+          </Editor>
+          {/*<textarea cols="30" rows="10"*/}
+                    {/*value={content}*/}
+                    {/*onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>*/}
           <div className="submitBtnGroup">
             <PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}
                        referencedId={submitId}/>
