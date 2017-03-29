@@ -147,8 +147,7 @@ export default class DoChallenge extends React.Component<any,any> {
             目标最好是某个具体问题或场景 <br/>
             制定目标之前，可以先回顾该专题的知识体系<br/>
           </div>
-          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,value))} moduleId="2">
-          </Editor>
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,value))} moduleId="2"/>
           {/*<textarea cols="30" rows="10"*/}
                     {/*value={content}*/}
                     {/*onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>*/}

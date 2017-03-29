@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import {loadSelfApplication,submitApplication} from "./async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
+import Editor from "../../../components/editor/Editor"
 
 @connect(state => state)
 export default class DoApplication extends React.Component<any,any> {
@@ -89,7 +90,8 @@ export default class DoApplication extends React.Component<any,any> {
     const {application,location} = this.props;
     const {applicationId, planId} = location.query;
     const mine = _.get(application,`mine.${planId}.${applicationId}`,{});
-    const {content, submitId} = mine;
+    const { submitId } = mine;
+    const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
       this.showAlert("作业还没写完哦","提示");
       return;
@@ -144,12 +146,13 @@ export default class DoApplication extends React.Component<any,any> {
             结合相关知识点分析问题<br/>
             优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分
           </div>
-          <textarea cols="30" rows="10"
-                    value={content}
-                    onChange={(e) => dispatch(set(`application.mine.${planId}.${applicationId}.content`,e.currentTarget.value))}/>
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`application.mine.${planId}.${applicationId}.content`,value))} moduleId="3"/>
+          {/*<textarea cols="30" rows="10"*/}
+                    {/*value={content}*/}
+                    {/*onChange={(e) => dispatch(set(`application.mine.${planId}.${applicationId}.content`,e.currentTarget.value))}/>*/}
           <div className="submitBtnGroup">
-            <PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}
-                       referencedId={submitId}/>
+            {/*<PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}*/}
+                       {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
                         onClick={(e)=>this.goSubmitApplication()}/>

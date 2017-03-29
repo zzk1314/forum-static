@@ -23,13 +23,13 @@ export default class Editor extends React.Component {
     let editor = new Simditor({
       textarea: $('#editor'),
       toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
-               'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
+               'code', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
       upload:{
         url:'/file/image/upload/' + this.props.moduleId || 2,
         fileKey:'file'
       },
       imageButton:'upload',
-      defaultImage: this.props.defaultImage //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
+      defaultImage: this.props.defaultImage || "http://www.iquanwai.com/images/logo.png" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
     // editor.on("valuechanged",(e,type)=>{
     //   if(type=="oninput"){

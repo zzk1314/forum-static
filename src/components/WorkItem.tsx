@@ -61,9 +61,7 @@ export default class WorkItem extends React.Component<any,any> {
           </div>
         </div>
         <div className="workContentContainer">
-          <div className="content">
-            {content}
-          </div>
+          <div className="content" dangerouslySetInnerHTML={{__html:content}}/>
           {renderControl()}
         </div>
       </div>

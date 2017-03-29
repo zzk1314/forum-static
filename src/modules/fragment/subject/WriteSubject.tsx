@@ -12,6 +12,7 @@ import {loadSubject,submitSubject,loadLabels} from "./async"
 import {PictureModule} from "../async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {imgSrc} from "../../../utils/imgSrc"
+import Editor from "../../../components/editor/Editor"
 
 const reg = /[^\/]*$/;
 const style = {
@@ -122,7 +123,9 @@ export default class WriteSubject extends React.Component<any,any> {
     const {location,dispatch} = this.props;
     const {problemId, submitId} = location.query;
     const {data} = this.state;
-    const {content, title,labelList,picList = []} = data;
+    const { title,labelList,picList = []} = data;
+    const content = this.refs.editor.getValue();
+    console.log(content);
     if (_.isEmpty(content)) {
       this.showAlert("内容未输入","提示");
       return;
@@ -141,7 +144,8 @@ export default class WriteSubject extends React.Component<any,any> {
 
     // 根据 cid和planid加载 problemId,submitId,title,content,labels
     let submitLabels = _.merge([],labelList.filter(item=>item.selected));
-    let updatePicList = [].concat(picList.map(item=>reg.exec(item)[0]));
+    // let updatePicList = [].concat(picList.map(item=>reg.exec(item)[0]));
+    let updatePicList = [];
     console.log(updatePicList);
     submitSubject(problemId,submitId,title,content,submitLabels,updatePicList)
       .then(res => {
@@ -217,13 +221,14 @@ export default class WriteSubject extends React.Component<any,any> {
               })
             }
           </div>
-          <textarea cols="30" rows="10"
-                    placeholder="请输入你要分享的内容"
-                    value={content}
-                    onChange={(e) => this.setState({data:_.merge({},data,{content:e.currentTarget.value})})}/>
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => this.setState({data:_.merge({},data,{content:value})})} moduleId="4"/>
+          {/*<textarea cols="30" rows="10"*/}
+                    {/*placeholder="请输入你要分享的内容"*/}
+                    {/*value={content}*/}
+                    {/*onChange={(e) => this.setState({data:_.merge({},data,{content:e.currentTarget.value})})}/>*/}
           <div className="submitBtnGroup">
-            <PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={PictureModule.Subject}
-                       referencedId={submitId}/>
+            {/*<PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={PictureModule.Subject}*/}
+                       {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
                         onClick={(e)=>this.goSubmitSubject()}/>

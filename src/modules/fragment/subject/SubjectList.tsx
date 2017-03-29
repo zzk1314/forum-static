@@ -178,9 +178,12 @@ export default class ApplicationList extends React.Component<any,any> {
             {list.map((item, index) => {
               const {submitId} = item;
               return (
+                <div>
                   <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
-              )
-            })}
+                  {index!==list.length-1?<Divider style={style.divider}/>:null}
+                </div>
+                  )
+                })}
           </div>
       )
     }
@@ -211,6 +214,7 @@ export default class ApplicationList extends React.Component<any,any> {
           <Divider style={style.mgDivider}/>
           {otherLoading?<VerticalBarLoading/>:renderOther(normalList)}
         </div>: null}
+        <Divider style={style.bigDivider}/>
         <div className="more">
           {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
         </div>
