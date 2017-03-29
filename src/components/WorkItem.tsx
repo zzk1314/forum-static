@@ -9,15 +9,20 @@ export default class WorkItem extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
-
+    console.log(props.content);
+    this.state = {
+      filterContent:_.isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
+    }
   }
+
 
 
   render() {
     const {headPic, upName, upTime, content, voteCount, onEditClick, onShowClick,showVote = true} = this.props;
+    const { filterContent } = this.state;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
-        // 不修改，使其他人的作业
+        // 不修改，是其他人的作业
         return (
           <div className="controlContainer">
             <span className="show" onClick={onShowClick}>查看全文</span>

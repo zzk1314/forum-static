@@ -31,12 +31,12 @@ export default class Editor extends React.Component {
       imageButton:'upload',
       defaultImage: this.props.defaultImage //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
-    editor.on("valuechanged",(e,type)=>{
-      if(type=="oninput"){
-        console.log(e.target.getValue());
-        this.props.onChange(e)
-      }
-    })
+    // editor.on("valuechanged",(e,type)=>{
+    //   if(type=="oninput"){
+    //     console.log(e.target.getValue());
+    //     this.props.onChange(e)
+    //   }
+    // })
     if(this.props.value && this.props.value.length>0){
       editor.setValue(this.props.value)
     }
@@ -46,6 +46,11 @@ export default class Editor extends React.Component {
     if(nextProps.defaultValue && !this.props.defaultValue){
       this.state.editor.setValue(nextProps.defaultValue)
     }
+  }
+
+  componentWillUnmount(){
+    console.log('save',this.getValue());
+    this.props.onChange(this.getValue());
   }
 
   getValue(){

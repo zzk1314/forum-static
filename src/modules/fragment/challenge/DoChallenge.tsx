@@ -89,7 +89,8 @@ export default class DoChallenge extends React.Component<any,any> {
     const {challenge,location} = this.props;
     const {challengeId, planId} = location.query;
     const mine = _.get(challenge,`mine.${planId}.${challengeId}`,{});
-    const {content, submitId} = mine;
+    const { submitId} = mine;
+    const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
       this.showAlert("作业还没写完哦","提示");
       return;
@@ -146,7 +147,7 @@ export default class DoChallenge extends React.Component<any,any> {
             目标最好是某个具体问题或场景 <br/>
             制定目标之前，可以先回顾该专题的知识体系<br/>
           </div>
-          <Editor ref="editor" value={content} defaultValue={content} onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.target.getValue()))} moduleId="2">
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,value))} moduleId="2">
           </Editor>
           {/*<textarea cols="30" rows="10"*/}
                     {/*value={content}*/}

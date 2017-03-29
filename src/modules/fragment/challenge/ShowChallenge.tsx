@@ -287,7 +287,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         </div>
         <div className="showContentContainer">
           <div className="content">
-            <pre>{content}</pre>
+            <pre dangerouslySetInnerHTML={{__html:content}}/>
           </div>
           <div className="picContainer">
             <ul className="picList">
