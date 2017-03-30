@@ -122,7 +122,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     const { isMine } = this.state;
     if (isMine && submitId) {
       this.context.router.push({
-        pathname: "fragment/subject/write",
+        pathname: "/fragment/subject/write",
         query: {submitId,problemId}
       })
     } else {
