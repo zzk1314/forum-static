@@ -8,6 +8,8 @@ import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
 import {loadSubjectList} from  "./async"
+import Avatar from 'material-ui/Avatar';
+
 
 const style = {
   divider: {
@@ -173,15 +175,37 @@ export default class ApplicationList extends React.Component<any,any> {
     }
 
     const renderOther = (list) => {
+      /**
+       *
+       <div>
+       <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+       {index!==list.length-1?<Divider style={style.divider}/>:null}
+       </div>
+       */
       return (
           <div className="otherContainer">
             {list.map((item, index) => {
               const {submitId} = item;
               return (
-                <div>
-                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
-                  {index!==list.length-1?<Divider style={style.divider}/>:null}
+              <div className="item" key={index}>
+                <div className="header">
+                  <div className="title">{item.title}</div>
+                  <div className="info">
+                    <div className="vote-count">被赞&nbsp;{item.voteCount}</div>
+                    <div className="comment-count">评论&nbsp;{item.commentCount}</div>
+                  </div>
                 </div>
+                <div className="up-info">
+                  <Avatar
+                    src={item.headPic}
+                    size={30}
+                  />
+                  <div className="up-name">{item.upName}</div>
+                  <div className="up-time">{item.upTime}</div>
+                </div>
+                <div className="content" dangerouslySetInnerHTML={{__html:item.content}}/>
+                {renderControl(item)}
+              </div>
                   )
                 })}
           </div>
