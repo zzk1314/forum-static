@@ -4542,12 +4542,10 @@
           if (!$img.hasClass('loading') && !$img.hasClass('uploading')) {
             return;
           }
-          width = '100%';
+          width = '90%';
           $img.attr({
-            src: src,
-            width: width,
-            'data-image-size': width
-          }).removeClass('loading');
+            src: src
+          }).css({'max-width':width}).removeClass('loading');
           if ($img.hasClass('uploading')) {
             _this.editor.util.reflow(_this.editor.body);
             positionMask();
