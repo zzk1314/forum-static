@@ -274,7 +274,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         </div>
         <div className="showContentContainer">
           <div className="content" dangerouslySetInnerHTML={{__html:content}}/>
-          <div className="picContainer">
+          {/*<div className="picContainer">
             <ul className="picList">
               {picList.map((pic, sequence) => {
                 // 循环存放picList
@@ -286,7 +286,7 @@ export default class ShowChallenge extends React.Component<any,any> {
                 )
               })}
             </ul>
-          </div>
+          </div>*/}
         </div>
         <div className="voteContainer">
           {this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}

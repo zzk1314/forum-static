@@ -96,7 +96,7 @@ export default class DoApplication extends React.Component<any,any> {
       this.showAlert("作业还没写完哦","提示");
       return;
     }
-    submitApplication(submitId,content)
+    submitApplication(planId,applicationId,content)
       .then(res => {
       if (res.code === 200) {
         // 展示分数

@@ -97,7 +97,7 @@ export default class DoChallenge extends React.Component<any,any> {
     }
     // 根据 cid和planid加载
     console.log(content);
-    submitChallenge(submitId,content)
+    submitChallenge(planId,challengeId,content)
       .then(res => {
       if (res.code === 200) {
         if(_.isNumber(res.msg)){
@@ -152,24 +152,24 @@ export default class DoChallenge extends React.Component<any,any> {
                     {/*value={content}*/}
                     {/*onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>*/}
           <div className="submitBtnGroup">
-            <PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}
-                       referencedId={submitId}/>
+            {/*<PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}*/}
+                       {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
                         onClick={(e)=>this.goSubmitChallenge()}/>
           </div>
-          <div className="picContainer">
-            <ul className="picList">
-              {picList.map((pic, sequence) => {
-                // 循环存放picList
-                return (
-                  <li key={sequence} className="picItem">
-                    <img src={pic}/>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+          {/*<div className="picContainer">
+          <ul className="picList">
+            {picList.map((pic, sequence) => {
+              // 循环存放picList
+              return (
+                <li key={sequence} className="picItem">
+                  <img src={pic}/>
+                </li>
+              )
+            })}
+          </ul>
+        </div>*/}
         </div>
       )
     }

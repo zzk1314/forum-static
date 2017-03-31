@@ -16,8 +16,8 @@ export function loadSelfApplication(planId, cid) {
   return pget(`/pc/fragment/application/mine/${planId}/${cid}`);
 }
 
-export function submitApplication(submitId, content) {
-  return ppost(`/pc/fragment/application/submit/${submitId}`, {answer: content});
+export function submitApplication(planId,applicationId, content) {
+  return ppost(`/pc/fragment/application/submit/${planId}/${applicationId}`, {answer: content});
 }
 
 export function loadApplicationSubmit(submitId){
