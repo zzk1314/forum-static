@@ -1,0 +1,111 @@
+.backendContent{
+  width:100%;
+  margin:9px auto;
+  overflow:hidden;
+  .leftList{
+    float:left;
+    width:180px;
+    min-height:600px;
+    margin:0;
+    padding:0;
+    background-color:#FFF;
+    height:100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    .catalog-area{
+      padding-top:20px;
+      .catalog-name{
+        font-size: 18px;
+        color: #999999;
+        margin-left:10px;
+        margin-top:20px;
+        cursor: pointer;
+      }
+    }
+
+
+    .listTitle{
+      color:#999999;
+      margin-left:10px;
+      font-size:26px;
+      line-height:0;
+      margin-top:20px;
+      font-weight:300;
+      &:before {
+        content: '';
+        width: 8px;
+        height: 28px;
+        border-radius: 5px;
+        display: inline-block;
+        background-color:#55cbcb;
+        margin-right: 8px;
+        vertical-align: middle;
+        margin-top: -3px;
+      }
+    }
+    .listItem {
+      color: #666666;
+      margin-left:10px;
+      font-size:16px;
+      &.choose{
+        color:#55cbcb;
+      }
+      &:before{
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        margin-right: 4px;
+        vertical-align: middle;
+        margin-top: -3px;
+        margin-left:6px;
+      }
+      &.running:before{
+        background: url("http://www.iqycamp.com/images/pcNavRunning.png") no-repeat center center;
+      }
+      &.done:before{
+        background: url("http://www.iqycamp.com/images/pcNavDone.png") no-repeat center center;
+      }
+      &.lock:before{
+        background: url("http://www.iqycamp.com/images/pcNavLock.png") no-repeat center center;
+      }
+      &.lock-chose:before{
+        background: url("http://www.iqycamp.com/images/pcNavLockChoice.png") no-repeat center center;
+      }
+      &.done-chose:before{
+        background: url("http://www.iqycamp.com/images/pcNavDoneChoice.png") no-repeat center center;
+      }
+      &.running-chose:before{
+        background: url("http://www.iqycamp.com/images/pcNavRunningChoice.png") no-repeat center center;
+
+      }
+    }
+  }
+  .rightContent{
+    float:right;
+    width: ~"calc(100% - 184px)";
+    min-height: 600px;
+    background-color:#FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    > .feed-back{
+      position: fixed;
+      left: 50%;
+      margin-left: 512px;
+      top: 50%;
+    }
+  }
+
+  .loading{
+    &:after{
+      content: '';
+    }
+    width:100%;
+    height:100%;
+    background-color:black;
+  }
+}
+
+

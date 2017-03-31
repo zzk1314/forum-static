@@ -28,6 +28,8 @@ import Discuss from "./modules/backend/warmup/Discuss"
 import ProblemView from "./modules/backend/application/ProblemView"
 import CatalogView from "./modules/backend/application/Catalog"
 import ApplicationView from "./modules/backend/application/ApplicationList"
+import ProjectConfig from "./modules/backend/admin/ProjectConfig"
+import ConfigDetail from "./modules/backend/admin/ConfigDetail"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -53,6 +55,9 @@ const routes = (
     </Route>
     <Route component={BackendIndex}>
       <Route path="backend" component={Welcome}/>
+      <Route path="/backend/admin/config" component={ProjectConfig}>
+          <Route path="/backend/project/config" component={ConfigDetail}/>
+      </Route>
       <Route path="backend/warmup" component={HotWarmupPractice}/>
       <Route path="backend/warmup/view" component={PracticeView}/>
       <Route path="backend/warmup/discuss" component={Discuss}/>

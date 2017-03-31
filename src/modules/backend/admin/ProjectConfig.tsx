@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {List, ListItem,makeSelectable} from 'material-ui/List';
 import * as _ from "lodash";
-import "./BackendIndex.less"
+import "./ProjectConfig.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
@@ -37,7 +37,7 @@ const style = {
 
 
 @connect(state => state)
-export default class Fragment extends React.Component<any,any> {
+export default class ProjectConfig extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -64,27 +64,14 @@ export default class Fragment extends React.Component<any,any> {
       return (
         <List>
           <Subheader style={style.listTitle}>
-            <div className="listTitle">运营功能</div>
+            <div className="listTitle">项目</div>
           </Subheader>
           <Divider style={style.divider}/>
 
           <div className="catalog-area">
             <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/warmup'})
-            }}>理解训练</div>
-            <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/application/problem/list'})
-            }}>应用训练</div>
-          </div>
-          <Subheader style={style.listTitle}>
-            <div className="listTitle">管理员功能</div>
-          </Subheader>
-          <Divider style={style.divider}/>
-
-          <div className="catalog-area">
-            <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/admin/config'})
-            }}>项目配置</div>
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'rise'}})
+            }}>RISE</div>
           </div>
         </List>
       )

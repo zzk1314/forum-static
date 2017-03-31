@@ -20,4 +20,8 @@ export const imgSrc={
   catalogGoal:"http://www.iquanwai.com/images/pcCatalogGoal.png",
   catalogApp:"http://www.iquanwai.com/images/pcCatalogApp.png",
   perfect:"http://www.iquanwai.com/images/pcPerfect.png",
+  configAdd:"http://www.iquanwai.com/images/add.png",
+  configRemove:"http://www.iquanwai.com/images/minus.png",
+  configEdit:"http://www.iquanwai.com/images/edit.png",
+  configComplete:"http://www.iquanwai.com/images/ok.png",
 }
