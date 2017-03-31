@@ -566,10 +566,12 @@
         return $el;
       }
       ref = $el.contents();
+
       for (k = 0, len = ref.length; k < len; k++) {
         n = ref[k];
         this.cleanNode(n, true);
       }
+
       ref1 = $el.contents();
       for (l = 0, len1 = ref1.length; l < len1; l++) {
         node = ref1[l];
@@ -650,7 +652,7 @@
               $node.removeAttr(attr.name);
             }
           }
-          this._cleanNodeStyles($node);
+          // this._cleanNodeStyles($node);
           if ($node.is('span') && $node[0].attributes.length === 0) {
             $node.contents().first().unwrap();
           }
@@ -2587,7 +2589,9 @@
       var children, cloneBody, emptyP, firstP, lastP, val;
       cloneBody = this.body.clone();
       this.formatter.undecorate(cloneBody);
+
       this.formatter.format(cloneBody);
+
       this.formatter.autolink(cloneBody);
       children = cloneBody.children();
       lastP = children.last('p');
@@ -4544,8 +4548,9 @@
           }
           width = '90%';
           $img.attr({
-            src: src
-          }).css({'max-width':width}).removeClass('loading');
+            src: src,
+            style:`max-width:${width}`
+          }).removeClass('loading');
           if ($img.hasClass('uploading')) {
             _this.editor.util.reflow(_this.editor.body);
             positionMask();
@@ -4560,13 +4565,11 @@
       })(this);
       img.onerror = function() {
         if ($.isFunction(callback)) {
-          console.log("img onerror",callback);
           callback(false);
         }
         $mask.remove();
         return $img.removeData('mask').removeClass('loading');
       };
-      console.log("loadImage return",src);
       return img.src = src;
     };
 
@@ -4581,7 +4584,7 @@
       range = this.editor.selection.range();
       range.deleteContents();
       this.editor.selection.range(range);
-      $img = $('<img/>').attr('alt', name);
+      $img = $('<img/>').attr({'alt':name,'style':'max-width:90%'});
       range.insertNode($img[0]);
       this.editor.selection.setRangeAfter($img, range);
       this.editor.trigger('valuechanged');
