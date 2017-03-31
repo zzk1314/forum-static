@@ -4547,9 +4547,10 @@
             return;
           }
           width = '90%';
+          var styleTemp = "max-width:"+width;
           $img.attr({
             src: src,
-            style:`max-width:${width}`
+            style:styleTemp
           }).removeClass('loading');
           if ($img.hasClass('uploading')) {
             _this.editor.util.reflow(_this.editor.body);
