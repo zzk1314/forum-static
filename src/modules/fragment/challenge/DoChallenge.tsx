@@ -8,6 +8,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import {loadSelfChallengeSubmit,submitChallenge} from "./async"
+import Editor from "../../../components/editor/Editor"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 
 @connect(state => state)
@@ -88,13 +89,15 @@ export default class DoChallenge extends React.Component<any,any> {
     const {challenge,location} = this.props;
     const {challengeId, planId} = location.query;
     const mine = _.get(challenge,`mine.${planId}.${challengeId}`,{});
-    const {content, submitId} = mine;
+    const { submitId} = mine;
+    const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
       this.showAlert("作业还没写完哦","提示");
       return;
     }
     // 根据 cid和planid加载
-    submitChallenge(submitId,content)
+    console.log(content);
+    submitChallenge(planId,challengeId,content)
       .then(res => {
       if (res.code === 200) {
         if(_.isNumber(res.msg)){
@@ -144,28 +147,29 @@ export default class DoChallenge extends React.Component<any,any> {
             目标最好是某个具体问题或场景 <br/>
             制定目标之前，可以先回顾该专题的知识体系<br/>
           </div>
-          <textarea cols="30" rows="10"
-                    value={content}
-                    onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>
+          <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,value))} moduleId="2"/>
+          {/*<textarea cols="30" rows="10"*/}
+                    {/*value={content}*/}
+                    {/*onChange={(e) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,e.currentTarget.value))}/>*/}
           <div className="submitBtnGroup">
-            <PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}
-                       referencedId={submitId}/>
+            {/*<PicUpload onUploadSuccess={(url)=>this.onUploadSuccess(url)} moduleId={moduleId}*/}
+                       {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
                         onClick={(e)=>this.goSubmitChallenge()}/>
           </div>
-          <div className="picContainer">
-            <ul className="picList">
-              {picList.map((pic, sequence) => {
-                // 循环存放picList
-                return (
-                  <li key={sequence} className="picItem">
-                    <img src={pic}/>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+          {/*<div className="picContainer">
+          <ul className="picList">
+            {picList.map((pic, sequence) => {
+              // 循环存放picList
+              return (
+                <li key={sequence} className="picItem">
+                  <img src={pic}/>
+                </li>
+              )
+            })}
+          </ul>
+        </div>*/}
         </div>
       )
     }

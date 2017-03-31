@@ -4384,7 +4384,8 @@
               return;
             }
             src = img ? img.src : _this.defaultImage;
-            return _this.loadImage($img, src, function() {
+            // 这个src是base64的，不要存放base64的图
+            return _this.loadImage($img, _this.defaultImage, function() {
               if (_this.popover.active) {
                 _this.popover.refresh();
                 return _this.popover.srcEl.val(_this._t('uploading')).prop('disabled', true);
@@ -4561,11 +4562,13 @@
       })(this);
       img.onerror = function() {
         if ($.isFunction(callback)) {
+          console.log("img onerror",callback);
           callback(false);
         }
         $mask.remove();
         return $img.removeData('mask').removeClass('loading');
       };
+      console.log("loadImage return",src);
       return img.src = src;
     };
 

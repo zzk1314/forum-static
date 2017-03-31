@@ -19,26 +19,40 @@ export default class Editor extends React.Component {
     }
   }
   componentDidMount(){
-    this.state.editor = new Simditor({
+    console.log("did");
+    let editor = new Simditor({
       textarea: $('#editor'),
       toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
-               'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
+               'code', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
       upload:{
         url:'/file/image/upload/' + this.props.moduleId || 2,
         fileKey:'file'
       },
       imageButton:'upload',
-      defaultImage: this.props.defaultImage //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
+      defaultImage: this.props.defaultImage || "http://www.iquanwai.com/images/logo.png" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
+    // editor.on("valuechanged",(e,type)=>{
+    //   if(type=="oninput"){
+    //     console.log(e.target.getValue());
+    //     this.props.onChange(e)
+    //   }
+    // })
     if(this.props.value && this.props.value.length>0){
-      this.state.editor.setValue(this.props.value)
+      editor.setValue(this.props.value)
     }
+    this.setState({editor:editor});
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.value != this.props.value){
-      this.state.editor.setValue(nextProps.value)
+    if(nextProps.defaultValue && !this.props.defaultValue){
+      this.state.editor.setValue(nextProps.defaultValue)
     }
   }
+
+  componentWillUnmount(){
+    console.log('save',this.getValue());
+    this.props.onChange(this.getValue());
+  }
+
   getValue(){
     return this.state.editor.getValue()
   }

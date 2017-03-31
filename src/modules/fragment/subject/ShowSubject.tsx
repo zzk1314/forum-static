@@ -122,7 +122,7 @@ export default class ShowChallenge extends React.Component<any,any> {
     const { isMine } = this.state;
     if (isMine && submitId) {
       this.context.router.push({
-        pathname: "fragment/subject/write",
+        pathname: "/fragment/subject/write",
         query: {submitId,problemId}
       })
     } else {
@@ -283,9 +283,9 @@ export default class ShowChallenge extends React.Component<any,any> {
         </div>
         <div className="showContentContainer">
           <div className="content">
-            <pre>{content}</pre>
+            <pre dangerouslySetInnerHTML={{__html:content}}/>
           </div>
-          <div className="picContainer">
+          {/*<div className="picContainer">
             <ul className="picList">
               {picList.map((pic, sequence) => {
                 // 循环存放picList
@@ -297,7 +297,7 @@ export default class ShowChallenge extends React.Component<any,any> {
                 )
               })}
             </ul>
-          </div>
+          </div>*/}
         </div>
         <div className="voteContainer">
           {this.state.tipVote ?<div className="voteTip">感谢您的肯定，我会继续努力哒</div>: null}

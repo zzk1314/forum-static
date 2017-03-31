@@ -167,9 +167,7 @@ export default class ApplicationList extends React.Component<any,any> {
                   <div className="up-name">{item.upName}</div>
                   <div className="up-time">{item.upTime}</div>
                 </div>
-                <div className="content">
-                  {item.content}
-                </div>
+                <div className="content" dangerouslySetInnerHTML={{__html:item.content}}/>
                 {renderControl(item)}
               </div>
             )

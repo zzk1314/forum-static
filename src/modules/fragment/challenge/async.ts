@@ -12,8 +12,8 @@ export function loadSelfChallengeSubmit(planId, cid) {
   return pget(`/pc/fragment/challenge/mine/${planId}/${cid}`);
 }
 
-export function submitChallenge(submitId, content) {
-  return ppost(`/pc/fragment/challenge/submit/${submitId}`, {answer: content});
+export function submitChallenge(planId,challengeId, content) {
+  return ppost(`/pc/fragment/challenge/submit/${planId}/${challengeId}`, {answer: content});
 }
 
 export function loadChallengeSubmit(submitId){
