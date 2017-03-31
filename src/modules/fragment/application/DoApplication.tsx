@@ -48,11 +48,9 @@ export default class DoApplication extends React.Component<any,any> {
       this.setState({submitLoading:true});
       loadSelfApplication(planId,applicationId)
         .then(res => {
-          console.log("application",res);
           this.setState({submitLoading:false});
           if (_.isEqual(res.code, 200)) {
             // 加载成功
-            console.log("ajax:",res.msg);
             dispatch(set(`application.mine.${planId}.${applicationId}`,res.msg));
           } else {
             throw new BreakSignal(res.msg);

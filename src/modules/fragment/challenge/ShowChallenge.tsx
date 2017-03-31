@@ -65,7 +65,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       // 获取成功
       loadChallengeSubmit(submitId)
         .then((res) => {
-          console.log("submit", res);
           if (res.code === 200) {
             this.setState({
               title: res.msg.title,
@@ -94,7 +93,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       loadComments(CommentType.Challenge, submitId, this.state.page)
         .then(res => {
           if (res.code === 200) {
-            console.log(res);
             const {list,count} = res.msg;
             if(list.length<count){
               this.setState({commentList: list, hasMore: true});
@@ -151,11 +149,9 @@ export default class ShowChallenge extends React.Component<any,any> {
             // 成功
             if (_.isEqual(voteStatus, 1)) {
               // 提示取消成功
-              console.log("取消点赞成功")
               this.setState({voteCount: Number(voteCount) - 1, voteStatus: 0})
               this.tipDiVote();
             } else {
-              console.log("点赞成功");
               this.setState({voteCount: Number(voteCount) + 1, voteStatus: 1})
               this.tipVote();
             }
@@ -257,7 +253,6 @@ export default class ShowChallenge extends React.Component<any,any> {
       <div className="showContainer">
         <div className="backContainer">
           <span onClick={()=>{
-            console.log(planId,challengeId);
             this.context.router.push({
             pathname:'/fragment/challenge/list',
             query:{

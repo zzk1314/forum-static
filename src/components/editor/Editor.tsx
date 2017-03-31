@@ -19,7 +19,6 @@ export default class Editor extends React.Component {
     }
   }
   componentDidMount(){
-    console.log("did");
     let editor = new Simditor({
       textarea: $('#editor'),
       toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
@@ -49,7 +48,6 @@ export default class Editor extends React.Component {
   }
 
   componentWillUnmount(){
-    console.log('save',this.getValue());
     this.props.onChange(this.getValue());
   }
 
