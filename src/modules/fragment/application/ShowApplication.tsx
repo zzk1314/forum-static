@@ -106,7 +106,6 @@ export default class ShowChallenge extends React.Component<any,any> {
   goEdit(e) {
     // 进入修改页面
     const {planId, isMine, applicationId} = this.state;
-    console.log(isMine, planId, applicationId, this.state);
     if (isMine && planId && applicationId) {
       this.context.router.push({
         pathname: "/fragment/application",
@@ -141,11 +140,9 @@ export default class ShowChallenge extends React.Component<any,any> {
             // 成功
             if (_.isEqual(voteStatus, 1)) {
               // 提示取消成功
-              console.log("取消点赞成功")
               this.setState({voteCount: Number(voteCount) - 1, voteStatus: 0})
               this.tipDiVote();
             } else {
-              console.log("点赞成功");
               this.setState({voteCount: Number(voteCount) + 1, voteStatus: 1})
               this.tipVote();
             }

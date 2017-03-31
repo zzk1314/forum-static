@@ -112,7 +112,6 @@ export default class ChallengeList extends React.Component<any,any> {
 
     const renderMine = () => {
       const {mine = {}} = this.state;
-      console.log(mine);
       return (
         <div className="mineContainer">
           <WorkItem  {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}

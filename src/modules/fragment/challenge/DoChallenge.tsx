@@ -51,7 +51,6 @@ export default class DoChallenge extends React.Component<any,any> {
           this.setState({submitLoading:false});
           if (_.isEqual(res.code, 200)) {
             // 加载成功
-            console.log("ajax:",res.msg);
             dispatch(set(`challenge.mine.${planId}.${challengeId}`,res.msg));
           } else {
             throw new BreakSignal(res.msg);
@@ -96,7 +95,6 @@ export default class DoChallenge extends React.Component<any,any> {
       return;
     }
     // 根据 cid和planid加载
-    console.log(content);
     submitChallenge(planId,challengeId,content)
       .then(res => {
       if (res.code === 200) {

@@ -9,7 +9,6 @@ export default class WorkItem extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
-    console.log(props.content);
     this.state = {
       filterContent:_.isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
     }

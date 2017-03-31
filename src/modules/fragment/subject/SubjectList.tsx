@@ -212,7 +212,6 @@ export default class ApplicationList extends React.Component<any,any> {
       )
     }
 
-    console.log(perfectList)
     return (
       <div className="subject-list">
         <div className="subject-header">

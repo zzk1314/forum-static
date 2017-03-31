@@ -63,7 +63,6 @@ export default class WriteSubject extends React.Component<any,any> {
         this.setState({submitLoading:false});
         if (_.isEqual(res.code, 200)) {
           // 加载成功
-          console.log("ajax:",res.msg);
           this.setState({data:res.msg});
           // dispatch(set(`challenge.mine.${planId}.${challengeId}`,res.msg));
         } else {
@@ -85,7 +84,6 @@ export default class WriteSubject extends React.Component<any,any> {
           this.setState({submitLoading:false});
           if (_.isEqual(res.code, 200)) {
             // 加载成功
-            console.log("ajax:",res.msg);
             this.setState({data:res.msg});
             // dispatch(set(`challenge.mine.${planId}.${challengeId}`,res.msg));
           } else {
@@ -125,7 +123,6 @@ export default class WriteSubject extends React.Component<any,any> {
     const {data} = this.state;
     const { title,labelList,picList = []} = data;
     const content = this.refs.editor.getValue();
-    console.log(content);
     if (_.isEmpty(content)) {
       this.showAlert("内容未输入","提示");
       return;
@@ -146,7 +143,6 @@ export default class WriteSubject extends React.Component<any,any> {
     let submitLabels = _.merge([],labelList.filter(item=>item.selected));
     // let updatePicList = [].concat(picList.map(item=>reg.exec(item)[0]));
     let updatePicList = [];
-    console.log(updatePicList);
     submitSubject(problemId,submitId,title,content,submitLabels,updatePicList)
       .then(res => {
         if (res.code === 200) {
@@ -180,10 +176,8 @@ export default class WriteSubject extends React.Component<any,any> {
   }
 
   clickLabel(selected,seq){
-    console.log(selected,seq);
     const {data} = this.state;
     let labels = _.get(data,"labelList");
-    console.log(labels);
     this.setState({data:_.merge({},data,{labelList:_.set(_.merge([],labels),`[${seq}].selected`,!selected)})});
   }
 
