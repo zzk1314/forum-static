@@ -270,7 +270,9 @@ export default class ShowChallenge extends React.Component<any,any> {
           </div>
         </div>
         <div className="showContentContainer">
-          <div className="content" dangerouslySetInnerHTML={{__html:content}}/>
+          <div className="content">
+            <pre dangerouslySetInnerHTML={{__html:content}}/>
+          </div>
           {/*<div className="picContainer">
             <ul className="picList">
               {picList.map((pic, sequence) => {

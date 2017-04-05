@@ -227,7 +227,7 @@ export default class WriteSubject extends React.Component<any,any> {
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
                         onClick={(e)=>this.goSubmitSubject()}/>
           </div>
-          <div className="picContainer">
+          {/*<div className="picContainer">
             <ul className="picList">
               {picList?picList.map((pic, sequence) => {
                 // 循环存放picList
@@ -238,7 +238,7 @@ export default class WriteSubject extends React.Component<any,any> {
                 )
               }):null}
             </ul>
-          </div>
+          </div>*/}
         </div>
       )
     }
