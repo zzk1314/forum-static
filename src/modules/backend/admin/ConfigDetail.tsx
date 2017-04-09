@@ -1,14 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {List, ListItem,makeSelectable} from 'material-ui/List';
 import * as _ from "lodash";
 import "./ConfigDetail.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {TextField} from 'material-ui/TextField';
 import {addConfig, loadConfig, deleteConfig, updateConfig} from "./async"
 import {imgSrc} from "utils/imgSrc"
-import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import Alert from '../../../components/AlertMessage'
 
 
 const style = {
@@ -45,8 +43,13 @@ export default class ConfigDetail extends React.Component<any,any> {
     super();
     this.state = {
       projectId:'',
-      data:{},
+      data:[],
       config:{},
+      alert: false,
+      idx:0,
+      add:false,
+      key:"",
+      value:"",
     }
   }
 
@@ -54,54 +57,129 @@ export default class ConfigDetail extends React.Component<any,any> {
     const {projectId} = this.props.location.query
     loadConfig(projectId).then(res => {
       if(res.code === 200){
-        this.setState({projectId, data:_.merge(res.msg, {display:true, edit:false})})
+        this.setState({projectId, data:res.msg})
       }
     })
   }
 
 
   onChange(key, value){
-    this.setState({config:{key:key, value:value}})
+    const {projectId} = this.props.location.query
+    this.setState({config:{key:key, value:value, projectId}})
   }
 
-  onEdit(key){
-    console.log(key)
+  onEdit(idx){
+    let {data} = this.state
+    _.set(data[idx], 'edit', true)
+    this.setState({data})
   }
 
-  onComplete(key){
-    console.log(key)
+  onAdd(){
+    let {key,value, data} = this.state
+    const {dispatch} = this.props
+    const {projectId} = this.props.location.query
+    data.push({key,value,projectId, edit:false, display:true})
+    this.setState({data, add:false})
+
+    addConfig({key,value,projectId}).then(res=>{
+      const {code, msg} = res
+      if(code !== 200){
+        dispatch(alertMsg(msg))
+      }
+    })
+
+  }
+
+  onComplete(idx){
+    const {dispatch} = this.props
+    let {data, config} = this.state
+    _.set(data[idx], 'edit', false)
+    _.set(data[idx], config.key, config.value)
+    this.setState({data})
+    updateConfig(config).then(res=>{
+      const {code, msg} = res
+      if(code !== 200){
+        dispatch(alertMsg(msg))
+      }
+    })
+
+  }
+
+  onRemove(){
+    let {data, idx} = this.state
+    const {dispatch} = this.props
+    _.set(data[idx], 'display', false)
+    this.setState({data, alert:false})
+    deleteConfig(data[idx]).then(res=>{
+      const {code, msg} = res
+      if(code !== 200){
+        dispatch(alertMsg(msg))
+      }
+    })
+
   }
 
   render() {
-    const {data} = this.state
+    const {data, alert, add} = this.state
+
+    const actions = [
+      {
+        "label":"确定",
+        "onClick": this.onRemove.bind(this),
+        "secondary":true,
+      },
+      {
+        "label":"取消",
+        "onClick": ()=>this.setState({alert:false}),
+        "primary":true,
+      }
+    ]
+
+    const renderConfig = (configList)=>{
+      return (
+          configList.map( (v, idx)=>{
+            return (
+              v.display === true ?
+              <div key={idx}>
+                <div className="key">{v.key}</div>
+                <div className="value">
+                  <textarea className="config-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
+                            onChange={(e)=>this.onChange(v.key, e.currentTarget.value)} defaultValue={v.value} />
+                </div>
+                <div className="icon">
+                  { v.edit === false ?
+                      <img className="icon-img" src={imgSrc.configEdit} onClick={this.onEdit.bind(this, idx)}/> :
+                      <img className="icon-img" src={imgSrc.configComplete} onClick={this.onComplete.bind(this, idx)}/>}
+                  <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.setState({add:true})}/>
+                  <img className="icon-img" src={imgSrc.configRemove} onClick={()=>this.setState({alert:true, idx:idx})}/>
+                </div>
+                <Divider/>
+              </div>
+              : null)
+          }
+      ))
+    }
 
     return (
       <div className="backendContent">
-        {_.keys(data).map( (key)=>{
-          return (
-          data.display === true ?
-            <div key={key}>
-              <div className="key">{key}</div>
-              <div className="value">
-                {data.edit === false ?
-                  <textarea className="config-textarea" cols={30} rows={10} readOnly={true}
-                    defaultValue={`data.${key}`} />:
-                    <textarea className="config-textarea" cols={30} rows={10} readOnly={false}
-                              onChange={(e)=>this.onChange(key, e.currentTarget.value)} defaultValue={`data.${key}`} />
-                }
-              </div>
-              <div className="icon">
-                { data.edit === false ?
-                <img className="icon-img" src={imgSrc.configEdit} onClick={this.onEdit.bind(this, key)}/> :
-                    <img className="icon-img" src={imgSrc.configComplete} onClick={this.onComplete.bind(this, key)}/>}
-                <img className="icon-img" src={imgSrc.configAdd}/>
-                <img className="icon-img" src={imgSrc.configRemove}/>
-              </div>
-              <Divider/>
-            </div>
-            : null
-          )
-        })}
+        {renderConfig(data)}
+        <Alert content="确定要删除这个配置吗？" open={alert} actions={actions}/>
+        {add?
+        <div>
+          <div className="key">
+            <textarea className="config-textarea" cols={30} rows={10} readOnly={false}
+                      onChange={(e)=>this.setState({key:e.currentTarget.value}) }/>
+          </div>
+          <div className="value">
+                  <textarea className="config-textarea" cols={30} rows={10} readOnly={false}
+                            onChange={(e)=>this.setState({value:e.currentTarget.value})} />
+          </div>
+          <div className="icon">
+            <img className="icon-img" src={imgSrc.configComplete} onClick={this.onAdd.bind(this)}/>
+            <img className="icon-img" src={imgSrc.configRemove} onClick={()=>this.setState({add:false})}/>
+          </div>
+          <Divider/>
+        </div> :null}
       </div>
     )
   }

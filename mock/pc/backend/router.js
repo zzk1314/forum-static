@@ -305,27 +305,29 @@ router.get("/pc/operation/homework/*", (req, res) => {
 router.get("/pc/admin/config/*", (req, res) => {
     setTimeout(() => {
         res.status(200).json({
-            "msg": {
-                "static.resource.url": "http://frag.confucius.mobi/bundle.js?",
-                "debug": "false",
-                "press.test": "false",
-                "app.domainname": ".confucius.mobi",
-                "vote.score": "2",
-                "upload.image.domain": "http://www.confucius.mobi",
-                "front.debug": "false",
-                "adapter.domain": "http://www.confucius.mobi",
-                "js.internal": "7200",
-                "open.log": "true",
-                "log.debug": "false",
-                "challenge.score": "30"
-            },
+            "msg": [
+                {
+                    "key":"static.resource.url",
+                    "value":"http://frag.confucius.mobi/bundle.js?",
+                    "projectId":"rise",
+                    "edit":false,
+                    "display":true,
+                },
+                {
+                    "key":"app.domainname",
+                    "value":".confucius.mobi",
+                    "projectId":"rise",
+                    "edit":false,
+                    "display":true,
+                },
+            ],
             "code": 200
         });
     }, Math.random() * 1500);
 });
 
 
-router.post("/pc/admin/config/add/*", (req, res) => {
+router.post("/pc/admin/config/add", (req, res) => {
     setTimeout(() => {
         res.status(200).json({
             "msg": "ok",
@@ -334,7 +336,7 @@ router.post("/pc/admin/config/add/*", (req, res) => {
     }, Math.random() * 1500);
 });
 
-router.post("/pc/admin/config/update/*", (req, res) => {
+router.post("/pc/admin/config/update", (req, res) => {
     setTimeout(() => {
         res.status(200).json({
             "msg": "ok",
@@ -343,7 +345,7 @@ router.post("/pc/admin/config/update/*", (req, res) => {
     }, Math.random() * 1500);
 });
 
-router.post("/pc/admin/config/delete/*", (req, res) => {
+router.post("/pc/admin/config/delete", (req, res) => {
     setTimeout(() => {
         res.status(200).json({
             "msg": "ok",
