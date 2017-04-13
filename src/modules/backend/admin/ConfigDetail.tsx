@@ -141,6 +141,7 @@ export default class ConfigDetail extends React.Component<any,any> {
             return (
               v.display === true ?
               <div key={idx}>
+                <div className="idx">{idx}</div>
                 <div className="key">{v.key}</div>
                 <div className="value">
                   <textarea className="config-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
