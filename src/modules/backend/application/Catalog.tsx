@@ -91,7 +91,7 @@ export default class Catalog extends React.Component<any,any> {
             {/*</div>*/}
           {/*</div>*/}
           <div className="item-container">
-            <div className="title app">应用训练</div>
+            <div className="title app">应用练习</div>
             <div className="app-container">
               {applicationList.map((item,seq) =>{
                     return (
