@@ -215,7 +215,7 @@ export default class ApplicationList extends React.Component<any,any> {
     return (
       <div className="subject-list">
         <div className="subject-header">
-          <div className="title">专题分享</div>
+          <div className="title">小课论坛</div>
           <div onClick={()=>this.goMine()} className="mine">我的分享</div>
         </div>
         <Divider style={style.divider}/>
