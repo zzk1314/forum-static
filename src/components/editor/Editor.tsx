@@ -22,7 +22,7 @@ export default class Editor extends React.Component {
     let editor = new Simditor({
       textarea: $('#editor'),
       toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
-               'code', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
+        'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
       upload:{
         url:'/file/image/upload/' + this.props.moduleId || 2,
         fileKey:'file'

@@ -82,7 +82,7 @@ export default class ProblemView extends React.Component<any,any> {
       return (
           <List>
             <Subheader style={style.listTitle}>
-              <div className="listTitle">专题</div>
+              <div className="listTitle">小课</div>
             </Subheader>
             <Divider style={style.divider}/>
             {problemList.map((catalog, index) => {

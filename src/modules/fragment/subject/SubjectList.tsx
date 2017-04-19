@@ -195,13 +195,17 @@ export default class ApplicationList extends React.Component<any,any> {
                     <div className="comment-count">评论&nbsp;{item.commentCount}</div>
                   </div>
                 </div>
-                <div className="up-info">
-                  <Avatar
-                    src={item.headPic}
-                    size={30}
-                  />
-                  <div className="up-name">{item.upName}</div>
-                  <div className="up-time">{item.upTime}</div>
+                <div className="author">
+                  <div className="avatar">
+                    <Avatar
+                        src={item.headPic}
+                        size={30}
+                    />
+                  </div>
+                  <div className="upInfo">
+                    <div className="upName">{item.upName}</div>
+                    <div className="upTime">{item.upTime + "上传"}</div>
+                  </div>
                 </div>
                 <div className="content" dangerouslySetInnerHTML={{__html:item.content}}/>
                 {renderControl(item)}
@@ -215,7 +219,7 @@ export default class ApplicationList extends React.Component<any,any> {
     return (
       <div className="subject-list">
         <div className="subject-header">
-          <div className="title">专题分享</div>
+          <div className="title">小课论坛</div>
           <div onClick={()=>this.goMine()} className="mine">我的分享</div>
         </div>
         <Divider style={style.divider}/>

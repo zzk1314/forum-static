@@ -71,10 +71,10 @@ export default class Fragment extends React.Component<any,any> {
           <div className="catalog-area">
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/warmup'})
-            }}>理解训练</div>
+            }}>巩固练习</div>
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/application/problem/list'})
-            }}>应用训练</div>
+            }}>应用练习</div>
           </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">管理员功能</div>

@@ -189,7 +189,7 @@ export default class WriteSubject extends React.Component<any,any> {
     const renderDoWorkArea = () => {
       return (
         <div className="doWorkArea">
-          {/*<div className="myWorkTitle">精华分享区</div>*/}
+          {/*<div className="myWorkTitle">小课论坛</div>*/}
           <div className="backContainer">
           <span onClick={()=>{
             this.context.router.push({

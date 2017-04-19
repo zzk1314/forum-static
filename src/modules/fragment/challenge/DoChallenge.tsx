@@ -143,7 +143,7 @@ export default class DoChallenge extends React.Component<any,any> {
           <div className="tips">
             本题答案仅自己可见 <br/>
             目标最好是某个具体问题或场景 <br/>
-            制定目标之前，可以先回顾该专题的知识体系<br/>
+            制定目标之前，可以先回顾该小课的知识体系<br/>
           </div>
           <Editor ref="editor" value={content} defaultValue={content} onChange={(value) => dispatch(set(`challenge.mine.${planId}.${challengeId}.content`,value))} moduleId="2"/>
           {/*<textarea cols="30" rows="10"*/}
