@@ -1,0 +1,111 @@
+@import "../../../../style/variable";
+
+.warm-up-edit {
+  height: 100%;
+  .header {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 2px solid @color_theme;
+    text-align: center;
+    color: @color_context
+  }
+  .intro-container {
+    margin-left: 10px;
+    height: 100%;
+    overflow: auto;
+
+    > .intro-index {
+      margin: 15px 0 10px 0;
+      color: #f7a466;
+      font-size: 13px;
+      > .index {
+        color: #999999;
+        font-size: 13px;
+      }
+      > .type {
+        margin-left: 14px;
+        color: #f7a466;
+        font-size: 13px;
+        > .number {
+          font-size: 18px;
+        }
+      }
+    }
+    > .question {
+      width: 100%;
+      margin-bottom: 37.5px;
+      margin-top: 20px;
+      white-space: normal;
+      word-break: break-all;
+      font-size: 13px;
+    }
+
+    .writeDiscuss {
+      position: absolute;
+      height:55px;
+      width:55px;
+      left:15px;
+      bottom: 68px;
+    }
+    > .choice-list {
+      margin-bottom: 10px;
+      > .choice {
+        width: 100%;
+        color: #cccccc;
+        min-height: 50px;
+        > .text {
+          display: inline-block;
+          color: @color_context;
+          width: ~"calc(100% - 70px)";
+          height: 100%;
+          min-height: 50px;
+          vertical-align: middle;
+          font-size: 13px;
+          padding-left: 5px;
+          border: 1px solid #cccccc;
+        }
+        > .select{
+          display: inline-block;
+          margin-right: 20px;
+        }
+      }
+      > .choice + .choice {
+        margin-top: 15px;
+      }
+    }
+    > .analysis {
+      margin-top: 25px;
+      border-top: 1px solid #d0d0d0;
+      > .analysis-title {
+        font-size: 13px;
+        color: @color_theme;
+        margin: 10px 0 10px -0.5rem;
+      }
+      > .knowledge-link {
+        color: #55cbcb;
+        font-size: 13px;
+        height: 30px;
+        margin-top: 15px;
+      }
+    }
+  }
+  > .submitArea{
+    margin-top: 20px;
+    text-align: center;
+    > .submitBtn{
+      display: inline-block;
+      margin: 0 20px;
+      width:70px;
+      text-align: center;
+      line-height: 30px;
+      color: #FFFFFF;
+      background-color:#55cbcb;
+      font-size:16px;
+      cursor:pointer;
+      border-radius: 5px;
+    }
+  }
+
+}

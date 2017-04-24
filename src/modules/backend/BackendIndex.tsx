@@ -7,7 +7,6 @@ import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import VerticalBarLoading from "../../components/VerticalBarLoading"
-import {loadProblems} from "./async"
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import {imgSrc} from "utils/imgSrc"
@@ -69,12 +68,17 @@ export default class Fragment extends React.Component<any,any> {
           <Divider style={style.divider}/>
 
           <div className="catalog-area">
-            <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/warmup'})
-            }}>巩固练习</div>
-            <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/application/problem/list'})
-            }}>应用练习</div>
+              {window.ENV.isDevelopment?
+                  <div className="catalog-name" onClick={()=>{
+                        this.context.router.push({pathname:'/backend/warmup/management'})
+                  }}>巩固练习管理</div>:null
+              }
+              <div className="catalog-name" onClick={()=>{
+                this.context.router.push({pathname:'/backend/warmup'})
+              }}>巩固练习评论</div>
+              <div className="catalog-name" onClick={()=>{
+                this.context.router.push({pathname:'/backend/application/problem/list'})
+              }}>应用练习评论</div>
           </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">管理员功能</div>

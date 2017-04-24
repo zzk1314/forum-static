@@ -25,11 +25,14 @@ import Welcome from "./modules/backend/Welcome"
 import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
 import PracticeView from "./modules/backend/warmup/PracticeView"
 import Discuss from "./modules/backend/warmup/Discuss"
-import ProblemView from "./modules/backend/application/ProblemView"
+import ApplicationProblemList from "./modules/backend/application/ProblemList"
 import CatalogView from "./modules/backend/application/Catalog"
 import ApplicationView from "./modules/backend/application/ApplicationList"
 import ProjectConfig from "./modules/backend/admin/ProjectConfig"
 import ConfigDetail from "./modules/backend/admin/ConfigDetail"
+import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
+import WarmupPracticeList from "./modules/backend/warmup/edit/WarmupPracticeList"
+import PracticeEditView from "./modules/backend/warmup/edit/PracticeView"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -61,7 +64,11 @@ const routes = (
       <Route path="backend/warmup" component={HotWarmupPractice}/>
       <Route path="backend/warmup/view" component={PracticeView}/>
       <Route path="backend/warmup/discuss" component={Discuss}/>
-      <Route path="/backend/application/problem/list" component={ProblemView}>
+      <Route path="/backend/warmup/management" component={WarmupProblemList}>
+          <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
+          <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+      </Route>
+      <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
         <Route path="/backend/application/catalog" component={CatalogView}/>
         <Route path="/backend/application/list" component={ApplicationView}/>
       </Route>

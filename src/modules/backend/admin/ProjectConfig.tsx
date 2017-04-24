@@ -1,16 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {List, ListItem,makeSelectable} from 'material-ui/List';
-import * as _ from "lodash";
-import "./ProjectConfig.less"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import VerticalBarLoading from "../../components/VerticalBarLoading"
 import {loadProblems} from "./async"
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-import {imgSrc} from "utils/imgSrc"
 
 
 const style = {

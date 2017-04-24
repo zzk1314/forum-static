@@ -1,16 +1,16 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import "./HotWarmupPractice.less"
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
-import {loadHotPractice} from "./async"
-import {BreakSignal, Stop} from "../../../utils/request"
+import "./WarmupPracticeList.less"
+import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
+import {loadWarmupList} from "../async"
+import {BreakSignal, Stop} from "../../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 
 
 @connect(state => state)
-export default class HotWarmupPractice extends React.Component<any,any> {
+export default class WarmupPracticeList extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -24,7 +24,8 @@ export default class HotWarmupPractice extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    loadHotPractice().then(res => {
+    const {problemId} = this.props.location.query
+    loadWarmupList(problemId).then(res => {
       if (res.code === 200) {
         this.setState({
           practiceList: res.msg
@@ -38,13 +39,14 @@ export default class HotWarmupPractice extends React.Component<any,any> {
   }
 
   view(practice){
-    this.context.router.push({pathname:'/backend/warmup/view', query:{id: practice.id}})
+    this.context.router.push({pathname:'/backend/warmup/edit/view', query:{id: practice.id}})
   }
 
   render() {
     const {practiceList=[]} = this.state
 
     const renderPractice = (practiceList) =>{
+      console.log(practiceList)
       return (
         practiceList.map((practice, index)=>{
           return (
@@ -61,7 +63,7 @@ export default class HotWarmupPractice extends React.Component<any,any> {
 
     return (
         <div className="hotPractice">
-          <Subheader>热门的巩固练习</Subheader>
+          <Subheader>巩固练习</Subheader>
           {renderPractice(practiceList)}
         </div>
     )

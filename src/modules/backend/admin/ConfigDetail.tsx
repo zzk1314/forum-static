@@ -144,7 +144,7 @@ export default class ConfigDetail extends React.Component<any,any> {
                 <div className="idx">{idx}</div>
                 <div className="key">{v.key}</div>
                 <div className="value">
-                  <textarea className="config-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
+                  <textarea className="edit-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
                             onChange={(e)=>this.onChange(v.key, e.currentTarget.value)} defaultValue={v.value} />
                 </div>
                 <div className="icon">
