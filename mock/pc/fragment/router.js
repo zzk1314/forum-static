@@ -176,7 +176,6 @@ router.get("/pc/fragment/homework/*", (req, res) => {
 
 
 router.get("/pc/fragment/comment/*/*", (req, res) => {
-  console.log(req.query);
   setTimeout(() => {
     res.status(200).json({
       "msg": {
@@ -214,6 +213,15 @@ router.get("/pc/fragment/comment/*/*", (req, res) => {
       }, "code": 200
     })
   }, Math.random() * 1500);
+});
+
+router.post("/pc/fragment/comment/*/*", (req, res) => {
+    setTimeout(() => {
+        res.status(200).json({
+            "msg": "ok",
+            "code": 200
+        })
+    }, Math.random() * 1500);
 });
 
 router.get("/b/log", (req, res) => {

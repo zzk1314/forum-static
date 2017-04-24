@@ -8,8 +8,13 @@ import Avatar from 'material-ui/Avatar';
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import _ from "lodash"
 import "./ApplicationList.less"
-import {loadApplicationSubmit, highlight, loadApplication} from  "./async"
+import {loadApplicationSubmit, highlight, loadApplication, submitComment} from  "./async"
 
+export const CommentType = {
+  Challenge:1,
+  Application:2,
+  Subject:3,
+}
 
 @connect(state => state)
 export default class ApplicationList extends React.Component<any,any> {
@@ -113,15 +118,43 @@ export default class ApplicationList extends React.Component<any,any> {
     })
   }
 
+  showComment(id){
+    const {other} = this.state
+
+    other.forEach((item)=>{
+      if(item.id === id){
+        _.set(item, 'commenting', 1)
+      }
+    })
+
+    this.setState({other})
+  }
+
+  comment(id){
+    const {other, comment} = this.state
+    submitComment(CommentType.Application, id, comment).then(res =>{
+      if (res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      other.forEach((item)=>{
+        if(item.id === id){
+          _.set(item, 'comment', 1)
+          _.set(item, 'commenting', 0)
+        }
+      })
+      this.setState({other, comment:''})
+    })
+  }
+
   render() {
     const {other = [], hasMore, otherLoading, application} = this.state;
     const renderOther = () => {
       return (
         <div className="otherContainer">
           {other.map((item, index) => {
-            const {id, upName, headPic, upTime, content, applicationId, priority} = item;
+            const {id, upName, headPic, upTime, content, applicationId, priority, comment, commenting} = item;
             return (
-                <div key={index} className="workItemContainer">
+                <div key={index} className="workItemContainer" style={{marginTop:50}}>
                   <div className="titleArea">
                     <div className="leftArea">
                       <div className="author">
@@ -139,8 +172,7 @@ export default class ApplicationList extends React.Component<any,any> {
                     </div>
                   </div>
                   <div className="workContentContainer">
-                    <div className="content">
-                      {content}
+                    <div className="content" dangerouslySetInnerHTML={{__html:content}}>
                     </div>
                     <div className="rightArea">
                       {priority === 0 ?
@@ -148,7 +180,20 @@ export default class ApplicationList extends React.Component<any,any> {
                           加精
                         </div>:
                       <div className="function-done">已加精</div> }
+                      {comment === 0 ?
+                          <div className="function-button" onClick={()=>this.showComment(id)}>
+                            评论
+                          </div>:
+                          <div className="function-done">已评论</div> }
+
                     </div>
+                    {commenting === 1?
+                        <div className="commentSubmit">
+                                <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
+                                          onChange={(e)=>{this.setState({comment:e.target.value})}}/>
+                          <div className="commentBtn" onClick={()=>this.comment(id)}>提交</div>
+                        </div>:null
+                    }
                   </div>
                 </div>
             )
@@ -157,8 +202,8 @@ export default class ApplicationList extends React.Component<any,any> {
       )
     }
     return (
-      <div className="challengeListContainer">
-        <div className="myChallengeContainer">
+      <div className="applicationListContainer">
+        <div className="myApplicationContainer">
           <div className="desc" dangerouslySetInnerHTML={{__html:application.description}}></div>
           <div className="title">
             <span className="title-text">群众的智慧</span>

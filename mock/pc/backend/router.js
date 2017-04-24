@@ -194,10 +194,11 @@ router.get("/pc/operation/application/submit/*", (req, res) => {
                     "upName": "Pat",
                     "upTime": "2017年01月16日",
                     "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
-                    "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
+                    "content": "<p>关键词：收购、EMC、戴尔</p><p>反问：戴尔不收购EMC会怎么样？&nbsp;<span style='line-height: 1.6; background-color: transparent;'>&nbsp;</span></p><p><span style='line-height: 1.6; background-color: transparent;'>为什么戴尔不收购其他公司？&nbsp;</span></p><p><span style='line-height: 1.6; background-color: transparent;'>为什么不是其他公司收购EMC？</span></p><p>1.戴尔不收购EMC会怎么样？戴尔的主要业务是PC，而PC市场整体低迷，戴尔再不做出转型，将无法在市场上立足；</p><p>2. 为什么戴尔不收购其他公司？戴尔想要发展转型成为一家企业计算机服务提供商，EMC和戴尔产品互补，可以帮助其达成该目标。通过收购EMC，可将戴尔公司在小企业领域和中端市场上的优势与EMC在大企业领域中的优势结合到一起，可以整合服务器、存储、网络、安全、管理、软件、服务等多个方面的资源，形成帮扶企业用户建云过程中构建一个全面的解决方案，并会协助各种培训提供支持，从基础架构到云端提供全面帮助。通过收购EMC，戴尔将获得计算机数据存储市场最大的厂商之一，更有效地与思科和IBM等同业竞争。</p><p>3.为什么不是其他公司收购EMC？EMC是第一批为全新的计算机市场生产存储设备的公司之一，其错过了云计算的早期发展势头，传统储存设备业务逐渐式微，增长缓慢，面临亚马逊、谷歌等这类大型云计算公司的竞争压力，全资控股子公司VMware业务也一直在下滑。1）戴尔和EMC的产品线冲突不大，互补性强，而像惠普与EMC的产品重合度太多。2）戴尔已经完成了私有化，可让EMC远离功利投资的烦恼；3）戴尔的迈克尔是EMC理想的接班人：年轻、市场地位高、迈克尔是戴尔的创始人和拥有者，会用心经营新公司；4）戴尔的出价还不错，且有能力筹措到所需要的资金。综上，戴尔是EMC最合适的收购者。</p><p>总结：这一场收购是戴尔和EMC双赢的结果。</p>",
                     "voteCount": 1,
                     "id": 1,
-                    "type": 11
+                    "type": 11,
+                    "comment":0,
                 },
                 {
                     "title": null,
@@ -209,6 +210,7 @@ router.get("/pc/operation/application/submit/*", (req, res) => {
                     "id": 2,
                     "type": 11,
                     "priority":0,
+                    "comment":0,
                 },
                 {
                     "title": null,
@@ -220,6 +222,7 @@ router.get("/pc/operation/application/submit/*", (req, res) => {
                     "id": 3,
                     "type": 11,
                     "priority":0,
+                    "comment":0,
                 },
                 {
                     "title": null,
@@ -229,7 +232,8 @@ router.get("/pc/operation/application/submit/*", (req, res) => {
                     "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
                     "voteCount": 1,
                     "id": 4,
-                    "type": 11
+                    "type": 11,
+                    "comment":0,
                 },
                 {
                     "title": null,
@@ -239,7 +243,8 @@ router.get("/pc/operation/application/submit/*", (req, res) => {
                     "content": "1 为什么以前没有家长选择在孩子中学阶段就把他们送到美国留学？\n  答：以前家庭经济条件限制，现在越来越多的家庭经济条件很好。\n2 为什么现在越来越多家长选择在孩子中学阶段就不让其继续在国内读书？\n  答：国内教育模式，教育资源都相对较差。\n3 为什么现在越来越多家长不选择在孩子小学阶段或者大学阶段把他们送到美国留学？",
                     "voteCount": 1,
                     "id": 5,
-                    "type": 11
+                    "type": 11,
+                    "comment":0,
                 },
                 {
                     "title": null,
@@ -351,6 +356,13 @@ router.post("/pc/admin/config/delete", (req, res) => {
             "msg": "ok",
             "code": 200
         });
+    }, Math.random() * 1500);
+});
+
+
+router.get("/pc/operation/problem/list", (req, res) => {
+    setTimeout(() => {
+        res.status(200).json({"msg":[{"name":"沟通人际","problems":[{"id":1,"problem":"与人沟通时条理更清晰","status":null},{"id":2,"problem":"跟老板/家人提要求时更有说服力","status":null},{"id":5,"problem":"与人撕逼时找到对方逻辑漏洞","status":null}]},{"name":"思维方法","problems":[{"id":3,"problem":"面对前所未有的新问题时撬开脑洞","status":null},{"id":4,"problem":"临场发言也能掷地有声","status":null},{"id":9,"problem":"找到本质问题，减少无效努力","status":null},{"id":10,"problem":"普通人的第一堂营销课","status":null},{"id":11,"problem":"洞察他人行为背后的真相","status":null},{"id":12,"problem":"面对热点事件保持独立思考","status":null}]},{"name":"职业发展","problems":[{"id":6,"problem":"写出令HR过目难忘的简历","status":null},{"id":7,"problem":"在面试中脱颖而出","status":null},{"id":8,"problem":"给自己的未来定个发展策略","status":null}]}],"code":200});
     }, Math.random() * 1500);
 });
 

@@ -1,6 +1,6 @@
-.challengeListContainer{
+.applicationListContainer{
   margin:20px;
-  .myChallengeContainer{
+  .myApplicationContainer{
     > .more{
       text-align: center;
       color: #55cbcb;
@@ -64,6 +64,42 @@
           background: url(http://www.iqycamp.com/images/pcWorkSplit.png) no-repeat;
           margin-bottom: 3px;
         }
+      }
+    }
+
+    .commentSubmit{
+      > textarea{
+        width:98%;
+        resize: none;
+        height:120px;
+        font-size:16px;
+        border:1px solid #dedede;
+        &::-webkit-input-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+        &::-moz-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+        &:-ms-input-placeholder{
+          color:#cccccc;
+          padding-left:6px;
+        }
+      }
+
+      > .commentBtn {
+        margin-right:10px;
+        margin-top:8px;
+        float: right;
+        width:70px;
+        height:30px;
+        text-align: center;
+        line-height: 30px;
+        color: #FFFFFF;
+        background-color:#55cbcb;
+        font-size:16px;
+        cursor:pointer;
       }
     }
   }

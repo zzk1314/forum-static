@@ -19,7 +19,7 @@ const style = {
   }
 }
 @connect(state => state)
-export default class ShowChallenge extends React.Component<any,any> {
+export default class ShowApplication extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
