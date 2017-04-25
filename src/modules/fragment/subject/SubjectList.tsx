@@ -203,7 +203,13 @@ export default class ApplicationList extends React.Component<any,any> {
                     />
                   </div>
                   <div className="upInfo">
-                    <div className="upName">{item.upName}</div>
+                    <div className="intro">
+                      <div className="upName">{item.upName}</div>
+                      {item.role==3||item.role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+                      {item.role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                      {item.role==6||item.role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                      {item.role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+                    </div>
                     <div className="upTime">{item.upTime + "上传"}</div>
                   </div>
                 </div>

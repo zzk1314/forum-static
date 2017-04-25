@@ -17,7 +17,7 @@ export default class WorkItem extends React.Component<any,any> {
 
 
   render() {
-    const {headPic, upName, upTime, content, voteCount, onEditClick, onShowClick,showVote = true} = this.props;
+    const {headPic, role, upName, upTime, content, voteCount, onEditClick, onShowClick,showVote = true} = this.props;
     const { filterContent } = this.state;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
@@ -48,7 +48,13 @@ export default class WorkItem extends React.Component<any,any> {
                 />
               </div>
               <div className="upInfo">
-                <div className="upName">{upName}</div>
+                <div className="intro">
+                  <div className="upName">{upName}</div>
+                  {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+                  {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                  {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                  {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+                </div>
                 <div className="upTime">{upTime + "上传"}</div>
               </div>
             </div>

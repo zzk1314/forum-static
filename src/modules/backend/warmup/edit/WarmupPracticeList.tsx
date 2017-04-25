@@ -25,6 +25,9 @@ export default class WarmupPracticeList extends React.Component<any,any> {
   }
 
   componentWillMount(problemId) {
+    if(!problemId){
+      problemId = this.props.location.query.problemId
+    }
     loadWarmupList(problemId).then(res => {
       if (res.code === 200) {
         this.setState({
@@ -45,7 +48,7 @@ export default class WarmupPracticeList extends React.Component<any,any> {
   }
 
   view(practice){
-    this.context.router.push({pathname:'/backend/warmup/edit/view', query:{id: practice.id}})
+    this.context.router.push({pathname:'/backend/warmup/edit/view', query:{id: practice.id, problemId:practice.problemId}})
   }
 
   render() {

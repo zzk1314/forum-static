@@ -112,31 +112,19 @@ export default class practiceView extends React.Component <any, any> {
         }
     }
 
-    next(){
+    back(){
         const {data,edit} = this.state
         if(edit){
             saveWarmup(data).then(res =>{
-                this.getNext()
+                this.context.router.push({
+                    pathname:"/backend/warmup/edit/list",
+                    query:this.props.location.query});
             })
         }else{
-            this.getNext()
+            this.context.router.push({
+                pathname:"/backend/warmup/edit/list",
+                query:this.props.location.query});
         }
-    }
-
-    getNext(){
-        const {data} = this.state
-        loadNextWarmup(data.problemId, data.id).then(res =>{
-            const {msg, code} = res
-            if(code === 200){
-                if(msg){
-                    this.setState({data:msg, edit:false, questionEdit:false, analysisEdit:false})
-                }else{
-                    this.setState({message:'已到最后一题', snackOpen:true})
-                }
-            }else{
-                this.setState({message:msg, snackOpen:true})
-            }
-        })
     }
 
     render() {
@@ -196,7 +184,7 @@ export default class practiceView extends React.Component <any, any> {
 
                 <div className="submitArea">
                     <div className="submitBtn" onClick={()=>this.save()}>保存</div>
-                    <div className="submitBtn" onClick={()=>this.next()}>下一题</div>
+                    <div className="submitBtn" onClick={()=>this.back()}>返回</div>
                 </div>
                 <Snackbar
                     open={this.state.snackOpen}

@@ -22,6 +22,7 @@ router.get("/pc/fragment/application/list/mine/*", (req, res) => {
         "content": "fewfwefnn\n\n\nergreg rgreg\n继英彦章",
         "voteCount": 0,
         "submitId": 2,
+        "role":3,
         "type": 11
       }, "code": 200
     })
