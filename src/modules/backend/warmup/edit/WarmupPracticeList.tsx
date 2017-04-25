@@ -17,15 +17,14 @@ export default class WarmupPracticeList extends React.Component<any,any> {
     router: React.PropTypes.object.isRequired
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       practiceList: [],
     }
   }
 
-  componentWillMount() {
-    const {problemId} = this.props.location.query
+  componentWillMount(problemId) {
     loadWarmupList(problemId).then(res => {
       if (res.code === 200) {
         this.setState({
@@ -37,6 +36,12 @@ export default class WarmupPracticeList extends React.Component<any,any> {
         throw new BreakSignal(res.msg, "加载当前问题失败")
       }
     })
+  }
+
+  componentWillReceiveProps(newProps){
+    if(this.props.location.query.problemId !== newProps.location.query.problemId){
+      this.componentWillMount(newProps.location.query.problemId)
+    }
   }
 
   view(practice){
