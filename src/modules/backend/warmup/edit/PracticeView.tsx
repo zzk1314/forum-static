@@ -7,6 +7,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
 import Snackbar from 'material-ui/Snackbar'
 import _ from "lodash"
+import {encodeTextAreaString, decodeTextAreaString} from "../../textUtils"
 
 const sequenceMap = {
     0: 'A',
@@ -25,6 +26,8 @@ export default class practiceView extends React.Component <any, any> {
         this.state = {
             data: {},
             edit:false,
+            analysisEdit:false,
+            questionEdit:false,
             snackOpen:false,
             message:"",
         }
@@ -32,18 +35,6 @@ export default class practiceView extends React.Component <any, any> {
 
     static contextTypes = {
         router: React.PropTypes.object.isRequired
-    }
-
-    encodeTextAreaString(str) {
-        let reg = new RegExp("\n", "g");
-        str = str.replace(reg, "<br/>");
-        return str;
-    }
-
-    decodeTextAreaString(str) {
-        let reg = new RegExp("<br/>", "g");
-        str = str.replace(reg, "\n");
-        return str;
     }
 
     componentWillMount() {
@@ -63,7 +54,7 @@ export default class practiceView extends React.Component <any, any> {
 
     onQuestionChange(value){
         const {data} = this.state
-        value =this.encodeTextAreaString(value)
+        value =encodeTextAreaString(value)
         if(value !== data.question){
             _.set(data, "question", value)
             this.setState({data, edit:true, questionEdit:false})
@@ -72,7 +63,7 @@ export default class practiceView extends React.Component <any, any> {
 
     onAnalysisChange(value){
         const {data} = this.state
-        value =this.encodeTextAreaString(value)
+        value =encodeTextAreaString(value)
         if(value !== data.analysis){
             _.set(data, "analysis", value)
             this.setState({data, edit:true, analysisEdit:false})
@@ -138,7 +129,7 @@ export default class practiceView extends React.Component <any, any> {
             const {msg, code} = res
             if(code === 200){
                 if(msg){
-                    this.setState({data:msg, edit:false})
+                    this.setState({data:msg, edit:false, questionEdit:false, analysisEdit:false})
                 }else{
                     this.setState({message:'已到最后一题', snackOpen:true})
                 }
@@ -158,7 +149,7 @@ export default class practiceView extends React.Component <any, any> {
                     <div className="question">
                         {questionEdit?
                             <textarea className="edit-textarea" cols={30} rows={10}
-                                      onBlur={(e)=>this.onQuestionChange(e.currentTarget.value)} defaultValue={this.decodeTextAreaString(question)}/>:
+                                      onBlur={(e)=>this.onQuestionChange(e.currentTarget.value)} defaultValue={decodeTextAreaString(question)}/>:
                             <div className="context" dangerouslySetInnerHTML={{__html: question}} onClick={()=>this.setState({questionEdit:true})}></div>
                         }
                     </div>
@@ -169,7 +160,7 @@ export default class practiceView extends React.Component <any, any> {
                         <div className="analysis-title">【解析】</div>
                         {analysisEdit?
                             <textarea className="edit-textarea" cols={30} rows={10}
-                                      onBlur={(e)=>this.onAnalysisChange(e.currentTarget.value)} defaultValue={this.decodeTextAreaString(analysis)} />:
+                                      onBlur={(e)=>this.onAnalysisChange(e.currentTarget.value)} defaultValue={decodeTextAreaString(analysis)} />:
                             <div className="context" dangerouslySetInnerHTML={{__html: analysis}} onClick={()=>this.setState({analysisEdit:true})}></div>
                         }
                     </div>

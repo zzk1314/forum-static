@@ -7,6 +7,7 @@ import {loadHotPractice} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
+import {decodeTextAreaString2} from "../textUtils"
 
 
 @connect(state => state)
@@ -50,7 +51,8 @@ export default class HotWarmupPractice extends React.Component<any,any> {
           return (
             <div key={index}>
               <div className="practice" onClick={()=>{this.view(practice)}}>
-                {practice.question.length>40? practice.question.substring(0, 40).concat(' ...'): practice.question}
+                {practice.question.length>40? decodeTextAreaString2(practice.question).substring(0, 40).concat(' ...')
+                    : decodeTextAreaString2(practice.question)}
               </div>
               <Divider/>
             </div>
