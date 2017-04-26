@@ -27,7 +27,6 @@
     margin-bottom: 8px;
     margin-right: 8px;
     .title {
-      display: inline-block;
       color: #999999;
       font-size: 28px;
       font-weight:300;
@@ -39,22 +38,38 @@
     }
     .author {
       margin-top: 10px;
-      float: right;
       .avatar {
         float: left;
       }
       .upInfo {
         margin-left: 4px;
-        float: right;
-        .upName {
-          font-size: 16px;
-          color: #333333;
-          line-height:18px;
+        .intro {
+          .upName {
+            display: inline-block;
+            font-size: 16px;
+            color: #333333;
+            line-height: 18px;
+          }
+          .role {
+            display: inline-block;
+            margin-left: 5px;
+            > img {
+              vertical-align: bottom;
+              width: 53px;
+              height: 23px;
+            }
+          }
+          .upTime {
+            display: inline-block;
+            float: right;
+            color: #999999;
+            font-size: 12px;
+          }
         }
-        .upTime {
+        .signature{
           color: #999999;
           font-size: 12px;
-          margin-bottom:6px;
+          margin-top: 3px;
         }
       }
     }
