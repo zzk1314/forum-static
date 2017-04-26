@@ -68,6 +68,15 @@ export default class ProjectConfig extends React.Component<any,any> {
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/project/config', query:{projectId:'rise'}})
             }}>RISE</div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'course'}})
+            }}>训练营</div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'job'}})
+            }}>JOB</div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'arch'}})
+            }}>架构</div>
           </div>
         </List>
       )
