@@ -68,7 +68,8 @@ export default class ApplicationList extends React.Component<any,any> {
               item.perfect?perfectList.push(item):normalList.push(item);
             });
           }
-          this.setState({perfectList: this.state.perfectList.concat(perfectList), normalList: this.state.normalList.concat(normalList),perfectLoading: false,otherLoading:false,end:res.msg.end,page:page})
+          this.setState({perfectList: this.state.perfectList.concat(perfectList), normalList: this.state.normalList.concat(normalList),
+            perfectLoading: false,otherLoading:false,moreLoading:false,end:res.msg.end,page:page})
           return res.msg;
         } else if(res.code === 401) {
           this.context.router.push({
@@ -78,17 +79,17 @@ export default class ApplicationList extends React.Component<any,any> {
             }
           })
         } else {
-          this.setState({perfectLoading: false, otherLoading: false});
+          this.setState({perfectLoading: false, otherLoading: false, moreLoading:false});
           this.context.router.push({pathname: "/servercode"});
           throw new Stop();
         }
       }).catch(err => {
       console.log("catch", err);
       if (err instanceof BreakSignal) {
-        this.setState({mineLoading: false, otherLoading: false});
+        this.setState({mineLoading: false, otherLoading: false, moreLoading:false});
         dispatch(alertMsg(err.title, err.msg));
       } else if (!(err instanceof Stop)) {
-        this.setState({mineLoading: false, otherLoading: false});
+        this.setState({mineLoading: false, otherLoading: false, moreLoading:false});
         dispatch(alertMsg(err + ""));
       }
     })
@@ -99,8 +100,7 @@ export default class ApplicationList extends React.Component<any,any> {
     // 加载个人作业
     const {location, dispatch, page,activeProblemId} = this.props;
     const problemId = _.get(location, "query.problemId");
-    const scrollValue = _.get(page,"scroll");
-    this.setState({perfectLoading: true, otherLoading: true});
+    this.setState({moreLoading: true});
     this.ajaxLoadSubjectList(problemId || activeProblemId,1,dispatch)
   }
 
@@ -145,16 +145,14 @@ export default class ApplicationList extends React.Component<any,any> {
     // 加载个人作业
     const {location, dispatch, page,activeProblemId} = this.props;
     const problemId = _.get(location, "query.problemId");
-    const scrollValue = _.get(page,"scroll");
-    this.setState({perfectLoading: true, otherLoading: true});
+    this.setState({moreLoading:true});
     this.ajaxLoadSubjectList(problemId || activeProblemId,this.state.page + 1,dispatch)
   }
 
 
   render() {
     const problemId = _.get(this.props.location, "query.problemId");
-    const {perfectList = [],normalList=[],perfectLoading,otherLoading,end} = this.state;
-
+    const {perfectList = [],normalList=[],perfectLoading,otherLoading,end, moreLoading} = this.state;
 
     const renderControl = (item) => {
       if (!item.isMine) {
@@ -249,6 +247,7 @@ export default class ApplicationList extends React.Component<any,any> {
           {otherLoading?<VerticalBarLoading/>:renderOther(normalList)}
         </div>: null}
         <Divider style={style.bigDivider}/>
+        {moreLoading?<VerticalBarLoading/>:null}
         <div className="more">
           {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
         </div>
