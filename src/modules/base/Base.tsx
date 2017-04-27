@@ -32,7 +32,8 @@ export default class Main extends React.Component<any, any> {
 
     // 渲染头像
     const renderAvatar = () => {
-      if (this.props.location.pathname.indexOf("fragment") > 0) {
+      if (this.props.location.pathname.indexOf("fragment") > 0 ||
+          this.props.location.pathname.indexOf("asst") > 0) {
         if (!window.ENV.userName) {
           return (
             <div>
