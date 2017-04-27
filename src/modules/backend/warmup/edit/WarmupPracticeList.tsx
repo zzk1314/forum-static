@@ -1,31 +1,34 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import "./HotWarmupPractice.less"
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
-import {loadHotPractice} from "./async"
-import {BreakSignal, Stop} from "../../../utils/request"
+import "./WarmupPracticeList.less"
+import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
+import {loadWarmupList} from "../async"
+import {BreakSignal, Stop} from "../../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {decodeTextAreaString2} from "../textUtils"
+import {decodeTextAreaString2} from "../../textUtils"
 
 
 @connect(state => state)
-export default class HotWarmupPractice extends React.Component<any,any> {
+export default class WarmupPracticeList extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       practiceList: [],
     }
   }
 
-  componentWillMount() {
-    loadHotPractice().then(res => {
+  componentWillMount(problemId) {
+    if(!problemId){
+      problemId = this.props.location.query.problemId
+    }
+    loadWarmupList(problemId).then(res => {
       if (res.code === 200) {
         this.setState({
           practiceList: res.msg
@@ -38,8 +41,14 @@ export default class HotWarmupPractice extends React.Component<any,any> {
     })
   }
 
+  componentWillReceiveProps(newProps){
+    if(this.props.location.query.problemId !== newProps.location.query.problemId){
+      this.componentWillMount(newProps.location.query.problemId)
+    }
+  }
+
   view(practice){
-    this.context.router.push({pathname:'/backend/warmup/view', query:{id: practice.id}})
+    this.context.router.push({pathname:'/backend/warmup/edit/view', query:{id: practice.id, problemId:practice.problemId}})
   }
 
   render() {
@@ -63,7 +72,7 @@ export default class HotWarmupPractice extends React.Component<any,any> {
 
     return (
         <div className="hotPractice">
-          <Subheader>热门的巩固练习</Subheader>
+          <Subheader>巩固练习</Subheader>
           {renderPractice(practiceList)}
         </div>
     )

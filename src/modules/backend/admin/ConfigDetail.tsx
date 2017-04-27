@@ -62,6 +62,17 @@ export default class ConfigDetail extends React.Component<any,any> {
     })
   }
 
+  componentWillReceiveProps(newProps){
+    if(this.props.location.query.projectId!==newProps.location.query.projectId){
+      let projectId = newProps.location.query.projectId
+      loadConfig(projectId).then(res => {
+        if(res.code === 200){
+          this.setState({projectId, data:res.msg})
+        }
+      })
+    }
+  }
+
 
   onChange(key, value){
     const {projectId} = this.props.location.query
@@ -144,14 +155,13 @@ export default class ConfigDetail extends React.Component<any,any> {
                 <div className="idx">{idx}</div>
                 <div className="key">{v.key}</div>
                 <div className="value">
-                  <textarea className="config-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
+                  <textarea className="edit-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
                             onChange={(e)=>this.onChange(v.key, e.currentTarget.value)} defaultValue={v.value} />
                 </div>
                 <div className="icon">
                   { v.edit === false ?
                       <img className="icon-img" src={imgSrc.configEdit} onClick={this.onEdit.bind(this, idx)}/> :
                       <img className="icon-img" src={imgSrc.configComplete} onClick={this.onComplete.bind(this, idx)}/>}
-                  <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.setState({add:true})}/>
                   <img className="icon-img" src={imgSrc.configRemove} onClick={()=>this.setState({alert:true, idx:idx})}/>
                 </div>
                 <Divider/>
@@ -163,16 +173,17 @@ export default class ConfigDetail extends React.Component<any,any> {
 
     return (
       <div className="backendContent">
+        <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.setState({add:true})}/>
         {renderConfig(data)}
         <Alert content="确定要删除这个配置吗？" open={alert} actions={actions}/>
         {add?
         <div>
           <div className="key">
-            <textarea className="config-textarea" cols={30} rows={10} readOnly={false}
+            <textarea className="edit-textarea" cols={30} rows={10} readOnly={false}
                       onChange={(e)=>this.setState({key:e.currentTarget.value}) }/>
           </div>
-          <div className="value">
-                  <textarea className="config-textarea" cols={30} rows={10} readOnly={false}
+          <div className="value" style={{marginLeft:10}}>
+                  <textarea className="edit-textarea" cols={30} rows={10} readOnly={false}
                             onChange={(e)=>this.setState({value:e.currentTarget.value})} />
           </div>
           <div className="icon">

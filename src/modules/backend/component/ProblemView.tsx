@@ -1,12 +1,9 @@
 import * as React from "react";
-import {connect} from "react-redux";
 import * as _ from "lodash";
 import "./ProblemView.less"
-import {loadProblems} from "./async"
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 
 
@@ -32,8 +29,6 @@ const style = {
   }
 }
 
-
-@connect(state => state)
 export default class ProblemView extends React.Component<any,any> {
 
   static contextTypes = {
@@ -42,41 +37,11 @@ export default class ProblemView extends React.Component<any,any> {
 
   constructor() {
     super();
-    this.state = {
-      problemList: [],
-    }
-  }
-
-  chooseProblem(problemId) {
-    const {dispatch} = this.props;
-    // 选择难题，进入rise页面
-    dispatch(set("activeProblemId",problemId));
-    dispatch(set("page.scroll",{x:0,y:0}));
-    this.context.router.push({
-      pathname:"/backend/application/catalog",
-      query:{problemId:problemId}});
-
-  }
-
-
-  componentWillMount() {
-    loadProblems().then(res =>{
-      if (res.code === 200) {
-        this.setState({
-          problemList: res.msg
-        })
-      } else if(res.code === 403){
-        setTimeout(() => window.location.href = "/403.jsp", 500);
-      } else {
-        throw new BreakSignal(res.msg, "加载当前问题失败")
-      }
-
-    })
   }
 
 
   render() {
-    const {problemList} = this.state
+    const {chooseProblem, problemList} = this.props
 
     const renderProblemList = () => {
       return (
@@ -94,7 +59,7 @@ export default class ProblemView extends React.Component<any,any> {
                       return (
                           <ListItem
                               key={seq}
-                              onClick={()=>this.chooseProblem(item.id)}
+                              onClick={()=>chooseProblem(item.id)}
                               innerDivStyle={_.isEqual(seq,0)?style.firstItem:style.item}
                               children={textItem(item)}
                               value={item.id}
@@ -116,15 +81,7 @@ export default class ProblemView extends React.Component<any,any> {
     }
 
     return (
-      <div className="problemContent">
-        <div className="leftList">
-          {renderProblemList()}
-        </div>
-        <div className="rightContent">
-          {this.props.children}
-          {/*{window.ENV.openFeedBack?renderFeedBack():null}*/}
-        </div>
-      </div>
+        renderProblemList()
     )
   }
 }

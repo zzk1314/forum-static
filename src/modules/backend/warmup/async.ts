@@ -5,7 +5,7 @@ export function loadHotPractice() {
 }
 
 export function loadWarmUp(warmupPracticeId) {
-  return pget(`/pc/operation/warmup/${warmupPracticeId}`)
+  return pget(`/pc/operation/warmup/load/${warmupPracticeId}`)
 }
 
 export function highlight(discussId){
@@ -14,4 +14,20 @@ export function highlight(discussId){
 
 export function replyDiscuss(params) {
   return ppost(`/pc/operation/reply/discuss`, params)
+}
+
+export function loadWarmupList(problemId) {
+  return pget(`/pc/operation/warmup/list/${problemId}`)
+}
+
+export function loadProblems() {
+  return pget("/pc/operation/problem/list");
+}
+
+export function saveWarmup(practice) {
+  return ppost("/pc/operation/warmup/save", practice);
+}
+
+export function loadNextWarmup(problemId, prePracticeId) {
+  return pget(`/pc/operation/warmup/next/${problemId}/${prePracticeId}`)
 }

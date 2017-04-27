@@ -1,5 +1,5 @@
 import * as React from "react"
-import "./ShowChallenge.less"
+import "../application/ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadChallengeSubmit} from "./async"

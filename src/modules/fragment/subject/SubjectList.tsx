@@ -190,10 +190,10 @@ export default class ApplicationList extends React.Component<any,any> {
               <div className="item" key={index}>
                 <div className="header">
                   <div className="title">{item.title}</div>
-                  <div className="info">
-                    <div className="vote-count">被赞&nbsp;{item.voteCount}</div>
-                    <div className="comment-count">评论&nbsp;{item.commentCount}</div>
-                  </div>
+                  {/*<div className="info">*/}
+                    {/*<div className="vote-count">被赞&nbsp;{item.voteCount}</div>*/}
+                    {/*<div className="comment-count">评论&nbsp;{item.commentCount}</div>*/}
+                  {/*</div>*/}
                 </div>
                 <div className="author">
                   <div className="avatar">
@@ -203,8 +203,15 @@ export default class ApplicationList extends React.Component<any,any> {
                     />
                   </div>
                   <div className="upInfo">
-                    <div className="upName">{item.upName}</div>
-                    <div className="upTime">{item.upTime + "上传"}</div>
+                    <div className="intro">
+                      <div className="upName">{item.upName}</div>
+                      {item.role==3||item.role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+                      {item.role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                      {item.role==6||item.role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                      {item.role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+                      <div className="upTime">{item.upTime + "上传"}</div>
+                    </div>
+                    <div className="signature">{item.signature}</div>
                   </div>
                 </div>
                 <div className="content" dangerouslySetInnerHTML={{__html:item.content}}/>

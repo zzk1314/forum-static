@@ -28,27 +28,17 @@ export default class ShowApplication extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      title: null,
-      upName: null,
-      upTime: null,
-      headImg: null,
-      content: null,
-      submitId: null,
-      type: null,
-      isMine: false,
-      voteCount: 0,
-      voteStatus: null,
-      tipVote: false,
-      tipDisVote: false,
-      applicationId: null,
-      planId: null,
-      picList: [],
+      data:{},
       commentList: [],
       page: 1,
       hasMore: false,
       snackOpen: false,
       message: "",
       comment: "",
+      tipVote: false,
+      tipDisVote: false,
+      voteCount:0,
+      voteStatus:0,
     }
   }
 
@@ -63,19 +53,10 @@ export default class ShowApplication extends React.Component<any,any> {
         .then((res) => {
           if (res.code === 200) {
             this.setState({
-              title: res.msg.title,
-              upName: res.msg.upName,
-              upTime: res.msg.upTime,
-              headImg: res.msg.headImg,
-              content: res.msg.content,
-              submitId: res.msg.submitId,
-              type: res.msg.type,
-              isMine: res.msg.isMine,
-              voteCount: res.msg.voteCount,
-              voteStatus: res.msg.voteStatus,
-              planId: res.msg.planId,
-              applicationId: res.msg.workId,
-              picList: res.msg.picList,
+                data:res.msg,
+                submitId:submitId,
+                voteCount:res.msg.voteCount,
+                voteStatus:res.msg.voteStatus,
             })
           }
         }).catch(err => {
@@ -118,7 +99,7 @@ export default class ShowApplication extends React.Component<any,any> {
 
   clickVote(e) {
     // 点赞／或者取消点赞
-    const {voteStatus, submitId, voteCount} = this.state;
+    const {voteStatus, voteCount, submitId} = this.state;
     const {dispatch} = this.props;
     if (_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
@@ -226,7 +207,9 @@ export default class ShowApplication extends React.Component<any,any> {
   }
 
   render() {
-    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [],hasMore} = this.state;
+    const {data, commentList = [],voteCount, voteStatus} = this.state;
+    const {title, upName, upTime, headImg, content, isMine,
+        role, signature,hasMore} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
@@ -264,8 +247,15 @@ export default class ShowApplication extends React.Component<any,any> {
               />
             </div>
             <div className="upInfo">
-              <div className="upName">{upName}</div>
-              <div className="upTime">{upTime + "上传"}</div>
+              <div className="intro">
+                <div className="upName">{upName}</div>
+                {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+                {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+                <div className="upTime">{upTime + "上传"}</div>
+              </div>
+              <div className="signature">{signature}</div>
             </div>
           </div>
         </div>
