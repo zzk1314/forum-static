@@ -64,16 +64,20 @@ export default class Main extends React.Component<any, any> {
                   <img style={{width:"36px",marginTop:"5px"}} src={imgSrc.logo}/>
                   <span className="logoName">圈外</span>
                 </div>
-                <FlatButton
-                  labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-                  onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
-                  label="首页"
-                />
-                <FlatButton
-                  labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
-                  onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
-                  label="Rise"
-                />
+                {window.ENV.backend?null:
+                <div>
+                  <FlatButton
+                    labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
+                    onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
+                    label="首页"
+                  />
+                  <FlatButton
+                    labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
+                    onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
+                    label="Rise"
+                  />
+                </div>
+                }
               </ToolbarGroup>
               <ToolbarGroup>
                 {renderAvatar()}

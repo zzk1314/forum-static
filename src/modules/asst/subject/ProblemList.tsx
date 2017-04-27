@@ -2,9 +2,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadProblems} from "../async"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {BreakSignal} from "../../../../utils/request"
-import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
-import ProblemView from "../../component/ProblemView"
+import {BreakSignal, Stop} from "../../../utils/request"
+import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import ProblemView from "../../backend/component/ProblemView"
 
 
 const style = {
@@ -50,7 +50,7 @@ export default class ProblemList extends React.Component<any,any> {
     dispatch(set("activeProblemId",problemId));
     dispatch(set("page.scroll",{x:0,y:0}));
     this.context.router.push({
-      pathname:"/backend/warmup/edit/list",
+      pathname:"/asst/subject/list",
       query:{problemId:problemId}});
 
   }
@@ -66,7 +66,7 @@ export default class ProblemList extends React.Component<any,any> {
         this.context.router.push({
           pathname:"/login",
           query:{
-            callbackUrl:`/backend/warmup/management`
+            callbackUrl:`/asst/subject/comment`
           }
         })
       } else if(res.code === 403){
@@ -80,7 +80,7 @@ export default class ProblemList extends React.Component<any,any> {
 
 
   render() {
-    const {problemList=[]} = this.state
+    const {problemList} = this.state
     return (
       <div className="problemContent">
         <div className="leftList">

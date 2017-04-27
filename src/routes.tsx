@@ -21,7 +21,7 @@ import MineSubject from "./modules/fragment/subject/MineSubject"
 import WriteSubject from "./modules/fragment/subject/WriteSubject"
 import Test from "./modules/Test"
 import BackendIndex from "./modules/backend/BackendIndex"
-import Welcome from "./modules/backend/Welcome"
+import BackendWelcome from "./modules/backend/Welcome"
 import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
 import PracticeView from "./modules/backend/warmup/PracticeView"
 import Discuss from "./modules/backend/warmup/Discuss"
@@ -33,6 +33,12 @@ import ConfigDetail from "./modules/backend/admin/ConfigDetail"
 import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
 import WarmupPracticeList from "./modules/backend/warmup/edit/WarmupPracticeList"
 import PracticeEditView from "./modules/backend/warmup/edit/PracticeView"
+import AsstIndex from "./modules/asst/AsstIndex"
+import AsstWelcome from "./modules/asst/Welcome"
+import AsstApplicationComment from "./modules/asst/application/ProblemList"
+import AsstApplicationList from "./modules/asst/application/ApplicationList"
+import AsstSubjectComment from "./modules/asst/subject/ProblemList"
+import AsstSubjectList from "./modules/asst/subject/SubjectList"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -57,7 +63,7 @@ const routes = (
       <Route path="servercode" component={ServerCode}/>
     </Route>
     <Route component={BackendIndex}>
-      <Route path="backend" component={Welcome}/>
+      <Route path="backend" component={BackendWelcome}/>
       <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
       </Route>
@@ -72,6 +78,17 @@ const routes = (
         <Route path="/backend/application/catalog" component={CatalogView}/>
         <Route path="/backend/application/list" component={ApplicationView}/>
       </Route>
+    </Route>
+    <Route component={AsstIndex}>
+        <Route path="asst" component={AsstWelcome}/>
+        <Route path="/asst/application/comment" component={AsstApplicationComment}>
+            <Route path="/asst/application/list" component={AsstApplicationList}/>
+            <Route path="/asst/application/view" component={ShowApplication}/>
+        </Route>
+        <Route path="/asst/subject/comment" component={AsstSubjectComment}>
+            <Route path="/asst/subject/list" component={AsstSubjectList}/>
+            <Route path="/asst/subject/view" component={ShowSubject}/>
+        </Route>
     </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>

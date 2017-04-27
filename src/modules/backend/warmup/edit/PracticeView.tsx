@@ -7,7 +7,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
 import Snackbar from 'material-ui/Snackbar'
 import _ from "lodash"
-import {encodeTextAreaString, decodeTextAreaString} from "../../textUtils"
+import {encodeTextAreaString, decodeTextAreaString} from "../../../textUtils"
 
 const sequenceMap = {
     0: 'A',

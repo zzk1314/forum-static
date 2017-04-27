@@ -206,6 +206,30 @@ export default class ShowApplication extends React.Component<any,any> {
 
   }
 
+  back(){
+    const {location} = this.props;
+    const type = _.get(location, "query.type");
+    if(type !=='asst'){
+      const applicationId = _.get(location, "query.applicationId");
+      const planId = _.get(location, "query.planId");
+      this.context.router.push({
+        pathname:'/fragment/application/list',
+        query:{
+          planId:planId,
+          applicationId:applicationId
+        }
+      })
+    }else{
+      const problemId = _.get(location, "query.problemId");
+      this.context.router.push({
+        pathname:'/asst/application/list',
+        query:{
+          problemId:problemId,
+        }
+      })
+    }
+  }
+
   render() {
     const {data, commentList = [],voteCount, voteStatus} = this.state;
     const {title, upName, upTime, headImg, content, isMine,
@@ -225,13 +249,7 @@ export default class ShowApplication extends React.Component<any,any> {
     return (
       <div className="showContainer">
         <div className="backContainer">
-          <span onClick={()=>{this.context.router.push({
-            pathname:'/fragment/application/list',
-            query:{
-              planId:planId,
-              applicationId:applicationId
-            }
-          })}} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
+          <span onClick={this.back.bind(this)} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <Divider style={style.divider}/>
         <div className="showTitleContainer">

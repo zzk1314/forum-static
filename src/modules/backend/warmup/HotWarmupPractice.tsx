@@ -7,7 +7,7 @@ import {loadHotPractice} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {decodeTextAreaString2} from "../textUtils"
+import {decodeTextAreaString2} from "../../textUtils"
 
 
 @connect(state => state)
@@ -29,6 +29,13 @@ export default class HotWarmupPractice extends React.Component<any,any> {
       if (res.code === 200) {
         this.setState({
           practiceList: res.msg
+        })
+      } else if(res.code === 401) {
+        this.context.router.push({
+          pathname:"/login",
+          query:{
+            callbackUrl:`/backend/warmup`
+          }
         })
       } else if(res.code === 403) {
         setTimeout(() => window.location.href = "/403.jsp", 500);

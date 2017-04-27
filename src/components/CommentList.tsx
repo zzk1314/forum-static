@@ -10,7 +10,7 @@ export default class CommentList extends React.Component {
     const {comments = []} = this.props;
     return (
       <div className="comment-list">
-        {comments.map((item,index)=><Comment {...item} index />)}
+        {comments.map((item,index)=><Comment key={index} {...item} index />)}
       </div>
     )
   }

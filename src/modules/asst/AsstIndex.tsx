@@ -68,11 +68,11 @@ export default class Fragment extends React.Component<any,any> {
 
           <div className="catalog-area">
               <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/backend/warmup'})
-              }}>应用练习评论</div>
+                this.context.router.push({pathname:'/asst/application/comment'})
+              }}>评论应用练习</div>
               <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/backend/application/problem/list'})
-              }}>小课分享评论</div>
+                this.context.router.push({pathname:'/asst/subject/comment'})
+              }}>评论小课分享</div>
           </div>
         </List>
       )
