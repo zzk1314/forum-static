@@ -74,9 +74,11 @@ export default class ConfigDetail extends React.Component<any,any> {
   }
 
 
-  onChange(key, value){
+  onChange(key, value,idx){
     const {projectId} = this.props.location.query
-    this.setState({config:{key:key, value:value, projectId}})
+    const {data} = this.state;
+    _.set(data,`[${idx}].value`,value);
+    this.setState({config:{key:key, value:value, projectId},data})
   }
 
   onEdit(idx){
@@ -156,7 +158,7 @@ export default class ConfigDetail extends React.Component<any,any> {
                 <div className="key">{v.key}</div>
                 <div className="value">
                   <textarea className="edit-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
-                            onChange={(e)=>this.onChange(v.key, e.currentTarget.value)} value={v.value} />
+                            onChange={(e)=>this.onChange(v.key, e.currentTarget.value,idx)} value={v.value} />
                 </div>
                 <div className="icon">
                   { v.edit === false ?
