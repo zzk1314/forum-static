@@ -29,6 +29,16 @@ export default class ShowChallenge extends React.Component<any,any> {
     super(props);
     this.state = {
       data:{},
+      commentList: [],
+      page: 1,
+      hasMore: false,
+      snackOpen: false,
+      message: "",
+      comment: "",
+      tipVote: false,
+      tipDisVote: false,
+      voteCount:0,
+      voteStatus:0,
       imgTipStyle:{
         left:0,
         top:0
@@ -47,7 +57,10 @@ export default class ShowChallenge extends React.Component<any,any> {
         .then((res) => {
           if (res.code === 200) {
             this.setState({
-              data:res.msg
+              data:res.msg,
+              submitId:submitId,
+              voteCount:res.msg.voteCount,
+              voteStatus:res.msg.voteStatus,
             })
           }
         }).catch(err => {
@@ -99,7 +112,7 @@ export default class ShowChallenge extends React.Component<any,any> {
 
   clickVote(e) {
     // 点赞／或者取消点赞
-    const {voteStatus, submitId, voteCount} = this.state;
+    const {voteStatus, voteCount, submitId} = this.state;
     if (_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
       return
@@ -207,8 +220,8 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   render() {
-    const {data} = this.state
-    const {title, upName, upTime, role, signature, headImg, content, isMine, voteCount, voteStatus, picList = [], commentList = [], hasMore} = data
+    const {data, commentList = [],voteCount, voteStatus} = this.state
+    const {title, upName, upTime, role, signature, headImg, content, isMine, hasMore} = data
     const {location} = this.props;
 
     const renderEdit = () => {

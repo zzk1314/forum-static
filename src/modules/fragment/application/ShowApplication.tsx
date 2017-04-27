@@ -29,6 +29,16 @@ export default class ShowApplication extends React.Component<any,any> {
     super(props);
     this.state = {
       data:{},
+      commentList: [],
+      page: 1,
+      hasMore: false,
+      snackOpen: false,
+      message: "",
+      comment: "",
+      tipVote: false,
+      tipDisVote: false,
+      voteCount:0,
+      voteStatus:0,
     }
   }
 
@@ -43,7 +53,10 @@ export default class ShowApplication extends React.Component<any,any> {
         .then((res) => {
           if (res.code === 200) {
             this.setState({
-                data:res.msg
+                data:res.msg,
+                submitId:submitId,
+                voteCount:res.msg.voteCount,
+                voteStatus:res.msg.voteStatus,
             })
           }
         }).catch(err => {
@@ -86,7 +99,7 @@ export default class ShowApplication extends React.Component<any,any> {
 
   clickVote(e) {
     // 点赞／或者取消点赞
-    const {voteStatus, submitId, voteCount} = this.state;
+    const {voteStatus, voteCount, submitId} = this.state;
     const {dispatch} = this.props;
     if (_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
@@ -194,9 +207,9 @@ export default class ShowApplication extends React.Component<any,any> {
   }
 
   render() {
-    const {data} = this.state;
-    const {title, upName, upTime, headImg, content, isMine, voteCount, voteStatus,
-        role, signature, commentList = [],hasMore} = data
+    const {data, commentList = [],voteCount, voteStatus} = this.state;
+    const {title, upName, upTime, headImg, content, isMine,
+        role, signature,hasMore} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
