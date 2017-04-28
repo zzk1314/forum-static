@@ -46,7 +46,7 @@ export default class HotWarmupPractice extends React.Component<any,any> {
   }
 
   view(practice){
-    this.context.router.push({pathname:'/backend/warmup/view', query:{id: practice.id}})
+    window.open(`/backend/warmup/view?id=${practice.id}`)
   }
 
   render() {

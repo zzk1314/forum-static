@@ -30,6 +30,7 @@ export default class practiceView extends React.Component <any, any> {
             questionEdit:false,
             snackOpen:false,
             message:"",
+            saving:false,
         }
     }
 
@@ -98,18 +99,22 @@ export default class practiceView extends React.Component <any, any> {
 
     save(){
         const {data,edit} = this.state
+        this.setState({saving:true})
         if(edit){
             saveWarmup(data).then(res=>{
                 const {code, msg} = res
                 if(code === 200){
-                    this.setState({message:'保存成功', snackOpen:true})
+                    this.setState({message:'保存成功', snackOpen:true, saving:false})
                 }else{
-                    this.setState({message:msg, snackOpen:true})
+                    this.setState({message:msg, snackOpen:true, saving:false})
                 }
             })
         }else{
-            this.setState({message:'保存成功', snackOpen:true})
+            this.setState({message:'保存成功', snackOpen:true, saving:false})
         }
+        setTimeout(()=>{
+            this.setState({snackOpen:false})
+        }, 2000)
     }
 
     back(){
@@ -128,7 +133,7 @@ export default class practiceView extends React.Component <any, any> {
     }
 
     render() {
-        const {data, questionEdit, analysisEdit} = this.state
+        const {data, questionEdit, analysisEdit, saving} = this.state
 
         const questionRender = (practice) => {
             const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
@@ -183,7 +188,10 @@ export default class practiceView extends React.Component <any, any> {
                 {questionRender(data)}
 
                 <div className="submitArea">
-                    <div className="submitBtn" onClick={()=>this.save()}>保存</div>
+                    {
+                        saving?<div className="submitBtn disabled">保存中</div>:
+                                <div className="submitBtn" onClick={()=>this.save()}>保存</div>
+                    }
                     <div className="submitBtn" onClick={()=>this.back()}>返回</div>
                 </div>
                 <Snackbar

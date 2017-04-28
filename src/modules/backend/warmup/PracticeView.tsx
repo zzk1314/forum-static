@@ -5,6 +5,7 @@ import {loadWarmUp, highlight} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
+import Avatar from 'material-ui/Avatar'
 import _ from "lodash"
 
 const sequenceMap = {
@@ -15,6 +16,12 @@ const sequenceMap = {
     4: 'E',
     5: 'F',
     6: 'G',
+}
+
+const avatarStyle = {
+    "position":"fixed",
+    "right":50,
+    "top":'20%',
 }
 
 @connect(state => state)
@@ -70,14 +77,18 @@ export default class practiceView extends React.Component <any, any> {
     }
 
     reply(warmupPracticeId, repliedId){
-        this.context.router.push({pathname:'/backend/warmup/discuss', query:{warmupPracticeId, repliedId}})
+        if(warmupPracticeId && repliedId){
+            this.context.router.push({pathname:'/backend/warmup/discuss', query:{warmupPracticeId, repliedId}})
+        }else{
+            this.context.router.push({pathname:'/backend/warmup/discuss'})
+        }
     }
 
     render() {
         const {data} = this.state
 
         const questionRender = (practice) => {
-            const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
+            const {id, question, choiceList = [], score = 0, discussList = []} = practice
             return (
                 <div className="intro-container">
                     <div className="question">
@@ -150,6 +161,8 @@ export default class practiceView extends React.Component <any, any> {
             <div className="warm-up-analysis">
                 <Subheader>巩固练习</Subheader>
                 {questionRender(data)}
+                <Avatar size={40} src="http://www.iqycamp.com/images/discuss.png" style={avatarStyle}
+                        backgroundColor='none' onClick={this.reply.bind(this)}/>
             </div>
         )
     }
