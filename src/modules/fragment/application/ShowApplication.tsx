@@ -86,7 +86,11 @@ export default class ShowApplication extends React.Component<any,any> {
 
   goEdit(e) {
     // 进入修改页面
-    const {planId, isMine, applicationId} = this.state;
+    const {data} = this.state;
+    const {location} = this.props
+    const planId = _.get(location, "query.planId");
+    const applicationId = _.get(location,"query.applicationId");
+    const {isMine} = data
     if (isMine && planId && applicationId) {
       this.context.router.push({
         pathname: "/fragment/application",

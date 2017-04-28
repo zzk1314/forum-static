@@ -4,10 +4,11 @@ import {set,alertMsg} from "redux/actions"
 import {Grid, Row, Col} from "react-flexbox-grid"
 import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./Base.less"
-import {style} from "./Base.ts";
+import {style, commentCount} from "./Base.ts";
 import {imgSrc} from "utils/imgSrc"
 import AlertMessage from "../../components/AlertMessage"
 
@@ -23,13 +24,24 @@ export default class Main extends React.Component<any, any> {
     this.state = {open: false};
   }
 
+  componentWillMount(){
+    if(this.props.location.pathname.indexOf("asst") > 0){
+      commentCount().then(res =>{
+        const {code, msg} = res
+        if(code === 200){
+          this.setState({totalComment:msg.totalComment, todayComment:msg.todayComment})
+        }
+      })
+    }
+  }
+
   closeBaseAlert(){
     const {dispatch} = this.props;
     dispatch(set("base.showModal",false));
   }
 
   render() {
-
+    const {todayComment, totalComment} = this.state
     // 渲染头像
     const renderAvatar = () => {
       if (this.props.location.pathname.indexOf("fragment") > 0 ||
@@ -84,6 +96,12 @@ export default class Main extends React.Component<any, any> {
                 {renderAvatar()}
               </ToolbarGroup>
             </Toolbar>
+            { todayComment && totalComment ?
+                <Paper style={style.paper}>
+                  <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
+                  <div className="comment-count">共点评<span>{totalComment}</span>份</div>
+                </Paper>:null
+            }
           </div>
           {this.props.children}
           <AlertMessage open={this.props.base.showModal}

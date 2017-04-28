@@ -99,7 +99,8 @@ export default class ShowChallenge extends React.Component<any,any> {
     // 进入修改页面
     const submitId = _.get(location, "query.submitId");
     const problemId = _.get(location,"query.problemId");
-    const { isMine } = this.state;
+    const { data } = this.state;
+    const { isMine } = data;
     if (isMine && submitId) {
       this.context.router.push({
         pathname: "/fragment/subject/write",
