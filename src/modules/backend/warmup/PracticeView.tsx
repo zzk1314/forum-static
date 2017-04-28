@@ -77,15 +77,16 @@ export default class practiceView extends React.Component <any, any> {
     }
 
     reply(warmupPracticeId, repliedId){
-        if(warmupPracticeId && repliedId){
+        if(repliedId){
             this.context.router.push({pathname:'/backend/warmup/discuss', query:{warmupPracticeId, repliedId}})
         }else{
-            this.context.router.push({pathname:'/backend/warmup/discuss'})
+            this.context.router.push({pathname:'/backend/warmup/discuss', query:{warmupPracticeId}})
         }
     }
 
     render() {
         const {data} = this.state
+        const {id} = data
 
         const questionRender = (practice) => {
             const {id, question, choiceList = [], score = 0, discussList = []} = practice
@@ -162,7 +163,7 @@ export default class practiceView extends React.Component <any, any> {
                 <Subheader>巩固练习</Subheader>
                 {questionRender(data)}
                 <Avatar size={40} src="http://www.iqycamp.com/images/discuss.png" style={avatarStyle}
-                        backgroundColor='none' onClick={this.reply.bind(this)}/>
+                        backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
             </div>
         )
     }
