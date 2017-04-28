@@ -198,11 +198,11 @@ router.get("/pc/asst/comment/count", (req, res) => {
     setTimeout(() => {
         res.status(200).json(
             {
-                "msg":{
-                    "totalComment": 45,
-                    "todayComment": 4,
-                }
-            ,"code":200});
+                "msg":
+                {"totalComment":13,
+                 "todayComment":0
+                },
+            "code":200});
     }, Math.random() * 1500);
 });
 

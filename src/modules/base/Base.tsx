@@ -21,7 +21,11 @@ export default class Main extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
-    this.state = {open: false};
+    this.state = {
+      totalComment: -1,
+      todayComment: -1,
+      open: false
+    };
   }
 
   componentWillMount(){
@@ -96,7 +100,7 @@ export default class Main extends React.Component<any, any> {
                 {renderAvatar()}
               </ToolbarGroup>
             </Toolbar>
-            { todayComment && totalComment ?
+            { todayComment>=0 && totalComment>=0 ?
                 <Paper style={style.paper}>
                   <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
                   <div className="comment-count">共点评<span>{totalComment}</span>份</div>
