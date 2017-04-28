@@ -48,6 +48,7 @@ export default class ApplicationList extends React.Component<any,any> {
       mineLoading: false,
       otherLoading: false,
       perfactLoading: false,
+      moreLoading: false,
       title:null,
       end:true,
       index:1,
@@ -144,8 +145,7 @@ export default class ApplicationList extends React.Component<any,any> {
     const {location, dispatch, page,activeProblemId} = this.props;
     const planId = _.get(location, "query.planId");
     const applicationId = _.get(location, "query.applicationId");
-    const scrollValue = _.get(page,"scroll");
-    this.setState({otherLoading: true});
+    this.setState({moreLoading:true});
     this.ajaxLoadSubjectList(applicationId, planId, this.state.index + 1)
   }
 
@@ -162,7 +162,8 @@ export default class ApplicationList extends React.Component<any,any> {
                 item.perfect?perfectList.push(item):other.push(item);
               });
             }
-            this.setState({other: this.state.other.concat(other),perfectLoading: false,otherLoading:false,end:res.msg.end,index:page})
+            this.setState({other: this.state.other.concat(other),perfectLoading: false,otherLoading:false,
+              moreLoading:false,end:res.msg.end,index:page})
             return res.msg;
           } else if(res.code === 401) {
             this.context.router.push({
@@ -172,17 +173,17 @@ export default class ApplicationList extends React.Component<any,any> {
               }
             })
           } else {
-            this.setState({perfectLoading: false, otherLoading: false});
+            this.setState({perfectLoading: false, otherLoading: false, moreLoading:false});
             this.context.router.push({pathname: "/servercode"});
             throw new Stop();
           }
         }).catch(err => {
       console.log("catch", err);
       if (err instanceof BreakSignal) {
-        this.setState({mineLoading: false, otherLoading: false});
+        this.setState({mineLoading: false, otherLoading: false, moreLoading:false});
         dispatch(alertMsg(err.title, err.msg));
       } else if (!(err instanceof Stop)) {
-        this.setState({mineLoading: false, otherLoading: false});
+        this.setState({mineLoading: false, otherLoading: false, moreLoading:false});
         dispatch(alertMsg(err + ""));
       }
     })
@@ -191,7 +192,7 @@ export default class ApplicationList extends React.Component<any,any> {
   render() {
     const applicationId = _.get(this.props.location, "query.applicationId");
     const planId = _.get(this.props.location, "query.planId");
-    const {mine = {}, other = [], otherLoading, perfectList = [], end, perfactLoading} = this.state;
+    const {mine = {}, other = [], otherLoading, perfectList = [], end, perfactLoading,moreLoading} = this.state;
     const renderMine = () => {
       return (
         <div className="mineContainer">
@@ -249,6 +250,7 @@ export default class ApplicationList extends React.Component<any,any> {
                   <Divider style={style.mgDivider}/>{renderOther(other)}
                 </div>}
           </div>:null}
+          {moreLoading?<VerticalBarLoading/>:null}
           <div className="more">
             {end?<span style={{color:"#cccccc"}}>没有更多了</span>:<span style={{color:"#333333"}} onClick={()=>this.showMore()}>点击加载更多</span>}
           </div>
