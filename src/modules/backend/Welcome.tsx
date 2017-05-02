@@ -28,7 +28,7 @@ export default class Welcome extends React.Component<any,any> {
 
     return (
       <div style={{top: "50%", marginLeft: "-36", position: "absolute", left: "50%"}}>
-        <h1>欢迎来到，运营后台</h1>
+        <h1>欢迎来到运营后台</h1>
       </div>
     )
   }

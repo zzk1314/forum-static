@@ -7,7 +7,7 @@ router.get("/pc/asst/application/*",(req,res)=>{
     res.status(200).json({
       "msg": [
         {
-          "title": null,
+          "title": "孩子教育",
           "upName": "Pat",
           "upTime": "2017年01月16日",
           "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",
@@ -106,7 +106,7 @@ router.get("/pc/asst/subject/*", (req, res) => {
         res.status(200).json({
             "msg": [
                 {
-                    "title": null,
+                    "title": "孩子教育",
                     "upName": "Pat",
                     "upTime": "2017年01月16日",
                     "headPic": "http://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ay5KhpQIRIpY7DYXTlcKMicsq47nNJOC9PJu3VFIvUZUn410lK377dOFpG8rWiaoJQia6vpIP3zyVuEV/0",

@@ -2,7 +2,6 @@ import * as React from "react"
 import * as _ from "lodash"
 import Avatar from 'material-ui/Avatar';
 import "./WorkItem.less"
-import {imgSrc} from "utils/imgSrc"
 
 
 export default class WorkItem extends React.Component<any,any> {
@@ -17,7 +16,7 @@ export default class WorkItem extends React.Component<any,any> {
 
 
   render() {
-    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature} = this.props;
+    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature, title} = this.props;
     const { filterContent } = this.state;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
@@ -39,6 +38,9 @@ export default class WorkItem extends React.Component<any,any> {
     return (
       <div className="workItemContainer">
         <div className="titleArea">
+          {title ?
+              <div className="title">{title}</div>:null
+          }
           <div className="leftArea">
             <div className="author">
               <div className="avatar">
