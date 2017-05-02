@@ -5,6 +5,7 @@ import {List, ListItem, makeSelectable} from 'material-ui/List';
 import {BreakSignal} from "../../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
 import ProblemView from "../../component/ProblemView"
+import _ from "lodash"
 
 
 const style = {
@@ -46,6 +47,16 @@ export default class ProblemList extends React.Component<any,any> {
 
   chooseProblem(problemId) {
     const {dispatch} = this.props;
+    const {problemList} = this.state;
+    problemList.forEach((item,key) => {
+      item.problems.forEach((item1, key1)=>{
+        if(item1.id == problemId){
+          _.set(item1, 'chosen', true)
+        }else{
+          _.set(item1, 'chosen', false)
+        }
+      })
+    });
     // 选择难题，进入rise页面
     dispatch(set("activeProblemId",problemId));
     dispatch(set("page.scroll",{x:0,y:0}));

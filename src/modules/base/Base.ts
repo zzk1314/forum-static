@@ -26,17 +26,4 @@ export const style = {
     fontFamily:"思源黑体cn,Helvetica Neue",
     color:"#55cbcb"
   },
-
-  paper:{
-    width: 120,
-    left: '81%',
-    position: 'absolute',
-    height: 60,
-    textAlign: 'center',
-    marginTop: -12,
-  }
 };
-
-export function commentCount() {
-  return pget(`/pc/asst/comment/count`);
-}

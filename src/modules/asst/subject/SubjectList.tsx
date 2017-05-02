@@ -2,11 +2,12 @@ import * as React from "react"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
 import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
-import {loadSubjectArticleList} from  "../async"
+import {loadSubjectArticleList, commentCount} from  "../async"
 import WorkItem from "../../../components/WorkItem"
 
 
@@ -30,6 +31,14 @@ const style = {
   },
   smDivider:{
     backgroundColor: "#f5f5f5",
+  },
+  paper:{
+    width: 120,
+    left: '80%',
+    position: 'absolute',
+    height: 60,
+    textAlign: 'center',
+    marginTop: -45,
   }
 }
 
@@ -50,7 +59,9 @@ export default class ApplicationList extends React.Component<any,any> {
       perfectList:[],
       normalList:[],
       end:false,
-      page:1
+      page:1,
+      todayComment:-1,
+      totalComment:-1,
     }
   }
 
@@ -80,13 +91,19 @@ export default class ApplicationList extends React.Component<any,any> {
             throw new Stop();
           }
       }).catch(err => {
-      console.log("catch", err);
       if (err instanceof BreakSignal) {
         this.setState({otherLoading: false});
         dispatch(alertMsg(err.title, err.msg));
       } else if (!(err instanceof Stop)) {
         this.setState({otherLoading: false});
         dispatch(alertMsg(err + ""));
+      }
+    })
+
+    commentCount().then(res =>{
+      const {code, msg} = res
+      if(code === 200){
+        this.setState({totalComment:msg.totalComment, todayComment:msg.todayComment})
       }
     })
   }
@@ -115,7 +132,7 @@ export default class ApplicationList extends React.Component<any,any> {
 
   render() {
     const problemId = _.get(this.props.location, "query.problemId");
-    const {other=[],otherLoading,end} = this.state;
+    const {other=[],otherLoading,end,todayComment,totalComment} = this.state;
 
 
     const renderOther = (list) => {
@@ -136,6 +153,12 @@ export default class ApplicationList extends React.Component<any,any> {
 
     return (
       <div className="subject-list">
+        { todayComment>=0 && totalComment>=0 ?
+            <Paper style={style.paper}>
+              <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
+              <div className="comment-count">共点评<span>{totalComment}</span>份</div>
+            </Paper>:null
+        }
         <div className="subject-header">
           <div className="title">小课论坛</div>
         </div>

@@ -38,6 +38,9 @@ export default class ProblemView extends React.Component<any,any> {
     super();
   }
 
+  componentWillReceiveProps(props){
+    this.render()
+  }
 
   render() {
     const {chooseProblem, problemList} = this.props
@@ -74,9 +77,13 @@ export default class ProblemView extends React.Component<any,any> {
     }
 
     const textItem = (item) => {
-      return <div key={item.id}
-                  className="listItem done">{item.problem}
-      </div>
+      return item.chosen?
+        <div key={item.id}
+                  className="listItem done choose done-chose">{item.problem}
+        </div>:
+        <div key={item.id}
+               className="listItem done">{item.problem}
+        </div>
     }
 
     return (

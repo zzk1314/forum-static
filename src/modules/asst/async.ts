@@ -15,3 +15,7 @@ export function loadSubjectArticleList(problemId) {
 export function loadProblems() {
   return pget("/pc/asst/problem/list");
 }
+
+export function commentCount() {
+  return pget(`/pc/asst/comment/count`);
+}
