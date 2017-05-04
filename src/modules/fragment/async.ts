@@ -29,6 +29,10 @@ export function submitComment(type,submitId,content){
   return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
 }
 
+export function requestAsstComment(moduleId, submitId){
+  return ppost(`/pc/fragment/request/comment/${moduleId}/${submitId}`)
+}
+
 export const CommentType = {
   Challenge:1,
   Application:2,

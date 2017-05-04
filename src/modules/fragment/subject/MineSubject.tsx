@@ -20,7 +20,7 @@ const style = {
 }
 
 @connect(state => state)
-export default class ApplicationList extends React.Component<any,any> {
+export default class MineSubject extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }

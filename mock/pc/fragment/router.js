@@ -230,4 +230,10 @@ router.get("/b/log", (req, res) => {
   }, Math.random() * 1500)
 });
 
+router.post("/pc/fragment/request/comment/*", (req, res) => {
+    setTimeout(() => {
+        res.status(200).json({code: 200, msg: "ok"});
+    }, Math.random() * 1500)
+});
+
 module.exports = router

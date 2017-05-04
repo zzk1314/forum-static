@@ -3,7 +3,7 @@ import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadApplicationSubmit} from "./async"
-import {vote, loadComments, submitComment,VoteType,CommentType} from "../async"
+import {vote, loadComments, submitComment,VoteType,CommentType, requestAsstComment} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
@@ -11,6 +11,7 @@ import Chip from 'material-ui/Chip';
 import CommentList from "../../../components/CommentList"
 import {imgSrc} from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
+import Alert from "../../../components/AlertMessage"
 
 const style = {
   divider: {
@@ -234,20 +235,59 @@ export default class ShowApplication extends React.Component<any,any> {
     }
   }
 
+  onRequestComment() {
+    const {location} = this.props;
+    // 进入修改页面
+    const submitId = _.get(location, "query.submitId");
+    requestAsstComment(CommentType.Application, submitId).then(res=>{
+      if (res.code === 200) {
+        this.setState({message:'求点评成功', snackOpen:true, alert:false})
+      }else{
+        this.setState({message:res.msg, snackOpen:true, alert:false})
+      }
+    })
+    setTimeout(() => {
+      this.setState({message:'', snackOpen:false})
+    }, 2000)
+  }
+
   render() {
-    const {data, commentList = [],voteCount, voteStatus} = this.state;
-    const {title, upName, upTime, headImg, content, isMine,
+    const {data, commentList = [],voteCount, voteStatus, alert} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, requestComment,
         role, signature,hasMore} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
 
+    const actions = [
+      {
+        "label":"取消",
+        "onClick": ()=>this.setState({alert:false}),
+        "secondary":true,
+      },
+      {
+        "label":"确定",
+        "onClick": this.onRequestComment.bind(this),
+        "primary":true,
+      },
+
+    ]
+
     const renderEdit = () => {
       if (isMine) {
-        return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
-          <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
-          <span >编辑</span>
-        </div>)
+        return (
+            <div>
+              <div className="edit" onClick={(e)=>this.goEdit(e)}>
+                <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                <span >编辑</span>
+              </div>
+              {requestComment? <div className="edit" onClick={()=>this.setState({alert:true})}>
+                    <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                    <span >求点评</span>
+                  </div>:null}
+
+            </div>
+        )
       }
     }
     return (
@@ -330,6 +370,7 @@ export default class ShowApplication extends React.Component<any,any> {
           message={this.state.message}
           autoHideDuration={2000}
         />
+        <Alert content="确定要使用求点评的机会吗？" open={alert} actions={actions}/>
       </div>
     )
   }
