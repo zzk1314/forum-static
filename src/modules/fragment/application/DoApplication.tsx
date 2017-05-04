@@ -31,6 +31,7 @@ export default class DoApplication extends React.Component<any,any> {
       showAlertModal: false,
       snackOpen: false,
       snackMessage: "提交中，请稍后",
+      submitting:false,
     }
   }
 
@@ -89,6 +90,7 @@ export default class DoApplication extends React.Component<any,any> {
     const {applicationId, planId} = location.query;
     const mine = _.get(application,`mine.${planId}.${applicationId}`,{});
     const { submitId } = mine;
+    this.setState({submitting:true})
     const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
       this.showAlert("作业还没写完哦","提示");
@@ -115,8 +117,10 @@ export default class DoApplication extends React.Component<any,any> {
       } else {
         this.showAlert(_.toString(res.msg));
       }
+      this.setState({submitting:false})
     }).catch((err) => {
       this.showAlert(_.toString(err));
+      this.setState({submitting:false})
     });
   }
 
@@ -131,6 +135,7 @@ export default class DoApplication extends React.Component<any,any> {
 
   render() {
     const {application,location,dispatch} = this.props;
+    const {submitting} = this.state;
     const {applicationId, planId} = location.query;
     const mine = _.get(application,`mine.${planId}.${applicationId}`,{});
     const {content, submitId, moduleId, picList = [], description,title} = mine;
@@ -153,7 +158,7 @@ export default class DoApplication extends React.Component<any,any> {
                        {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
-                        onClick={(e)=>this.goSubmitApplication()}/>
+                        onClick={(e)=>this.goSubmitApplication()} disabled = {submitting} />
           </div>
           {/*<div className="picContainer">
             <ul className="picList">

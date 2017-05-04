@@ -44,6 +44,7 @@ export default class WriteSubject extends React.Component<any,any> {
         picList:[],
         labelList:[],
       },
+      submitting:false,
     }
   }
 
@@ -121,6 +122,7 @@ export default class WriteSubject extends React.Component<any,any> {
     const {location,dispatch} = this.props;
     const {problemId, submitId} = location.query;
     const {data} = this.state;
+    this.setState({submitting:true})
     const { title,labelList,picList = []} = data;
     const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
@@ -162,8 +164,10 @@ export default class WriteSubject extends React.Component<any,any> {
         } else {
           this.showAlert(_.toString(res.msg));
         }
+        this.setState({submitting:false})
       }).catch((err) => {
       this.showAlert(_.toString(err));
+      this.setState({submitting:false})
     });
   }
 
@@ -183,7 +187,7 @@ export default class WriteSubject extends React.Component<any,any> {
 
 
   render() {
-    const {data} = this.state;
+    const {data, submitting} = this.state;
     const {location} = this.props;
     const {content, submitId, picList = [], desc,title, labelList=[]} = data;
     const renderDoWorkArea = () => {
@@ -225,7 +229,7 @@ export default class WriteSubject extends React.Component<any,any> {
                        {/*referencedId={submitId}/>*/}
             <FlatButton style={{borderRadius:"4px",width:"120px",height:"42px",margin:"0 90px"}}
                         backgroundColor="#55cbcb" labelStyle={{color:"#FFF"}} label="提交"
-                        onClick={(e)=>this.goSubmitSubject()}/>
+                        onClick={(e)=>this.goSubmitSubject()} disabled = {submitting}/>
           </div>
           {/*<div className="picContainer">
             <ul className="picList">
