@@ -29,6 +29,10 @@ export function submitComment(type,submitId,content){
   return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
 }
 
+export function deleteComment(commentId){
+  return ppost(`/pc/fragment/delete/comment/${commentId}`);
+}
+
 export const CommentType = {
   Challenge:1,
   Application:2,
