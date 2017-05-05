@@ -188,7 +188,7 @@ router.get("/pc/fragment/application/load/*",(req,res)=>{
                 "knowledgeId": 1,
                 "sceneId": 1,
                 "difficulty": null,
-                "content": "评论评论", //提交内容
+                "content": null, //提交内容
                 "submitId": 1, //提交id
                 "submitUpdateTime": "2017-02-15" ,//最后提交时间
                 "voteCount": 0,

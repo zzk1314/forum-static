@@ -29,8 +29,12 @@ export function submitComment(type,submitId,content){
   return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
 }
 
-export function requestAsstComment(moduleId, submitId){
+export function requestAsstComment(moduleId, submitId) {
   return ppost(`/pc/fragment/request/comment/${moduleId}/${submitId}`)
+}
+
+export function deleteComment(commentId){
+  return ppost(`/pc/fragment/delete/comment/${commentId}`);
 }
 
 export const CommentType = {
