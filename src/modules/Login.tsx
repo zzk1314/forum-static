@@ -36,32 +36,43 @@ export default class Login extends React.Component<any, any> {
     this.openSocket();
   }
 
+  componentDidMount(){
+    pget('/wx/oauth/pc/auth',{callbackUrl:'http://www.baidu.com'}).then(res=>{
+      if(res.code === 200){
+        let param = _.merge({},res.msg,{id:"qr_code"});
+        var obj = new WxLogin(param);
+        window.obj = obj;
+      }
+    })
+
+  }
+
 
   /**
    * 打开socket,请求二维码
    */
   openSocket() {
-    if ("WebSocket" in window) {
-      console.log("支持");
-    } else {
-      alert("该浏览器不支持socket");
-    }
-    // 创建socket www.confucius.mobi
-    this.webSocket = new WebSocket(window.ENV.loginSocketUrl);
-    console.log(this.webSocket);
-    this.webSocket.onopen = e => {
-      console.log("链接打开!");
-    };
-    // 处理消息
-    this.webSocket.onmessage = e => {
-      this.dispatchMessage(e);
-    };
-    this.webSocket.onerror = e => {
-      console.log("socket回调,异常处理", e)
-    };
-    this.webSocket.onclose = e => {
-      console.log("socket回调，真正关闭链接")
-    };
+    // if ("WebSocket" in window) {
+    //   console.log("支持");
+    // } else {
+    //   alert("该浏览器不支持socket");
+    // }
+    // // 创建socket www.confucius.mobi
+    // this.webSocket = new WebSocket(window.ENV.loginSocketUrl);
+    // console.log(this.webSocket);
+    // this.webSocket.onopen = e => {
+    //   console.log("链接打开!");
+    // };
+    // // 处理消息
+    // this.webSocket.onmessage = e => {
+    //   this.dispatchMessage(e);
+    // };
+    // this.webSocket.onerror = e => {
+    //   console.log("socket回调,异常处理", e)
+    // };
+    // this.webSocket.onclose = e => {
+    //   console.log("socket回调，真正关闭链接")
+    // };
   }
 
   /**
@@ -203,7 +214,7 @@ export default class Login extends React.Component<any, any> {
 
     return (
       <div className="messageContainer">
-        <div className="qrContainer">
+        <div className="qrContainer" id="qr_code">
           <img style={{display:`${this.state.loaded?'block':'none'}`}} onLoad={()=>this.setState({loaded:true})}
                onError={()=>console.log("加载失败")} className="qrImg"
                src={headImage?headImage:this.state.qrPicUrl}/>
