@@ -283,7 +283,7 @@ export default class ShowChallenge extends React.Component<any,any> {
             <span >编辑</span>
           </div>
           {requestComment? <div className="edit" onClick={()=>this.setState({alert:true})}>
-                <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                <img src={imgSrc.requestComment} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
                 <span >求点评</span>
               </div>:null}
 
