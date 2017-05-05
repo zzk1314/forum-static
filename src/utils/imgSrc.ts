@@ -2,6 +2,7 @@ export const imgSrc={
   serverCode:"http://www.iqycamp.com/images/serverQrCode.jpg",
   subscribeCode:"http://www.iqycamp.com/images/subscribeCode.jpg",
   edit:"http://www.iqycamp.com/images/pcEdit.png",
+  delete:"http://www.iqycamp.com/images/delete.png",
   voteWhite:"http://www.iqycamp.com/images/pcVoteWhite.png",
   voted:"http://www.iqycamp.com/images/pcVoted.png",
   disVote:"http://www.iqycamp.com/images/pcDisVote.png",

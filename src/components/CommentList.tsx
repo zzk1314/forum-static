@@ -58,6 +58,7 @@ class Comment extends React.Component{
         verticalAlign: 'middle',
         marginTop:-2,
         cursor:'pointer',
+        height: 15,
       },
       functionButton:{
         display: 'inline-block',
@@ -95,7 +96,7 @@ class Comment extends React.Component{
           {content}
         </pre>
         {isMine?<div>
-              <img style={this.style.functionImg} src={imgSrc.edit}/>
+              <img style={this.style.functionImg} src={imgSrc.delete}/>
               <div style={this.style.functionButton} onClick={this.onDelete.bind(this, id)}>
                 删除
               </div>
