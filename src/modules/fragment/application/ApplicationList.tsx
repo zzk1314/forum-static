@@ -8,6 +8,7 @@ import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./ApplicationList.less"
 import {loadMineApplication, loadOtherApplication,loadApplicationTitle} from  "./async"
+import {CommentType} from  "../async"
 
 const style = {
   divider: {
@@ -196,7 +197,7 @@ export default class ApplicationList extends React.Component<any,any> {
     const renderMine = () => {
       return (
         <div className="mineContainer">
-          <WorkItem {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}
+          <WorkItem commentType={CommentType.Application} {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}
                     onEditClick={()=>this.onEditClick(applicationId,planId)}/>
         </div>
       )
@@ -208,7 +209,7 @@ export default class ApplicationList extends React.Component<any,any> {
             const {submitId} = item;
             return (
                 <div>
-                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                  <WorkItem commentType={CommentType.Application} key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                   {index!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
             )

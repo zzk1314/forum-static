@@ -2,6 +2,9 @@ import * as React from "react"
 import * as _ from "lodash"
 import Avatar from 'material-ui/Avatar';
 import "./WorkItem.less"
+import Snackbar from 'material-ui/Snackbar';
+import Alert from "./AlertMessage";
+import {requestAsstComment} from  "../modules/fragment/async"
 
 
 export default class WorkItem extends React.Component<any,any> {
@@ -9,15 +12,32 @@ export default class WorkItem extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
+      alert:false,
+      message:'',
+      snackOpen:false,
       filterContent:_.isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
     }
   }
 
-
+  onRequestComment() {
+    // 进入修改页面
+    const {submitId} = this.state
+    const {commentType} = this.props
+    requestAsstComment(commentType, submitId).then(res => {
+      if (res.code === 200) {
+        this.setState({message: '求点评成功', snackOpen: true, alert: false})
+      } else {
+        this.setState({message: res.msg, snackOpen: true, alert: false})
+      }
+    })
+    setTimeout(() => {
+      this.setState({message: '', snackOpen: false})
+    }, 2000)
+  }
 
   render() {
-    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature, title} = this.props;
-    const { filterContent } = this.state;
+    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature, title, requestComment,submitId} = this.props;
+    const { filterContent,alert } = this.state;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
         // 不修改，是其他人的作业
@@ -30,11 +50,27 @@ export default class WorkItem extends React.Component<any,any> {
         // 可修改，是自己的作业
         return (
           <div className="controlContainer">
+            {requestComment?<span className="show" style={{marginRight:5}} onClick={()=>this.setState({alert:true,submitId})}>求点评</span>:null}
             <span className="show" onClick={onShowClick}>查看</span>/<span onClick={onEditClick}
                                                                          className="edit">修改</span>
           </div>)
       }
     }
+
+    const actions = [
+      {
+        "label":"取消",
+        "onClick": ()=>this.setState({alert:false}),
+        "secondary":true,
+      },
+      {
+        "label":"确定",
+        "onClick": this.onRequestComment.bind(this),
+        "primary":true,
+      },
+
+    ]
+
     return (
       <div className="workItemContainer">
         <div className="titleArea">
@@ -67,6 +103,13 @@ export default class WorkItem extends React.Component<any,any> {
           <div className="content" dangerouslySetInnerHTML={{__html:content}}/>
           {renderControl()}
         </div>
+        <Snackbar
+            contentStyle={{textAlign:"center"}}
+            open={this.state.snackOpen}
+            message={this.state.message}
+            autoHideDuration={2000}
+        />
+        <Alert content="确定要使用求点评的机会吗？" open={alert} actions={actions}/>
       </div>
     )
   }

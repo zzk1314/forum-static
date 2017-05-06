@@ -21,7 +21,8 @@ router.get("/pc/fragment/subject/list", (req, res) => {
                         "type": 3,
                         "perfect": true,
                         "authorType": 2,
-                        "isMine": false,
+                        "isMine": true,
+                        "requestComment":true,
                         "labelList": null,
                         "picList": null,
                         "publishTime": null,
@@ -39,6 +40,38 @@ router.get("/pc/fragment/subject/list", (req, res) => {
   }, Math.random() * 1500)
 });
 
+router.get("/pc/fragment/subject/list/mine", (req, res) =>{
+    setTimeout(() => {
+        res.status(200).json(
+    {
+        "msg": [
+        {
+            "title": "刚工作的同学怎么写简历？我来手把手教你",
+            "upName": "风之伤",
+            "upTime": "2017-05-05",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+            "content": "作为一个曾经的应届毕业生，我当年也经过了千军万马过独木桥一般的求职过程，如今自己也做到了一定级别，每天收到大大小小的简历也不计其数，其中应届毕业生的更是占据多数。因此对题主的这个问题也有一些感触。现在，绝大多数人写简历可能都是按照招聘网站上的格式，或者学校老师给的模版，这样的简历我在招聘面试过程中遇到了不计其数，被我扔掉的几乎是100%。它们都有几个共同的毛......",
+            "voteCount": 0,
+            "commentCount": 0,
+            "submitId": 42,
+            "type": 3,
+            "perfect": true,
+            "authorType": 1,
+            "isMine": true,
+            "labelList": null,
+            "picList": null,
+            "publishTime": null,
+            "priority": null,
+            "role": 3,
+            "signature": "签名档",
+            "requestComment": true
+        }
+    ],
+        "code": 200
+    });
+    }, Math.random() * 1500);
+
+})
 
 router.get("/pc/fragment/subject/*", (req, res) => {
   setTimeout(() => {

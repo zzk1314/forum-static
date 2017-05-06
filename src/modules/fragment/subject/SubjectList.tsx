@@ -8,6 +8,7 @@ import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
 import {loadSubjectList} from  "./async"
+import {CommentType} from  "../async"
 
 
 const style = {
@@ -50,7 +51,7 @@ export default class ApplicationList extends React.Component<any,any> {
       perfectList:[],
       normalList:[],
       end:false,
-      page:1
+      page:1,
     }
   }
 
@@ -153,24 +154,6 @@ export default class ApplicationList extends React.Component<any,any> {
     const problemId = _.get(this.props.location, "query.problemId");
     const {perfectList = [],normalList=[],perfectLoading,otherLoading,end, moreLoading} = this.state;
 
-    const renderControl = (item) => {
-      if (!item.isMine) {
-        // 不修改，使其他人的作业
-        return (
-          <div className="control-container">
-            <span className="show" onClick={()=>this.onShowClick(item.submitId)}>查看全文</span>
-          </div>
-        )
-      } else {
-        // 可修改，是自己的作业
-        return (
-          <div className="control-container">
-            <span className="show" onClick={()=>this.onShowClick(item.submitId)}>查看</span>/<span onClick={()=>this.onEditClick(item.submitId)}
-                                                                         className="edit">修改</span>
-          </div>)
-      }
-    }
-
     const renderOther = (list) => {
       /**
        *
@@ -186,7 +169,7 @@ export default class ApplicationList extends React.Component<any,any> {
                 const {submitId} = item;
                 return (
                     <div>
-                      <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                      <WorkItem commentType={CommentType.Subject} key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                       {index!==list.length-1?<Divider style={style.divider}/>:null}
                     </div>
                 )

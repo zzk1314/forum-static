@@ -23,7 +23,9 @@ router.get("/pc/fragment/application/list/mine/*", (req, res) => {
         "voteCount": 0,
         "submitId": 2,
         "role":3,
-        "type": 11
+        "type": 11,
+        "isMine":true,
+         "requestComment":true,
       }, "code": 200
     })
   }, Math.random() * 1500);
