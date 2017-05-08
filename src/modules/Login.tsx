@@ -44,7 +44,6 @@ export default class Login extends React.Component<any, any> {
         window.obj = obj;
       }
     })
-
   }
 
 
