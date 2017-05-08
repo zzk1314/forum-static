@@ -37,13 +37,13 @@ export default class Login extends React.Component<any, any> {
   }
 
   componentDidMount(){
-    pget('/wx/oauth/pc/auth',{callbackUrl:'http://www.baidu.com'}).then(res=>{
-      if(res.code === 200){
-        let param = _.merge({},res.msg,{id:"qr_code"});
+    pget('/wx/oauth/pc/auth', {callbackUrl: this.props.location.query.callbackUrl ? encodeURIComponent(this.props.location.query.callbackUrl) : '/'}).then(res => {
+      if (res.code === 200) {
+        let param = _.merge({}, res.msg, {id: "qr_code"});
         var obj = new WxLogin(param);
         window.obj = obj;
       }
-    })
+    });
   }
 
 
