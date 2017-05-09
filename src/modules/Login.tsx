@@ -37,7 +37,7 @@ export default class Login extends React.Component<any, any> {
   }
 
   componentDidMount(){
-    pget('/wx/oauth/pc/auth', {callbackUrl: this.props.location.query.callbackUrl ? encodeURIComponent(this.props.location.query.callbackUrl) : '/'}).then(res => {
+    pget('/wx/oauth/pc/auth', {callbackUrl: this.props.location.query.callbackUrl ? `${encodeURIComponent(this.props.location.query.callbackUrl)}` : `http://${window.location.host}/fragment/rise`}).then(res => {
       if (res.code === 200) {
         let param = _.merge({}, res.msg, {id: "qr_code"});
         var obj = new WxLogin(param);
