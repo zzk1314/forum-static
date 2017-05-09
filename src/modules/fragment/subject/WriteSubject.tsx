@@ -122,7 +122,6 @@ export default class WriteSubject extends React.Component<any,any> {
     const {location,dispatch} = this.props;
     const {problemId, submitId} = location.query;
     const {data} = this.state;
-    this.setState({submitting:true})
     const { title,labelList,picList = []} = data;
     const content = this.refs.editor.getValue();
     if (_.isEmpty(content)) {
@@ -145,6 +144,7 @@ export default class WriteSubject extends React.Component<any,any> {
     let submitLabels = _.merge([],labelList.filter(item=>item.selected));
     // let updatePicList = [].concat(picList.map(item=>reg.exec(item)[0]));
     let updatePicList = [];
+    this.setState({submitting:true})
     submitSubject(problemId,submitId,title,content,submitLabels,updatePicList)
       .then(res => {
         if (res.code === 200) {
