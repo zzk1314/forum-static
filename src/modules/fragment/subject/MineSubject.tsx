@@ -117,7 +117,6 @@ export default class ApplicationList extends React.Component<any,any> {
     const problemId = _.get(this.props.location, "query.problemId");
     const {list = [],loading} = this.state;
 
-
     const renderControl = (item) => {
       if (!item.isMine) {
         // 不修改，使其他人的作业

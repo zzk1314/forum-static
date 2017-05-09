@@ -39,6 +39,12 @@ router.get("/pc/fragment/subject/list", (req, res) => {
   }, Math.random() * 1500)
 });
 
+router.get("/pc/fragment/subject/list/mine", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({"msg":[],"code":200});
+  }, Math.random() * 1500);
+});
+
 
 router.get("/pc/fragment/subject/*", (req, res) => {
   setTimeout(() => {

@@ -213,12 +213,11 @@ export default class Login extends React.Component<any, any> {
 
     return (
       <div className="messageContainer">
-        <div className="qrContainer" id="qr_code">
-          <img style={{display:`${this.state.loaded?'block':'none'}`}} onLoad={()=>this.setState({loaded:true})}
-               onError={()=>console.log("加载失败")} className="qrImg"
-               src={headImage?headImage:this.state.qrPicUrl}/>
-          {!this.state.loaded && this.state.qrPicUrl?<span className="qrImg">二维码加载中......</span>: null}
-          {!this.state.loaded && !this.state.qrPicUrl?<span className="qrImg">请稍后......</span>: null}
+        <div className="qrContainer" style={{textAlign:'center'}}>
+          <div id="qr_code"/>
+            {/*<img style={{display:`${this.state.loaded?'block':'none'}`}} onLoad={()=>this.setState({loaded:true})}*/}
+               {/*onError={()=>console.log("加载失败")} className="qrImg"*/}
+               {/*src={headImage?headImage:this.state.qrPicUrl}/>*/}
           {renderTips()}
         </div>
         <Snackbar
