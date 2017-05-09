@@ -27,10 +27,10 @@ export default class AlertMessage extends React.Component {
     return (
       <div>
         <Dialog
-          titleClassName="dialogTitle"
-          bodyClassName="dialogBody"
-          contentClassName="dialogContent"
-          actionsContainerClassName="dialogActions"
+          titleClassName="alertTitle"
+          bodyClassName="alertBody"
+          contentClassName="alertContent"
+          actionsContainerClassName="alertActions"
           autoDetectWindowHeight={false}
           actions={getActions(actions)}
           title={title}

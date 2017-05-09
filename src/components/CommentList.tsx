@@ -1,7 +1,7 @@
 import * as React from "react"
 import Author from './Author'
 import {imgSrc} from "../utils/imgSrc"
-import AlertMessage from "./AlertMessage"
+import Dialog from "./Confirm"
 
 export default class CommentList extends React.Component {
   constructor(props) {
@@ -95,7 +95,7 @@ class Comment extends React.Component{
                 删除
               </div>
             </div>:null}
-        <AlertMessage title='操作确认' content={`确定要删除评论吗？`} open={alert} actions={actions}/>
+        <Dialog title='操作确认' content={`确定要删除评论吗？`} open={alert} actions={actions}/>
       </div>
     )
   }

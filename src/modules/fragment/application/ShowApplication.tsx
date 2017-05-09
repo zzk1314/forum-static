@@ -11,7 +11,7 @@ import Chip from 'material-ui/Chip';
 import CommentList from "../../../components/CommentList"
 import {imgSrc} from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
-import Alert from "../../../components/AlertMessage"
+import Confirm from "../../../components/Confirm"
 
 const style = {
   divider: {
@@ -59,6 +59,7 @@ export default class ShowApplication extends React.Component<any,any> {
                 data:res.msg,
                 submitId:submitId,
                 request:res.msg.request,
+                requestCommentCount:res.msg.requestCommentCount,
                 voteCount:res.msg.voteCount,
                 voteStatus:res.msg.voteStatus,
             })
@@ -255,8 +256,8 @@ export default class ShowApplication extends React.Component<any,any> {
   }
 
   click(){
-    const {dispatch, requestCommentCount} = this.props
-    const {request} = this.state
+    const {dispatch} = this.props
+    const {request,requestCommentCount} = this.state
     if(request){
       dispatch(alertMsg('本练习已经使用过求点评啦'));
       return;
@@ -412,7 +413,7 @@ export default class ShowApplication extends React.Component<any,any> {
           message={this.state.message}
           autoHideDuration={2000}
         />
-        <Alert title='操作确认' content={`当前小课还剩${requestCommentCount}次请求教练点评的机会，确定要在这次使用吗？`} open={alert} actions={actions}/>
+        <Confirm title='操作确认' content={`当前小课还剩${requestCommentCount}次请求教练点评的机会，确定要在这次使用吗？`} open={alert} actions={actions}/>
       </div>
     )
   }
