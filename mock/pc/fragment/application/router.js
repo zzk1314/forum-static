@@ -141,6 +141,7 @@ router.get("/pc/fragment/application/show/*",(req,res)=>{
         "isMine": true,
         "requestCommentCount":2,
         "request":false,
+        "desc":"为什么现在越来越多家长选择在孩子中学阶段就把他们送到美国留学？<br/>用反向提问的方法寻找一下原因吧，看看你能提出几个问题，每个问题的答案又是什么呢？",
         "voteCount": 0,
         "voteStatus": 0,
         "planId": null,

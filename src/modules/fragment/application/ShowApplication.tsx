@@ -16,7 +16,9 @@ import Alert from "../../../components/AlertMessage"
 const style = {
   divider: {
     backgroundColor: "#f5f5f5",
-    marginLeft: "-8px"
+    marginLeft: "-8px",
+    marginTop: 10,
+    marginBottom:10,
   }
 }
 @connect(state => state)
@@ -270,7 +272,7 @@ export default class ShowApplication extends React.Component<any,any> {
   render() {
     const {data, commentList = [],voteCount, voteStatus, alert} = this.state;
     const {title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
-        role, signature,hasMore} = data
+        role, signature,hasMore,desc} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
@@ -332,8 +334,15 @@ export default class ShowApplication extends React.Component<any,any> {
         <div className="showTitleContainer">
           <div className="title">
             <span>{title}</span>
-            {renderEdit()}
           </div>
+          <Divider style={style.divider}/>
+          <div>
+            <div className="content">
+              <div dangerouslySetInnerHTML={{__html:desc}}/>
+            </div>
+          </div>
+          <Divider style={style.divider}/>
+          {renderEdit()}
           <div className="author">
             <div className="avatar">
               <Avatar
