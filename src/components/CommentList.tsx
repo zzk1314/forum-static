@@ -1,15 +1,12 @@
 import * as React from "react"
 import Author from './Author'
-import {deleteComment} from "../modules/fragment/async"
-import Snackbar from "material-ui/Snackbar"
 import {imgSrc} from "../utils/imgSrc"
+import AlertMessage from "./AlertMessage"
 
 export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      snackOpen:false,
-      snackMessage:'',
     }
   }
 
@@ -18,17 +15,12 @@ export default class CommentList extends React.Component {
       this.setState({snackOpen:true, snackMessage:msg})
     }
 
-    const {comments = []} = this.props;
+    const {comments = [], onDelete} = this.props;
     return (
       <div>
         <div className="comment-list">
-          {comments.map((item,index)=><Comment key={index} {...item} index snack={showMsg}/>)}
+          {comments.map((item,index)=><Comment key={index} {...item} onDelete={onDelete} index snack={showMsg}/>)}
         </div>
-        <Snackbar
-            open={this.state.snackOpen}
-            message={this.state.snackMessage}
-            autoHideDuration={2000}
-        />
       </div>
 
     )
@@ -68,28 +60,30 @@ class Comment extends React.Component{
       }
     }
     this.state = {
-      del:false,
+      alert:false,
     }
   }
 
-  onDelete(id){
-    const {snack} = this.props;
-    deleteComment(id).then(res => {
-      if(res.code === 200){
-        this.setState({del:true})
-        snack('删除成功')
-      }else{
-        this.setState({del:false})
-        snack(res.msg)
-      }
-    })
-  }
-
   render(){
-    const {del} = this.state
-    const {headPic,upName,upTime,index,content, isMine, role, id} = this.props;
+    const {alert} = this.state
+    const {id, headPic,upName,upTime,index,content, isMine, role, onDelete} = this.props;
+
+    const actions = [
+      {
+        "label":"再想想",
+        "onClick": ()=>this.setState({alert:false}),
+      },
+      {
+        "label":"确定",
+        "onClick": ()=>{
+          this.setState({alert:false})
+          onDelete(id)
+        },
+        "primary":true,
+      },
+
+    ]
     return (
-    del? null:
       <div style={this.style.comment} key={index}>
         <Author headPic={headPic} upName={upName} upTime={upTime} role={role}/>
         <pre style={this.style.commentContent}>
@@ -97,10 +91,11 @@ class Comment extends React.Component{
         </pre>
         {isMine?<div>
               <img style={this.style.functionImg} src={imgSrc.delete}/>
-              <div style={this.style.functionButton} onClick={this.onDelete.bind(this, id)}>
+              <div style={this.style.functionButton} onClick={()=>this.setState({alert:true})}>
                 删除
               </div>
             </div>:null}
+        <AlertMessage title='操作确认' content={`确定要删除评论吗？`} open={alert} actions={actions}/>
       </div>
     )
   }

@@ -4,6 +4,7 @@ export const imgSrc={
   edit:"http://www.iquanwai.com/images/pcEdit.png",
   delete:"http://www.iqycamp.com/images/delete.png",
   requestComment:"http://www.iquanwai.com/images/requestComment.png",
+  requestCommentDisable:"http://www.iquanwai.com/images/requestCommentDisable.png",
   voteWhite:"http://www.iquanwai.com/images/pcVoteWhite.png",
   voted:"http://www.iquanwai.com/images/pcVoted.png",
   disVote:"http://www.iquanwai.com/images/pcDisVote.png",

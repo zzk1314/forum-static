@@ -25,7 +25,8 @@ router.get("/pc/fragment/application/list/mine/*", (req, res) => {
         "role":3,
         "type": 11,
         "isMine":true,
-         "requestComment":true,
+        "requestCommentCount":1,
+        "request":false,
       }, "code": 200
     })
   }, Math.random() * 1500);
@@ -138,7 +139,8 @@ router.get("/pc/fragment/application/show/*",(req,res)=>{
         "submitId": 33,
         "type": "application",
         "isMine": true,
-        "requestComment":true,
+        "requestCommentCount":2,
+        "request":false,
         "voteCount": 0,
         "voteStatus": 0,
         "planId": null,

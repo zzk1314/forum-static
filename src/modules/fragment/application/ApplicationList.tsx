@@ -27,7 +27,6 @@ const style = {
     backgroundColor: "#f5f5f5",
     marginLeft: "-24px",
     width:"120%",
-    marginBottom:"-10px",
   },
   smDivider:{
     backgroundColor: "#f5f5f5",
@@ -65,12 +64,12 @@ export default class ApplicationList extends React.Component<any,any> {
     const scrollValue = _.get(page,"scroll");
 
     this.setState({mineLoading: true, otherLoading: true});
-    loadApplicationTitle(applicationId)
-      .then(res=>{
-        if(res.code===200){
-          this.setState({title:res.msg});
-        }
-      }).catch(err=>{console.log(err)});
+    // loadApplicationTitle(applicationId)
+    //   .then(res=>{
+    //     if(res.code===200){
+    //       this.setState({title:res.msg});
+    //     }
+    //   }).catch(err=>{console.log(err)});
     loadMineApplication(planId,applicationId)
       .then(res => {
         if (res.code === 200) {
@@ -220,9 +219,9 @@ export default class ApplicationList extends React.Component<any,any> {
     return (
       <div className="applicationListContainer">
         <div className="myApplicationContainer">
-          <div className="titleContainer">
-            <div className="title">{this.state.title}</div>
-          </div>
+          {/*<div className="titleContainer">*/}
+            {/*<div className="title">{this.state.title}</div>*/}
+          {/*</div>*/}
           <Divider style={style.divider}/>
           {this.state.mineLoading ?<VerticalBarLoading/>: renderMine()}
         </div>

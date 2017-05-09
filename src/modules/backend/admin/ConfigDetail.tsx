@@ -139,7 +139,6 @@ export default class ConfigDetail extends React.Component<any,any> {
       {
         "label":"确定",
         "onClick": this.onRemove.bind(this),
-        "secondary":true,
       },
       {
         "label":"取消",

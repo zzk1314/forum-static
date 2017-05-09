@@ -22,7 +22,8 @@ router.get("/pc/fragment/subject/list", (req, res) => {
                         "perfect": true,
                         "authorType": 2,
                         "isMine": true,
-                        "requestComment":true,
+                        "requestCommentCount":1,
+                        "request":false,
                         "labelList": null,
                         "picList": null,
                         "publishTime": null,
@@ -64,7 +65,8 @@ router.get("/pc/fragment/subject/list/mine", (req, res) =>{
             "priority": null,
             "role": 3,
             "signature": "签名档",
-            "requestComment": true
+            "requestCommentCount": 1,
+            "request":false,
         }
     ],
         "code": 200
@@ -85,7 +87,8 @@ router.get("/pc/fragment/subject/*", (req, res) => {
             "submitId": 15,
             "type": "subject",
             "isMine": true,
-            "requestComment": true,
+            "requestCommentCount": 1,
+            "request":false,
             "voteCount": 1,
             "voteStatus": 0,
             "planId": null,

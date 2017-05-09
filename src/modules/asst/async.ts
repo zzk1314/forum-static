@@ -12,8 +12,12 @@ export function loadSubjectArticleList(problemId) {
   return pget(`/pc/asst/subject/${problemId}`);
 }
 
-export function loadProblems() {
-  return pget("/pc/asst/problem/list");
+export function loadApplicationProblems() {
+  return pget("/pc/asst/application/problem/list");
+}
+
+export function loadSubjectArticleProblems() {
+  return pget("/pc/asst/subject/problem/list");
 }
 
 export function commentCount() {

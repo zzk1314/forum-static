@@ -1,11 +1,16 @@
 .workItemContainer{
   position: relative;
   margin-bottom:5px;
-  margin-top:15px;
   padding-bottom: 25px;
   &:last-of-type{
   }
+  > .requestComment {
+    display: inline-block;
+    float: right;
+    margin-top: -16px;
+  }
   .titleArea{
+    margin-top:15px;
     overflow: hidden;
     margin-bottom:5px;
     > .title {
@@ -39,10 +44,10 @@
             }
             .upTime {
               display: inline-block;
-              float: right;
               color: #999999;
               font-size: 12px;
               margin-top: 10px;
+              margin-left: 20px;
             }
           }
           .signature{
@@ -101,6 +106,9 @@
       font-size:16px;
       .show{
         cursor: pointer;
+        &.disabled{
+          color:#ccc;
+        }
       }
       .edit{
         cursor: pointer;

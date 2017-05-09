@@ -155,7 +155,13 @@ router.get("/pc/fragment/comment/*/*", (req, res) => {
 router.post("/pc/fragment/comment/*/*", (req, res) => {
     setTimeout(() => {
         res.status(200).json({
-            "msg": "ok",
+            "msg": {
+                "id": 29,
+                "content": "fefef",
+                "upName": "薛定谔的猫",
+                "upTime": "2017年01月20日",
+                "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+            },
             "code": 200
         })
     }, Math.random() * 1500);

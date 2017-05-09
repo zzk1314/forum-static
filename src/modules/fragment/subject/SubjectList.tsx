@@ -27,7 +27,6 @@ const style = {
     backgroundColor: "#f5f5f5",
     marginLeft: "-24px",
     width:"120%",
-    marginBottom:"-10px",
   },
   smDivider:{
     backgroundColor: "#f5f5f5",
@@ -164,7 +163,6 @@ export default class ApplicationList extends React.Component<any,any> {
        */
       return (
           <div className="otherContainer">
-            <div className="otherContainer">
               {list.map((item, index) => {
                 const {submitId} = item;
                 return (
@@ -174,7 +172,6 @@ export default class ApplicationList extends React.Component<any,any> {
                     </div>
                 )
               })}
-            </div>
           </div>
       )
     }
