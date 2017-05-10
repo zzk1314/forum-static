@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadProblems} from "../async"
+import {loadSubjectArticleProblems} from "../async"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
-import ProblemView from "../../backend/component/ProblemView"
+import ProblemView from "../component/ProblemView"
 import _ from "lodash"
 
 
@@ -69,7 +69,7 @@ export default class ProblemList extends React.Component<any,any> {
 
 
   componentWillMount() {
-    loadProblems().then(res =>{
+    loadSubjectArticleProblems().then(res =>{
       if (res.code === 200) {
         this.setState({
           problemList: res.msg

@@ -2,22 +2,64 @@ import * as React from "react"
 import * as _ from "lodash"
 import Avatar from 'material-ui/Avatar';
 import "./WorkItem.less"
+import Snackbar from 'material-ui/Snackbar';
+import Alert from "./AlertMessage";
+import {requestAsstComment} from  "../modules/fragment/async"
+import {set, startLoad, endLoad, alertMsg} from "../redux/actions"
+import {connect} from "react-redux";
 
-
+@connect(state => state)
 export default class WorkItem extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
     this.state = {
-      filterContent:_.isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
+      alert:false,
+      message:'',
+      snackOpen:false,
+      filterContent:_.isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):"",
+      request:false,
     }
   }
 
+  componentWillMount(){
+    const {request} = this.props
+    this.setState({request})
+  }
 
+  click(submitId){
+    const {dispatch, requestCommentCount} = this.props
+    const {request} = this.state
+    if(request){
+      dispatch(alertMsg('本练习已经使用过求点评啦'));
+      return;
+    }
+    if(requestCommentCount===0){
+      dispatch(alertMsg('本小课求点评次数已用完'));
+      return;
+    }
+    this.setState({alert:true,submitId})
+  }
+
+  onRequestComment() {
+    // 进入修改页面
+    const {submitId} = this.state
+    const {commentType} = this.props
+    requestAsstComment(commentType, submitId).then(res => {
+      if (res.code === 200) {
+        this.setState({message: '教练已经收到你的请求啦，点评后会在消息中心通知你的', snackOpen: true, alert: false, request:true})
+      } else {
+        this.setState({message: res.msg, snackOpen: true, alert: false})
+      }
+    })
+    setTimeout(() => {
+      this.setState({message: '', snackOpen: false})
+    }, 2000)
+  }
 
   render() {
-    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature, title} = this.props;
-    const { filterContent } = this.state;
+    const {headPic, role, upName, upTime, content, onEditClick, onShowClick, signature, title, requestCommentCount, submitId} = this.props;
+    const { alert,request } = this.state;
     const renderControl = () => {
       if (_.isUndefined(onEditClick)) {
         // 不修改，是其他人的作业
@@ -30,13 +72,34 @@ export default class WorkItem extends React.Component<any,any> {
         // 可修改，是自己的作业
         return (
           <div className="controlContainer">
+            {!request && requestCommentCount!=null && requestCommentCount>0?<span className="show" style={{marginRight:5}} onClick={()=>this.click(submitId)}>求点评</span>:null}
+            {request || (requestCommentCount!=null && requestCommentCount===0)?<span className="show disabled" style={{marginRight:5}} onClick={()=>this.click(submitId)}>求点评</span>:null}
             <span className="show" onClick={onShowClick}>查看</span>/<span onClick={onEditClick}
                                                                          className="edit">修改</span>
           </div>)
       }
     }
+
+    const actions = [
+      {
+        "label":"再想想",
+        "onClick": ()=>this.setState({alert:false}),
+      },
+      {
+        "label":"确定",
+        "onClick": this.onRequestComment.bind(this),
+        "primary":true,
+      },
+
+    ]
+
     return (
       <div className="workItemContainer">
+        {request?
+        <div className="requestComment">
+          <img height={26} width={26} src="http://www.iqycamp.com/images/request_comment_star.png"/>
+        </div>
+        :null}
         <div className="titleArea">
           {title ?
               <div className="title">{title}</div>:null
@@ -67,6 +130,13 @@ export default class WorkItem extends React.Component<any,any> {
           <div className="content" dangerouslySetInnerHTML={{__html:content}}/>
           {renderControl()}
         </div>
+        <Snackbar
+            contentStyle={{textAlign:"center"}}
+            open={this.state.snackOpen}
+            message={this.state.message}
+            autoHideDuration={2000}
+        />
+        <Alert title='操作确认' content={`当前小课还剩${requestCommentCount}次请求教练点评的机会，确定要在这次使用吗？`} open={alert} actions={actions}/>
       </div>
     )
   }
