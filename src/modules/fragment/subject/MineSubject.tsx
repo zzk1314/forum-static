@@ -4,11 +4,12 @@ import {connect} from "react-redux"
 import Divider from 'material-ui/Divider';
 import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
-import Avatar from 'material-ui/Avatar';
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./MineSubject.less"
 import {loadMineSubjectList} from  "./async"
 import {imgSrc} from "../../../utils/imgSrc"
+import WorkItem from "../../../components/WorkItem";
+import {CommentType} from  "../async"
 
 
 const style = {
@@ -20,7 +21,7 @@ const style = {
 }
 
 @connect(state => state)
-export default class ApplicationList extends React.Component<any,any> {
+export default class MineSubject extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -117,25 +118,6 @@ export default class ApplicationList extends React.Component<any,any> {
     const problemId = _.get(this.props.location, "query.problemId");
     const {list = [],loading} = this.state;
 
-    const renderControl = (item) => {
-      if (!item.isMine) {
-        // 不修改，使其他人的作业
-        return (
-          <div className="control-container">
-            <span className="show" onClick={()=>this.onShowClick(item.submitId)}>查看全文</span>
-          </div>
-        )
-      } else {
-        // 可修改，是自己的作业
-        return (
-          <div className="control-container">
-            <span className="show" onClick={()=>this.onShowClick(item.submitId)}>查看</span>/<span onClick={()=>this.onEditClick(item.submitId)}
-                                                                                                 className="edit">修改</span>
-          </div>)
-      }
-    }
-
-
     return (
       <div className="mine-subject-list">
         <div className="backContainer">
@@ -149,26 +131,13 @@ export default class ApplicationList extends React.Component<any,any> {
         <Divider style={style.divider}/>
         <div className="list">
           {loading?<VerticalBarLoading/>:list.map((item,seq)=>{
+            const {submitId} = item
             return (
-              <div className="item" key={seq}>
-                <div className="header">
-                  <div className="title">{item.title}</div>
-                  <div className="info">
-                    <div className="vote-count">被赞&nbsp;{item.voteCount}</div>
-                    <div className="comment-count">评论&nbsp;{item.commentCount}</div>
-                  </div>
+                <div>
+                  <WorkItem commentType={CommentType.Subject} key={seq} {...item} onEditClick={()=>this.onEditClick(submitId)}
+                            onShowClick={()=>this.onShowClick(submitId)}/>
+                  {seq!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
-                <div className="up-info">
-                  <Avatar
-                    src={item.headPic}
-                    size={30}
-                  />
-                  <div className="up-name">{item.upName}</div>
-                  <div className="up-time">{item.upTime}</div>
-                </div>
-                <div className="content" dangerouslySetInnerHTML={{__html:item.content}}/>
-                {renderControl(item)}
-              </div>
             )
           })}
           {!list || (list && list.length === 0)?<div className="no-tip">点击右上角按钮，开始写分享吧！</div>:null}

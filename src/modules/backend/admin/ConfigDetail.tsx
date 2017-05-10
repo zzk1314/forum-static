@@ -6,7 +6,7 @@ import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {addConfig, loadConfig, deleteConfig, updateConfig} from "./async"
 import {imgSrc} from "utils/imgSrc"
 import Divider from 'material-ui/Divider';
-import Alert from '../../../components/AlertMessage'
+import Confirm from '../../../components/Confirm'
 
 
 const style = {
@@ -139,7 +139,6 @@ export default class ConfigDetail extends React.Component<any,any> {
       {
         "label":"确定",
         "onClick": this.onRemove.bind(this),
-        "secondary":true,
       },
       {
         "label":"取消",
@@ -177,7 +176,7 @@ export default class ConfigDetail extends React.Component<any,any> {
       <div className="backendContent">
         <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.setState({add:true})}/>
         {renderConfig(data)}
-        <Alert content="确定要删除这个配置吗？" open={alert} actions={actions}/>
+        <Confirm content="确定要删除这个配置吗？" open={alert} actions={actions}/>
         {add?
         <div>
           <div className="key">

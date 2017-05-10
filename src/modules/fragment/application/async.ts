@@ -8,12 +8,12 @@ export function loadMineApplication(planId,applicationId) {
   return pget(`/pc/fragment/application/list/mine/${planId}/${applicationId}`);
 }
 
-export function loadOtherApplication(cid, page) {
-  return pget(`/pc/fragment/application/list/other/${cid}`, {page:page});
+export function loadOtherApplication(applicationId, page) {
+  return pget(`/pc/fragment/application/list/other/${applicationId}`, {page:page});
 }
 
-export function loadSelfApplication(planId, cid) {
-  return pget(`/pc/fragment/application/mine/${planId}/${cid}`);
+export function loadSelfApplication(planId, applicationId) {
+  return pget(`/pc/fragment/application/mine/${planId}/${applicationId}`);
 }
 
 export function submitApplication(planId,applicationId, content) {

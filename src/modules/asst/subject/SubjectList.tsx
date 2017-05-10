@@ -27,7 +27,6 @@ const style = {
     backgroundColor: "#f5f5f5",
     marginLeft: "-24px",
     width:"120%",
-    marginBottom:"-10px",
   },
   smDivider:{
     backgroundColor: "#f5f5f5",

@@ -3,7 +3,7 @@ import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadApplicationSubmit} from "./async"
-import {vote, loadComments, submitComment,VoteType,CommentType} from "../async"
+import {vote, loadComments, submitComment,VoteType,CommentType, requestAsstComment,deleteComment} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
@@ -11,11 +11,14 @@ import Chip from 'material-ui/Chip';
 import CommentList from "../../../components/CommentList"
 import {imgSrc} from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
+import Confirm from "../../../components/Confirm"
 
 const style = {
   divider: {
     backgroundColor: "#f5f5f5",
-    marginLeft: "-8px"
+    marginLeft: "-8px",
+    marginTop: 10,
+    marginBottom:10,
   }
 }
 @connect(state => state)
@@ -55,6 +58,8 @@ export default class ShowApplication extends React.Component<any,any> {
             this.setState({
                 data:res.msg,
                 submitId:submitId,
+                request:res.msg.request,
+                requestCommentCount:res.msg.requestCommentCount,
                 voteCount:res.msg.voteCount,
                 voteStatus:res.msg.voteStatus,
             })
@@ -234,20 +239,91 @@ export default class ShowApplication extends React.Component<any,any> {
     }
   }
 
+  onRequestComment() {
+    const {location} = this.props;
+    // 进入修改页面
+    const submitId = _.get(location, "query.submitId");
+    requestAsstComment(CommentType.Application, submitId).then(res=>{
+      if (res.code === 200) {
+        this.setState({message:'教练已经收到你的请求啦，点评后会在消息中心通知你的', snackOpen:true, alert:false, request:true})
+      }else{
+        this.setState({message:res.msg, snackOpen:true, alert:false})
+      }
+    })
+    setTimeout(() => {
+      this.setState({message:'', snackOpen:false})
+    }, 2000)
+  }
+
+  click(){
+    const {dispatch} = this.props
+    const {request,requestCommentCount} = this.state
+    if(request){
+      dispatch(alertMsg('本练习已经使用过求点评啦'));
+      return;
+    }
+    if(requestCommentCount===0){
+      dispatch(alertMsg('本小课求点评次数已用完'));
+      return;
+    }
+    this.setState({alert:true})
+  }
+
+
   render() {
-    const {data, commentList = [],voteCount, voteStatus} = this.state;
-    const {title, upName, upTime, headImg, content, isMine,
-        role, signature,hasMore} = data
+    const {data, commentList = [],voteCount, voteStatus, alert} = this.state;
+    const {title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
+        role, signature,hasMore,desc} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
 
+    const actions = [
+      {
+        "label":"再想想",
+        "onClick": ()=>this.setState({alert:false}),
+      },
+      {
+        "label":"确定",
+        "onClick": this.onRequestComment.bind(this),
+        "primary":true,
+      },
+
+    ]
+
+    const onDelete = (id)=>{
+      deleteComment(id).then(res => {
+        if(res.code === 200){
+          let newCommentList = []
+          commentList.forEach((item,key) =>{
+            if(item.id!=id){
+              newCommentList.push(item)
+            }
+          })
+          this.setState({commentList:newCommentList})
+        }
+      })
+    }
+
     const renderEdit = () => {
       if (isMine) {
-        return (<div className="edit" onClick={(e)=>this.goEdit(e)}>
-          <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
-          <span >编辑</span>
-        </div>)
+        return (
+            <div>
+              <div className="edit" onClick={(e)=>this.goEdit(e)}>
+                <img src={imgSrc.edit} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                <span>编辑</span>
+              </div>
+              {!request && requestCommentCount!=null && requestCommentCount>0? <div className="edit" onClick={()=>this.click()}>
+                    <img src={imgSrc.requestComment} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                    <span>求点评</span>
+                  </div>:null}
+              {request || (requestCommentCount!=null && requestCommentCount===0)? <div className="edit" onClick={()=>this.click()}>
+                    <img src={imgSrc.requestCommentDisable} style={{float:"left",width:"15px",height:"15px",marginRight:"4px"}}/>
+                    <span className="disabled">求点评</span>
+                  </div>:null}
+
+            </div>
+        )
       }
     }
     return (
@@ -259,8 +335,15 @@ export default class ShowApplication extends React.Component<any,any> {
         <div className="showTitleContainer">
           <div className="title">
             <span>{title}</span>
-            {renderEdit()}
           </div>
+          <Divider style={style.divider}/>
+          <div>
+            <div className="content">
+              <div dangerouslySetInnerHTML={{__html:desc}}/>
+            </div>
+          </div>
+          <Divider style={style.divider}/>
+          {renderEdit()}
           <div className="author">
             <div className="avatar">
               <Avatar
@@ -316,7 +399,7 @@ export default class ShowApplication extends React.Component<any,any> {
         </div>
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
-          <CommentList comments={commentList}/>
+          <CommentList comments={commentList} onDelete={onDelete}/>
           {hasMore ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
@@ -330,6 +413,7 @@ export default class ShowApplication extends React.Component<any,any> {
           message={this.state.message}
           autoHideDuration={2000}
         />
+        <Confirm title='操作确认' content={`当前小课还剩${requestCommentCount}次请求教练点评的机会，确定要在这次使用吗？`} open={alert} actions={actions}/>
       </div>
     )
   }

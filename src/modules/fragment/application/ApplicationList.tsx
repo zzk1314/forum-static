@@ -8,6 +8,7 @@ import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./ApplicationList.less"
 import {loadMineApplication, loadOtherApplication,loadApplicationTitle} from  "./async"
+import {CommentType} from  "../async"
 
 const style = {
   divider: {
@@ -26,7 +27,6 @@ const style = {
     backgroundColor: "#f5f5f5",
     marginLeft: "-24px",
     width:"120%",
-    marginBottom:"-10px",
   },
   smDivider:{
     backgroundColor: "#f5f5f5",
@@ -64,12 +64,12 @@ export default class ApplicationList extends React.Component<any,any> {
     const scrollValue = _.get(page,"scroll");
 
     this.setState({mineLoading: true, otherLoading: true});
-    loadApplicationTitle(applicationId)
-      .then(res=>{
-        if(res.code===200){
-          this.setState({title:res.msg});
-        }
-      }).catch(err=>{console.log(err)});
+    // loadApplicationTitle(applicationId)
+    //   .then(res=>{
+    //     if(res.code===200){
+    //       this.setState({title:res.msg});
+    //     }
+    //   }).catch(err=>{console.log(err)});
     loadMineApplication(planId,applicationId)
       .then(res => {
         if (res.code === 200) {
@@ -196,7 +196,7 @@ export default class ApplicationList extends React.Component<any,any> {
     const renderMine = () => {
       return (
         <div className="mineContainer">
-          <WorkItem {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}
+          <WorkItem commentType={CommentType.Application} {...mine} onShowClick={()=>this.onShowClick(mine.submitId)}
                     onEditClick={()=>this.onEditClick(applicationId,planId)}/>
         </div>
       )
@@ -208,7 +208,7 @@ export default class ApplicationList extends React.Component<any,any> {
             const {submitId} = item;
             return (
                 <div>
-                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                  <WorkItem commentType={CommentType.Application} key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                   {index!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
             )
@@ -219,9 +219,9 @@ export default class ApplicationList extends React.Component<any,any> {
     return (
       <div className="applicationListContainer">
         <div className="myApplicationContainer">
-          <div className="titleContainer">
-            <div className="title">{this.state.title}</div>
-          </div>
+          {/*<div className="titleContainer">*/}
+            {/*<div className="title">{this.state.title}</div>*/}
+          {/*</div>*/}
           <Divider style={style.divider}/>
           {this.state.mineLoading ?<VerticalBarLoading/>: renderMine()}
         </div>

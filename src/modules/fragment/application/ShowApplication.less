@@ -1,7 +1,7 @@
 .showContainer {
   margin-left: 8px;
   > .backContainer{
-    padding: 0px;
+    padding: 0;
     box-sizing: border-box;
     font-size: 14px;
     font-weight: 500;
@@ -29,11 +29,17 @@
     .title {
       color: #999999;
       font-size: 28px;
+      line-height:28px;
       font-weight:300;
-      .edit {
-        cursor: pointer;
-        font-size: 13px;
-        color: #55cbcb;
+    }
+    .edit {
+      cursor: pointer;
+      font-size: 13px;
+      color: #55cbcb;
+      display: inline-block;
+      margin-right: 5px;
+      .disabled{
+        color: #ccc;
       }
     }
     .author {
@@ -90,7 +96,6 @@
         margin: 0 auto;
         list-style-type: none;
         overflow: hidden;
-        padding:0;
         padding-left:24px;
         display: block;
         li:nth-child(2n+3) {
@@ -123,7 +128,6 @@
             border-radius:4px;
             filter:alpha(opacity=50);
             -moz-opacity:0.8;
-            -khtml-opacity: 0.8;
             opacity: 0.8;
             position: absolute;
           }

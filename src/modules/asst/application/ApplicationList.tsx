@@ -27,7 +27,6 @@ const style = {
     backgroundColor: "#f5f5f5",
     marginLeft: "-24px",
     width:"120%",
-    marginBottom:"-10px",
   },
   smDivider:{
     backgroundColor: "#f5f5f5",
@@ -142,7 +141,7 @@ export default class ApplicationList extends React.Component<any,any> {
           { todayComment>=0 && totalComment>=0 ?
               <Paper style={style.paper}>
                 <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
-                <div className="comment-count">共点评<span>{totalComment}</span>份</div>
+                <div className="comment-count">共点评过<span>{totalComment}</span>份</div>
               </Paper>:null
           }
           <div className="titleContainer">

@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import "./AlertMessage.less"
 
 export default class AlertMessage extends React.Component {
@@ -20,17 +20,17 @@ export default class AlertMessage extends React.Component {
     const {handleClose, open, title, modal = false, content, actions} = this.props;
     const getActions = (actions) => {
 
-      return actions?actions.map(item =><RaisedButton label={item.label} primary={!!item.primary} secondary={!!item.secondary}
+      return actions?actions.map(item =><FlatButton label={item.label} primary={!!item.primary} secondary={!!item.secondary}
                                               style={item.style} onClick={item.onClick}/>):null;
     }
 
     return (
       <div>
         <Dialog
-          titleClassName="dialogTitle"
-          bodyClassName="dialogBody"
-          contentClassName="dialogContent"
-          actionsContainerClassName="dialogActions"
+          titleClassName="alertTitle"
+          bodyClassName="alertBody"
+          contentClassName="alertContent"
+          actionsContainerClassName="alertActions"
           autoDetectWindowHeight={false}
           actions={getActions(actions)}
           title={title}
