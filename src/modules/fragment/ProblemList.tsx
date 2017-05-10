@@ -60,7 +60,6 @@ export default class Fragment extends React.Component<any,any> {
       this.setState({problemLoading: true});
       loadProblems().then(res => {
         if (res.code === 200) {
-          console.log(res.msg);
           this.setState({problemCatalogs: res.msg, problemLoading: false});
         }
       });
