@@ -48,7 +48,7 @@ export default class Author extends React.Component{
         <div style={this.style.upInfo}>
           <div style={this.style.upName}>{upName}</div>
           {role==3||role==4?<div style={this.style.role}><img style={this.style.img} src='http://www.iqycamp.com/images/coach.png'/></div>:null}
-          {role==5?<div style={this.style.role}><img style={this.style.img} src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+          {role==5||role==10?<div style={this.style.role}><img style={this.style.img} src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
           {role==6||role==8?<div style={this.style.role}><img style={this.style.img} src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
           {role==7?<div style={this.style.role}><img style={this.style.img} src='http://www.iqycamp.com/images/vip.png'/></div>:null}
           <div style={this.style.upTime}>{upTime + "上传"}</div>
