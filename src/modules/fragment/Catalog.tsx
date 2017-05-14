@@ -143,18 +143,18 @@ export default class Catalog extends React.Component<any,any> {
       if (!unlocked) {
         // 未解锁
         return (
-          <img style={{marginTop: "-8px"}} src="http://www.iqycamp.com/images/pcWorkLock.png"/>
+          <img style={{marginTop: "-8px"}} src="https://www.iqycamp.com/images/pcWorkLock.png"/>
         )
       } else {
         // 已解锁
         if (status === 0) {
           return (
-            <img src="http://www.iqycamp.com/images/pcWorkGo.png"/>
+            <img src="https://www.iqycamp.com/images/pcWorkGo.png"/>
           )
         } else if (status === 1) {
           if(_.isEqual("application",type)){
             return (
-              <img style={{marginTop: "-8px"}}  src="http://www.iqycamp.com/images/pcWorkDone.png"/>
+              <img style={{marginTop: "-8px"}}  src="https://www.iqycamp.com/images/pcWorkDone.png"/>
             )
           } else {
             return (
@@ -163,7 +163,7 @@ export default class Catalog extends React.Component<any,any> {
           }
         } else {
           return (
-            <img src="http://www.iqycamp.com/images/pcWorkChooseDo.png"/>
+            <img src="https://www.iqycamp.com/images/pcWorkChooseDo.png"/>
           )
         }
       }

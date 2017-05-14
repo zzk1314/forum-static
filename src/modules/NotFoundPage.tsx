@@ -18,7 +18,7 @@ export default class Reject extends React.Component<any,any> {
       <div className="messageContainer">
         <div className="qrContainer">
           <img className="qrImg" src={this.state.qrSrc}/>
-          <p style={{cursor: "pointer"}} onClick={()=>{window.location.href=`http://${window.location.host}/community`}} className="loginTip">网址有误，点击返回首页</p>
+          <p style={{cursor: "pointer"}} onClick={()=>{window.location.href=`https://${window.location.host}/community`}} className="loginTip">网址有误，点击返回首页</p>
         </div>
       </div>
     )

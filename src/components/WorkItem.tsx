@@ -97,7 +97,7 @@ export default class WorkItem extends React.Component<any,any> {
       <div className="workItemContainer">
         {request?
         <div className="requestComment">
-          <img height={26} width={26} src="http://www.iqycamp.com/images/request_comment_star.png"/>
+          <img height={26} width={26} src="https://www.iqycamp.com/images/request_comment_star.png"/>
         </div>
         :null}
         <div className="titleArea">
@@ -115,10 +115,10 @@ export default class WorkItem extends React.Component<any,any> {
               <div className="upInfo">
                 <div className="intro">
                   <div className="upName">{upName}</div>
-                  {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
-                  {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
-                  {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
-                  {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+                  {role==3||role==4?<div className="role"><img src='https://www.iqycamp.com/images/coach.png'/></div>:null}
+                  {role==5?<div className="role"><img src='https://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                  {role==6||role==8?<div className="role"><img src='https://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                  {role==7?<div className="role"><img src='https://www.iqycamp.com/images/vip.png'/></div>:null}
                   <div className="upTime">{upTime + "上传"}</div>
                 </div>
                 <div className="signature">{signature}</div>

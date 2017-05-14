@@ -37,7 +37,7 @@ export default class Login extends React.Component<any, any> {
   }
 
   componentDidMount(){
-    pget('/wx/oauth/pc/auth', {callbackUrl: this.props.location.query.callbackUrl ? `${encodeURIComponent(this.props.location.query.callbackUrl)}` : `http://${window.location.host}/fragment/rise`}).then(res => {
+    pget('/wx/oauth/pc/auth', {callbackUrl: this.props.location.query.callbackUrl ? `${encodeURIComponent(this.props.location.query.callbackUrl)}` : `https://${window.location.host}/fragment/rise`}).then(res => {
       if (res.code === 200) {
         let param = _.merge({}, res.msg, {id: "qr_code"});
         var obj = new WxLogin(param);
@@ -185,9 +185,9 @@ export default class Login extends React.Component<any, any> {
     //  获得url
     setTimeout(() => {
       if (this.props.location.query.callbackUrl) {
-        window.location.href =  `http://${window.location.hostname}/account/login?callbackUrl=${encodeURIComponent(this.props.location.query.callbackUrl)}&key=${key}`;
+        window.location.href =  `https://${window.location.hostname}/account/login?callbackUrl=${encodeURIComponent(this.props.location.query.callbackUrl)}&key=${key}`;
       } else {
-        window.location.href = `http://${window.location.hostname}/account/login?callbackUrl=http://${window.location.host}`;
+        window.location.href = `https://${window.location.hostname}/account/login?callbackUrl=https://${window.location.host}`;
       }
     }, 2000)
   }
