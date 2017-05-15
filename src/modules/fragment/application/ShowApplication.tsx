@@ -287,9 +287,25 @@ export default class ShowApplication extends React.Component<any,any> {
         "label":"确定",
         "onClick": this.onRequestComment.bind(this),
         "primary":true,
-      },
+      }
+    ];
 
-    ]
+    const reply = (replyId, replyComment) => {
+      const {submitId} = this.state;
+      if(replyComment.trim().length == 0) {
+        this.showMsg("请先输入回复内容再提交！");
+        return;
+      }
+      submitComment(CommentType.Application, submitId, replyComment, replyId).then(res => {
+        if (res.code == 200) {
+          let newArr = [];
+          newArr.push(res.msg);
+          this.setState({commentList: _.union(newArr, commentList), comment: ""});
+        } else {
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(err => dispatch(alertMsg(err + "")));
+    };
 
     const onDelete = (id)=>{
       deleteComment(id).then(res => {
@@ -399,7 +415,7 @@ export default class ShowApplication extends React.Component<any,any> {
         </div>
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
-          <CommentList comments={commentList} onDelete={onDelete}/>
+          <CommentList comments={commentList} onDelete={onDelete} reply={reply}/>
           {hasMore ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"

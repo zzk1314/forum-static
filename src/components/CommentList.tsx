@@ -2,27 +2,40 @@ import * as React from "react"
 import Author from './Author'
 import {imgSrc} from "../utils/imgSrc"
 import Dialog from "./Confirm"
+import "./CommentList.less";
+import keyBy = require("lodash/keyBy");
+import isUndefined = require("lodash/isUndefined");
 
 export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+
     }
   }
 
   render() {
     const showMsg = (msg)=> {
       this.setState({snackOpen:true, snackMessage:msg})
-    }
+    };
+    const {comments = [], onDelete, reply, replyId} = this.props;
 
-    const {comments = [], onDelete} = this.props;
+    const replyClick = (id) => {
+      this.setState({
+        replyId: id
+      });
+    };
+
     return (
       <div>
         <div className="comment-list">
-          {comments.map((item,index)=><Comment key={index} {...item} onDelete={onDelete} index snack={showMsg}/>)}
+          {comments.map((item, index) =>
+            <Comment key={index} {...item} onReply={() => replyClick(item.id)}
+                     onDelete={onDelete} replyId={replyId}
+                     replyAble={item.id === this.state.replyId ? true : false}
+                     reply={reply} index snack={showMsg}/>)}
         </div>
       </div>
-
     )
   }
 }
@@ -30,43 +43,18 @@ export default class CommentList extends React.Component {
 class Comment extends React.Component{
   constructor(props){
     super(props);
-    this.style = {
-      comment:{
-        marginBottom: '20px',
-        paddingBottom: '20px',
-        borderBottom: '1px solid #f5f5f5',
-      },
-      commentContent:{
-        marginTop: '18px',
-        color: '#666666',
-        fontSize: '16px',
-        marginLeft: '5px',
-        whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word',
-      },
-      functionImg:{
-        display: 'inline-block',
-        marginRight: 5,
-        verticalAlign: 'middle',
-        marginTop:-2,
-        cursor:'pointer',
-        height: 15,
-      },
-      functionButton:{
-        display: 'inline-block',
-        color: '#55CBCB',
-        fontSize: 13,
-        cursor:'pointer',
-      }
-    }
     this.state = {
-      alert:false,
+      alert:false
     }
   }
 
   render(){
     const {alert} = this.state
-    const {id, headPic,upName,upTime,index,content, isMine, role, onDelete} = this.props;
+    const {
+      id, headPic, upName, upTime, index, content, isMine, role,
+      replyName, replyContent,
+      onDelete, onReply, replyAble, reply
+    } = this.props;
 
     const actions = [
       {
@@ -80,21 +68,49 @@ class Comment extends React.Component{
           onDelete(id)
         },
         "primary":true,
-      },
+      }
+    ];
 
-    ]
     return (
-      <div style={this.style.comment} key={index}>
+      <div className="comment" key={index}>
         <Author headPic={headPic} upName={upName} upTime={upTime} role={role}/>
-        <pre style={this.style.commentContent}>
+        <pre className="commentContent">
           {content}
         </pre>
-        {isMine?<div>
-              <img style={this.style.functionImg} src={imgSrc.delete}/>
-              <div style={this.style.functionButton} onClick={()=>this.setState({alert:true})}>
-                删除
-              </div>
-            </div>:null}
+        {
+          replyName ?
+          <div>
+            <span className="replyContent">
+            回复 {replyName}:{replyContent}
+            </span>
+          </div> : null
+        }
+
+        <div className="operationArea">
+          <div style={{display: 'inline-block'}}>
+            <img className="functionReplyImg" src={imgSrc.reply}/>
+            <div className="functionButton" onClick={() => onReply()}>
+              回复
+            </div>
+          </div>
+          {isMine ? <div style={{display: 'inline-block'}}>
+            <img className="functionDeleteImg" src={imgSrc.delete}/>
+            <div className="functionButton" onClick={() => this.setState({alert: true})}>
+              删除
+            </div>
+          </div> : null}
+          { replyAble ?
+            <div>
+              <textarea className="replyText" placeholder={"回复 " + upName + ":"}
+                        value={this.state.replyValue}
+                        onChange={(e) => {this.setState({replyValue: e.target.value})}}
+              >
+              </textarea>
+              <div className="commentBtn" onClick={() => reply(id, this.state.replyValue)}>回复</div>
+            </div>
+            : null
+          }
+        </div>
         <Dialog title='操作确认' content={`确定要删除评论吗？`} open={alert} actions={actions}/>
       </div>
     )

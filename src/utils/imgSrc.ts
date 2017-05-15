@@ -2,6 +2,7 @@ export const imgSrc={
   serverCode:"http://www.iquanwai.com/images/serverQrCode.jpg",
   subscribeCode:"http://www.iquanwai.com/images/subscribeCode.jpg",
   edit:"http://www.iquanwai.com/images/pcEdit.png",
+  reply:"http://www.iquanwai.com/images/reply.png",
   delete:"http://www.iqycamp.com/images/delete.png",
   requestComment:"http://www.iquanwai.com/images/requestComment.png",
   requestCommentDisable:"http://www.iquanwai.com/images/requestCommentDisable.png",
