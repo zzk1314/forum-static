@@ -3,14 +3,15 @@ import Author from './Author'
 import {imgSrc} from "../utils/imgSrc"
 import Dialog from "./Confirm"
 import "./CommentList.less";
+import {set, startLoad, endLoad, alertMsg} from "../redux/actions"
 import keyBy = require("lodash/keyBy");
 import isUndefined = require("lodash/isUndefined");
+import startCase = require("lodash/startCase");
 
 export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
     }
   }
 
@@ -22,9 +23,17 @@ export default class CommentList extends React.Component {
 
     const replyClick = (id) => {
       this.setState({
-        replyId: id
+        replyId: id,
       });
     };
+
+    const onClickReplyButton = (id, comment) => {
+      this.setState({
+        replyId: null
+      })
+      reply(id, comment)
+    }
+
 
     return (
       <div>
@@ -33,7 +42,10 @@ export default class CommentList extends React.Component {
             <Comment key={index} {...item} onReply={() => replyClick(item.id)}
                      onDelete={onDelete} replyId={replyId}
                      replyAble={item.id === this.state.replyId ? true : false}
-                     reply={reply} index snack={showMsg}/>)}
+                     reply={(id, comment) => onClickReplyButton(id, comment)} index snack={showMsg}/>)}
+
+
+
         </div>
       </div>
     )
@@ -71,6 +83,14 @@ class Comment extends React.Component{
       }
     ];
 
+    const replyComment = (id, comment) => {
+      reply(id, comment)
+      this.setState({
+        replyValue: ''
+      })
+    }
+
+
     return (
       <div className="comment" key={index}>
         <Author headPic={headPic} upName={upName} upTime={upTime} role={role}/>
@@ -106,7 +126,7 @@ class Comment extends React.Component{
                         onChange={(e) => {this.setState({replyValue: e.target.value})}}
               >
               </textarea>
-              <div className="commentBtn" onClick={() => reply(id, this.state.replyValue)}>回复</div>
+              <div className="commentBtn" onClick={() => replyComment(id, this.state.replyValue)}>回复</div>
             </div>
             : null
           }
