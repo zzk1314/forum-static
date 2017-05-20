@@ -79,7 +79,7 @@ export default class Editor extends React.Component {
       },
       pasteImage:false,
       imageButton:'upload',
-      defaultImage: this.props.defaultImage || "http://www.iquanwai.com/images/logo.png" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
+      defaultImage: this.props.defaultImage || "https://www.iqycamp.com/images/logo.png" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
     editor.on('pasting',(e,$content)=>{
       // 图片处理
@@ -90,7 +90,7 @@ export default class Editor extends React.Component {
           // 读取图片数据
           var blob = this.dataURLtoBlob($img.attr('src'));
           // 显示默认图
-          $img.attr('src', "http://www.iquanwai.com/images/logo.png");
+          $img.attr('src', "https://www.iqycamp.com/images/logo.png");
           // 定义FormData
           let data = new FormData();
           data.append('file',blob);
