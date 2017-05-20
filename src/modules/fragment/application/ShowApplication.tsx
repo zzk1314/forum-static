@@ -292,6 +292,8 @@ export default class ShowApplication extends React.Component<any,any> {
 
     const reply = (replyId, replyComment) => {
       const {submitId} = this.state;
+      const {dispatch} = this.props;
+      dispatch(startLoad())
       if(replyComment.trim().length == 0) {
         this.showMsg("请先输入回复内容再提交！");
         return;
@@ -301,7 +303,9 @@ export default class ShowApplication extends React.Component<any,any> {
           let newArr = [];
           newArr.push(res.msg);
           this.setState({commentList: _.union(newArr, commentList), comment: ""});
+          dispatch(endLoad())
         } else {
+          dispatch(endLoad())
           dispatch(alertMsg(res.msg));
         }
       }).catch(err => dispatch(alertMsg(err + "")));
