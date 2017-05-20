@@ -288,6 +288,27 @@ export default class ShowChallenge extends React.Component<any,any> {
 
     ]
 
+    const reply = (replyId, replyComment) => {
+      const {submitId} = this.state;
+      const {dispatch} = this.props;
+      dispatch(startLoad())
+      if(replyComment.trim().length == 0) {
+        this.showMsg("请先输入回复内容再提交！");
+        return;
+      }
+      submitComment(CommentType.Subject, submitId, replyComment, replyId).then(res => {
+        if (res.code == 200) {
+          let newArr = [];
+          newArr.push(res.msg);
+          this.setState({commentList: _.union(newArr, commentList), comment: ""});
+          dispatch(endLoad())
+        } else {
+          dispatch(endLoad())
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(err => dispatch(alertMsg(err + "")));
+    };
+
     const  onDelete = (id)=>{
       deleteComment(id).then(res => {
         if(res.code === 200){
@@ -390,7 +411,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         </div>
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
-          <CommentList comments={commentList} onDelete={onDelete}/>
+          <CommentList comments={commentList} onDelete={onDelete} reply={reply}/>
           {hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>
