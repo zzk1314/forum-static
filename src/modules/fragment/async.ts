@@ -25,8 +25,8 @@ export function loadComments(type,submitId,page){
   return pget(`/pc/fragment/comment/${type}/${submitId}`,{page:page});
 }
 
-export function submitComment(type,submitId,content){
-  return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
+export function submitComment(type,submitId,content, replyId){
+  return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content, replyId: replyId});
 }
 
 export function requestAsstComment(moduleId, submitId) {
