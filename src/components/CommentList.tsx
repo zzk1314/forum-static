@@ -12,6 +12,13 @@ export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      replyId: null
+    }
+  }
+
+  componentWillReceiveProps() {
+    this.state = {
+      isShowCommentReplyBox: this.props.isShowCommentReplyBox
     }
   }
 
@@ -24,6 +31,7 @@ export default class CommentList extends React.Component {
     const replyClick = (id) => {
       this.setState({
         replyId: id,
+        isShowCommentReplyBox: true
       });
     };
 
@@ -34,15 +42,15 @@ export default class CommentList extends React.Component {
       reply(id, comment)
     }
 
-
     return (
       <div>
         <div className="comment-list">
           {comments.map((item, index) =>
             <Comment key={index} {...item} onReply={() => replyClick(item.id)}
                      onDelete={onDelete} replyId={replyId}
-                     replyAble={item.id === this.state.replyId ? true : false}
-                     reply={(id, comment) => onClickReplyButton(id, comment)} index snack={showMsg}/>)}
+                     replyAble={this.state.isShowCommentReplyBox && item.id === this.state.replyId ? true : false}
+                     reply={(id, comment) => onClickReplyButton(id, comment)}
+                     index snack={showMsg}/>)}
 
 
 

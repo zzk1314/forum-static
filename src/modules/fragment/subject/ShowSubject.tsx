@@ -3,7 +3,7 @@ import "./ShowSubject.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadSubject} from "./async"
-import {vote, loadComments, submitComment,VoteType,CommentType, requestAsstComment, deleteComment} from "../async"
+import {vote, loadComments, submitComment, submitReplyComment, VoteType,CommentType, requestAsstComment, deleteComment} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
@@ -44,7 +44,8 @@ export default class ShowChallenge extends React.Component<any,any> {
       imgTipStyle:{
         left:0,
         top:0
-      }
+      },
+      isShowCommentReplyBox: true
     }
   }
 
@@ -296,7 +297,7 @@ export default class ShowChallenge extends React.Component<any,any> {
         this.showMsg("请先输入回复内容再提交！");
         return;
       }
-      submitComment(CommentType.Subject, submitId, replyComment, replyId).then(res => {
+      submitReplyComment(CommentType.Subject, submitId, replyComment, replyId).then(res => {
         if (res.code == 200) {
           let newArr = [];
           newArr.push(res.msg);
@@ -411,11 +412,12 @@ export default class ShowChallenge extends React.Component<any,any> {
         </div>
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
-          <CommentList comments={commentList} onDelete={onDelete} reply={reply}/>
+          <CommentList comments={commentList} onDelete={onDelete} reply={reply} isShowCommentReplyBox={this.state.isShowCommentReplyBox}/>
           {hasMore ?<div className="more" onClick={()=>this.loadMoreContent()}>展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
-            <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}/>
-            <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
+            <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}
+                      onClick={() => this.setState({isShowCommentReplyBox: false})} />
+            <div className="commentBtn">评论</div>
           </div>:null}
         </div>
         <Snackbar

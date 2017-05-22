@@ -3,7 +3,7 @@ import "./ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import {loadApplicationSubmit} from "./async"
-import {vote, loadComments, submitComment,VoteType,CommentType, requestAsstComment,deleteComment} from "../async"
+import {vote, loadComments, submitComment, submitReplyComment, VoteType,CommentType, requestAsstComment,deleteComment} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
@@ -42,6 +42,7 @@ export default class ShowApplication extends React.Component<any,any> {
       tipDisVote: false,
       voteCount:0,
       voteStatus:0,
+      isShowCommentReplyBox: true
     }
   }
 
@@ -298,7 +299,7 @@ export default class ShowApplication extends React.Component<any,any> {
         this.showMsg("请先输入回复内容再提交！");
         return;
       }
-      submitComment(CommentType.Application, submitId, replyComment, replyId).then(res => {
+      submitReplyComment(CommentType.Application, submitId, replyComment, replyId).then(res => {
         if (res.code == 200) {
           let newArr = [];
           newArr.push(res.msg);
@@ -419,11 +420,12 @@ export default class ShowApplication extends React.Component<any,any> {
         </div>
         {commentList.length > 0 ?<Divider style={style.divider}/>: null}
         <div className="commentContainer">
-          <CommentList comments={commentList} onDelete={onDelete} reply={reply}/>
+          <CommentList comments={commentList} onDelete={onDelete} reply={reply} isShowCommentReplyBox={this.state.isShowCommentReplyBox}/>
           {hasMore ?<div onClick={()=>this.loadMoreContent()} className="more">展开查看更多评论</div>: null}
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
-                      onChange={(e)=>{this.setState({comment:e.target.value})}}/>
+                      onChange={(e)=>{this.setState({comment:e.target.value})}}
+                      onClick={() => this.setState({isShowCommentReplyBox: false})}/>
             <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
           </div>:null}
         </div>
