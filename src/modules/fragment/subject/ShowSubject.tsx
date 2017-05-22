@@ -417,7 +417,7 @@ export default class ShowChallenge extends React.Component<any,any> {
           {window.ENV.openComment?<div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e)=>{this.setState({comment:e.target.value})}}
                       onClick={() => this.setState({isShowCommentReplyBox: false})} />
-            <div className="commentBtn">评论</div>
+            <div className="commentBtn" onClick={()=>this.clickSubmitComment()}>评论</div>
           </div>:null}
         </div>
         <Snackbar
