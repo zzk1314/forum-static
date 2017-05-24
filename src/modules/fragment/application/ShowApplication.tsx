@@ -350,7 +350,7 @@ export default class ShowApplication extends React.Component<any,any> {
     return (
       <div className="showContainer">
         <div className="backContainer">
-          <span onClick={this.back.bind(this)} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
+          <span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
