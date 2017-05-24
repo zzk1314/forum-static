@@ -7,11 +7,11 @@ import {loadWarmupList} from "../async"
 import {BreakSignal, Stop} from "../../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {decodeTextAreaString2} from "../../../textUtils"
+import {removelHtmlTags} from "../../../textUtils"
 
 
 @connect(state => state)
-export default class WarmupPracticeList extends React.Component<any,any> {
+export default class WarmupPracticeList extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -25,7 +25,7 @@ export default class WarmupPracticeList extends React.Component<any,any> {
   }
 
   componentWillMount(problemId) {
-    if(!problemId){
+    if (!problemId) {
       problemId = this.props.location.query.problemId
     }
     loadWarmupList(problemId).then(res => {
@@ -33,14 +33,14 @@ export default class WarmupPracticeList extends React.Component<any,any> {
         this.setState({
           practiceList: res.msg
         })
-      } else if(res.code === 401) {
+      } else if (res.code === 401) {
         this.context.router.push({
-          pathname:"/login",
-          query:{
-            callbackUrl:`/backend/warmup/edit/list?problemId=${problemId}`
+          pathname: "/login",
+          query: {
+            callbackUrl: `/backend/warmup/edit/list?problemId=${problemId}`
           }
         })
-      } else if(res.code === 403) {
+      } else if (res.code === 403) {
         setTimeout(() => window.location.href = "/403.jsp", 500);
       } else {
         throw new BreakSignal(res.msg, "加载当前问题失败")
@@ -48,27 +48,34 @@ export default class WarmupPracticeList extends React.Component<any,any> {
     })
   }
 
-  componentWillReceiveProps(newProps){
-    if(this.props.location.query.problemId !== newProps.location.query.problemId){
+  componentWillReceiveProps(newProps) {
+    if (this.props.location.query.problemId !== newProps.location.query.problemId) {
       this.componentWillMount(newProps.location.query.problemId)
     }
   }
 
-  view(practice){
-    this.context.router.push({pathname:'/backend/warmup/edit/view', query:{id: practice.id, problemId:practice.problemId}})
+  view(practice) {
+    this.context.router.push({
+      pathname: '/backend/warmup/edit/view',
+      query: {id: practice.id, problemId: practice.problemId}
+    })
   }
 
   render() {
-    const {practiceList=[]} = this.state
+    const {practiceList = []} = this.state
 
-    const renderPractice = (practiceList) =>{
+    const renderPractice = (practiceList) => {
       return (
-        practiceList.map((practice, index)=>{
+        practiceList.map((practice, index) => {
           return (
             <div key={index}>
-              <div className="practice" onClick={()=>{this.view(practice)}}>
-                {practice.question.length>40? decodeTextAreaString2(practice.question).substring(0, 40).concat(' ...')
-                    : decodeTextAreaString2(practice.question)}
+              <div className="practice" onClick={() => {
+                this.view(practice)
+              }}>
+                {
+                  removelHtmlTags(practice.question).length > 40 ?
+                    removelHtmlTags(practice.question).substring(0, 40).concat(' ...') : removelHtmlTags(practice.question)
+                }
               </div>
               <Divider/>
             </div>
@@ -78,10 +85,10 @@ export default class WarmupPracticeList extends React.Component<any,any> {
     }
 
     return (
-        <div className="hotPractice">
-          <Subheader>巩固练习</Subheader>
-          {renderPractice(practiceList)}
-        </div>
+      <div className="hotPractice">
+        <Subheader>巩固练习</Subheader>
+        {renderPractice(practiceList)}
+      </div>
     )
   }
 }
