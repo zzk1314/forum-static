@@ -2,9 +2,9 @@
  * Created by shen on 2017/3/18.
  */
 import React from 'react';
+import "./Editor.less"
 var $ = require('jquery');
 var Simditor = require('./simditor');
-import "./Editor.less"
 
 export default class Editor extends React.Component {
   propTypes: {
@@ -13,6 +13,7 @@ export default class Editor extends React.Component {
     moduleId: React.PropTypes.string,
     defaultImage: React.PropTypes.string  //选择外链图片时 展示的默认图片
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +22,8 @@ export default class Editor extends React.Component {
   }
 
   dataURLtoBlob(dataURL) {
-    var BlobBuilder, arrayBuffer, bb, blobArray, byteString, hasArrayBufferViewSupport, hasBlobConstructor, i, intArray, k, mimeString, ref, supportBlob;
+    var BlobBuilder, arrayBuffer, bb, blobArray, byteString, hasArrayBufferViewSupport, hasBlobConstructor, i, intArray,
+      k, mimeString, ref, supportBlob;
     hasBlobConstructor = window.Blob && (function () {
         var e;
         try {
@@ -68,23 +70,26 @@ export default class Editor extends React.Component {
   };
 
 
-  componentDidMount(){
+  componentDidMount() {
     let editor = new Simditor({
-      textarea: $('#editor'),
-      toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
+      textarea: $(`#${this.props.id ? this.props.id : "editor"}`),
+      toolbar: ['bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
         'link', 'image', 'hr', 'indent', 'outdent', 'alignment'],
-      upload:{
-        url:'/file/image/upload/' + this.props.moduleId || 2,
-        fileKey:'file'
+      // toolbar:['title', 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
+      //   'link', 'image', 'hr', 'indent', 'outdent', 'alignment'], // 工具栏备份
+      upload: {
+        url: '/file/image/upload/' + this.props.moduleId || 2,
+        fileKey: 'file'
       },
-      pasteImage:false,
-      imageButton:'upload',
+      pasteImage: false,
+      imageButton: 'upload',
       defaultImage: this.props.defaultImage || "https://www.iqycamp.com/images/logo.png" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     });
-    editor.on('pasting',(e,$content)=>{
+
+    editor.on('pasting', (e, $content) => {
       // 图片处理
       let images = $content.find('img');
-      images.each((key,item)=>{
+      images.each((key, item) => {
         let $img = $(item);
         if (/^data:image/.test($img.attr('src'))) {
           // 读取图片数据
@@ -93,7 +98,7 @@ export default class Editor extends React.Component {
           $img.attr('src', "https://www.iqycamp.com/images/logo.png");
           // 定义FormData
           let data = new FormData();
-          data.append('file',blob);
+          data.append('file', blob);
           // 上传
           $.ajax({
             url: '/file/image/upload/2',
@@ -104,9 +109,9 @@ export default class Editor extends React.Component {
             contentType: false,
             cache: false,
           }).then(function (res) {
-            if(res.code === 200){
+            if (res.code === 200) {
               // 上传成功
-              $img.attr('src',res.msg.picUrl);
+              $img.attr('src', res.msg.picUrl);
             }
             console.log(res);
           }, function (error) {
@@ -114,52 +119,52 @@ export default class Editor extends React.Component {
           })
         }
       });
-      // style处理
 
-      $content.find('*').each((key,item)=>{
+      // style处理
+      $content.find('*').each((key, item) => {
         let $p = $(item);
-        if(!$p.is('img')){
+        if (!$p.is('img')) {
           $p.removeAttr('style');
         }
       })
 
-      $content.each((key,item)=>{
+      $content.each((key, item) => {
         let $p = $(item);
-        if(!$p.is('img')){
+        if (!$p.is('img')) {
           $p.removeAttr('style');
         }
       })
     });
-    // editor.on("valuechanged",(e,type)=>{
-    //   if(type=="oninput"){
-    //     console.log(e.target.getValue());
-    //     this.props.onChange(e)
-    //   }
-    // })
-    if(this.props.value && this.props.value.length>0){
+
+    if (this.props.value && this.props.value.length > 0) {
       editor.setValue(this.props.value)
     }
-    this.setState({editor:editor});
+    this.setState({editor: editor});
   }
-  componentWillReceiveProps(nextProps){
-    if(nextProps.defaultValue && !this.props.defaultValue){
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultValue && !this.props.defaultValue) {
       this.state.editor.setValue(nextProps.defaultValue)
     }
   }
 
-  componentWillUnmount(){
-    this.props.onChange(this.getValue());
+  componentWillUnmount() {
+    if (!this.props.onChange) {
+      this.props.onChange(this.getValue());
+    }
   }
 
-  getValue(){
+  getValue() {
     return this.state.editor.getValue()
   }
+
   render() {
     return (
-      <textarea id="editor"
+      <textarea id={this.props.id ? this.props.id : 'editor'}
                 placeholder={this.props.placeholder}
                 autoFocus>
       </textarea>
     );
   }
 }
+
