@@ -39,6 +39,7 @@ import AsstApplicationComment from "./modules/asst/application/ProblemList"
 import AsstApplicationList from "./modules/asst/application/ApplicationList"
 import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
+import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -60,6 +61,7 @@ const routes = (
       <Route path="fragment/subject/show" component={ShowSubject}/>
       <Route path="fragment/subject/list/mine" component={MineSubject}/>
       <Route path="fragment/subject/write" component={WriteSubject}/>
+      <Route path="fragment/knowledge/show" component={KnowledgeView}/>
       <Route path="servercode" component={ServerCode}/>
     </Route>
     <Route component={BackendIndex}>
