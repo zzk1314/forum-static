@@ -16,6 +16,10 @@ export function replyDiscuss(params) {
   return ppost(`/pc/operation/reply/discuss`, params)
 }
 
+export function deleteWarmupDiscuss(discussId) {
+  return pget(`/pc/operation/warmup/discuss/del/${discussId}`)
+}
+
 export function loadWarmupList(problemId) {
   return pget(`/pc/operation/warmup/list/${problemId}`)
 }
