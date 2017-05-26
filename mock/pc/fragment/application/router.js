@@ -147,6 +147,7 @@ router.get("/pc/fragment/application/show/*",(req,res)=>{
         "planId": null,
         "workId": null,
         "picList": [],
+        "knowledgeId":1,
         "commentList": [
           {
             "id": 3,

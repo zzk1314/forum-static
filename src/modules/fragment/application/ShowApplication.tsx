@@ -274,7 +274,7 @@ export default class ShowApplication extends React.Component<any,any> {
   render() {
     const {data, commentList = [],voteCount, voteStatus, alert} = this.state;
     const {title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
-        role, signature,hasMore,desc} = data
+        role, signature,hasMore,desc,knowledgeId} = data
     const {location} = this.props;
     const applicationId = _.get(location, "query.applicationId");
     const planId = _.get(location, "query.planId");
@@ -362,6 +362,7 @@ export default class ShowApplication extends React.Component<any,any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{__html:desc}}/>
             </div>
+            <div className="knowledge-tip" onClick={()=>window.open(`/fragment/knowledge/show?id=${knowledgeId}`)}>点击查看知识点</div>
           </div>
           <Divider style={style.divider}/>
           {renderEdit()}

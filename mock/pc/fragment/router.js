@@ -188,4 +188,24 @@ router.post("/pc/fragment/request/comment/*", (req, res) => {
     }, Math.random() * 1500)
 });
 
+
+router.get("/pc/fragment/knowledge/load/*", (req, res) => {
+    setTimeout(() => {
+        res.status(200).json(
+            {
+                "msg": {
+                    "id": 5,
+                    "knowledge": "逻辑顺序",
+                    "step": null,
+                    "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                    "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                    "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                    "pic": null,
+                    "audio": null,
+                    "appear": null
+                },
+                "code":200});
+    }, Math.random() * 1500);
+});
+
 module.exports = router

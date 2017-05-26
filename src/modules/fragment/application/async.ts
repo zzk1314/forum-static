@@ -24,3 +24,7 @@ export function loadApplicationSubmit(submitId){
   return pget(`/pc/fragment/application/show/${submitId}`);
 }
 
+export function loadKnowledge(knowledgeId){
+  return pget(`/pc/fragment/knowledge/load/${knowledgeId}`);
+}
+
