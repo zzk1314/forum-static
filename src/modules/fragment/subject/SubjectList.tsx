@@ -34,7 +34,7 @@ const style = {
 }
 
 @connect(state => state)
-export default class ApplicationList extends React.Component<any,any> {
+export default class SubjectList extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -166,8 +166,8 @@ export default class ApplicationList extends React.Component<any,any> {
               {list.map((item, index) => {
                 const {submitId} = item;
                 return (
-                    <div>
-                      <WorkItem commentType={CommentType.Subject} key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                    <div key={index}>
+                      <WorkItem commentType={CommentType.Subject} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                       {index!==list.length-1?<Divider style={style.divider}/>:null}
                     </div>
                 )

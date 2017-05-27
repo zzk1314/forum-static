@@ -3,12 +3,12 @@ import * as _ from "lodash"
 import {connect} from "react-redux"
 import WorkItem from "../../../components/WorkItem"
 import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
 import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./ApplicationList.less"
 import {loadApplicationList, commentCount} from  "../async"
+import CommentTip from "../component/CommentTip"
 
 const style = {
   divider: {
@@ -126,8 +126,8 @@ export default class ApplicationList extends React.Component<any,any> {
           {list.map((item, index) => {
             const {submitId} = item;
             return (
-                <div>
-                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                <div key={index}>
+                  <WorkItem {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                   {index!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
             )
@@ -139,10 +139,7 @@ export default class ApplicationList extends React.Component<any,any> {
       <div className="applicationListContainer">
         <div className="myApplicationContainer">
           { todayComment>=0 && totalComment>=0 ?
-              <Paper style={style.paper}>
-                <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
-                <div className="comment-count">共点评过<span>{totalComment}</span>份</div>
-              </Paper>:null
+              <CommentTip todayComment ={todayComment} totalComment={totalComment}/>:null
           }
           <div className="titleContainer">
             <div className="title">应用练习</div>

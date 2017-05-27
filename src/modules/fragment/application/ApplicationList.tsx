@@ -207,8 +207,8 @@ export default class ApplicationList extends React.Component<any,any> {
           {list.map((item, index) => {
             const {submitId} = item;
             return (
-                <div>
-                  <WorkItem commentType={CommentType.Application} key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                <div key={index}>
+                  <WorkItem commentType={CommentType.Application} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                   {index!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
             )
