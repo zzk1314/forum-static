@@ -126,8 +126,8 @@ export default class ApplicationList extends React.Component<any,any> {
           {list.map((item, index) => {
             const {submitId} = item;
             return (
-                <div>
-                  <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                <div key={index}>
+                  <WorkItem {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                   {index!==list.length-1?<Divider style={style.divider}/>:null}
                 </div>
             )
@@ -141,7 +141,7 @@ export default class ApplicationList extends React.Component<any,any> {
           { todayComment>=0 && totalComment>=0 ?
               <Paper style={style.paper}>
                 <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
-                <div className="comment-count">共点评过<span>{totalComment}</span>份</div>
+                <div className="comment-count">共点评过<a href="/asst/commented">{totalComment}</a>份</div>
               </Paper>:null
           }
           <div className="titleContainer">
