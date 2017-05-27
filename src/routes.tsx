@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Route, IndexRoute} from "react-router";
+import { Route, IndexRoute } from "react-router";
 import Base from "modules/base/Base.tsx";
 import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
@@ -28,6 +28,10 @@ import Discuss from "./modules/backend/warmup/Discuss"
 import ApplicationProblemList from "./modules/backend/application/ProblemList"
 import CatalogView from "./modules/backend/application/Catalog"
 import ApplicationView from "./modules/backend/application/ApplicationList"
+import ApplicationManageHome from "./modules/backend/application/edit/ApplicationManageHome"
+import ApplicationProblemCategory from "./modules/backend/application/edit/ApplicationProblemCategory"
+import ApplicationEditList from "./modules/backend/application/edit/ApplicationEditList"
+import ApplicationEditView from "./modules/backend/application/edit/ApplicationEditView"
 import ProjectConfig from "./modules/backend/admin/ProjectConfig"
 import ConfigDetail from "./modules/backend/admin/ConfigDetail"
 import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
@@ -48,7 +52,7 @@ const routes = (
     <Route path="test" component={Test}/>
     <Route path="login" component={Login}/>
     <Route path="stranger" component={Stranger}/>
-    <Route path="pc/static/reject" component={Reject} />
+    <Route path="pc/static/reject" component={Reject}/>
     <Route component={ProblemList}>
       <Route path="fragment/rise" component={Catalog}/>
       <Route path="fragment/challenge" component={DoChallenge}/>
@@ -67,14 +71,18 @@ const routes = (
     <Route component={BackendIndex}>
       <Route path="backend" component={BackendWelcome}/>
       <Route path="/backend/admin/config" component={ProjectConfig}>
-          <Route path="/backend/project/config" component={ConfigDetail}/>
+        <Route path="/backend/project/config" component={ConfigDetail}/>
       </Route>
       <Route path="backend/warmup" component={HotWarmupPractice}/>
       <Route path="backend/warmup/view" component={PracticeView}/>
       <Route path="backend/warmup/discuss" component={Discuss}/>
       <Route path="/backend/warmup/management" component={WarmupProblemList}>
-          <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
-          <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+        <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
+        <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+      </Route>
+      <Route path="/backend/application/management" component={ApplicationManageHome}>
+        <Route path="/backend/application/edit/list" component={ApplicationEditList}/>
+        <Route path="/backend/application/edit/view" component={ApplicationEditView}/>
       </Route>
       <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
         <Route path="/backend/application/catalog" component={CatalogView}/>
@@ -82,17 +90,17 @@ const routes = (
       </Route>
     </Route>
     <Route component={AsstIndex}>
-        <Route path="asst" component={AsstWelcome}/>
-        <Route path="/asst/application/comment" component={AsstApplicationComment}>
-            <Route path="/asst/application/list" component={AsstApplicationList}/>
-            <Route path="/asst/application/view" component={ShowApplication}/>
-        </Route>
-        <Route path="/asst/subject/comment" component={AsstSubjectComment}>
-            <Route path="/asst/subject/list" component={AsstSubjectList}/>
-            <Route path="/asst/subject/view" component={ShowSubject}/>
-        </Route>
+      <Route path="asst" component={AsstWelcome}/>
+      <Route path="/asst/application/comment" component={AsstApplicationComment}>
+        <Route path="/asst/application/list" component={AsstApplicationList}/>
+        <Route path="/asst/application/view" component={ShowApplication}/>
+      </Route>
+      <Route path="/asst/subject/comment" component={AsstSubjectComment}>
+        <Route path="/asst/subject/list" component={AsstSubjectList}/>
+        <Route path="/asst/subject/view" component={ShowSubject}/>
+      </Route>
     </Route>
-    <Route path="*" component={NotFoundPage} />
+    <Route path="*" component={NotFoundPage}/>
   </Route>
 )
 
