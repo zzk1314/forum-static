@@ -53,7 +53,6 @@ export default class ApplicationEditList extends React.Component<any, any> {
   render() {
     return (
       <div>
-        <ProblemView/>
         {this.renderPractices()}
       </div>
     )
