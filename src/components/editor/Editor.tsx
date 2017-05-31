@@ -113,9 +113,8 @@ export default class Editor extends React.Component {
               // 上传成功
               $img.attr('src', res.msg.picUrl);
             }
-            console.log(res);
           }, function (error) {
-            console.log(error);
+            console.error(error);
           })
         }
       });
@@ -149,7 +148,7 @@ export default class Editor extends React.Component {
   }
 
   componentWillUnmount() {
-    if (!this.props.onChange) {
+    if (this.props.onChange) {
       this.props.onChange(this.getValue());
     }
   }

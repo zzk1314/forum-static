@@ -7,6 +7,7 @@ import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import { Menus } from "../../utils/Invariables";
 
 const style = {
   divider: {
@@ -51,7 +52,6 @@ export default class Fragment extends React.Component<any, any> {
   }
 
   render() {
-
     const renderMenu = () => {
       return (
         <List>
@@ -64,20 +64,28 @@ export default class Fragment extends React.Component<any, any> {
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
+                  console.log("click 0")
+                  this.props.dispatch(set("menu", Menus.WARM_UP_MANAGE))
                   this.context.router.push({pathname: '/backend/warmup/management'})
                 }}>巩固练习管理</div> : null
             }
             {
               window.ENV.isDevelopment ?
-              <div className="catalog-name" onClick={() => {
-                this.context.router.push({pathname: "/backend/application/management"})
-              }}>应用练习管理</div> : null
+                <div className="catalog-name" onClick={() => {
+                  console.log("click 1")
+                  this.props.dispatch(set("menu", Menus.APPLICATION_MANAGE))
+                  this.context.router.push({pathname: "/backend/application/problem/list"})
+                }}>应用练习管理</div> : null
             }
             <div className="catalog-name" onClick={() => {
+              console.log("click 2")
+              this.props.dispatch(set("menu", Menus.WARM_UP_DISCUSS))
               this.context.router.push({pathname: '/backend/warmup'})
             }}>巩固练习评论
             </div>
             <div className="catalog-name" onClick={() => {
+              console.log("click 3")
+              this.props.dispatch(set("menu", Menus.APPLICATION_DISCUSS))
               this.context.router.push({pathname: '/backend/application/problem/list'})
             }}>应用练习评论
             </div>

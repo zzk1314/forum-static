@@ -1,0 +1,6 @@
+export const Menus = {
+  WARM_UP_MANAGE: "0",
+  APPLICATION_MANAGE: "1",
+  WARM_UP_DISCUSS: "2",
+  APPLICATION_DISCUSS: "3"
+}

@@ -1,11 +1,12 @@
 import * as React from "react"
 import { loadApplication } from "../async";
+import { default as Editor, Editor } from "../../../../components/editor/Editor"
 
 export default class ApplicationEditView extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {practice: {}}
+    this.state = {practice: {}, editable: false}
   }
 
   componentWillMount() {
@@ -20,11 +21,17 @@ export default class ApplicationEditView extends React.Component<any, any> {
 
   renderPracticeArticle() {
     const {description, topic} = this.state.practice
+    const {editable} = this.state
     return (
-      <div>
-        <div>{topic}</div>
-        <div>{description}</div>
-      </div>
+      this.state.editable ?
+        <div>
+          <div>{topic}</div>
+          <div>{description}</div>
+        </div> :
+        <div>
+          <Editor id="topic" value={topic} ref="topic"/>
+          <Editor id="description" value={description} ref="description"/>
+        </div>
     )
   }
 

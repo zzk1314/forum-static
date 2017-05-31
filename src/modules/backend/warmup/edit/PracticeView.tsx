@@ -144,7 +144,6 @@ export default class practiceView extends React.Component <any, any> {
                 <div className="context" dangerouslySetInnerHTML={{__html: question}}
                      onClick={() => this.setState({questionEdit: true})}></div>
             }
-
           </div>
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
