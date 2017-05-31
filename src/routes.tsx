@@ -28,10 +28,6 @@ import Discuss from "./modules/backend/warmup/Discuss"
 import ApplicationProblemList from "./modules/backend/application/ProblemList"
 import CatalogView from "./modules/backend/application/Catalog"
 import ApplicationView from "./modules/backend/application/ApplicationList"
-import ApplicationManageHome from "./modules/backend/application/edit/ApplicationManageHome"
-import ApplicationProblemCategory from "./modules/backend/application/edit/ApplicationProblemCategory"
-import ApplicationEditList from "./modules/backend/application/edit/ApplicationEditList"
-import ApplicationEditView from "./modules/backend/application/edit/ApplicationEditView"
 import ProjectConfig from "./modules/backend/admin/ProjectConfig"
 import ConfigDetail from "./modules/backend/admin/ConfigDetail"
 import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
@@ -79,10 +75,6 @@ const routes = (
       <Route path="/backend/warmup/management" component={WarmupProblemList}>
         <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
-      </Route>
-      <Route path="/backend/application/management" component={ApplicationManageHome}>
-        <Route path="/backend/application/edit/list" component={ApplicationEditList}/>
-        <Route path="/backend/application/edit/view" component={ApplicationEditView}/>
       </Route>
       <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
         <Route path="/backend/application/catalog" component={CatalogView}/>
