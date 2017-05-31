@@ -64,6 +64,7 @@ export default class ShowApplication extends React.Component<any,any> {
                 voteCount:res.msg.voteCount,
                 voteStatus:res.msg.voteStatus,
             })
+            document.body.scrollTop = 0
           }
         }).catch(err => {
         console.log("catch", err);
