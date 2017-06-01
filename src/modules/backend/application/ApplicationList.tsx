@@ -173,9 +173,14 @@ export default class ApplicationList extends React.Component<any, any> {
 
   save() {
     let editor_topic = this.refs.editor_topic.value
-    let editor_description = this.refs.editor_description.getValue()
+    let editor_description
+    if(this.state.descriptionEditable) {
+      editor_description = this.refs.editor_description.getValue()
+    } else {
+      editor_description = this.state.application.description
+    }
     const applicationId = this.state.application.id
-    if(this.state.editable) {
+    if(this.state.topicEditable || this.state.descriptionEditable) {
       saveApplicationPractice(applicationId, editor_topic, editor_description).then(res => {
         if(res.code === 200) {
           this.setState({message: '保存成功', snackOpen: true, saving: false})
@@ -298,11 +303,11 @@ export default class ApplicationList extends React.Component<any, any> {
               null
           }
           {
-            this.state.editable && this.props.menu === Menus.APPLICATION_MANAGE ?
+            (this.state.topicEditable || this.state.descriptionEditable) && this.props.menu === Menus.APPLICATION_MANAGE ?
               <div className="submitArea">
                 {
                   this.state.saving ? <div className="submitBtn disabled">保存中</div> :
-                    <div className="submitBtn" onClick={() => this.save()}>保存</div>
+                    <div className="submitBtn" onClick={this.save.bind(this)}>保存</div>
                 }
                 <div className="submitBtn" onClick={() => this.back()}>返回</div>
               </div> :
