@@ -13,6 +13,7 @@ import { Menus } from "../../../utils/Invariables"
 import Editor from "../../../components/editor/Editor"
 import { decodeTextAreaString3 } from "../../textUtils"
 import Snackbar from 'material-ui/Snackbar'
+import {imgSrc} from "../../../utils/imgSrc"
 
 export const CommentType = {
   Challenge: 1,
@@ -35,7 +36,8 @@ export default class ApplicationList extends React.Component<any, any> {
       otherLoading: true,
       application: {},
       topic: "",
-      editable: false,
+      topicEditable: false,
+      descriptionEditable: false,
       snackOpen: false,
       message: "",
       saving: false
@@ -187,6 +189,16 @@ export default class ApplicationList extends React.Component<any, any> {
     }, 2000)
   }
 
+  onClickTopicEdit() {
+    this.setState({topicEditable: true}, () => {
+      this.refs.editor_topic.focus()
+    })
+  }
+
+  onClickDescriptioEdit() {
+    this.setState({descriptionEditable: true})
+  }
+
   render() {
     const {other = [], hasMore, otherLoading, application} = this.state;
     const renderOther = () => {
@@ -254,27 +266,30 @@ export default class ApplicationList extends React.Component<any, any> {
       )
     }
 
-    console.log("prop menu", this.props.menu)
-    console.log(Menus.APPLICATION_DISCUSS)
     return (
       <div className="applicationListContainer">
+        <div className="backContainer">
+          <span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
+        </div>
+        <hr/>
         <div className="myApplicationContainer">
           {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
               null :
-              this.state.editable ?
+              this.state.topicEditable ?
                 <input value={this.state.topic} ref="editor_topic" type="text" className="application-topic"
                        onChange={(e) => this.setState({topic: e.target.value})}/> :
-                <div onClick={() => this.setState({editable: true})} className="edit-topic"
+                <div onClick={this.onClickTopicEdit.bind(this)} className="edit-topic"
                      dangerouslySetInnerHTML={{__html: application.topic}}/>
           }
+          <hr/>
           {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
               <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}/> :
-              this.state.editable ?
+              this.state.descriptionEditable ?
                 <Editor id={`editor4`} value={decodeTextAreaString3(application.description)}
                         ref="editor_description"/> :
-                <div className="desc" onClick={() => this.setState({editable: true})}
+                <div className="desc" onClick={this.onClickDescriptioEdit.bind(this)}
                      dangerouslySetInnerHTML={{__html: application.description}}/>
           }
           {
