@@ -1,5 +1,4 @@
 import * as React from "react"
-import * as _ from "lodash"
 import { connect } from "react-redux"
 import Divider from 'material-ui/Divider';
 import { ppost, BreakSignal, Stop } from "../../../utils/request";
@@ -172,7 +171,7 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   save() {
-    let editor_topic = this.refs.editor_topic.value
+    let editor_topic = this.state.topicEditable?this.refs.editor_topic.value:this.state.application.topic
     let editor_description
     if(this.state.descriptionEditable) {
       editor_description = this.refs.editor_description.getValue()
@@ -185,7 +184,7 @@ export default class ApplicationList extends React.Component<any, any> {
         if(res.code === 200) {
           this.setState({message: '保存成功', snackOpen: true, saving: false})
         } else {
-          this.setState({message: msg, snackOpen: true, saving: false})
+          this.setState({message: res.msg, snackOpen: true, saving: false})
         }
       })
     }
@@ -200,7 +199,7 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
-  onClickDescriptioEdit() {
+  onClickDescriptionEdit() {
     this.setState({descriptionEditable: true})
   }
 
@@ -294,7 +293,7 @@ export default class ApplicationList extends React.Component<any, any> {
               this.state.descriptionEditable ?
                 <Editor id={`editor4`} value={decodeTextAreaString3(application.description)}
                         ref="editor_description"/> :
-                <div className="desc" onClick={this.onClickDescriptioEdit.bind(this)}
+                <div className="desc" onClick={this.onClickDescriptionEdit.bind(this)}
                      dangerouslySetInnerHTML={{__html: application.description}}/>
           }
           {
