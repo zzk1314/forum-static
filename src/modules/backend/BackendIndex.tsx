@@ -1,14 +1,13 @@
 import * as React from "react";
-import {connect} from "react-redux";
-import {List, ListItem,makeSelectable} from 'material-ui/List';
-import * as _ from "lodash";
+import { connect } from "react-redux";
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 import "./BackendIndex.less"
-import {Grid, Row, Col} from "react-flexbox-grid"
-import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {List, ListItem, makeSelectable} from 'material-ui/List';
+import { Grid, Row, Col } from "react-flexbox-grid"
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-
+import { Menus } from "../../utils/Invariables";
 
 const style = {
   divider: {
@@ -32,9 +31,8 @@ const style = {
   }
 }
 
-
 @connect(state => state)
-export default class Fragment extends React.Component<any,any> {
+export default class Fragment extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -53,10 +51,7 @@ export default class Fragment extends React.Component<any,any> {
 
   }
 
-
-
   render() {
-
     const renderMenu = () => {
       return (
         <List>
@@ -66,17 +61,34 @@ export default class Fragment extends React.Component<any,any> {
           <Divider style={style.divider}/>
 
           <div className="catalog-area">
-              {window.ENV.isDevelopment?
-                  <div className="catalog-name" onClick={()=>{
-                        this.context.router.push({pathname:'/backend/warmup/management'})
-                  }}>巩固练习管理</div>:null
-              }
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/backend/warmup'})
-              }}>巩固练习评论</div>
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/backend/application/problem/list'})
-              }}>应用练习评论</div>
+            {
+              window.ENV.isDevelopment ?
+                <div className="catalog-name" onClick={() => {
+                  console.log("menu-0")
+                  this.props.dispatch(set("menu", Menus.WARM_UP_MANAGE))
+                  this.context.router.push({pathname: '/backend/warmup/management'})
+                }}>巩固练习管理</div> : null
+            }
+            {
+              window.ENV.isDevelopment ?
+                <div className="catalog-name" onClick={() => {
+                  console.log("menu-1")
+                  this.props.dispatch(set("menu", Menus.APPLICATION_MANAGE))
+                  this.context.router.push({pathname: "/backend/application/problem/list"})
+                }}>应用练习管理</div> : null
+            }
+            <div className="catalog-name" onClick={() => {
+              console.log("menu-2")
+              this.props.dispatch(set("menu", Menus.WARM_UP_DISCUSS))
+              this.context.router.push({pathname: '/backend/warmup'})
+            }}>巩固练习评论
+            </div>
+            <div className="catalog-name" onClick={() => {
+              console.log("menu-3")
+              this.props.dispatch(set("menu", Menus.APPLICATION_DISCUSS))
+              this.context.router.push({pathname: '/backend/application/problem/list'})
+            }}>应用练习评论
+            </div>
           </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">管理员功能</div>
@@ -84,9 +96,10 @@ export default class Fragment extends React.Component<any,any> {
           <Divider style={style.divider}/>
 
           <div className="catalog-area">
-            <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/admin/config'})
-            }}>项目配置</div>
+            <div className="catalog-name" onClick={() => {
+              this.context.router.push({pathname: '/backend/admin/config'})
+            }}>项目配置
+            </div>
           </div>
         </List>
       )

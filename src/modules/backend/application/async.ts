@@ -20,6 +20,10 @@ export function loadApplication(applicationId){
   return pget(`/pc/fragment/application/load/${applicationId}`);
 }
 
+export function saveApplicationPractice(applicationId, topic, description) {
+  return ppost(`/pc/fragment/application/update/${applicationId}`, {topic: topic, description: description})
+}
+
 export function submitComment(type,submitId,content){
   return ppost(`/pc/fragment/comment/${type}/${submitId}`,{content:content});
 }

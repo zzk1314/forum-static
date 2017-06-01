@@ -1,16 +1,23 @@
 .applicationListContainer{
   margin:20px;
   .myApplicationContainer{
-    > .more{
+    .more{
       text-align: center;
       color: #55cbcb;
       cursor: pointer;
       margin-top: 30px;
     }
 
-    > .no-more{
+    .no-more{
       text-align: center;
       margin-top: 30px;
+    }
+
+    .edit-topic {
+      font-size: 22px;
+      line-height: 22px;
+      margin-bottom: 10px;
+      color: #666666;
     }
 
     .titleContainer{
@@ -31,7 +38,7 @@
         //}
       }
     }
-    > .title{
+    .title{
       padding-top:30px;
       padding-bottom:10px;
       text-align: center;
@@ -102,5 +109,57 @@
         cursor:pointer;
       }
     }
+    > .submitArea{
+      margin-top: 20px;
+      text-align: center;
+      > .submitBtn{
+        display: inline-block;
+        margin: 0 20px;
+        width:70px;
+        text-align: center;
+        line-height: 30px;
+        color: #FFFFFF;
+        background-color:#55cbcb;
+        font-size:16px;
+        cursor:pointer;
+        border-radius: 5px;
+        &.disabled {
+          background-color:#999999;
+        }
+      }
+    }
+    > .submitArea{
+      margin-top: 20px;
+      text-align: center;
+      > .submitBtn{
+        display: inline-block;
+        margin: 0 20px;
+        width:70px;
+        text-align: center;
+        line-height: 30px;
+        color: #FFFFFF;
+        background-color:#55cbcb;
+        font-size:16px;
+        cursor:pointer;
+        border-radius: 5px;
+        &.disabled {
+          background-color:#999999;
+        }
+      }
+    }
   }
+}
+
+.simditor-wrapper {
+  overflow-y: scroll;
+}
+
+
+
+.application-topic {
+  height: 30px;
+  font-size: 1.2em;
+  width: 100%;
+  border: 0px solid;
+  padding: 10px;
 }

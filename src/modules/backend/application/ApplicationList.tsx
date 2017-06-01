@@ -1,14 +1,18 @@
 import * as React from "react"
 import * as _ from "lodash"
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 import Divider from 'material-ui/Divider';
-import {ppost, BreakSignal, Stop} from "../../../utils/request";
+import { ppost, BreakSignal, Stop } from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import Avatar from 'material-ui/Avatar';
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import _ from "lodash"
 import "./ApplicationList.less"
-import {loadApplicationSubmit, highlight, loadApplication, submitComment} from  "./async"
+import { loadApplicationSubmit, highlight, loadApplication, submitComment, saveApplicationPractice } from  "./async"
+import { Menus } from "../../../utils/Invariables"
+import Editor from "../../../components/editor/Editor"
+import { decodeTextAreaString3 } from "../../textUtils"
+import Snackbar from 'material-ui/Snackbar'
 
 export const CommentType = {
   Challenge: 1,
@@ -30,9 +34,13 @@ export default class ApplicationList extends React.Component<any, any> {
       index: 1,
       otherLoading: true,
       application: {},
+      topic: "",
+      editable: false,
+      snackOpen: false,
+      message: "",
+      saving: false
     }
   }
-
 
   componentWillMount() {
     const {location, dispatch, page} = this.props;
@@ -41,21 +49,21 @@ export default class ApplicationList extends React.Component<any, any> {
     const scrollValue = _.get(page, "scroll");
 
     loadApplication(applicationId).then(res => {
-      if (res.code === 200) {
-        this.setState({application: res.msg});
+      if(res.code === 200) {
+        this.setState({application: res.msg, topic: res.msg.topic});
       } else {
         throw new BreakSignal(res.msg, "提示");
       }
     }).catch(err => {
-      if (err instanceof BreakSignal) {
+      if(err instanceof BreakSignal) {
         dispatch(alertMsg(err.title, err.msg));
       }
     })
 
     loadApplicationSubmit(applicationId, index).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({other: res.msg, otherLoading: false});
-        if (scrollValue) {
+        if(scrollValue) {
           scroll(scrollValue.x, scrollValue.y);
           dispatch(set("page.scroll", {x: 0, y: 0}));
         }
@@ -64,7 +72,7 @@ export default class ApplicationList extends React.Component<any, any> {
         throw new BreakSignal(res.msg, "提示");
       }
     }).catch(err => {
-      if (err instanceof BreakSignal) {
+      if(err instanceof BreakSignal) {
         this.setState({otherLoading: false});
         dispatch(alertMsg(err.title, err.msg));
       }
@@ -85,9 +93,9 @@ export default class ApplicationList extends React.Component<any, any> {
     const {index, other} = this.state
 
     loadApplicationSubmit(applicationId, index + 1).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         let hasMore = true
-        if (res.msg.length === 0) {
+        if(res.msg.length === 0) {
           hasMore = false
         } else {
           res.msg.forEach(item => other.push(item));
@@ -97,7 +105,7 @@ export default class ApplicationList extends React.Component<any, any> {
         throw new BreakSignal(res.msg, "提示");
       }
     }).catch(err => {
-      if (err instanceof BreakSignal) {
+      if(err instanceof BreakSignal) {
         dispatch(alertMsg(err.title, err.msg));
       }
     })
@@ -106,11 +114,11 @@ export default class ApplicationList extends React.Component<any, any> {
   highlight(application, id) {
     const {other} = this.state
     highlight(application, id).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.showAlert('提交成功')
       }
       other.forEach((item) => {
-        if (item.id === id) {
+        if(item.id === id) {
           _.set(item, 'priority', 1)
         }
       })
@@ -122,7 +130,7 @@ export default class ApplicationList extends React.Component<any, any> {
     const {other} = this.state
 
     other.forEach((item) => {
-      if (item.id === id) {
+      if(item.id === id) {
         _.set(item, 'commenting', 1)
       }
     })
@@ -133,11 +141,11 @@ export default class ApplicationList extends React.Component<any, any> {
   comment(id) {
     const {other, comment} = this.state
     submitComment(CommentType.Application, id, comment).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.showAlert('提交成功')
       }
       other.forEach((item) => {
-        if (item.id === id) {
+        if(item.id === id) {
           _.set(item, 'comment', 1)
           _.set(item, 'commenting', 0)
         }
@@ -155,6 +163,28 @@ export default class ApplicationList extends React.Component<any, any> {
         planId: item.planId
       }
     })
+  }
+
+  back() {
+    this.context.router.goBack()
+  }
+
+  save() {
+    let editor_topic = this.refs.editor_topic.value
+    let editor_description = this.refs.editor_description.getValue()
+    const applicationId = this.state.application.id
+    if(this.state.editable) {
+      saveApplicationPractice(applicationId, editor_topic, editor_description).then(res => {
+        if(res.code === 200) {
+          this.setState({message: '保存成功', snackOpen: true, saving: false})
+        } else {
+          this.setState({message: msg, snackOpen: true, saving: false})
+        }
+      })
+    }
+    setTimeout(() => {
+      this.setState({snackOpen: false})
+    }, 2000)
   }
 
   render() {
@@ -191,7 +221,7 @@ export default class ApplicationList extends React.Component<any, any> {
                         加精
                       </div> :
                       <div className="function-done">已加精</div> }
-                      <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
+                    <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
                   </div>
                   {commenting === 1 ?
                     <div className="commentSubmit">
@@ -209,10 +239,10 @@ export default class ApplicationList extends React.Component<any, any> {
         </div>
       )
     }
-    return (
-      <div className="applicationListContainer">
-        <div className="myApplicationContainer">
-          <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}></div>
+
+    const renderDiscuss = () => {
+      return (
+        <div>
           <div className="title">
             <span className="title-text">群众的智慧</span>
           </div>
@@ -221,6 +251,53 @@ export default class ApplicationList extends React.Component<any, any> {
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
             <div className="no-more">没有更多了</div>}
         </div>
+      )
+    }
+
+    console.log("prop menu", this.props.menu)
+    console.log(Menus.APPLICATION_DISCUSS)
+    return (
+      <div className="applicationListContainer">
+        <div className="myApplicationContainer">
+          {
+            this.props.menu === Menus.APPLICATION_DISCUSS ?
+              null :
+              this.state.editable ?
+                <input value={this.state.topic} ref="editor_topic" type="text" className="application-topic"
+                       onChange={(e) => this.setState({topic: e.target.value})}/> :
+                <div onClick={() => this.setState({editable: true})} className="edit-topic"
+                     dangerouslySetInnerHTML={{__html: application.topic}}/>
+          }
+          {
+            this.props.menu === Menus.APPLICATION_DISCUSS ?
+              <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}/> :
+              this.state.editable ?
+                <Editor id={`editor4`} value={decodeTextAreaString3(application.description)}
+                        ref="editor_description"/> :
+                <div className="desc" onClick={() => this.setState({editable: true})}
+                     dangerouslySetInnerHTML={{__html: application.description}}/>
+          }
+          {
+            this.props.menu === Menus.APPLICATION_DISCUSS ?
+              renderDiscuss():
+              null
+          }
+          {
+            this.state.editable && this.props.menu === Menus.APPLICATION_MANAGE ?
+              <div className="submitArea">
+                {
+                  this.state.saving ? <div className="submitBtn disabled">保存中</div> :
+                    <div className="submitBtn" onClick={() => this.save()}>保存</div>
+                }
+                <div className="submitBtn" onClick={() => this.back()}>返回</div>
+              </div> :
+              null
+          }
+        </div>
+        <Snackbar
+          open={this.state.snackOpen}
+          message={this.state.message}
+          autoHideDuration={2000}/>
       </div>
     )
   }

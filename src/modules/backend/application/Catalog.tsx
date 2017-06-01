@@ -6,6 +6,7 @@ import {set, alertMsg} from "../../../redux/actions"
 import {BreakSignal, Stop} from "../../../utils/request"
 import "./Catalog.less"
 import Divider from 'material-ui/Divider';
+import {removelHtmlTags} from "../../textUtils"
 
 @connect(state => state)
 export default class Catalog extends React.Component<any,any> {
@@ -63,6 +64,7 @@ export default class Catalog extends React.Component<any,any> {
     });
   }
 
+  // 根据redux设置的menu值，实行不同情况的跳转
   goApp(workId){
     this.context.router.push({
       pathname:"/backend/application/list",
@@ -96,9 +98,7 @@ export default class Catalog extends React.Component<any,any> {
               {applicationList.map((item,seq) =>{
                     return (
                         <div key={seq} onClick={()=>this.goApp(item.id)} className="item">
-                          <div className="content">
-                            {item.topic}
-                          </div>
+                          <div className="content">{removelHtmlTags(item.topic)}</div>
                         </div>
                     )
                   })}
