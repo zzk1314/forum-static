@@ -240,6 +240,22 @@ export default class ApplicationList extends React.Component<any, any> {
       )
     }
 
+    const renderDiscuss = () => {
+      return (
+        <div>
+          <div className="title">
+            <span className="title-text">群众的智慧</span>
+          </div>
+          {otherLoading ? <VerticalBarLoading/> : renderOther()}
+          <Divider/>
+          {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
+            <div className="no-more">没有更多了</div>}
+        </div>
+      )
+    }
+
+    console.log("prop menu", this.props.menu)
+    console.log(Menus.APPLICATION_DISCUSS)
     return (
       <div className="applicationListContainer">
         <div className="myApplicationContainer">
@@ -247,29 +263,23 @@ export default class ApplicationList extends React.Component<any, any> {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
               null :
               this.state.editable ?
-                <input value={this.state.topic} ref="editor_topic" type="text" className="application-topic" onChange={(e) => this.setState({topic :e.target.value})}/> :
-                <div onClick={() => this.setState({editable: true})}
+                <input value={this.state.topic} ref="editor_topic" type="text" className="application-topic"
+                       onChange={(e) => this.setState({topic: e.target.value})}/> :
+                <div onClick={() => this.setState({editable: true})} className="edit-topic"
                      dangerouslySetInnerHTML={{__html: application.topic}}/>
           }
           {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
               <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}/> :
               this.state.editable ?
-                <Editor id={`editor4`} value={decodeTextAreaString3(application.description)} ref="editor_description"/> :
+                <Editor id={`editor4`} value={decodeTextAreaString3(application.description)}
+                        ref="editor_description"/> :
                 <div className="desc" onClick={() => this.setState({editable: true})}
                      dangerouslySetInnerHTML={{__html: application.description}}/>
           }
           {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
-              <div>
-                <div className="title">
-                  <span className="title-text">群众的智慧</span>
-                </div>
-                {otherLoading ? <VerticalBarLoading/> : renderOther()}
-                <Divider/>
-                {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
-                  <div className="no-more">没有更多了</div>}
-              </div> :
+              renderDiscuss():
               null
           }
           {
