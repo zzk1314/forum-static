@@ -67,6 +67,7 @@ export default class ShowChallenge extends React.Component<any,any> {
               voteCount:res.msg.voteCount,
               voteStatus:res.msg.voteStatus,
             })
+            document.body.scrollTop = 0
           }
         }).catch(err => {
         console.log("catch", err);
@@ -243,19 +244,7 @@ export default class ShowChallenge extends React.Component<any,any> {
   }
 
   back(){
-      const {location} = this.props
-      const type = _.get(location, "query.type");
-      if(type !=='asst'){
-        this.context.router.push({
-          pathname:'/fragment/subject/list',
-          query:{problemId:location.query.problemId}
-        })
-      }else{
-        this.context.router.push({
-          pathname:'/asst/subject/list',
-          query:{problemId:location.query.problemId}
-        })
-      }
+    this.context.router.goBack()
   }
 
   click(){

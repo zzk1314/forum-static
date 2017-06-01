@@ -2,13 +2,13 @@ import * as React from "react"
 import * as _ from "lodash"
 import {connect} from "react-redux"
 import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
 import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
 import {loadSubjectArticleList, commentCount} from  "../async"
 import WorkItem from "../../../components/WorkItem"
+import CommentTip from "../component/CommentTip"
 
 
 const style = {
@@ -42,7 +42,7 @@ const style = {
 }
 
 @connect(state => state)
-export default class ApplicationList extends React.Component<any,any> {
+export default class SubjectList extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -140,8 +140,8 @@ export default class ApplicationList extends React.Component<any,any> {
             {list.map((item, index) => {
               const {submitId} = item;
               return (
-                  <div>
-                      <WorkItem key={index} {...item} onShowClick={()=>this.onShowClick(submitId)}/>
+                  <div key={index}>
+                      <WorkItem {...item} onShowClick={()=>this.onShowClick(submitId)}/>
                       {index!==list.length-1?<Divider style={style.divider}/>:null}
                   </div>
               )
@@ -153,10 +153,7 @@ export default class ApplicationList extends React.Component<any,any> {
     return (
       <div className="subject-list">
         { todayComment>=0 && totalComment>=0 ?
-            <Paper style={style.paper}>
-              <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
-              <div className="comment-count">共点评过<span>{totalComment}</span>份</div>
-            </Paper>:null
+            <CommentTip todayComment ={todayComment} totalComment={totalComment}/>:null
         }
         <div className="subject-header">
           <div className="title">小课论坛</div>

@@ -23,3 +23,7 @@ export function loadSubjectArticleProblems() {
 export function commentCount() {
   return pget(`/pc/asst/comment/count`);
 }
+
+export function loadCommentedList() {
+  return pget("/pc/asst/commented/submit");
+}

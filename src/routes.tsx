@@ -39,6 +39,7 @@ import AsstApplicationComment from "./modules/asst/application/ProblemList"
 import AsstApplicationList from "./modules/asst/application/ApplicationList"
 import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
+import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 
 const routes = (
@@ -82,15 +83,16 @@ const routes = (
       </Route>
     </Route>
     <Route component={AsstIndex}>
-      <Route path="asst" component={AsstWelcome}/>
-      <Route path="/asst/application/comment" component={AsstApplicationComment}>
-        <Route path="/asst/application/list" component={AsstApplicationList}/>
-        <Route path="/asst/application/view" component={ShowApplication}/>
-      </Route>
-      <Route path="/asst/subject/comment" component={AsstSubjectComment}>
-        <Route path="/asst/subject/list" component={AsstSubjectList}/>
-        <Route path="/asst/subject/view" component={ShowSubject}/>
-      </Route>
+        <Route path="asst" component={AsstWelcome}/>
+        <Route path="asst/commented" component={CommentedList}/>
+        <Route path="/asst/application/comment" component={AsstApplicationComment}>
+            <Route path="/asst/application/list" component={AsstApplicationList}/>
+            <Route path="/asst/application/view" component={ShowApplication}/>
+        </Route>
+        <Route path="/asst/subject/comment" component={AsstSubjectComment}>
+            <Route path="/asst/subject/list" component={AsstSubjectList}/>
+            <Route path="/asst/subject/view" component={ShowSubject}/>
+        </Route>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
