@@ -32,11 +32,13 @@ export default class Main extends React.Component<any, any> {
         <div className="rise-base">
           <NavigatorBar/>
           {this.props.children}
-          <AlertMessage open={this.props.base.showModal}
-                        modal={false}
-                        content={this.props.base.alertMsg.msg}
-                        title={this.props.base.alertMsg.title}
-                        handleClose={()=>this.closeBaseAlert()} />
+          <AlertMessage
+            open={this.props.base.showModal}
+            modal={false}
+            content={this.props.base.alertMsg.msg}
+            title={this.props.base.alertMsg.title}
+            handleClose={()=>this.closeBaseAlert()}
+          />
         </div>
       </MuiThemeProvider>
     )
