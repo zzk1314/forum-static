@@ -17,13 +17,6 @@ export default class NavigatorBar extends React.Component<any,any>{
     }
   }
 
-  checkCurNav(){
-    let url = window.location.pathname;
-    if(url = '/fragment/plan'){
-      this.setState({activeNav:2});
-    }
-  }
-
   componentWillMount(){
     this.handleResize();
     window.addEventListener("resize",this.handleResize.bind(this));
@@ -60,6 +53,13 @@ export default class NavigatorBar extends React.Component<any,any>{
         this.setState({activeNav:3})
         break;
       }
+    }
+  }
+
+  checkCurNav(){
+    let url = window.location.pathname;
+    if(url = '/fragment/plan'){
+      this.setState({activeNav:2});
     }
   }
 
