@@ -20,13 +20,14 @@ export default class NavigatorBar extends React.Component<any,any>{
   checkCurNav(){
     let url = window.location.pathname;
     if(url = '/fragment/plan'){
-      this.setState({activeNav:1});
+      this.setState({activeNav:2});
     }
   }
 
   componentWillMount(){
     this.handleResize();
     window.addEventListener("resize",this.handleResize.bind(this));
+    this.checkCurNav();
 
   }
 
@@ -45,15 +46,18 @@ export default class NavigatorBar extends React.Component<any,any>{
     switch(navId){
       case NavType.Home:{
         console.log('切换到 home');
+        this.setState({activeNav:1})
         break;
       }
       case NavType.Rise:{
         console.log('切换到 Rise');
+        this.setState({activeNav:2})
         break;
 
       }
       case NavType.Forum:{
         console.log('切换到 Forum');
+        this.setState({activeNav:3})
         break;
       }
     }
