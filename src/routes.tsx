@@ -42,7 +42,12 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
-import  Plan from './modules/fragment/plan/Plan'
+import Plan from './modules/fragment/plan/Plan'
+
+
+// pc rise 改版
+import Plan from "./modules/fragment/plan/Plan";
+
 
 const routes = (
   <Route path="/" >
@@ -98,8 +103,9 @@ const routes = (
         </Route>
       </Route>
     </Route>
+    {/*Rise PC 改版*/}
     <Route component={RiseBase}>
-      <Route path="/fragment/plan"  component={Plan}>
+      <Route path="/fragment/plan" component={Plan}>
 
       </Route>
     </Route>
