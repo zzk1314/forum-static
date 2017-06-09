@@ -18,7 +18,7 @@ export default class Plan extends React.Component<any,any>{
 
   render(){
     return (
-      <div className="problem-main">
+      <div className="problem-main outer-wrapper">
         <div className="plan-container">
           plan
         </div>
