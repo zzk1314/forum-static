@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Route, IndexRoute } from "react-router";
+import {Route, IndexRoute} from "react-router";
 import Base from "modules/base/Base.tsx";
+import PureBase from "modules/base/PureBase"
 import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
@@ -41,58 +42,66 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
+import  Plan from './modules/fragment/plan/Plan'
 
 const routes = (
-  <Route path="/" component={Base}>
-    <IndexRoute component={Home}/>
-    <Route path="home" component={Home}/>
-    <Route path="test" component={Test}/>
-    <Route path="login" component={Login}/>
-    <Route path="stranger" component={Stranger}/>
-    <Route path="pc/static/reject" component={Reject}/>
-    <Route component={ProblemList}>
-      <Route path="fragment/rise" component={Catalog}/>
-      <Route path="fragment/challenge" component={DoChallenge}/>
-      <Route path="fragment/application" component={DoApplication}/>
-      <Route path="fragment/challenge/list" component={ChallengeList}/>
-      <Route path="fragment/application/list" component={ApplicationList}/>
-      <Route path="fragment/challenge/show" component={ShowChallenge}/>
-      <Route path="fragment/application/show" component={ShowApplication}/>
-      <Route path="fragment/subject/list" component={SubjectList}/>
-      <Route path="fragment/subject/show" component={ShowSubject}/>
-      <Route path="fragment/subject/list/mine" component={MineSubject}/>
-      <Route path="fragment/subject/write" component={WriteSubject}/>
-      <Route path="fragment/knowledge/show" component={KnowledgeView}/>
-      <Route path="servercode" component={ServerCode}/>
-    </Route>
-    <Route component={BackendIndex}>
-      <Route path="backend" component={BackendWelcome}/>
-      <Route path="/backend/admin/config" component={ProjectConfig}>
-        <Route path="/backend/project/config" component={ConfigDetail}/>
+  <Route path="/" >
+    <Route component={Base}>
+      <IndexRoute component={Home}/>
+      <Route path="home" component={Home}/>
+      <Route path="test" component={Test}/>
+      <Route path="login" component={Login}/>
+      <Route path="stranger" component={Stranger}/>
+      <Route path="pc/static/reject" component={Reject}/>
+      <Route component={ProblemList}>
+        <Route path="fragment/rise" component={Catalog}/>
+        <Route path="fragment/challenge" component={DoChallenge}/>
+        <Route path="fragment/application" component={DoApplication}/>
+        <Route path="fragment/challenge/list" component={ChallengeList}/>
+        <Route path="fragment/application/list" component={ApplicationList}/>
+        <Route path="fragment/challenge/show" component={ShowChallenge}/>
+        <Route path="fragment/application/show" component={ShowApplication}/>
+        <Route path="fragment/subject/list" component={SubjectList}/>
+        <Route path="fragment/subject/show" component={ShowSubject}/>
+        <Route path="fragment/subject/list/mine" component={MineSubject}/>
+        <Route path="fragment/subject/write" component={WriteSubject}/>
+        <Route path="fragment/knowledge/show" component={KnowledgeView}/>
+        <Route path="servercode" component={ServerCode}/>
       </Route>
-      <Route path="backend/warmup" component={HotWarmupPractice}/>
-      <Route path="backend/warmup/view" component={PracticeView}/>
-      <Route path="backend/warmup/discuss" component={Discuss}/>
-      <Route path="/backend/warmup/management" component={WarmupProblemList}>
-        <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
-        <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+      <Route component={BackendIndex}>
+        <Route path="backend" component={BackendWelcome}/>
+        <Route path="/backend/admin/config" component={ProjectConfig}>
+          <Route path="/backend/project/config" component={ConfigDetail}/>
+        </Route>
+        <Route path="backend/warmup" component={HotWarmupPractice}/>
+        <Route path="backend/warmup/view" component={PracticeView}/>
+        <Route path="backend/warmup/discuss" component={Discuss}/>
+        <Route path="/backend/warmup/management" component={WarmupProblemList}>
+          <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
+          <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+        </Route>
+        <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
+          <Route path="/backend/application/catalog" component={CatalogView}/>
+          <Route path="/backend/application/list" component={ApplicationView}/>
+        </Route>
       </Route>
-      <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
-        <Route path="/backend/application/catalog" component={CatalogView}/>
-        <Route path="/backend/application/list" component={ApplicationView}/>
-      </Route>
-    </Route>
-    <Route component={AsstIndex}>
+      <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>
         <Route path="asst/commented" component={CommentedList}/>
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
-            <Route path="/asst/application/list" component={AsstApplicationList}/>
-            <Route path="/asst/application/view" component={ShowApplication}/>
+          <Route path="/asst/application/list" component={AsstApplicationList}/>
+          <Route path="/asst/application/view" component={ShowApplication}/>
         </Route>
         <Route path="/asst/subject/comment" component={AsstSubjectComment}>
-            <Route path="/asst/subject/list" component={AsstSubjectList}/>
-            <Route path="/asst/subject/view" component={ShowSubject}/>
+          <Route path="/asst/subject/list" component={AsstSubjectList}/>
+          <Route path="/asst/subject/view" component={ShowSubject}/>
         </Route>
+      </Route>
+    </Route>
+    <Route component={PureBase}>
+      <Route path="/fragment/plan"  component={Plan}>
+
+      </Route>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
