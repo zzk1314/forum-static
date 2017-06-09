@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Route, IndexRoute} from "react-router";
 import Base from "modules/base/Base.tsx";
-import PureBase from "modules/base/PureBase"
+import RiseBase from "modules/base/RiseBase"
 import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
@@ -98,7 +98,7 @@ const routes = (
         </Route>
       </Route>
     </Route>
-    <Route component={PureBase}>
+    <Route component={RiseBase}>
       <Route path="/fragment/plan"  component={Plan}>
 
       </Route>
