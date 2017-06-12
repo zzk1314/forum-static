@@ -18,22 +18,11 @@ export default class NavigatorBar extends React.Component<any,any>{
   }
 
   componentWillMount(){
-    this.handleResize();
-    window.addEventListener("resize",this.handleResize.bind(this));
     this.checkCurNav();
 
   }
 
-  componentWillUnmount(){
-    window.removeEventListener("resize",this.handleResize);
-  }
 
-
-
-  handleResize() {
-    let width =  window.innerWidth < 960 ? 960:window.innerWidth;
-    this.setState({size:merge({userInfoWidth:`${width - 450 - 120}px`})});
-  }
 
   handleClickNav(navId){
     switch(navId){
