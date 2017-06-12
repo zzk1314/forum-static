@@ -1,11 +1,7 @@
 import { pget, ppost } from "utils/request";
 
 export function loadPlan(planId) {
-  let param = {};
-  if(planId){
-    param.planId = planId;
-  }
-  return pget(`/rise/plan/load`, param)
+  return pget(`/rise/plan/load${planId?'?planId='+planId:''}`)
 }
 
 export function loadPlanIntro(planId) {

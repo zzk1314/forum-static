@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {renderExist} from "../../../utils/helpers";
+import "./Learn.less"
+import {renderExist,NumberToChinese} from "../../../utils/helpers";
 import {merge, isBoolean, get, isEmpty} from "lodash";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { loadPlan, completePlan, updateOpenRise, markPlan,
@@ -9,6 +10,7 @@ import DropChoice from "../../../components/DropChoice";
 import Modal from "../../../components/Modal";
 import Sidebar from "../../../components/Sidebar"
 import AssetImg from "../../../components/AssetImg"
+import SwipeableViews from "../../../components/SwipeableViews"
 
 
 const typeMap = {
@@ -116,7 +118,9 @@ export default class PlanMain extends React.Component <any, any> {
       planId = newProps.location.query.planId
     }
 
+
     dispatch(startLoad())
+    console.log('load');
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
@@ -159,10 +163,10 @@ export default class PlanMain extends React.Component <any, any> {
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
           // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
-          Ps.initialize(this.refs.sideContent,{
-            swipePropagation:false,
-            handlers:[ 'wheel', 'touch']
-          });
+          // Ps.initialize(this.refs.sideContent,{
+          //   swipePropagation:false,
+          //   handlers:[ 'wheel', 'touch']
+          // });
         });
       }
     })
@@ -467,6 +471,7 @@ export default class PlanMain extends React.Component <any, any> {
     modalList.push(
       <Modal show={expired}
              buttons={[{click: () => this.handleClickGoReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
+             key={0}
       >
         <div className="content">
           <div className="text">糟糕！好久没学，小课到期了！</div>
@@ -488,79 +493,18 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
 
-  renderMain(showEmptyPage, problem, riseMember, riseMemberTips, planData, sidebarOpen, sections,point,currentIndex,style,windowsClient,
-             completeSeries,totalSeries,deadline,selectProblem) {
-    console.log('render')
-    if (showEmptyPage) {
-      return (
-        <div className="empty-container">
-          <div className="empty-img">
-            <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
-          </div>
-          <div className="empty-text">
-            <span>没有正在学习的小课哦，</span><br/>
-            <span>点击按钮去选课吧！</span>
-          </div>
-          <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
-        </div>
-      )
-    } else {
-      return (
-        <div className="rise-main">
-          <Sidebar sidebar={ this.renderSidebar(selectProblem) }
-                   open={sidebarOpen}
-                   onSetOpen={(open) => this.handleClickSetSidebarOpen(open)}
-                   trigger={() => this.handleClickSetSidebarOpen(!this.state.sidebarOpen)}
-          >
-            <div className="header-img">
-              <AssetImg url={problem.pic} style={{height: style.picHeight, float: 'right'}}/>
-              {renderExist(isBoolean(riseMember) && !riseMember,
-                <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                     onClick={() => this.handleClickRiseMemberTips()}>
-                </div>)}
-              <div className="plan-guide">
-                <div className="section-title">{problem.problem}</div>
-                <div className="section">
-                  <label>已完成:</label> {completeSeries}/{totalSeries}节训练
-                </div>
-                {renderExist(riseMember,
-                  <div className="section">
-                    <label>距关闭:</label> {deadline}天
-                  </div>
-                )}
-                <div className="section">
-                  <label>总得分:</label> {point} 分
-                </div>
-              </div>
-            </div>
-            <div className="function-menu">
-              <div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>
-                <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-                <span>小课论坛</span>
-              </div>
-              <div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>
-                <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-                <span>小课介绍</span>
-              </div>
-            </div>
-            {renderExist(!isEmpty(planData),
-              <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                                onTransitionEnd={() => this.handleSwipeTransitionEnd()}
-                                onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
-                  {renderExist(sections, sections.map((item, idx) => {
-                    return this.renderSection(item, idx,windowsClient)
-                  }))}
-                </SwipeableViews>
-              </div>
-            )}
-          </Sidebar>
-        </div>
-      )
-    }
-  }
+  renderSection(item, idx) {
+    const {
+      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, sidebarOpen,style
+    } = this.state
+    const {location} = this.props
+    const {
+      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
+    } = planData
 
-  renderSection(item, idx,windowsClient) {
+
+
     return (
       <div key={idx}>
         <div className="plan-progress">
@@ -572,7 +516,7 @@ export default class PlanMain extends React.Component <any, any> {
         </div>
         <div className="plan-main">
           <div className="list">
-            {this.renderPracticeRender(item.practices)}
+            {this.renderPractice(item.practices)}
           </div>
           {windowsClient ?
             <div className="submit-btn-footer">
@@ -595,52 +539,62 @@ export default class PlanMain extends React.Component <any, any> {
     )
   }
 
-  renderSidebar(selectProblem) {
-    return (
-      <div className="plan-side-bar">
-        <div className="side-header-title">
-          <span className="content" style={{width: `${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
-        </div>
+  renderSidebar() {
+    const {
+      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, sidebarOpen,style
+    } = this.state
+    const {location} = this.props
+    const {
+      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
+    } = planData
 
-        <div ref="sideContent" className="side-content" style={{
-            height: `${window.innerHeight - 50 - 75}px`,
-            width: `${window.innerWidth * 0.7}px`,
-            overflow: 'hidden',
-            position: 'relative'
-          }}>
-          {chapterList ? chapterList.map((item, key) => {
-            return (
-              <div key={key} className={`chapter-area`}>
-                <div className="cell">
-                  <div className="chapter">
-                    <div>
-                      <div className="label">{NumberToChinese(item.chapterId)}、</div>
-                      <div className="str"
-                           style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
+
+    if(selectProblem){
+      return (
+        <div className="plan-side-bar">
+          <div className="side-header-title">
+            <span className="content">{selectProblem.problem}</span>
+          </div>
+
+          <div ref="sideContent" className="side-content">
+            {chapterList ? chapterList.map((item, key) => {
+              return (
+                <div key={key} className={`chapter-area`}>
+                  <div className="cell">
+                    <div className="chapter">
+                      <div>
+                        <div className="label">{NumberToChinese(item.chapterId)}、</div>
+                        <div className="str"
+                             style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
+                      </div>
                     </div>
-                  </div>
-                  {item.sectionList.map((section, index) => {
-                    return (
-                      <div id={`section${section.series}`}
-                           className={`${currentIndex === section.series ? 'open' : ''} section`}
-                           onClick={() => {
+                    {item.sectionList.map((section, index) => {
+                      return (
+                        <div id={`section${section.series}`}
+                             className={`${currentIndex === section.series ? 'open' : ''} section`}
+                             onClick={() => {
                                this.handleChangeSection(section.series);
                              }} key={index}>
-                        <div>
-                          <div className="label">{item.chapterId}.{section.sectionId}</div>
-                          <div className="str"
-                               style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                          <div>
+                            <div className="label">{item.chapterId}.{section.sectionId}</div>
+                            <div className="str"
+                                 style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                          </div>
                         </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
-            )
-          }) : null}
+              )
+            }) : null}
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return null;
+    }
+
   }
 
   renderPractice(list = []) {
@@ -701,13 +655,80 @@ export default class PlanMain extends React.Component <any, any> {
 
 
     return (
-      <div className="rise-main">
+      <div className="rise-main outer-wrapper">
         {/*<ToolBar />*/}
         {renderExist(showScoreModal,<DropChoice onSubmit={(questionList)=>this.handleClickSubmitScore(questionList)}
                                                 onClose={()=>this.setState({  showScoreModal: false },()=>{this.handleClickConfirmComplete()})}
                                                 questionList={this.state.questionList}/>)}
         {this.renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point)}
-        {this.renderMain(selectProblem,showEmptyPage, problem, riseMember, riseMemberTips, planData, sidebarOpen, sections,point,currentIndex,style,windowsClient)}
+
+        {renderExist(
+            showEmptyPage,
+            (
+              <div className="empty-container">
+                <div className="empty-img">
+                  <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150px'}}/>
+                </div>
+                <div className="empty-text">
+                  <span>没有正在学习的小课哦，</span><br/>
+                  <span>点击按钮去选课吧！</span>
+                </div>
+                <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+              </div>
+            ),
+            (
+              <div className="rise-main">
+                <Sidebar sidebar={ this.renderSidebar(selectProblem) }
+                         open={sidebarOpen}
+                         onSetOpen={(open) => this.handleClickSetSidebarOpen(open)}
+                         trigger={() => this.handleClickSetSidebarOpen(!this.state.sidebarOpen)}
+                >
+                  <div className="header-img">
+                    <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
+                    {renderExist(isBoolean(riseMember) && !riseMember,
+                      <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                           onClick={() => this.handleClickRiseMemberTips()}>
+                      </div>)}
+                    <div className="plan-guide">
+                      <div className="section-title">{problem.problem}</div>
+                      <div className="section">
+                        <label>已完成:</label> {completeSeries}/{totalSeries}节训练
+                      </div>
+                      {renderExist(riseMember,
+                        <div className="section">
+                          <label>距关闭:</label> {deadline}天
+                        </div>
+                      )}
+                      <div className="section">
+                        <label>总得分:</label> {point} 分
+                      </div>
+                    </div>
+                  </div>
+                  {/*<div className="function-menu">*/}
+                    {/*<div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>*/}
+                      {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
+                      {/*<span>小课论坛</span>*/}
+                    {/*</div>*/}
+                    {/*<div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>*/}
+                      {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
+                      {/*<span>小课介绍</span>*/}
+                    {/*</div>*/}
+                  {/*</div>*/}
+                  {renderExist(!isEmpty(planData),
+                    (
+                      <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
+                      <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                                      onTransitionEnd={() => this.handleSwipeTransitionEnd()}
+                                      onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
+                        {renderExist(sections, sections.map((item, idx) => {
+                          return this.renderSection(item, idx,windowsClient,totalSeries)
+                        }))}
+                      </SwipeableViews>
+                    </div>
+                    ))}
+                </Sidebar>
+              </div>
+            ))}
       </div>
     );
   }
