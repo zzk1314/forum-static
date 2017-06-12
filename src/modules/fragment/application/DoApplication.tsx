@@ -7,7 +7,7 @@ import PicUpload from "../../../components/PicUpload"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-import {loadSelfApplication,submitApplication} from "./async"
+import {loadSelfApplication,submitApplication} from "./async.bak"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import Editor from "../../../components/editor/Editor"
 
