@@ -24,3 +24,21 @@ export function getUri(url: String): {pathname:String,query:Object} {
   }
   return {pathname:pathname,query:query};
 }
+
+export function renderExist(flag,render,normal){
+  if(flag){
+    if(_.isFunction(render)){
+      return render();
+    } else {
+      return render;
+    }
+  } else {
+    if(_.isFunction(normal)){
+      return normal();
+    } else if(_.isUndefined(normal)){
+      return null;
+    } else {
+      return normal;
+    }
+  }
+}

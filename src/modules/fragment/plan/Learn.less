@@ -1,0 +1,467 @@
+@import "../../../style/variable";
+
+.rise-main{
+  .trial-tip{
+    background:url('https://static.iqycamp.com/images/riseMemberUpButtonV2.png?imageslim') no-repeat center center/100% 100%;
+    position: absolute;
+    z-index:20;
+    right: 0;
+    bottom: 10px;
+    width:88px;
+    height:34px;
+    transform:translateX(88px);
+    &.open{
+      animation:riseMember-left-show 1s alternate forwards;
+    }
+  }
+
+  .plan-main {
+    > .list {
+      margin-bottom: 10px;
+    }
+    >.submit-btn-footer {
+      &.grey{
+        background:#afafaf;
+      }
+      margin-top: 30px;
+      display: block;
+      border-radius: @border-radius;
+      font-size: @font_title;
+      width: 100%;
+      height: @button_footer_height;
+      text-align: center;
+      line-height: @button_footer_height;
+      background-size:100% 100%;
+      background-image:url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+      color: #fff;
+      > .left {
+        border-radius: 0;
+        display: inline-block;
+        width: ~"calc(50% - 1px)";
+        border-right: 1px solid white;
+        background-size:100% 100%;
+        background-image:url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      > .right {
+        &.grey{
+          background:#afafaf;
+        }
+        border-radius: 0;
+        display: inline-block;
+        width: 50%;
+        background-image:url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
+        background-size:100% 100%;
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      &.disabled {
+        background: #cccccc;
+      }
+    }
+    .practice-card {
+      position: relative;
+      background-color: #fff;
+      height: 75px;
+      border-radius: @border-radius;
+      > .header {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top:12px;
+        border-radius: 50px;
+        margin: 0 5px 0 10px;
+        img {
+          display: block;
+        }
+        z-index: 1;
+      }
+      > .locked {
+        top:12px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        position: absolute;
+        margin: 0 5px 0 10px;
+        background-color: rgba(0, 0, 0, 0.4);
+        img {
+          display: block;
+          margin: 12px 15px;
+        }
+        z-index: 2;
+      }
+      > .body {
+        position: absolute;
+        left: 75px;
+        display: inline-block;
+        width: ~"calc(100% - 65px - 42px)";
+        vertical-align: middle;
+        height: 100%;
+        > .title {
+          margin-top: 24px;
+          font-size: @font_title;
+          color: @color_title;
+          line-height: @font_title;
+        }
+      }
+      > .footer {
+        position: absolute;
+        display: inline-block;
+        vertical-align: top;
+        right: 0;
+        height: 100%;
+        img {
+          display: block;
+          margin-top: 10px;
+        }
+      }
+    }
+    .practice-card + .practice-card {
+      margin-top: 10px;
+    }
+  }
+  .plan-side-bar{
+    color:#FFF;
+    .side-header-title{
+      height:75px;
+      font-size:@font_title;
+      line-height: @font_title;
+      font-weight:bolder;
+      background-color:#7FD8F0;
+      width:100%;
+      .content{
+        padding-left:10px;
+        display: inline-block;
+        line-height:75px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        padding-right:10px;
+      }
+    }
+    .side-content{
+      background-color:#7ACFE6;
+      .chapter-area{
+        width:100%;
+        &:not(:nth-last-of-type(1)){
+          border-bottom:1px solid rgba(255,255,255,0.3);
+        }
+
+        .cell {
+          > div{
+            display: table;
+            width:100%;
+            > div{
+              display: table-cell;
+              vertical-align: middle;
+            }
+          }
+          .label{
+            display: inline-block;
+            width:2.6rem;
+            text-align: right;
+            vertical-align: middle;
+
+          }
+          .str{
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+            margin-left:5px;
+          }
+        }
+        .chapter{
+          font-size:@font_context;
+          line-height:@font_context;
+          height:60px;
+        }
+        .section{
+          font-size:@font_click;
+          line-height:@font_click;
+          height:50px;
+          &.open {
+            background-color:#7FD8F0;
+          }
+        }
+      }
+    }
+  }
+
+
+  .plan-guide {
+    position: absolute;
+    top: 12.5px;
+    left: 20px;
+    right:25px;
+    > .section-title {
+      font-size: @font_title;
+      color: @color_title;
+      margin-bottom: 50px;
+      line-height: @font_title;
+    }
+    > .section {
+      color: @color_title;
+      font-size: @font_help;
+      line-height: @font_help;
+      margin-bottom: 10px;
+      > label {
+        color: @color_help;
+      }
+    }
+  }
+
+  .problem-review{
+    position: absolute;
+    right:10px;
+    margin-top:-31px;
+    font-size:@font_help;
+    width:65px;
+    height:23px;
+    background-color: @color_strong;
+    color: #fff;
+    text-align: center;
+    line-height: 23px;
+    border-radius: @border-radius;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+
+  .function-menu{
+    background-color: #fff;
+    color: @color_title;
+    height: 50px;
+    text-align: center;
+    font-size: @font_title;
+    border-bottom: 1px solid #f5f5f5;
+    > .left{
+      height: 50px;
+      line-height: 50px;
+      display: inline-block;
+      width: ~"calc(50% - 1px)";
+      border-right: 1px solid #f5f5f5;
+      > .essence{
+        height: 18px;
+        margin-right: 5px;
+      }
+    }
+
+
+    > .right{
+      height: 50px;
+      line-height: 50px;
+      display: inline-block;
+      width: ~"calc(50% - 1px)";
+      border-left: 1px solid #f5f5f5;
+      > .problem_detail{
+        height: 18px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .plan-progress{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    color: @color_help;
+
+
+    .intro{
+      position: relative;
+      margin-top: 5px;
+      .intro-chapter{
+        position: relative;
+        color: @color_title;
+        z-index: 1;
+        background-color: @color_weak_background;
+        padding: 0 13px;
+        display: inline-block;
+      }
+      .bar{
+        height: 1px;
+        width: 100%;
+        position:absolute;
+        top: 50%;
+        background-color: @color_weak;
+      }
+    }
+
+
+    .intro-section{
+      margin-top: 5px;
+      color: @color_title;
+    }
+  }
+
+}
+
+@keyframes riseMember-left-show {
+  0%{ transform: translateX(88px) }
+  100% {transform: translateX(0px)}
+}
+
+
+
+
+
+/* perfect-scrollbar v0.7.0 */
+.ps {
+  -ms-touch-action: auto;
+  touch-action: auto;
+  overflow: hidden !important;
+  -ms-overflow-style: none; }
+@supports (-ms-overflow-style: none) {
+  .ps {
+    overflow: auto !important; } }
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps {
+    overflow: auto !important; } }
+.ps.ps--active-x > .ps__scrollbar-x-rail,
+.ps.ps--active-y > .ps__scrollbar-y-rail {
+  display: block;
+  background-color: transparent; }
+.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+  background-color: #999;
+  height: 11px; }
+.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
+  background-color: #999;
+  width: 11px; }
+.ps > .ps__scrollbar-x-rail {
+  display: none;
+  position: absolute;
+  /* please don't change 'position' */
+  opacity: 0;
+  -webkit-transition: background-color .2s linear, opacity .2s linear;
+  -o-transition: background-color .2s linear, opacity .2s linear;
+  -moz-transition: background-color .2s linear, opacity .2s linear;
+  transition: background-color .2s linear, opacity .2s linear;
+  bottom: 0px;
+  /* there must be 'bottom' for ps__scrollbar-x-rail */
+  height: 15px; }
+.ps > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+  position: absolute;
+  /* please don't change 'position' */
+  background-color: #aaa;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, -webkit-border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, -webkit-border-radius .2s ease-in-out;
+  -o-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out;
+  -moz-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out, -moz-border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out, -webkit-border-radius .2s ease-in-out, -moz-border-radius .2s ease-in-out;
+  bottom: 2px;
+  /* there must be 'bottom' for ps__scrollbar-x */
+  height: 6px; }
+.ps > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x, .ps > .ps__scrollbar-x-rail:active > .ps__scrollbar-x {
+  height: 11px; }
+.ps > .ps__scrollbar-y-rail {
+  display: none;
+  position: absolute;
+  /* please don't change 'position' */
+  opacity: 0;
+  -webkit-transition: background-color .2s linear, opacity .2s linear;
+  -o-transition: background-color .2s linear, opacity .2s linear;
+  -moz-transition: background-color .2s linear, opacity .2s linear;
+  transition: background-color .2s linear, opacity .2s linear;
+  right: 0;
+  /* there must be 'right' for ps__scrollbar-y-rail */
+  width: 15px; }
+.ps > .ps__scrollbar-y-rail > .ps__scrollbar-y {
+  position: absolute;
+  /* please don't change 'position' */
+  background-color: rgba(255,255,255,0.3);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, -webkit-border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, -webkit-border-radius .2s ease-in-out;
+  -o-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out;
+  -moz-transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out, -moz-border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out;
+  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out, -webkit-border-radius .2s ease-in-out, -moz-border-radius .2s ease-in-out;
+  right: 2px;
+  /* there must be 'right' for ps__scrollbar-y */
+  width: 6px; }
+.ps > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y, .ps > .ps__scrollbar-y-rail:active > .ps__scrollbar-y {
+  //width: 11px;
+}
+.ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+.ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+  background-color: #999;
+  height: 11px; }
+.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
+  background-color: #999;
+  width: 11px; }
+.ps:hover > .ps__scrollbar-x-rail,
+.ps:hover > .ps__scrollbar-y-rail {
+  opacity: 0.6; }
+.ps:hover > .ps__scrollbar-x-rail:hover {
+  background-color: #eee;
+  opacity: 0.9; }
+.ps:hover > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x {
+  background-color: #999; }
+.ps:hover > .ps__scrollbar-y-rail:hover {
+  //background-color: #eee;
+  //opacity: 0.9;
+}
+.ps:hover > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
+  //background-color: #999;
+}
+
+
+.empty-container {
+  .empty-img {
+    height: 100px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin: 100px auto;
+  }
+  .empty-text {
+    text-align: center;
+    width: 100%;
+    float: left;
+    height: 1.6rem;
+    line-height: 16px;
+    font-size: 16px;
+    padding: 20px;
+    margin: -10px;
+    color: #cccccc;
+    span {
+      line-height: 22px;
+    }
+  }
+  .empty-button {
+    float: left;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 40px;
+    background-color: #55CBCB;
+    color: #ffffff;
+    height: 40px;
+    font-size: 15px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+}

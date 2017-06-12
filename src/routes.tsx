@@ -42,7 +42,10 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
-import  Plan from './modules/fragment/plan/Plan'
+
+// ** rise change **//
+import  Plan from './modules/fragment/plan/Plan';
+import Learn from './modules/fragment/plan/Learn';
 
 const routes = (
   <Route path="/" >
@@ -99,9 +102,8 @@ const routes = (
       </Route>
     </Route>
     <Route component={RiseBase}>
-      <Route path="/fragment/plan"  component={Plan}>
-
-      </Route>
+      <Route path="/fragment/plan"  component={Plan}/>
+      <Route path="/fragment/learn" component={Learn}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
