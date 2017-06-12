@@ -18,39 +18,28 @@ export default class NavigatorBar extends React.Component<any,any>{
   }
 
   componentWillMount(){
-    this.handleResize();
-    window.addEventListener("resize",this.handleResize.bind(this));
     this.checkCurNav();
 
   }
 
-  componentWillUnmount(){
-    window.removeEventListener("resize",this.handleResize);
-  }
 
-
-
-  handleResize() {
-    let width =  window.innerWidth < 960 ? 960:window.innerWidth;
-    this.setState({size:merge({userInfoWidth:`${width - 450 - 120}px`})});
-  }
 
   handleClickNav(navId){
     switch(navId){
       case NavType.Home:{
         console.log('切换到 home');
-        this.setState({activeNav:1})
+        this.setState({activeNav:NavType.Home})
         break;
       }
       case NavType.Rise:{
         console.log('切换到 Rise');
-        this.setState({activeNav:2})
+        this.setState({activeNav:NavType.Rise})
         break;
 
       }
       case NavType.Forum:{
         console.log('切换到 Forum');
-        this.setState({activeNav:3})
+        this.setState({activeNav:NavType.Forum})
         break;
       }
     }
@@ -59,7 +48,7 @@ export default class NavigatorBar extends React.Component<any,any>{
   checkCurNav(){
     let url = window.location.pathname;
     if(url = '/fragment/plan'){
-      this.setState({activeNav:2});
+      this.setState({activeNav:NavType.Rise});
     }
   }
 
@@ -77,9 +66,9 @@ export default class NavigatorBar extends React.Component<any,any>{
 
         <div className="navigator">
           <div className="nav-list">
-            <div className={`nav-item ${this.state.activeNav===1?'active':''}`} onClick={()=>this.handleClickNav(NavType.Home)}>首页</div>
-            <div className={`nav-item ${this.state.activeNav===2?'active':''}`} onClick={()=>this.handleClickNav(NavType.Rise)}>RISE</div>
-            <div className={`nav-item ${this.state.activeNav===3?'active':''}`} onClick={()=>this.handleClickNav(NavType.Forum)}>论坛</div>
+            <div className={`nav-item ${this.state.activeNav===NavType.Home?'active':''}`} onClick={()=>this.handleClickNav(NavType.Home)}>首页</div>
+            <div className={`nav-item ${this.state.activeNav===NavType.Rise?'active':''}`} onClick={()=>this.handleClickNav(NavType.Rise)}>RISE</div>
+            <div className={`nav-item ${this.state.activeNav===NavType.Forum?'active':''}`} onClick={()=>this.handleClickNav(NavType.Forum)}>论坛</div>
           </div>
         </div>
         <div className="user-info" style={{width:this.state.size.userInfoWidth}}>
