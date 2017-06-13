@@ -634,7 +634,7 @@ export default class PlanMain extends React.Component <any, any> {
                       <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
                         <div className="section-title">
                           <span className="plan-section-title">{problem.problem}</span>
-                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview()}>
+                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview(problem.id)}>
                             小课介绍
                           </div>
                         </div>
