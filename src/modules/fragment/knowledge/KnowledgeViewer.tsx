@@ -8,6 +8,7 @@ import { deleteKnowledgeDiscuss, discussKnowledge, learnKnowledge, loadDiscuss, 
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
+import Discuss from "../components/Discuss"
 
 const sequenceMap = {
   0: "A",
@@ -266,11 +267,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               : null}
             <div className="title-bar">问答</div>
             <div className="discuss">
-              {_.isEmpty(discuss) ? null : discuss.map(item => {
+              {_.isEmpty(discuss) ? null : discuss.map((item,key) => {
                 return (
-                  <DiscussShow discuss={item} reply={() => {
-                    this.reply(item)
-                  }} onDelete={() => this.onDelete(item.id)}/>
+                  <DiscussShow discuss={item} reply={() => {this.reply(item)}} onDelete={() => this.onDelete(item.id)} key={key}/>
                 )
               })}
               { discuss ? (discuss.length > 0 ?

@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
+import "./DiscussShow.less"
+import AlertMessage from "../../../components/AlertMessage"
 
 @connect(state => state)
 export default class DiscussShow extends React.Component <any, any> {
@@ -34,7 +36,7 @@ export default class DiscussShow extends React.Component <any, any> {
     } = discuss
     const isDel = discuss.del
     const alertProps = {
-      buttons: [
+      actions: [
         {label: '再想想', onClick: () => this.setState({show: false})},
         {label: '确定', onClick: () => this.delete()}
       ],
@@ -79,10 +81,11 @@ export default class DiscussShow extends React.Component <any, any> {
                   <div className="function-button" onClick={() => this.setState({show: true})}>
                     删除
                   </div>
-                  {/*<Alert { ...alertProps }*/}
-                         {/*show={show}>*/}
-                    {/*<div className="global-pre" dangerouslySetInnerHTML={{__html: `确认要删除评论吗？`}}/>*/}
-                  {/*</Alert>*/}
+                    <AlertMessage { ...alertProps }
+                           open={show}
+                           title="确认要删除评论吗？"
+                    >
+                    </AlertMessage>
                 </div> : null}
               <div className="function-div" onClick={() => reply()}>
                 <AssetImg type="reply" height={12} width={15}/>
