@@ -21,14 +21,14 @@ export default class AssetImg extends React.Component<any, any> {
     }
     const { loading } = this.state;
     const _style = {
-      width: size || width,
-      height: size || height,
-      marginTop: marginTop,
-      marginRight: marginRight,
+      width: `${size || width}px`,
+      height: `${size || height}px`,
+      marginTop: `${marginTop}px`,
+      marginRight: `${marginRight}px`,
     }
 
     return (
-      <img className={`${loading?'loading':''}`} src={url} onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
+      <img className={`${loading?'loading':''}`} src={type ? require(`./../../assets/img/${type}.png`) : url} onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
     )
   }
 }

@@ -42,13 +42,13 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
-import Plan from './modules/fragment/plan/Plan'
 
 // pc rise 改版
 import Plan from "./modules/fragment/plan/Plan";
 import Application from "./modules/fragment/application/Application";
 import WarmUp from "./modules/fragment/warmup/WarmUp";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
+import Learn from './modules/fragment/plan/Learn';
 
 const routes = (
   <Route path="/">
@@ -106,7 +106,9 @@ const routes = (
     </Route>
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
-      <Route path="/fragment/plan" component={Plan}/>
+      <Route path="/fragment/plan"  component={Plan}/>
+      <Route path="/fragment/learn" component={Learn}/>
+      <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/application" component={Application}/>
       <Route path="/fragment/warmup" component={WarmUp}/>
       <Route path="/fragment/knowledge" component={KnowledgeViewer}/>

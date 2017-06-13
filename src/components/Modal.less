@@ -1,0 +1,134 @@
+@import "../style/variable";
+.modal {
+  .mask {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 5000;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    > .finished-modal {
+      background-color: #fff;
+      position: fixed;
+      top:20%;
+      width: 280px;
+      left: 50%;
+      margin-left: -140px;
+      text-align: center;
+      border-radius: @border-radius;
+      > img{
+        margin-top: -53px;
+      }
+      > .modal-header{
+        height: 30px;
+      }
+      > .modal-context {
+        height: 228px;
+        > .title {
+          font-size: @font_index;
+          color: @color_context;
+        }
+        > .sub-title {
+          font-size: @font_index;
+          line-height: @font_index;
+          color: @color_title;
+        }
+        > .content {
+          margin-top: 31px;
+          font-size: @font_context;
+          line-height: @font_context;
+          color: @color_context;
+          > .text {
+            margin-bottom: 41px;
+            color: @color_context;
+          }
+          > .text2 {
+            margin-bottom: 41px;
+            color: #fec928;
+            font-size: 2.5em;
+          }
+        }
+        > .content2 {
+          font-size: @font_context;
+          line-height: @font_context;
+          color: @color_context;
+          margin-top: 18px;
+          .number {
+            margin: 0 5px;
+            font-size: 2.0em;
+            color: #fec928;
+          }
+          > .text {
+            margin-bottom: 13px;
+            color: @color_context;
+          }
+          > .text2 {
+            color: @color_help;
+            font-size: 0.8em;
+          }
+        }
+        > .button {
+          width: 110px;
+          height: 30px;
+          margin: 30px auto 0 auto;
+          line-height: 3.0em;
+          color: @color_context;
+          border: 1px solid @color_strong;
+          border-radius: @border-radius;
+          font-size: @font_click;
+          text-align: center;
+          &.finished {
+            margin-top: 15px;
+          }
+        }
+      }
+
+
+      .modal-button-footer {
+        position: absolute;
+        display: block;
+        font-size: @font_title;
+        width: 100%;
+        height: @button_footer_height;
+        text-align: center;
+        line-height: @button_footer_height;
+        color: #fff;
+        bottom: 0;
+        > .left {
+          display: inline-block;
+          width: ~"calc(50% - 1px)";
+          border-right: 1px solid white;
+          background-size:100% 100%;
+          background-image:url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
+          border-radius: 0 0 0 @border-radius;
+          &.disabled {
+            background: #cccccc;
+          }
+        }
+        > .right {
+          display: inline-block;
+          width: 50%;
+          background-size:100% 100%;
+          background-image:url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
+          border-radius: 0 0 @border-radius 0;
+          &.disabled {
+            background: #cccccc;
+          }
+        }
+
+        > .button {
+          width: 100%;
+          background-size:100% 100%;
+          background-image:url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+          border-radius: 0 0 @border-radius @border-radius;
+          &.disabled {
+            background: #cccccc;
+          }
+        }
+      }
+    }
+  }
+
+
+}
