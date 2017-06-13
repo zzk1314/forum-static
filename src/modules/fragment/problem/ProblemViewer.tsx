@@ -5,8 +5,7 @@ import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan} from "./async";
-import { Toast, Dialog } from "react-weui";
-const { Alert } = Dialog
+import AlertMessage from "../../../components/AlertMessage";
 
 @connect(state => state)
 export default class ProblemViewer extends React.Component<any, any> {
@@ -22,7 +21,7 @@ export default class ProblemViewer extends React.Component<any, any> {
       showAlert: false,
       showTip: false,
       alert: {
-        buttons: [
+        actions: [
           {
             label: '再看看',
             onClick: this.close.bind(this)
@@ -187,10 +186,10 @@ export default class ProblemViewer extends React.Component<any, any> {
           学习该小课
         </div>
           }
-        <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
+        <AlertMessage { ...this.state.alert }
+          open={this.state.showAlert}>
           <p className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</p>
-        </Alert>
+        </AlertMessage>
       </div>
     )
   }
