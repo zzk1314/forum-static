@@ -5,14 +5,18 @@ import "./Application.less";
 import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
 import {
-  autoSaveApplicationDraft, autoUpdateApplicationDraft, getOpenStatus, loadApplicationPractice,
-  loadKnowledgeIntro, loadOtherList, openApplication, submitApplicationPractice, vote
+  loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
+  openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
+  autoUpdateApplicationDraft
 } from "./async";
-// import Work from "../components/NewWork";
+import Work from "../components/NewWork";
 import { findIndex, remove, isEmpty, isBoolean } from "lodash";
 import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
+
+
+let timer;
 
 @connect(state => state)
 export default class Application extends React.Component<any, any> {

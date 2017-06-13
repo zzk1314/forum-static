@@ -8,7 +8,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import Divider from 'material-ui/Divider';
-import {loadSubject,submitSubject,loadLabels} from "./async"
+import {loadSubject,submitSubject,loadLabels} from "./async.bak"
 import {PictureModule} from "../async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {imgSrc} from "../../../utils/imgSrc"
