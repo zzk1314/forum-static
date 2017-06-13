@@ -34,6 +34,7 @@ export default class NavigatorBar extends React.Component<any,any>{
       case NavType.Home:{
         console.log('切换到 home');
         this.setState({activeNav:NavType.Home},()=>{
+          this.context.router.push({pathname:'/home'})
         })
         break;
       }
@@ -55,8 +56,10 @@ export default class NavigatorBar extends React.Component<any,any>{
 
   checkCurNav(){
     let url = window.location.pathname;
-    if(url = '/fragment/plan'){
+    if(url === '/fragment/plan' || url === '/fragment/learn'){
       this.setState({activeNav:NavType.Rise});
+    } else if(url === '/home' || url === '/'){
+      this.setState({activeNav:NavType.Home});
     }
   }
 

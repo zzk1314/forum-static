@@ -71,7 +71,6 @@ export default class PlanMain extends React.Component <any, any> {
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
-      console.log(msg);
       if (code === 200) {
         if (msg !== null) {
           this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
@@ -322,7 +321,9 @@ export default class PlanMain extends React.Component <any, any> {
 
   handleChangeSection(series) {
     this.setState({currentIndex: series},()=>{
-      this.updateSectionChoose(series);
+      const {location} = this.props
+      const {planId} = location.query
+      markPlan(series, planId)
     });
   }
 
@@ -393,14 +394,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   }
 
-  updateSectionChoose(series){
-    let section = this.refs.sideContent.querySelector(`#section${series}`);
-    let sectionArr = this.refs.sideContent.querySelectorAll('.section');
-    for(let i=0; i< sectionArr.length;i++){
-      sectionArr[i].setAttribute('class','section');
-    }
-    section.setAttribute('class','section open');
-  }
+
 
 
   renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point) {
@@ -638,7 +632,7 @@ export default class PlanMain extends React.Component <any, any> {
                       <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
                         <div className="section-title">
                           <span className="plan-section-title">{problem.problem}</span>
-                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview()}>
+                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview(problem.id)}>
                             小课介绍
                           </div>
                         </div>
