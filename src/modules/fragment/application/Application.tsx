@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-
+import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./Application.less";
 import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
@@ -14,6 +14,7 @@ import { findIndex, remove, isEmpty, isBoolean } from "lodash";
 import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
+import KnowledgeModal from  "../components/KnowledgeModal"
 
 
 let timer;
@@ -43,7 +44,7 @@ export default class Application extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {location} = this.props;
+    const {location,dispatch} = this.props;
     const {state} = location;
     if(state) {
       const {goBackUrl} = state
@@ -358,7 +359,7 @@ export default class Application extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
         { showDisable ?
           <div className="button-footer disabled">提交中</div>
