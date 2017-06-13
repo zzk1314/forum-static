@@ -9,7 +9,7 @@ import {
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
   autoUpdateApplicationDraft
 } from "./async";
-// import Work from "../components/NewWork";
+import Work from "../components/NewWork";
 import { findIndex, remove, isEmpty, isBoolean } from "lodash";
 import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";

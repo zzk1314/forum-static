@@ -8,6 +8,8 @@ import { preview } from "../../helpers/JsConfig"
 import {connect} from "react-redux";
 // import {requestCommentByType,IncreaseArticleShow} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
+import {requestCommentByType, IncreaseArticleShow} from "./async";
+
 
 @connect(state => state)
 export default class Work extends React.Component<any,any> {
@@ -215,10 +217,3 @@ export default class Work extends React.Component<any,any> {
   }
 }
 
-function requestCommentByType(type, submitId){
-  return ppost(`/rise/practice/request/comment/${type}/${submitId}`);
-}
-
-function IncreaseArticleShow(moduleId,submitId){
-  return pget(`/rise/practice/article/show/${moduleId}/${submitId}`)
-}

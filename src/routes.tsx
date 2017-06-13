@@ -50,8 +50,9 @@ import WarmUp from "./modules/fragment/warmup/WarmUp";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
 import Learn from './modules/fragment/plan/Learn';
 import WarmupResult from './modules/fragment/warmup/Result'
-import  WarmUpAnalysis from "modules/fragment/warmup/Analysis";
+import WarmUpAnalysis from "modules/fragment/warmup/Analysis";
 import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
+import Subject from "modules/fragment/subject/Subject";
 
 
 const routes = (
@@ -110,7 +111,7 @@ const routes = (
     </Route>
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
-      <Route path="/fragment/plan"  component={Plan}/>
+      <Route path="/fragment/plan" component={Plan}/>
       <Route path="/fragment/learn" component={Learn}/>
       <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/application" component={Application}/>
@@ -119,6 +120,7 @@ const routes = (
       <Route path="/fragment/warmup/result" component={WarmupResult}/>
       <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
       <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
+      <Route path="/fragment/subject" component={Subject}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
