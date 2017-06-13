@@ -45,7 +45,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                   <div className="text">
                     <pre>{analysis}</pre>
                   </div>
-                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+                  { analysisPic ? <div className="context-img"><img width={'90%'} src={analysisPic}/></div> : null }
                 </div>
                 : null}
             { means?
@@ -56,7 +56,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                   <div className="text">
                     <pre>{means}</pre>
                   </div>
-                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+                  { meansPic ? <div className="context-img"><img width={'90%'} src={meansPic}/></div> : null }
                 </div>
                 : null }
             {keynote ?
@@ -67,7 +67,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                     <div className="text">
                       <pre>{keynote}</pre>
                     </div>
-                    { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
+                    { keynotePic ? <div className="context-img"><img width={'90%'} src={keynotePic}/></div> : null }
                 </div>: null}
           </div>
       </div>
