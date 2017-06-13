@@ -3,12 +3,10 @@ import "./NewWork.less"
 import {isString,truncate,isFunction} from "lodash";
 import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
-// import { Dialog } from "react-weui"
-// const { Alert } = Dialog
 import {connect} from "react-redux";
-// import {requestCommentByType,IncreaseArticleShow} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
 import {requestCommentByType, IncreaseArticleShow} from "./async";
+import AlertMessage from "../../../components/AlertMessage";
 
 
 @connect(state => state)
@@ -168,7 +166,7 @@ export default class Work extends React.Component<any,any> {
     }
 
     const alertProps = {
-      buttons:[
+      actions:[
         {label:'再想想',onClick:()=>this.setState({showRequestComment:false})},
         {label:'确定',onClick:()=>this.requestComment()}
       ],
@@ -176,10 +174,11 @@ export default class Work extends React.Component<any,any> {
 
     return (
       <div className={`new-work`} >
-        {/*<Alert { ...alertProps }*/}
-            {/*show={showRequestComment}>*/}
-          {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:`当前小课还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>*/}
-        {/*</Alert>*/}
+        <AlertMessage { ...alertProps }
+            open={showRequestComment}
+            title={`当前小课还剩${requestCommentCount}次请求教练点评的机会,确定要在这次使用吗？`}
+        >
+        </AlertMessage>
         <div className="submit-cell">
           <div className="submit-area">
             {renderHeader()}

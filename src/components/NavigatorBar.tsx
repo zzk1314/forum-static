@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './NavigatorBar.less';
 import { merge } from "lodash";
+import { connect } from 'react-redux';
 
 enum NavType {
   Home=1,
@@ -8,6 +9,7 @@ enum NavType {
   Forum
 }
 
+@connect(state=>state)
 export default class NavigatorBar extends React.Component<any,any>{
   constructor(props){
     super(props);
@@ -17,9 +19,12 @@ export default class NavigatorBar extends React.Component<any,any>{
     }
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   componentWillMount(){
     this.checkCurNav();
-
   }
 
 
@@ -28,12 +33,15 @@ export default class NavigatorBar extends React.Component<any,any>{
     switch(navId){
       case NavType.Home:{
         console.log('切换到 home');
-        this.setState({activeNav:NavType.Home})
+        this.setState({activeNav:NavType.Home},()=>{
+        })
         break;
       }
       case NavType.Rise:{
         console.log('切换到 Rise');
-        this.setState({activeNav:NavType.Rise})
+        this.setState({activeNav:NavType.Rise},()=>{
+          this.context.router.push({pathname:'/fragment/learn'})
+        })
         break;
 
       }
