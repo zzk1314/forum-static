@@ -106,15 +106,15 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   next() {
-    const {dispatch} = this.props
-    const {selected, list, currentIndex, practiceCount} = this.state
+    const {dispatch} = this.props;
+    const {selected, list, currentIndex, practiceCount} = this.state;
     if(selected.length === 0) {
-      alert("你还没有选择答案哦")
+      dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
     if(currentIndex < practiceCount - 1) {
-      this.setChoice()
-      let selected = list.practice[`${currentIndex + 1}`].choice
+      this.setChoice();
+      let selected = list.practice[`${currentIndex + 1}`].choice;
       if(!selected) {
         selected = []
       }
@@ -124,10 +124,10 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const {selected, practice, currentIndex, practiceCount} = this.state
-    const {practicePlanId} = this.props.location.query
+    const {selected, practice, currentIndex, practiceCount} = this.state;
+    const {practicePlanId} = this.props.location.query;
     if(selected.length === 0) {
-      alert("你还没有选择答案哦");
+      dispatch(alertMsg("你还没有选择答案哦"));
       return;
     }
     if(currentIndex === practiceCount - 1) {
@@ -135,7 +135,7 @@ export default class WarmUp extends React.Component<any, any> {
         answer({practice: p}, practicePlanId).then(res => {
           const {code, msg} = res
           if(code === 200) this.context.router.push({
-            pathname: '/rise/static/practice/warmup/result',
+            pathname: '/fragment/warmup/result',
             query: merge(msg, this.props.location.query)
           })
         }).catch(e => {

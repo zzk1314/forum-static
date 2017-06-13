@@ -49,6 +49,10 @@ import Application from "./modules/fragment/application/Application";
 import WarmUp from "./modules/fragment/warmup/WarmUp";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
 import Learn from './modules/fragment/plan/Learn';
+import WarmupResult from './modules/fragment/warmup/Result'
+import  WarmUpAnalysis from "modules/fragment/warmup/Analysis";
+import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
+
 
 const routes = (
   <Route path="/">
@@ -112,6 +116,9 @@ const routes = (
       <Route path="/fragment/application" component={Application}/>
       <Route path="/fragment/warmup" component={WarmUp}/>
       <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
+      <Route path="/fragment/warmup/result" component={WarmupResult}/>
+      <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
+      <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
