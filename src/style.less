@@ -3,6 +3,7 @@
 html {
   font-size: 62.5%;
 }
+
 #react-app {
   //height: 100vh;
   > * {
@@ -15,15 +16,14 @@ html {
   &.has-footer {
     height: ~"calc(100% - 40px)";
   }
-  font-family:"思源黑体cn","Helvetica Neue" !important;
+  font-family: "思源黑体cn", "Helvetica Neue" !important;
 }
 
 body {
-  background-color:#f5f5f5;
-  margin:0;
-  padding:0;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
-
 
 .button-circle {
   display: inline-block;
@@ -66,11 +66,11 @@ body {
   > .comment-avatar {
     display: inline-block;
     vertical-align: top;
-    height:40px;
-    width:40px;
-    > .comment-avatar-img{
-      height:40px;
-      width:40px;
+    height: 40px;
+    width: 40px;
+    > .comment-avatar-img {
+      height: 40px;
+      width: 40px;
       border-radius: 20px;
     }
   }
@@ -78,19 +78,19 @@ body {
     display: inline-block;
     margin-left: 10px;
     width: ~"calc(100% - 40px - 10px)";
-    > .comment-head{
-      line-height:13px;
-      height:13px;
+    > .comment-head {
+      line-height: 13px;
+      height: 13px;
       > .comment-name {
         display: inline-block;
         color: #666666;
         font-size: 13px;
       }
-      > .comment-time{
+      > .comment-time {
         margin-left: 5px;
         display: inline-block;
         font-size: 10px;
-        line-height:10px;
+        line-height: 10px;
         color: #999999;
       }
       > .right {
@@ -102,7 +102,7 @@ body {
           margin-right: 5px;
           margin-top: 2px;
         }
-        > .function-button{
+        > .function-button {
           display: inline-block;
           float: right;
           color: #55cbcb;
@@ -112,21 +112,21 @@ body {
         }
       }
     }
-    > .comment-content{
+    > .comment-content {
       font-size: 13px;
       width: 100%;
       white-space: pre-wrap;
       word-wrap: break-word;
       line-height: 23px;
       margin-top: 7px;
-      pre{
+      pre {
         white-space: pre-wrap;
         word-wrap: break-word;
       }
     }
-    > .comment-replied-content{
+    > .comment-replied-content {
       font-size: 13px;
-      margin-top:2px;
+      margin-top: 2px;
       color: #999999;
       width: 100%;
       white-space: pre-wrap;
@@ -134,50 +134,49 @@ body {
     }
 
   }
-  > .comment-hr{
+  > .comment-hr {
     height: 1px;
     background-color: #f5f5f5;
   }
 }
 
-.problemContent{
-  width:100%;
-  margin:9px auto;
-  overflow:hidden;
-  .leftList{
-    float:left;
-    width:306px;
-    min-height:600px;
-    margin:0;
-    padding:0;
-    background-color:#FFF;
-    height:100%;
+.problemContent {
+  width: 100%;
+  margin: 9px auto;
+  overflow: hidden;
+  .leftList {
+    float: left;
+    width: 306px;
+    min-height: 600px;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF;
+    height: 100%;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    .catalog-area{
-      .catalog-name{
+    .catalog-area {
+      .catalog-name {
         font-size: 18px;
         color: #999999;
-        margin-left:10px;
+        margin-left: 10px;
       }
     }
 
-
-    .listTitle{
-      color:#999999;
-      margin-left:10px;
-      font-size:26px;
-      line-height:0;
-      margin-top:20px;
-      font-weight:300;
+    .listTitle {
+      color: #999999;
+      margin-left: 10px;
+      font-size: 26px;
+      line-height: 0;
+      margin-top: 20px;
+      font-weight: 300;
       &:before {
         content: '';
         width: 8px;
         height: 28px;
         border-radius: 5px;
         display: inline-block;
-        background-color:#55cbcb;
+        background-color: #55cbcb;
         margin-right: 8px;
         vertical-align: middle;
         margin-top: -3px;
@@ -185,12 +184,12 @@ body {
     }
     .listItem {
       color: #666666;
-      margin-left:10px;
-      font-size:16px;
-      &.choose{
-        color:#55cbcb;
+      margin-left: 10px;
+      font-size: 16px;
+      &.choose {
+        color: #55cbcb;
       }
-      &:before{
+      &:before {
         content: '';
         width: 16px;
         height: 16px;
@@ -198,37 +197,37 @@ body {
         margin-right: 4px;
         vertical-align: middle;
         margin-top: -3px;
-        margin-left:6px;
+        margin-left: 6px;
       }
-      &.running:before{
+      &.running:before {
         background: url("https://www.iqycamp.com/images/pcNavRunning.png") no-repeat center center;
       }
-      &.done:before{
+      &.done:before {
         background: url("https://www.iqycamp.com/images/pcNavDone.png") no-repeat center center;
       }
-      &.lock:before{
+      &.lock:before {
         background: url("https://www.iqycamp.com/images/pcNavLock.png") no-repeat center center;
       }
-      &.lock-chose:before{
+      &.lock-chose:before {
         background: url("https://www.iqycamp.com/images/pcNavLockChoice.png") no-repeat center center;
       }
-      &.done-chose:before{
+      &.done-chose:before {
         background: url("https://www.iqycamp.com/images/pcNavDoneChoice.png") no-repeat center center;
       }
-      &.running-chose:before{
+      &.running-chose:before {
         background: url("https://www.iqycamp.com/images/pcNavRunningChoice.png") no-repeat center center;
 
       }
     }
   }
-  .rightContent{
-    float:right;
-    width:~"calc(100% - 310px)";
-    background-color:#FFF;
+  .rightContent {
+    float: right;
+    width: ~"calc(100% - 310px)";
+    background-color: #FFF;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    > .feed-back{
+    > .feed-back {
       position: fixed;
       left: 50%;
       margin-left: 512px;
@@ -237,21 +236,24 @@ body {
     border-left: solid 4px #f5f5f5;
   }
 
-  .loading{
-    &:after{
+  .loading {
+    &:after {
       content: '';
     }
-    width:100%;
-    height:100%;
-    background-color:black;
+    width: 100%;
+    height: 100%;
+    background-color: black;
   }
 }
 
+.hover-cursor {
+  cursor: pointer;
+}
 
 .show-more {
-  width:100%;
+  width: 100%;
   color: @color_weak;
-  font-size:@font_click;
-  text-align:center;
+  font-size: @font_click;
+  text-align: center;
   padding: 20px 0;
 }

@@ -183,7 +183,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(location.query.practicePlanId).then(res => {
       const {code, msg} = res
       if(code === 200) {
-        this.context.router.push({pathname: '/fragment/learn', query: this.props.location.query})
+        this.context.router.push({pathname: "/fragment/learn", query: this.props.location.query})
       }
     }).catch(ex => {
       dispatch(alert())
@@ -274,7 +274,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                          dangerouslySetInnerHTML={{__html: example.analysis}}/>
                   </div>
                   : <div className="analysis">
-                    <div className="analysis-tip" onClick={() => this.setState({showTip: true})}>点击查看解析</div>
+                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({showTip: true})}>点击查看解析</div>
                   </div>}
               </div>
               : null}
