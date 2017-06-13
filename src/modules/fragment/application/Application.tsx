@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./Application.less";
 import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
@@ -10,7 +10,7 @@ import {
   autoUpdateApplicationDraft
 } from "./async";
 import Work from "../components/NewWork";
-import { findIndex, remove, isEmpty, isBoolean } from "lodash";
+import { findIndex, remove, isEmpty, isBoolean ,merge,set} from "lodash";
 import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
@@ -112,6 +112,11 @@ export default class Application extends React.Component<any, any> {
     })
   }
 
+  componentWillUnmount(){
+    clearInterval(timer)
+  }
+
+
   // 定时保存方法
   autoSaveApplicationDraft() {
     timer = setInterval(() => {
@@ -150,7 +155,7 @@ export default class Application extends React.Component<any, any> {
 
   voted(id, voteStatus, voteCount, isMine, seq) {
     if(!voteStatus) {
-      if(!isMine) {
+      if(isMine) {
         this.setState({data: merge({}, this.state.data, {voteCount: voteCount + 1, voteStatus: true})});
       } else {
         let newOtherList = merge([], this.state.otherList);
@@ -225,7 +230,8 @@ export default class Application extends React.Component<any, any> {
               edit: false,
               editorValue: msg.content
             })
-          }
+          };
+          clearInterval(timer)
         })
         this.setState({showDisable: false})
       }
@@ -239,6 +245,7 @@ export default class Application extends React.Component<any, any> {
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
+          console.log(seq);
           return (
             <Work
               onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}
@@ -354,7 +361,7 @@ export default class Application extends React.Component<any, any> {
               {showOthers && !isEmpty(otherList) ? <div>
                 <div className="submit-bar">{'最新文章'}</div>
                 {renderList(otherList)}</div> : null}
-              {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
+              {!showOthers ? <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
           </div>
