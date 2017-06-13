@@ -6,6 +6,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import "./RiseBase.less"
 import NavigatorBar from  "../../components/NavigatorBar";
 import AlertMessage from "../../components/AlertMessage"
+import AssetImg from "../../components/AssetImg"
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -21,6 +22,10 @@ export default class Main extends React.Component<any, any> {
     };
   }
 
+  handleClickGoRiseHome(){
+    this.context.router.push("/fragment/plan");
+  }
+
   closeBaseAlert(){
     const {dispatch} = this.props;
     dispatch(set("base.showModal",false));
@@ -32,6 +37,10 @@ export default class Main extends React.Component<any, any> {
         <div className="rise-base">
           <NavigatorBar/>
           {this.props.children}
+          <div className="pc-icon" onClick={()=>this.handleClickGoRiseHome()}>
+            <AssetImg type="pc_home_icon" size={50}/>
+            <span>小课首页</span>
+          </div>
           <AlertMessage
             open={this.props.base.showModal}
             modal={false}
