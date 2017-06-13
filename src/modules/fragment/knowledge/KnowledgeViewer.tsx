@@ -4,7 +4,8 @@ import _ from "lodash";
 
 import "./KnowledgeViewer.less";
 import { stat } from "fs";
-import { deleteKnowledgeDiscuss, discussKnowledge, learnKnowledge, loadDiscuss, loadKnowledges } from "./async";
+import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges, deleteKnowledgeDiscuss} from "./async"
+
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";

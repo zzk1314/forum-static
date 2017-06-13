@@ -43,11 +43,11 @@ export default class Discuss extends React.Component <any, any> {
           <textarea ref="input" placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
           </textarea>
           <div className="comment-right-area">
-            <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
+            <div className="reply-tip hover-cursor" onClick={()=>cancel()}>取消评论</div>
             { editDisable ?
                 <div className="comment-button disabled">评论中</div>
                 :
-                <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
+                <div className="comment-button hover-cursor" onClick={this.onSubmit.bind(this)}>评论</div>
             }
           </div>
         </div>

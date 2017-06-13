@@ -216,7 +216,7 @@ export default class PlanMain extends React.Component <any, any> {
         const {code, msg} = res
         if (code === 200) {
           this.context ? this.context.router.push({
-            pathname: '/rise/static/practice/knowledge/review',
+            pathname: '/fragment/knowledge/review',
             query: {problemId, planId}
           }) : null;
         }
@@ -248,9 +248,9 @@ export default class PlanMain extends React.Component <any, any> {
 
 
   handleClickRiseMemberTips() {
-    mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
-      window.location.href = `https://${window.location.hostname}/pay/pay`
-    })
+    // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
+    //   window.location.href = `https://${window.location.hostname}/pay/pay`
+    // })
   }
 
   handleClickComplete() {
@@ -323,16 +323,7 @@ export default class PlanMain extends React.Component <any, any> {
 
 
   handleChangeSection(series) {
-    this.setState({currentIndex: series}, () => this.handleUpdateSectionChoose(series));
-  }
-
-  handleUpdateSectionChoose(series) {
-    let section = this.refs.sideContent.querySelector(`#section${series}`);
-    let sectionArr = this.refs.sideContent.querySelectorAll('.section');
-    for (let i = 0; i < sectionArr.length; i++) {
-      sectionArr[i].setAttribute('class', 'section');
-    }
-    section.setAttribute('class', 'section open');
+    this.setState({currentIndex: series});
   }
 
   handleClickConfirmComplete(force) {
@@ -513,7 +504,7 @@ export default class PlanMain extends React.Component <any, any> {
                     {item.sectionList.map((section, index) => {
                       return (
                         <div id={`section${section.series}`}
-                             className={`${currentIndex === section.series ? 'open' : ''} section`}
+                             className={`hover-cursor ${currentIndex === section.series ? 'open' : ''} section`}
                              onClick={() => {
                                this.handleChangeSection(section.series);
                              }} key={index}>

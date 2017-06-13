@@ -12,6 +12,7 @@ export function loadRoadMap() {
   return pget(`/rise/plan/roadmap/`)
 }
 
+
 export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }

@@ -52,6 +52,8 @@ import Learn from './modules/fragment/plan/Learn';
 import WarmupResult from './modules/fragment/warmup/Result'
 import  WarmUpAnalysis from "modules/fragment/warmup/Analysis";
 import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
+import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview"
+import ProblemViewer from "modules/fragment/problem/ProblemViewer"
 
 
 const routes = (
@@ -119,6 +121,10 @@ const routes = (
       <Route path="/fragment/warmup/result" component={WarmupResult}/>
       <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
       <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
+      <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
+      <Route path="/fragment/problem/view" component={ProblemViewer}/>
+
+
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>

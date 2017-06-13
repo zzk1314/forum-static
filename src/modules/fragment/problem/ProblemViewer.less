@@ -1,0 +1,109 @@
+@import "../../../style/variable";
+
+.problem-page {
+  .problem-intro{
+    > .page-header {
+      //position: fixed;
+      margin-left: -15px;
+      background: #fff;
+      z-index: 100;
+      width: 100%;
+      height: 45px;
+      line-height: 2.5em;
+      font-size: @font_title;
+      border-bottom: 2px solid @color_strong;
+      text-align: center;
+      color: @color_title;
+    }
+    > .page-content{
+      padding: 47px 15px 20px 15px;
+      .roadmap{
+        margin-top: 20px;
+        .chapter{
+          font-size: @font_context;
+          color: @color_context;
+          margin-bottom: 5px;
+          &:before{
+            content: '';
+            background: url('https://static.iqycamp.com/images/fragment/chapter.png?imageslim') no-repeat center center/ 1.1em 1.0em;
+            vertical-align: top;
+            display: inline-block;
+            width: 1.1em;
+            height: 1.0em;
+            margin-right: 5px;
+            margin-top: 4px;
+          }
+        }
+        .section{
+          font-size: 1.5em;
+          color: @color_title;
+          margin-bottom: 5px;
+          padding-left: 14px;
+          &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: top;
+            width: 4px;
+            height: 1.0em;
+            background-color: @color_strong;
+            margin-right: 5px;
+            border-radius: @border-radius;
+            margin-top: 4px;
+          }
+        }
+      }
+      > .context{
+        > .problem-length{
+          font-size: @font_context;
+          color: @color_strong;
+        }
+      }
+      > .context-title-img {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+      pre{
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+        font-size: 1.6em;
+        line-height: 2.0em;
+        letter-spacing:2px;
+        color: @color_title;
+      }
+
+      > .text{
+        font-size: @font_context;
+        color: @color_title;
+        margin-top: 25px;
+        line-height: 2.0em;
+        letter-spacing:2px;
+        > .time-tip-content{
+          display: inline-block;
+          > .tip{
+            font-size: 0.7em;
+            color: @color_help;
+            line-height: 1.4em;
+          }
+          > .tip-img{
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+      }
+      > .text2 {
+        font-size: @font_context;
+        color: @color_strong;
+        margin-top: 25px;
+        line-height: 2.0em;
+        letter-spacing:2px;
+      }
+      b{
+        color:#333;
+      }
+
+    }
+  }
+}
