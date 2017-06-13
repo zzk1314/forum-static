@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
-
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
@@ -124,6 +124,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   onSubmit() {
+    const { dispatch } = this.props;
     const {selected, practice, currentIndex, practiceCount} = this.state;
     const {practicePlanId} = this.props.location.query;
     if(selected.length === 0) {
@@ -139,7 +140,8 @@ export default class WarmUp extends React.Component<any, any> {
             query: merge(msg, this.props.location.query)
           })
         }).catch(e => {
-          console.error(e)
+          dispatch(endLoad());
+          dispatch(alertMsg(e));
         })
       })
     }
@@ -152,9 +154,7 @@ export default class WarmUp extends React.Component<any, any> {
   render() {
     const {list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated} = this.state
     const {practice = []} = list
-    console.log("state", this.state)
     const questionRender = (practice) => {
-      console.log('question', practice)
       const {question, pic, choiceList = [], score = 0} = practice
       return (
         <div className="intro-container">
@@ -196,8 +196,6 @@ export default class WarmUp extends React.Component<any, any> {
         {showKnowledge ?
           <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            {console.log('index', currentIndex)}
-            {console.log('practice', practice)}
             <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
               <div className="warm-up">
                 {practice[currentIndex] ?

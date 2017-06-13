@@ -142,14 +142,14 @@ export default class Work extends React.Component<any,any> {
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}}>
               <div className="function-area" onClick={()=>onEdit()} style={{marginRight:8}}>
                 <AssetImg type="edit" height={12}/>
-                <div className="submit-button">
+                <div className="submit-button hover-cursor">
                   编辑
                 </div>
               </div>
                 {!request && requestCommentCount!=null && requestCommentCount>0?
                 <div className="function-area" onClick={this.click.bind(this)}>
                   <AssetImg type="request_comment" height={12}/>
-                  <div className={`submit-button`}>
+                  <div className={`submit-button hover-cursor`}>
                     求点评
                   </div>
                 </div>

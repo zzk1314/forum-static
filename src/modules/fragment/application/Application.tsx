@@ -222,6 +222,7 @@ export default class Application extends React.Component<any, any> {
       if(code === 200) {
         loadApplicationPractice(location.query.id, planId).then(res => {
           const {code, msg} = res;
+          console.log(msg);
           if(code === 200) {
             this.setState({
               data: msg,
@@ -352,6 +353,7 @@ export default class Application extends React.Component<any, any> {
                       this.props.dispatch(endLoad())
                     }}
                     defaultValue={this.state.editorValue}
+                    value={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
