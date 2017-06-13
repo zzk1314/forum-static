@@ -102,3 +102,51 @@ export function NumberToChinese(num){
 
   return chnStr;
 }
+
+
+export const questionList = [
+  {
+    id: 1,
+    subject: "你已完成了本小课的训练<br/>对本小课的学习难度打个分吧",
+    choiceList: [
+      {
+        id: 5,
+        subject: "非常难"
+      }, {
+        id: 4,
+        subject: "比较难"
+      }, {
+        id: 3,
+        subject: "适中"
+      }, {
+        id: 2,
+        subject: "较简单"
+      }, {
+        id: 1,
+        subject: "很简单"
+      }
+    ]
+  },
+  {
+    id: 2,
+    subject: "本小课的训练对工作/生活有用吗？",
+    choiceList: [
+      {
+        id: 5,
+        subject: "非常实用，大部分能马上应用"
+      }, {
+        id: 4,
+        subject: "较为实用，不少能实际应用"
+      }, {
+        id: 3,
+        subject: "实用性一般，要找找应用场景"
+      }, {
+        id: 2,
+        subject: "不太实用，偶尔能用上"
+      }, {
+        id: 1,
+        subject: "大部分不能应用"
+      }
+    ]
+  }
+];

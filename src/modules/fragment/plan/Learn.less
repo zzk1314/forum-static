@@ -15,11 +15,25 @@
     }
   }
 
+  .side-bar-container{
+    display: flex;
+    flex-direction:row;
+    .side-bar{
+      width:300px;
+      position: relative;
+    }
+    > .side-bar-content{
+      flex-grow:1;
+    }
+  }
+
+
   .plan-main {
     > .list {
       margin-bottom: 10px;
     }
     >.submit-btn-footer {
+      cursor: pointer;
       &.grey{
         background:#afafaf;
       }
@@ -67,6 +81,9 @@
       background-color: #fff;
       height: 75px;
       border-radius: @border-radius;
+      width: 45%;
+      margin-left: 3.3%;
+      display: inline-block;
       > .header {
         position: absolute;
         width: 50px;
@@ -164,9 +181,11 @@
             width:2.6rem;
             text-align: right;
             vertical-align: middle;
+            margin-left:15px;
 
           }
           .str{
+            width:245px;
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -194,23 +213,42 @@
 
 
   .plan-guide {
-    //position: absolute;
-    //top: 12.5px;
-    //left: 20px;
-    //right:25px;
-    > .section-title {
-      font-size: @font_title;
-      color: @color_title;
-      margin-bottom: 50px;
-      line-height: @font_title;
+    position: relative;
+    width:100%;
+    .section-title {
+      position: absolute;
+      left:20px;
+      top:20px;
+      .plan-section-title{
+        font-size: @font_title;
+        color: @color_title;
+        line-height: @font_title;
+      }
+      .problem-describe{
+        position: absolute;
+        right: -6em;
+        top: 0;
+        color:#FFF;
+        background-color:#55cbcb;
+        border-radius:1px;
+        padding:5px;
+        font-size: @font_help;
+        cursor: pointer;
+      }
     }
-    > .section {
-      color: @color_title;
-      font-size: @font_help;
-      line-height: @font_help;
-      margin-bottom: 10px;
-      > label {
-        color: @color_help;
+
+    .section-info{
+      position: absolute;
+      bottom:15px;
+      left:20px;
+      .section {
+        color: @color_title;
+        font-size: @font_help;
+        line-height: @font_help;
+        margin-bottom:5px;
+        > label {
+          color: @color_help;
+        }
       }
     }
   }

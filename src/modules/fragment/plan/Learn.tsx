@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Learn.less"
-import {renderExist,NumberToChinese} from "../../../utils/helpers";
+import {renderExist,NumberToChinese,questionList} from "../../../utils/helpers";
 import {merge, isBoolean, get, isEmpty} from "lodash";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { loadPlan, completePlan, updateOpenRise, markPlan,
@@ -11,6 +11,7 @@ import Modal from "../../../components/Modal";
 import Sidebar from "../../../components/Sidebar"
 import AssetImg from "../../../components/AssetImg"
 import SwipeableViews from "../../../components/SwipeableViews"
+import AlertMessage from "../../../components/AlertMessage"
 
 
 const typeMap = {
@@ -39,67 +40,14 @@ export default class PlanMain extends React.Component <any, any> {
       selectProblem: {},
       defeatPercent: 0,
       expired: false,
-      questionList: [
-        {
-          id: 1,
-          subject: "你已完成了本小课的训练<br/>对本小课的学习难度打个分吧",
-          choiceList: [
-            {
-              id: 5,
-              subject: "非常难"
-            }, {
-              id: 4,
-              subject: "比较难"
-            }, {
-              id: 3,
-              subject: "适中"
-            }, {
-              id: 2,
-              subject: "较简单"
-            }, {
-              id: 1,
-              subject: "很简单"
-            }
-          ]
-        },
-        {
-          id: 2,
-          subject: "本小课的训练对工作/生活有用吗？",
-          choiceList: [
-            {
-              id: 5,
-              subject: "非常实用，大部分能马上应用"
-            }, {
-              id: 4,
-              subject: "较为实用，不少能实际应用"
-            }, {
-              id: 3,
-              subject: "实用性一般，要找找应用场景"
-            }, {
-              id: 2,
-              subject: "不太实用，偶尔能用上"
-            }, {
-              id: 1,
-              subject: "大部分不能应用"
-            }
-          ]
-        }
-      ],
+      questionList:questionList,
       showedPayTip: false,
-      // nextSeriesModal: {
-      //   buttons: [
-      //     {label: '我不听', onClick: () => this.next(true)},
-      //     {label: '做本节练习', onClick: () => this.setState({showNextSeriesModal: false})}
-      //   ],
-      // },
       nextModal: {
-        buttons: [
+        actions: [
           {label: '我不听', onClick: () => this.handleClickConfirmComplete(true)},
           {label: '好的', onClick: () => this.setState({showWarningModal: false})}
         ],
       },
-
-      sidebarOpen: false,
       showEmptyPage: false,
     }
   }
@@ -120,27 +68,28 @@ export default class PlanMain extends React.Component <any, any> {
 
 
     dispatch(startLoad())
-    console.log('load');
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
+      console.log(msg);
       if (code === 200) {
         if (msg !== null) {
           this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
-          if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
+          if(location.pathname === '/fragment/main' && msg.status === 3) {
             this.setState({expired:true})
           }
         } else {
           // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
-          if(location.pathname === '/rise/static/learn') {
+          if(location.pathname === '/fragment/learn') {
             this.setState({
               showEmptyPage: true
             })
           } else {
-            this.context.router.push({
-              pathname: '/rise/static/welcome'
-            })
+            alert('进入欢迎页面');
+            // this.context.router.push({
+            //   pathname: '/rise/static/welcome'
+            // })
           }
         }
       }
@@ -161,13 +110,7 @@ export default class PlanMain extends React.Component <any, any> {
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
-        this.setState({chapterList:res.msg},()=>{
-          // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
-          // Ps.initialize(this.refs.sideContent,{
-          //   swipePropagation:false,
-          //   handlers:[ 'wheel', 'touch']
-          // });
-        });
+        this.setState({chapterList:res.msg})
       }
     })
   }
@@ -221,7 +164,7 @@ export default class PlanMain extends React.Component <any, any> {
 
     if (!unlocked) {
       if (lockedStatus === -1) {
-        dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
+        dispatch(alertMsg('完成之前的任务，这一组才能解锁<br/> 学习和内化，都需要循序渐进哦'))
       }
       if (lockedStatus === -2) {
         dispatch(alertMsg('试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧'))
@@ -244,18 +187,18 @@ export default class PlanMain extends React.Component <any, any> {
         }) : null;
       } else {
         this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/warmup',
+          pathname: '/fragment/warmup',
           query: {practicePlanId, currentIndex, integrated, planId}
         }) : null;
       }
     } else if (type === 11) {
       this.context ? this.context.router.push({
-        pathname: '/rise/static/practice/application',
+        pathname: '/fragment/application',
         query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
       }) : null;
     } else if (type === 12) {
       this.context ? this.context.router.push({
-        pathname: '/rise/static/practice/application',
+        pathname: '/fragment/application',
         query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}
       }) : null;
     } else if (type === 21) {
@@ -282,8 +225,8 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({module: "打点", function: "首页", action: "打开小课介绍", memo: problemId});
-    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show: true}});
+    mark({module: "打点", function: "PC", action: "打开小课介绍", memo: problemId});
+    this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
   }
 
   handleClickGoReport(){
@@ -315,6 +258,7 @@ export default class PlanMain extends React.Component <any, any> {
     const { planData = {} } = this.state;
     const {planId} = location.query
     const {status,reportStatus} = planData;
+
     if(reportStatus === 3){
       this.context.router.push({
         pathname:'/rise/static/plan/report',
@@ -377,10 +321,6 @@ export default class PlanMain extends React.Component <any, any> {
     this.setState({showCompleteModal: false})
   }
 
-  handleClickSetSidebarOpen(open) {
-    const {currentIndex = 1} = this.state;
-    this.setState({sidebarOpen: open}, () => this.handleUpdateSectionChoose(currentIndex));
-  }
 
   handleChangeSection(series) {
     this.setState({currentIndex: series}, () => this.handleUpdateSectionChoose(series));
@@ -469,7 +409,7 @@ export default class PlanMain extends React.Component <any, any> {
     //   <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.handleClickTutorialEnd()}/>
     // );
     modalList.push(
-      <Modal show={expired}
+      <Modal show={false}
              buttons={[{click: () => this.handleClickGoReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
              key={0}
       >
@@ -482,12 +422,14 @@ export default class PlanMain extends React.Component <any, any> {
         </div>
       </Modal>
     );
-    // modalList.push(
-    //   <Alert { ...this.state.nextModal }
-    //     show={showWarningModal}>
-    //     <div className="global-pre" dangerouslySetInnerHTML={{__html: "我们发现你的综合练习还没有完成，这会影响你的学习报告内容<br/>建议先返回完成它们"}}/>
-    //   </Alert>
-    // );
+    modalList.push(
+      <AlertMessage { ...this.state.nextModal }
+        open={!!showWarningModal}
+        key={1}
+        handleClose={()=>this.setState({showWarningModal:false})}
+        content="我们发现你的综合练习还没有完成，这会影响你的学习报告内容,建议先返回完成它们"
+      />
+    );
     return modalList;
 
   }
@@ -496,7 +438,7 @@ export default class PlanMain extends React.Component <any, any> {
   renderSection(item, idx) {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, sidebarOpen,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
     } = this.state
     const {location} = this.props
     const {
@@ -542,7 +484,7 @@ export default class PlanMain extends React.Component <any, any> {
   renderSidebar() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, sidebarOpen,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
     } = this.state
     const {location} = this.props
     const {
@@ -565,8 +507,7 @@ export default class PlanMain extends React.Component <any, any> {
                     <div className="chapter">
                       <div>
                         <div className="label">{NumberToChinese(item.chapterId)}、</div>
-                        <div className="str"
-                             style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
+                        <div className="str">{item.chapter}</div>
                       </div>
                     </div>
                     {item.sectionList.map((section, index) => {
@@ -578,8 +519,7 @@ export default class PlanMain extends React.Component <any, any> {
                              }} key={index}>
                           <div>
                             <div className="label">{item.chapterId}.{section.sectionId}</div>
-                            <div className="str"
-                                 style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                            <div className="str">{section.section}</div>
                           </div>
                         </div>
                       )
@@ -604,7 +544,7 @@ export default class PlanMain extends React.Component <any, any> {
       return list.map((item, index) => {
         return (
           <div key={index} className="practice-card"
-               onClick={() => this.handleClickProblemChoose(item)}>
+               onClick={() => this.handleClickPracticeSelected(item)}>
             <div className="header">
               {item.type === 1 || item.type === 2 ? item.status !== 1 ?
                 <AssetImg type="warmup" size={50}/> :
@@ -646,7 +586,7 @@ export default class PlanMain extends React.Component <any, any> {
   render() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, sidebarOpen,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
     } = this.state
     const {location} = this.props
     const {
@@ -657,11 +597,17 @@ export default class PlanMain extends React.Component <any, any> {
     return (
       <div className="rise-main outer-wrapper">
         {/*<ToolBar />*/}
-        {renderExist(showScoreModal,<DropChoice onSubmit={(questionList)=>this.handleClickSubmitScore(questionList)}
-                                                onClose={()=>this.setState({  showScoreModal: false },()=>{this.handleClickConfirmComplete()})}
-                                                questionList={this.state.questionList}/>)}
+        {/* 打分 */}
+        {renderExist(showScoreModal,
+          <DropChoice
+            onSubmit={(questionList)=>this.handleClickSubmitScore(questionList)}
+            onClose={()=>this.setState({  showScoreModal: false },()=>{this.handleClickConfirmComplete()})}
+            questionList={this.state.questionList}
+          />
+        )}
+        {/* 各种弹框 */}
         {this.renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point)}
-
+        {/* 主页面内容 */}
         {renderExist(
             showEmptyPage,
             (
@@ -678,55 +624,63 @@ export default class PlanMain extends React.Component <any, any> {
             ),
             (
               <div className="rise-main">
-                <Sidebar sidebar={ this.renderSidebar(selectProblem) }
-                         open={sidebarOpen}
-                         onSetOpen={(open) => this.handleClickSetSidebarOpen(open)}
-                         trigger={() => this.handleClickSetSidebarOpen(!this.state.sidebarOpen)}
-                >
-                  <div className="header-img">
-                    <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
-                    {renderExist(isBoolean(riseMember) && !riseMember,
-                      <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                           onClick={() => this.handleClickRiseMemberTips()}>
-                      </div>)}
-                    <div className="plan-guide">
-                      <div className="section-title">{problem.problem}</div>
-                      <div className="section">
-                        <label>已完成:</label> {completeSeries}/{totalSeries}节训练
-                      </div>
-                      {renderExist(riseMember,
-                        <div className="section">
-                          <label>距关闭:</label> {deadline}天
+                <div className="side-bar-container">
+                  <div className="side-bar">
+                    { this.renderSidebar(selectProblem) }
+                  </div>
+                  <div className="side-bar-content">
+                    <div className="header-img">
+                      <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
+                      {renderExist(isBoolean(riseMember) && !riseMember,
+                        <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                             onClick={() => this.handleClickRiseMemberTips()}>
+                        </div>)}
+                      <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
+                        <div className="section-title">
+                          <span className="plan-section-title">{problem.problem}</span>
+                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview()}>
+                            小课介绍
+                          </div>
                         </div>
-                      )}
-                      <div className="section">
-                        <label>总得分:</label> {point} 分
+                        <div className="section-info">
+                          <div className="section">
+                            <label>已完成:</label> {completeSeries}/{totalSeries}节训练
+                          </div>
+                          {renderExist(riseMember,
+                            <div className="section">
+                              <label>距关闭:</label> {deadline}天
+                            </div>
+                          )}
+                          <div className="section">
+                            <label>总得分:</label> {point} 分
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/*<div className="function-menu">*/}
+                    {/*<div className="function-menu">*/}
                     {/*<div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>*/}
-                      {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
-                      {/*<span>小课论坛</span>*/}
+                    {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
+                    {/*<span>小课论坛</span>*/}
                     {/*</div>*/}
                     {/*<div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>*/}
-                      {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
-                      {/*<span>小课介绍</span>*/}
+                    {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
+                    {/*<span>小课介绍</span>*/}
                     {/*</div>*/}
-                  {/*</div>*/}
-                  {renderExist(!isEmpty(planData),
-                    (
-                      <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
-                      <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                                      onTransitionEnd={() => this.handleSwipeTransitionEnd()}
-                                      onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
-                        {renderExist(sections, sections.map((item, idx) => {
-                          return this.renderSection(item, idx,windowsClient,totalSeries)
-                        }))}
-                      </SwipeableViews>
-                    </div>
-                    ))}
-                </Sidebar>
+                    {/*</div>*/}
+                    {renderExist(!isEmpty(planData),
+                      (
+                        <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
+                          <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                                          onTransitionEnd={() => this.handleSwipeTransitionEnd()}
+                                          onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
+                            {renderExist(sections, sections.map((item, idx) => {
+                              return this.renderSection(item, idx,windowsClient,totalSeries)
+                            }))}
+                          </SwipeableViews>
+                        </div>
+                      ))}
+                  </div>
+                </div>
               </div>
             ))}
       </div>

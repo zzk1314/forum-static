@@ -104,6 +104,7 @@ const routes = (
     <Route component={RiseBase}>
       <Route path="/fragment/plan"  component={Plan}/>
       <Route path="/fragment/learn" component={Learn}/>
+      <Route path="/fragment/main" component={Learn}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
