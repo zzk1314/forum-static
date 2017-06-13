@@ -5,6 +5,7 @@ import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
 import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
+import KnowledgeModal from "../components/KnowledgeModal"
 
 const sequenceMap = {
   0: "A",
@@ -105,15 +106,15 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   next() {
-    const {dispatch} = this.props
-    const {selected, list, currentIndex, practiceCount} = this.state
+    const {dispatch} = this.props;
+    const {selected, list, currentIndex, practiceCount} = this.state;
     if(selected.length === 0) {
-      alert("你还没有选择答案哦")
+      dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
     if(currentIndex < practiceCount - 1) {
-      this.setChoice()
-      let selected = list.practice[`${currentIndex + 1}`].choice
+      this.setChoice();
+      let selected = list.practice[`${currentIndex + 1}`].choice;
       if(!selected) {
         selected = []
       }
@@ -123,10 +124,10 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const {selected, practice, currentIndex, practiceCount} = this.state
-    const {practicePlanId} = this.props.location.query
+    const {selected, practice, currentIndex, practiceCount} = this.state;
+    const {practicePlanId} = this.props.location.query;
     if(selected.length === 0) {
-      alert("你还没有选择答案哦");
+      dispatch(alertMsg("你还没有选择答案哦"));
       return;
     }
     if(currentIndex === practiceCount - 1) {
@@ -134,7 +135,7 @@ export default class WarmUp extends React.Component<any, any> {
         answer({practice: p}, practicePlanId).then(res => {
           const {code, msg} = res
           if(code === 200) this.context.router.push({
-            pathname: '/rise/static/practice/warmup/result',
+            pathname: '/fragment/warmup/result',
             query: merge(msg, this.props.location.query)
           })
         }).catch(e => {
@@ -173,7 +174,7 @@ export default class WarmUp extends React.Component<any, any> {
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
           {integrated == 'false' ?
-            <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>不确定?
+            <div className="knowledge-link hover-cursor" onClick={() => this.setState({showKnowledge: true})}>不确定?
               瞄一眼知识点</div> : null}
         </div>
       )
@@ -193,7 +194,7 @@ export default class WarmUp extends React.Component<any, any> {
     return (
       <div>
         {showKnowledge ?
-          <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
+          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
             {console.log('index', currentIndex)}
             {console.log('practice', practice)}

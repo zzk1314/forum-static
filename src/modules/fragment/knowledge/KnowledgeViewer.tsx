@@ -9,6 +9,8 @@ import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+
 
 const sequenceMap = {
   0: "A",
@@ -43,6 +45,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   componentWillMount() {
     {console.log(this.props)}
     const {id, practicePlanId} = this.props.location.query
+    const {dispatch} = this.props
+    dispatch(startLoad())
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
@@ -53,20 +57,23 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             }
           });
         } else {
-          console.error(res.msg);
+          dispatch(endLoad())
+          dispatch(alertMsg(res.msg))
         }
       })
     } else if(id) {
       loadKnowledge(id).then(res => {
         if(res.code === 200) {
           this.setState({knowledge: res.msg})
+          dispatch(endLoad())
           loadDiscuss(id, 1).then(res => {
             if(res.code === 200) {
               this.setState({discuss: res.msg})
             }
           });
         } else {
-
+          dispatch(endLoad())
+          dispatch(alertMsg(res.msg))
         }
       })
     }
@@ -142,14 +149,19 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         dispatch(alertMsg(msg))
       }
     }).catch(ex => {
-      console.error(ex)
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     });
 
   }
 
   onDelete(id) {
+
     let newDiscuss = [];
     let discuss = this.state.discuss;
+    const {dispatch} = this.props
+
+    dispatch(startLoad())
     deleteKnowledgeDiscuss(id).then(res => {
       if(res.code === 200) {
         discuss.map(disItem => {
@@ -162,7 +174,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         });
       }
     }).catch(ex => {
-      console.error(ex);
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     });
   }
 
@@ -174,7 +187,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         this.context.router.push({pathname: "/fragment/learn", query: this.props.location.query})
       }
     }).catch(ex => {
-      console.error(ex)
+      dispatch(alert())
     })
   }
 
