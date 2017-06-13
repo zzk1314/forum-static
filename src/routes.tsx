@@ -46,6 +46,7 @@ import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 // pc rise 改版
 import Plan from "./modules/fragment/plan/Plan";
 import Application from "./modules/fragment/application/Application";
+import Comment from "./modules/fragment/application/Comment";
 import WarmUp from "./modules/fragment/warmup/WarmUp";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
 import Learn from './modules/fragment/plan/Learn';
@@ -56,7 +57,6 @@ import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview";
 import ProblemViewer from "modules/fragment/problem/ProblemViewer";
 import Subject from "modules/fragment/subject/Subject";
 import Challenge from "modules/fragment/challenge/Challenge"
-
 
 const routes = (
   <Route path="/">
@@ -118,6 +118,7 @@ const routes = (
       <Route path="/fragment/learn" component={Learn}/>
       <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/application" component={Application}/>
+      <Route path="/fragment/application/comment" component={Comment}/>
       <Route path="/fragment/warmup" component={WarmUp}/>
       <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
       <Route path="/fragment/warmup/result" component={WarmupResult}/>
