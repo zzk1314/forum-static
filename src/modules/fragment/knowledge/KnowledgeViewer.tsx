@@ -6,7 +6,8 @@ import "./KnowledgeViewer.less";
 import { stat } from "fs";
 import { deleteKnowledgeDiscuss, discussKnowledge, learnKnowledge, loadDiscuss, loadKnowledges } from "./async";
 import AssetImg from "../../../components/AssetImg";
-// import Audio from "../../../components/Audio";
+import Audio from "../../../components/Audio";
+import DiscussShow from "../components/DiscussShow";
 
 const sequenceMap = {
   0: "A",
@@ -202,7 +203,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
-            {/*{ audio ? <div className="context-audio"><Audio url={audio}/></div> : null }*/}
+            { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }
             { analysis ?
               <div>
