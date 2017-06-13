@@ -5,6 +5,7 @@ import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
 import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
+import KnowledgeModal from "../components/KnowledgeModal"
 
 const sequenceMap = {
   0: "A",
@@ -173,7 +174,7 @@ export default class WarmUp extends React.Component<any, any> {
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
           {integrated == 'false' ?
-            <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>不确定?
+            <div className="knowledge-link hover-cursor" onClick={() => this.setState({showKnowledge: true})}>不确定?
               瞄一眼知识点</div> : null}
         </div>
       )
@@ -193,7 +194,7 @@ export default class WarmUp extends React.Component<any, any> {
     return (
       <div>
         {showKnowledge ?
-          <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
+          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
             {console.log('index', currentIndex)}
             {console.log('practice', practice)}
