@@ -66,15 +66,6 @@ export default class Challenge extends React.Component<any, any> {
     this.setState({edit: true})
   }
 
-  goComment(submitId) {
-    const {goBackUrl} = this.state
-    this.context.router.push({
-      pathname: "/rise/static/practice/challenge/comment",
-      query: merge({submitId: submitId}, this.props.location.query),
-      state: {goBackUrl}
-    })
-  }
-
   onSubmit() {
     const {dispatch, location} = this.props;
     const {data, planId} = this.state;
@@ -169,6 +160,7 @@ export default class Challenge extends React.Component<any, any> {
                     uploadEnd={() => {
                       this.props.dispatch(endLoad())
                     }}
+                    value={content}
                     defaultValue={content} placeholder="离开页面前请提交，以免内容丢失。"
                   />
                 </div> : null}
