@@ -182,7 +182,7 @@ export default class PlanMain extends React.Component <any, any> {
       }
       if (item.status === 1) {
         this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/warmup/analysis',
+          pathname: '/fragment/warmup/analysis',
           query: {practicePlanId, currentIndex, integrated, planId}
         }) : null;
       } else {
@@ -203,7 +203,7 @@ export default class PlanMain extends React.Component <any, any> {
       }) : null;
     } else if (type === 21) {
       this.context ? this.context.router.push({
-        pathname: '/rise/static/practice/challenge',
+        pathname: '/fragment/challenge',
         query: {id: item.practiceIdList[0], currentIndex, planId}
       }) : null;
     } else if (type === 31) {
@@ -243,9 +243,7 @@ export default class PlanMain extends React.Component <any, any> {
         // query:this.props.location.query
       })
     }
-
   }
-
 
   handleClickRiseMemberTips() {
     // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {

@@ -52,9 +52,10 @@ import Learn from './modules/fragment/plan/Learn';
 import WarmupResult from './modules/fragment/warmup/Result'
 import WarmUpAnalysis from "modules/fragment/warmup/Analysis";
 import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
-import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview"
-import ProblemViewer from "modules/fragment/problem/ProblemViewer"
+import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview";
+import ProblemViewer from "modules/fragment/problem/ProblemViewer";
 import Subject from "modules/fragment/subject/Subject";
+import Challenge from "modules/fragment/challenge/Challenge"
 
 
 const routes = (
@@ -125,6 +126,7 @@ const routes = (
       <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
       <Route path="/fragment/problem/view" component={ProblemViewer}/>
       <Route path="/fragment/subject" component={Subject}/>
+      <Route path="/fragment/challenge" component={Challenge}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>

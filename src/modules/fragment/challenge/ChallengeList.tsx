@@ -7,7 +7,7 @@ import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./ChallengeList.less"
-import {loadMineChallenge, loadOtherChallenge} from  "./async"
+import {loadMineChallenge, loadOtherChallenge} from  "./async.bak"
 
 const style = {
   divider: {

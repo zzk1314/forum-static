@@ -7,7 +7,7 @@ import PicUpload from "../../../components/PicUpload"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-import {loadSelfChallengeSubmit,submitChallenge} from "./async"
+import {loadSelfChallengeSubmit,submitChallenge} from "./async.bak"
 import Editor from "../../../components/editor/Editor"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 
