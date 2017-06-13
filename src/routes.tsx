@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Route, IndexRoute} from "react-router";
+import { Route, IndexRoute } from "react-router";
 import Base from "modules/base/Base.tsx";
 import RiseBase from "modules/base/RiseBase"
 import ProblemList from "./modules/fragment/ProblemList"
@@ -43,12 +43,15 @@ import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 
-// ** rise change **//
-import  Plan from './modules/fragment/plan/Plan';
+// pc rise 改版
+import Plan from "./modules/fragment/plan/Plan";
+import Application from "./modules/fragment/application/Application";
+import WarmUp from "./modules/fragment/warmup/WarmUp";
+import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
 import Learn from './modules/fragment/plan/Learn';
 
 const routes = (
-  <Route path="/" >
+  <Route path="/">
     <Route component={Base}>
       <IndexRoute component={Home}/>
       <Route path="home" component={Home}/>
@@ -56,21 +59,21 @@ const routes = (
       <Route path="login" component={Login}/>
       <Route path="stranger" component={Stranger}/>
       <Route path="pc/static/reject" component={Reject}/>
-      <Route component={ProblemList}>
-        <Route path="fragment/rise" component={Catalog}/>
-        <Route path="fragment/challenge" component={DoChallenge}/>
-        <Route path="fragment/application" component={DoApplication}/>
-        <Route path="fragment/challenge/list" component={ChallengeList}/>
-        <Route path="fragment/application/list" component={ApplicationList}/>
-        <Route path="fragment/challenge/show" component={ShowChallenge}/>
-        <Route path="fragment/application/show" component={ShowApplication}/>
-        <Route path="fragment/subject/list" component={SubjectList}/>
-        <Route path="fragment/subject/show" component={ShowSubject}/>
-        <Route path="fragment/subject/list/mine" component={MineSubject}/>
-        <Route path="fragment/subject/write" component={WriteSubject}/>
-        <Route path="fragment/knowledge/show" component={KnowledgeView}/>
-        <Route path="servercode" component={ServerCode}/>
-      </Route>
+      {/*<Route component={ProblemList}>*/}
+      {/*<Route path="fragment/rise" component={Catalog}/>*/}
+      {/*<Route path="fragment/challenge" component={DoChallenge}/>*/}
+      {/*<Route path="fragment/application" component={DoApplication}/>*/}
+      {/*<Route path="fragment/challenge/list" component={ChallengeList}/>*/}
+      {/*<Route path="fragment/application/list" component={ApplicationList}/>*/}
+      {/*<Route path="fragment/challenge/show" component={ShowChallenge}/>*/}
+      {/*<Route path="fragment/application/show" component={ShowApplication}/>*/}
+      {/*<Route path="fragment/subject/list" component={SubjectList}/>*/}
+      {/*<Route path="fragment/subject/show" component={ShowSubject}/>*/}
+      {/*<Route path="fragment/subject/list/mine" component={MineSubject}/>*/}
+      {/*<Route path="fragment/subject/write" component={WriteSubject}/>*/}
+      {/*<Route path="fragment/knowledge/show" component={KnowledgeView}/>*/}
+      {/*<Route path="servercode" component={ServerCode}/>*/}
+      {/*</Route>*/}
       <Route component={BackendIndex}>
         <Route path="backend" component={BackendWelcome}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
@@ -101,10 +104,14 @@ const routes = (
         </Route>
       </Route>
     </Route>
+    {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/plan"  component={Plan}/>
       <Route path="/fragment/learn" component={Learn}/>
       <Route path="/fragment/main" component={Learn}/>
+      <Route path="/fragment/application" component={Application}/>
+      <Route path="/fragment/warmup" component={WarmUp}/>
+      <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>

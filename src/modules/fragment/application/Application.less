@@ -1,0 +1,127 @@
+@import "../../../style/variable";
+
+.application {
+  margin: 0 auto;
+  width: 960px;
+  .page-header {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 1.7em;
+    border-bottom: 2px solid #55cbcb;
+    color: #666;
+  }
+  .intro-container {
+    overflow: auto;
+    text-align: center;
+    margin-top: 20px;
+    .application-context {
+      .section1 {
+        font-size: @font_help;
+        line-height: 22px;
+        color: @color_help;
+      }
+      .section2 {
+        font-size: @font_context;
+        color: @color_context;
+        line-height: 1.6em;
+        text-align: left;
+      }
+    }
+    .application-title {
+      text-align: center;
+      margin: 18px 0;
+      position: relative;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > span {
+        font-size: @font_title;
+        color: @color_help;
+        margin-left: 4px;
+      }
+      &::before {
+        content: " ";
+        position: absolute;
+        left: 15px;
+        margin-top: 18px;
+        width: ~"calc(40% - 70px)";
+        border-bottom: 1px solid #cccccc;
+      }
+      &::after {
+        content: " ";
+        position: absolute;
+        right: 15px;
+        margin-top: 18px;
+        width: ~"calc(40% - 70px)";
+        border-bottom: 1px solid #cccccc;
+      }
+    }
+    > .knowledge-link {
+      color: @color_strong;
+      font-size: @font_click;
+      height: 30px;
+      margin-top: 15px;
+      text-align: left;
+    }
+  }
+  .work-container {
+    margin-top: 25px;
+    .submit-bar {
+      width: 100%;
+      background-color: @color_weak_background;
+      color: @color_title;
+      font-size: @font_index;
+      padding: 0 15px;
+      margin-left: -15px;
+      margin-bottom: 15px;
+    }
+    > .no-comment {
+      font-size: @font_help;
+      text-align: center;
+      > .submit-btn {
+        margin: 15px auto 0;
+        width: 70px;
+        background-size: 100% 100%;
+        background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+        color: #fff;
+        border-radius: @border-radius;
+        height: 22px;
+        line-height: 22px;
+      }
+      > .content {
+        margin-top: 15px;
+        margin-bottom: 20px;
+        > .text {
+          line-height: 20px;
+          color: @color_help;
+        }
+      }
+    }
+    .editor {
+      margin-bottom: 10px;
+    }
+    .show-others-tip {
+      color: @color_strong;
+      font-size: @font_click;
+      padding-top: 10px;
+      padding-bottom: 20px;
+      border-top: 1px solid @color_help;
+    }
+  }
+}
+
+.main-toast {
+  .weui_toast {
+    width: 50%;
+    left: 25%;
+    top: 30%;
+    margin: 0 auto;
+    min-height: inherit;
+    transition: opacity 1s;
+    opacity: 1;
+  }
+}
+

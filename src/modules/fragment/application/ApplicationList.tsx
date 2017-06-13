@@ -7,7 +7,7 @@ import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./ApplicationList.less"
-import {loadMineApplication, loadOtherApplication,loadApplicationTitle} from  "./async"
+import {loadMineApplication, loadOtherApplication,loadApplicationTitle} from  "./async.bak"
 import {CommentType} from  "../async"
 
 const style = {

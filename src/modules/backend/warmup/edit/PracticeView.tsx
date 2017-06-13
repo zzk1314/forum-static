@@ -95,19 +95,15 @@ export default class practiceView extends React.Component <any, any> {
         this.setState({edit: true})
       }
     }
-
-    if (edit) {
-      saveWarmup(data).then(res => {
-        const {code, msg} = res
-        if (code === 200) {
-          this.setState({message: '保存成功', snackOpen: true, saving: false})
-        } else {
-          this.setState({message: msg, snackOpen: true, saving: false})
-        }
-      })
-    } else {
-      this.setState({message: '保存成功', snackOpen: true, saving: false})
-    }
+    // 保存更新后的题目信息
+    saveWarmup(data).then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.setState({message: '保存成功', snackOpen: true, saving: false})
+      } else {
+        this.setState({message: msg, snackOpen: true, saving: false})
+      }
+    })
     setTimeout(() => {
       this.setState({snackOpen: false})
     }, 2000)

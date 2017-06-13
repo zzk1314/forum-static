@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 import "./KnowledgeView.less";
 import AssetImg from "../../../components/AssetImg";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import {loadKnowledge} from "./async"
+import {loadKnowledge} from "./async.bak"
 
 @connect(state=>state)
 export default class KnowledgeModal extends React.Component<any, any> {
