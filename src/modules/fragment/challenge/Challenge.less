@@ -1,19 +1,25 @@
 @import "../../../style/variable";
 
 .challenge {
-  //height: 100%;
-  margin: 0 auto;
-  width: 960px;
+  margin: 0 50px;
+  .page-header {
+    width: 100%;
+    height: 45px;
+    margin-top: 26px;
+    font-size: 17px;
+    border-bottom: 2px solid #55cbcb;
+    text-align: center;
+    color: #666;
+  }
   .intro-container {
-    //height: ~"calc(100% - 49px)";
     overflow: auto;
     text-align: center;
-    > .challenge-context{
-      .tip{
+    > .challenge-context {
+      .tip {
         font-size: @font_help;
         color: @color_help;
       }
-      .tip-title{
+      .tip-title {
         color: @color_title;
         font-size: 1.2em;
         margin-top: 12px;
@@ -21,7 +27,7 @@
 
     }
   }
-  .work-container{
+  .work-container {
     margin-top: 25px;
     padding-bottom: 50px;
     > .submit-bar {
@@ -29,33 +35,33 @@
       background-color: @color_weak_background;
       color: @color_help;
       font-size: @font_index;
-      padding:0 15px;
-      margin-left:-15px;
+      padding: 0 15px;
+      margin-left: -15px;
     }
-    > .no-comment{
+    > .no-comment {
       font-size: @font_help;
       color: @color_help;
       text-align: center;
-      > .submit-btn{
+      > .submit-btn {
         margin: 15px auto 0;
         width: 70px;
-        background-size:100% 100%;
-        background-image:url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+        background-size: 100% 100%;
+        background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
         color: #fff;
         border-radius: @border-radius;
         height: 22px;
         line-height: 22px;
       }
-      > .content{
+      > .content {
         margin-top: 15px;
         margin-bottom: 20px;
-        > .text{
+        > .text {
           line-height: 20px;
           color: @color_help;
         }
       }
     }
-    > .editor{
+    > .editor {
       margin-bottom: 10px;
     }
   }
