@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./Learn.less"
 import {renderExist,NumberToChinese,questionList} from "../../../utils/helpers";
 import {merge, isBoolean, get, isEmpty} from "lodash";
-import { startLoad, endLoad, alertMsg } from "redux/actions";
+import { set,startLoad, endLoad, alertMsg } from "redux/actions";
 import { loadPlan, completePlan, updateOpenRise, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
 import DropChoice from "../../../components/DropChoice";
@@ -57,9 +57,12 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
 
+
   componentWillMount(newProps) {
     this.resize();
     const {dispatch, location} = this.props
+
+    dispatch(set("showHomeIcon",false));
 
     let {planId} = location.query
     if(newProps){
@@ -123,6 +126,8 @@ export default class PlanMain extends React.Component <any, any> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
+    const { dispatch } = this.props;
+    dispatch(set("showHomeIcon",true));
   }
 
   resize() {
@@ -663,7 +668,7 @@ export default class PlanMain extends React.Component <any, any> {
                     {/*</div>*/}
                     {renderExist(!isEmpty(planData),
                       (
-                        <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
+                        <div style={{padding: "0 15px"}}>
                           <SwipeableViews ref="planSlider" index={currentIndex - 1}
                                           onTransitionEnd={() => this.handleSwipeTransitionEnd()}
                                           onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>

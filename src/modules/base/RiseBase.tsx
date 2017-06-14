@@ -22,8 +22,13 @@ export default class Main extends React.Component<any, any> {
     };
   }
 
+  componentWillMount(){
+    const {dispatch} = this.props;
+    dispatch(set("showHomeIcon",false));
+  }
+
   handleClickGoRiseHome(){
-    this.context.router.push("/fragment/plan");
+    this.context.router.push("/fragment/learn");
   }
 
   closeBaseAlert(){
@@ -36,8 +41,8 @@ export default class Main extends React.Component<any, any> {
       <MuiThemeProvider>
         <div className="rise-base">
           <NavigatorBar/>
-          {this.props.children}
-          <div className="pc-icon" onClick={()=>this.handleClickGoRiseHome()}>
+          <div className="min-width">{this.props.children}</div>
+          <div className={`pc-icon ${this.props.showHomeIcon?'show':''}`} onClick={()=>this.handleClickGoRiseHome()}>
             <AssetImg type="pc_home_icon" size={50}/>
             <span>小课首页</span>
           </div>

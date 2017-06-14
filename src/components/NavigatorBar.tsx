@@ -41,7 +41,7 @@ export default class NavigatorBar extends React.Component<any,any>{
       case NavType.Rise:{
         console.log('切换到 Rise');
         this.setState({activeNav:NavType.Rise},()=>{
-          this.context.router.push({pathname:'/fragment/learn'})
+          this.context.router.push({pathname:'/fragment/plan'})
         })
         break;
 
