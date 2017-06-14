@@ -15,13 +15,20 @@ export default class AlertMessage extends React.Component {
     this.state = {}
   }
 
-
   render() {
-    const {handleClose, open, title, modal = false, content, actions} = this.props;
+    // const {handleClose, open, title, modal = false, content, actions} = this.props;
+    const {handleClose, open, title, modal = false, actions} = this.props;
     const getActions = (actions) => {
 
-      return actions?actions.map(item =><FlatButton label={item.label} primary={!!item.primary} secondary={!!item.secondary}
-                                              style={item.style} onClick={item.onClick}/>):null;
+      return actions ? actions.map(item => <FlatButton label={item.label} primary={!!item.primary}
+                                                       secondary={!!item.secondary}
+                                                       style={item.style} onClick={item.onClick}/>) : null;
+    }
+
+    // 将 props 中的 content 转换成数组，方便下面进行换行处理
+    let content = [];
+    if(this.props.content) {
+      content = this.props.content.split("<br/>");
     }
 
     return (
@@ -38,7 +45,9 @@ export default class AlertMessage extends React.Component {
           open={open}
           onRequestClose={handleClose}
         >
-          {content}
+          {content.map((item, index) =>
+            <p key={index}>{item}</p>
+          )}
         </Dialog>
       </div>
     );
