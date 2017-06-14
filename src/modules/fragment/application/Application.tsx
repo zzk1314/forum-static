@@ -121,7 +121,6 @@ export default class Application extends React.Component<any, any> {
     clearInterval(timer)
   }
 
-
   // 定时保存方法
   autoSaveApplicationDraft() {
     timer = setInterval(() => {

@@ -4,6 +4,7 @@ import { set, alertMsg } from "redux/actions";
 import { pget } from "../../../utils/request";
 import "./Plan.less";
 import AssetImg from "../../../components/AssetImg";
+import { loadSelfPlans } from "./async";
 
 @connect(state => state)
 export default class Plan extends React.Component<any, any> {
@@ -16,9 +17,12 @@ export default class Plan extends React.Component<any, any> {
     };
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   componentWillMount() {
     loadSelfPlans().then(res => {
-      console.log(res);
       if(res.code === 200) {
         this.setState({donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans})
       }
@@ -34,8 +38,12 @@ export default class Plan extends React.Component<any, any> {
         {
           plans.map((item, index) => {
             return (
-              <div className="plan-problem" key={index}>
-                <AssetImg width={200} height={120} url="https://static.iqycamp.com/images/fragment/problem1_3.png"/>
+              <div className="plan-problem" key={index}
+                   onClick={() =>
+                     this.context.router.push({pathname: "/fragment/learn", query: {planId: item.planId}})
+                   }
+              >
+                <AssetImg width={200} height={120} url={item.pic}/>
                 <div className="plan-problem-desc">{item.name}</div>
               </div>
             );
@@ -67,7 +75,7 @@ export default class Plan extends React.Component<any, any> {
             <span>进行中</span>
             {this.renderRunningPlans()}
           </div>
-          <div className="plan-splitline"></div>
+          <div className="plan-splitline"/>
           <div className="plan-plans">
             <span>已完成</span>
             {this.renderDonePlans()}
@@ -78,6 +86,4 @@ export default class Plan extends React.Component<any, any> {
   }
 }
 
-function loadSelfPlans() {
-  return pget("/rise/customer/plans")
-}
+
