@@ -10,6 +10,18 @@ export default class AssetImg extends React.Component<any, any> {
 
   }
 
+  sizeCheck(size){
+    if(size){
+      if(size.toString().indexOf("px")!==-1 || size.toString().indexOf("%")!==-1) {
+        return size;
+      } else {
+        return `${size}px`;
+      }
+    } else {
+      return size;
+    }
+  }
+
   render() {
     const { size, type, width, height, marginTop, style, marginRight } = this.props
     let {url} = this.props
@@ -21,10 +33,10 @@ export default class AssetImg extends React.Component<any, any> {
     }
     const { loading } = this.state;
     const _style = {
-      width: `${size || width}px`,
-      height: `${size || height}px`,
-      marginTop: `${marginTop}px`,
-      marginRight: `${marginRight}px`,
+      width: this.sizeCheck(size || width),
+      height: this.sizeCheck(size || height),
+      marginTop: this.sizeCheck(marginTop),
+      marginRight: this.sizeCheck(marginRight),
     }
 
     return (
