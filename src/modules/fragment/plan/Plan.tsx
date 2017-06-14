@@ -1,10 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { set, alertMsg } from "redux/actions";
-import { pget } from "../../../utils/request";
-import "./Plan.less";
-import AssetImg from "../../../components/AssetImg";
 import { loadSelfPlans } from "./async";
+import AssetImg from "../../../components/AssetImg";
+import "./Plan.less";
 
 @connect(state => state)
 export default class Plan extends React.Component<any, any> {
@@ -53,18 +52,19 @@ export default class Plan extends React.Component<any, any> {
     );
   }
 
-  renderRunningPlans() {
-    const runningPlans = this.state.runningPlans;
-    return this.generatePlansView(runningPlans);
-  }
-
-  renderDonePlans() {
-    const donePlans = this.state.donePlans;
-    return this.generatePlansView(donePlans);
-  }
+  // renderRunningPlans() {
+  //   const runningPlans = this.state.runningPlans;
+  //   return this.generatePlansView(runningPlans);
+  // }
+  //
+  // renderDonePlans() {
+  //   const donePlans = this.state.donePlans;
+  //   return this.generatePlansView(donePlans);
+  // }
 
   render() {
-    console.log(this.state);
+    const {runningPlans, donePlans} = this.state
+
     return (
       <div className="plan-container">
         <div className="plan-content outer-wrapper">
@@ -73,12 +73,12 @@ export default class Plan extends React.Component<any, any> {
           </div>
           <div className="plan-plans">
             <span>进行中</span>
-            {this.renderRunningPlans()}
+            {this.generatePlansView(runningPlans)}
           </div>
           <div className="plan-splitline"/>
           <div className="plan-plans">
             <span>已完成</span>
-            {this.renderDonePlans()}
+            {this.generatePlansView(donePlans)}
           </div>
         </div>
       </div>
