@@ -80,7 +80,7 @@ const routes = (
       {/*<Route path="fragment/subject/list/mine" component={MineSubject}/>*/}
       {/*<Route path="fragment/subject/write" component={WriteSubject}/>*/}
       {/*<Route path="fragment/knowledge/show" component={KnowledgeView}/>*/}
-      {/*<Route path="servercode" component={ServerCode}/>*/}
+      <Route path="servercode" component={ServerCode}/>
       {/*</Route>*/}
       <Route component={BackendIndex}>
         <Route path="backend" component={BackendWelcome}/>
