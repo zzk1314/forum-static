@@ -1,18 +1,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Learn.less"
-import {renderExist,NumberToChinese,questionList} from "../../../utils/helpers";
-import {merge, isBoolean, get, isEmpty} from "lodash";
+import { renderExist, NumberToChinese, questionList } from "../../../utils/helpers";
+import { merge, isBoolean, get, isEmpty } from "lodash";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { loadPlan, completePlan, updateOpenRise, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
+import {
+  loadPlan, completePlan, updateOpenRise, markPlan,
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList
+} from "./async";
 import DropChoice from "../../../components/DropChoice";
 import Modal from "../../../components/Modal";
 import Sidebar from "../../../components/Sidebar"
 import AssetImg from "../../../components/AssetImg"
 import SwipeableViews from "../../../components/SwipeableViews"
 import AlertMessage from "../../../components/AlertMessage"
-
 
 const typeMap = {
   1: '巩固练习',
@@ -40,7 +41,7 @@ export default class PlanMain extends React.Component <any, any> {
       selectProblem: {},
       defeatPercent: 0,
       expired: false,
-      questionList:questionList,
+      questionList: questionList,
       showedPayTip: false,
       nextModal: {
         actions: [
@@ -56,27 +57,25 @@ export default class PlanMain extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-
   componentWillMount(newProps) {
     this.resize();
     const {dispatch, location} = this.props
 
     let {planId} = location.query
-    if(newProps){
+    if(newProps) {
       planId = newProps.location.query.planId
     }
-
 
     dispatch(startLoad())
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
-      if (code === 200) {
-        if (msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
+      if(code === 200) {
+        if(msg !== null) {
+          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem: msg.problem})
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/fragment/main' && msg.status === 3) {
-            this.setState({expired:true})
+            this.setState({expired: true})
           }
         } else {
           // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
@@ -94,32 +93,32 @@ export default class PlanMain extends React.Component <any, any> {
       }
       else dispatch(alertMsg(msg))
     }).then(() => this.riseMemberCheck()).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))}
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      }
     )
-    if(navigator.userAgent.indexOf('WindowsWechat') !== -1){
-      this.setState({windowsClient:true})
-    }else{
-      this.setState({windowsClient:false})
+    if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
+      this.setState({windowsClient: true})
+    } else {
+      this.setState({windowsClient: false})
     }
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
-    const { planId } = this.props.location.query;
-    queryChapterList(planId).then(res=>{
-      if(res.code === 200){
-        this.setState({chapterList:res.msg})
+    const {planId} = this.props.location.query;
+    queryChapterList(planId).then(res => {
+      if(res.code === 200) {
+        this.setState({chapterList: res.msg})
       }
     })
   }
 
-  componentWillReceiveProps(newProps){
-    if (this.props.location.query.planId !== newProps.location.query.planId) {
+  componentWillReceiveProps(newProps) {
+    if(this.props.location.query.planId !== newProps.location.query.planId) {
       this.componentWillMount(newProps)
     }
   }
-
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
@@ -137,9 +136,9 @@ export default class PlanMain extends React.Component <any, any> {
   riseMemberCheck() {
     const {dispatch} = this.props
     return isRiseMember().then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({riseMember: res.msg});
-        if (!res.msg) {
+        if(!res.msg) {
           setTimeout(() => {
             this.setState({riseMemberTips: true});
           }, 10)
@@ -151,35 +150,31 @@ export default class PlanMain extends React.Component <any, any> {
     });
   }
 
-
-
-
-
   handleClickPracticeSelected(item) {
     const {dispatch} = this.props
     const {planData, currentIndex} = this.state
     const {problemId, lockedStatus} = planData
     const {type, practicePlanId, planId, unlocked} = item
 
-    if (!unlocked) {
-      if (lockedStatus === -1) {
+    if(!unlocked) {
+      if(lockedStatus === -1) {
         dispatch(alertMsg('完成之前的任务，这一组才能解锁<br/> 学习和内化，都需要循序渐进哦'))
       }
-      if (lockedStatus === -2) {
+      if(lockedStatus === -2) {
         dispatch(alertMsg('试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧'))
       }
-      if (lockedStatus === -3) {
+      if(lockedStatus === -3) {
         dispatch(alertMsg('抱歉哦，课程开放期间，你未能完成前面的练习，导致这个练习无法解锁'))
       }
       return
     }
     //已解锁状态
-    if (type === 1 || type === 2) {
+    if(type === 1 || type === 2) {
       let integrated = true
-      if (type === 1) {
+      if(type === 1) {
         integrated = false
       }
-      if (item.status === 1) {
+      if(item.status === 1) {
         this.context ? this.context.router.push({
           pathname: '/fragment/warmup/analysis',
           query: {practicePlanId, currentIndex, integrated, planId}
@@ -190,30 +185,30 @@ export default class PlanMain extends React.Component <any, any> {
           query: {practicePlanId, currentIndex, integrated, planId}
         }) : null;
       }
-    } else if (type === 11) {
+    } else if(type === 11) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
         query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
       }) : null;
-    } else if (type === 12) {
+    } else if(type === 12) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
         query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}
       }) : null;
-    } else if (type === 21) {
+    } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/fragment/challenge',
         query: {id: item.practiceIdList[0], currentIndex, planId}
       }) : null;
-    } else if (type === 31) {
+    } else if(type === 31) {
       this.context ? this.context.router.push({
         pathname: '/fragment/knowledge',
         query: {practicePlanId, currentIndex, planId}
       }) : null;
-    } else if (type === 32) {
+    } else if(type === 32) {
       learnKnowledge(practicePlanId).then(res => {
         const {code, msg} = res
-        if (code === 200) {
+        if(code === 200) {
           this.context ? this.context.router.push({
             pathname: '/fragment/knowledge/review',
             query: {problemId, planId}
@@ -228,17 +223,17 @@ export default class PlanMain extends React.Component <any, any> {
     this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
   }
 
-  handleClickGoReport(){
+  handleClickGoReport() {
     const {planData = {}} = this.state;
-    const {status,reportStatus} = planData;
-    if(reportStatus === 3){
+    const {status, reportStatus} = planData;
+    if(reportStatus === 3) {
       this.context.router.push({
-        pathname:"/rise/static/plan/report",
-        query:this.props.location.query
+        pathname: "/rise/static/plan/report",
+        query: this.props.location.query
       })
     } else {
       this.context.router.push({
-        pathname:"/rise/static/problem/explore",
+        pathname: "/rise/static/problem/explore",
         // query:this.props.location.query
       })
     }
@@ -251,26 +246,26 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickComplete() {
-    const { dispatch,location } = this.props
-    const { planData = {} } = this.state;
+    const {dispatch, location} = this.props
+    const {planData = {}} = this.state;
     const {planId} = location.query
-    const {status,reportStatus} = planData;
+    const {status, reportStatus} = planData;
 
-    if(reportStatus === 3){
+    if(reportStatus === 3) {
       this.context.router.push({
-        pathname:'/rise/static/plan/report',
-        query:{planId:planId}
+        pathname: '/rise/static/plan/report',
+        query: {planId: planId}
       });
-    } else if(reportStatus === -1){
+    } else if(reportStatus === -1) {
       dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
     } else {
       dispatch(startLoad());
       completePlan(planId).then(res => {
         dispatch(endLoad());
-        const { code, msg } = res;
-        if (code === 200) {
+        const {code, msg} = res;
+        if(code === 200) {
           // 设置完成
-          if (planData.hasProblemScore) {
+          if(planData.hasProblemScore) {
             // 已经评分
             //
             // this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
@@ -282,13 +277,13 @@ export default class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
-          if(code===-1){
+          if(code === -1) {
             dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
           } else {
             dispatch(alertMsg(msg))
           }
         }
-      }).catch(ex=>{
+      }).catch(ex => {
         dispatch(endLoad());
         dispatch(alertMsg(ex));
       })
@@ -305,10 +300,10 @@ export default class PlanMain extends React.Component <any, any> {
     const {currentIndex} = this.state
     markPlan(currentIndex, planId)
   }
+
   handleClickCloseConfirmModal() {
     this.setState({showConfirmModal: false})
   }
-
 
   handleClickEssenceShare(problemId, series) {
     this.context.router.push({pathname: '/rise/static/practice/subject', query: {id: problemId, series}})
@@ -318,9 +313,8 @@ export default class PlanMain extends React.Component <any, any> {
     this.setState({showCompleteModal: false})
   }
 
-
   handleChangeSection(series) {
-    this.setState({currentIndex: series},()=>{
+    this.setState({currentIndex: series}, () => {
       const {location} = this.props
       const {planId} = location.query
       markPlan(series, planId)
@@ -328,17 +322,17 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickConfirmComplete(force) {
-    const {dispatch,location} = this.props;
+    const {dispatch, location} = this.props;
     const {planData, mustStudyDays} = this.state
     const {planId} = location.query
     const {doneAllIntegrated} = planData
-    if (!force && !doneAllIntegrated) {
+    if(!force && !doneAllIntegrated) {
       this.setState({showCompleteModal: false, showWarningModal: true})
       return
     }
     this.context.router.push({
-      pathname:'/rise/static/plan/report',
-      query:{planId:planId}
+      pathname: '/rise/static/plan/report',
+      query: {planId: planId}
     });
   }
 
@@ -348,14 +342,12 @@ export default class PlanMain extends React.Component <any, any> {
     })
   }
 
-
-
   handleClickTutorialEnd() {
     const {dispatch} = this.props
     const {planData} = this.state
     updateOpenRise().then(res => {
       const {code, msg} = res
-      if (code === 200) {
+      if(code === 200) {
         this.setState({planData: merge({}, planData, {openRise: true})})
       } else {
         dispatch(alertMsg(msg))
@@ -367,14 +359,13 @@ export default class PlanMain extends React.Component <any, any> {
     this.context.router.push({pathname: '/rise/static/message/center'})
   }
 
-
   handleClickSubmitScore(questionList) {
     const {selectProblem, planData} = this.state;
     const {dispatch} = this.props;
     let problemScores = questionList.map(item => {
       let selectedChoice;
       item.choiceList.forEach(choice => {
-        if (choice.selected) {
+        if(choice.selected) {
           selectedChoice = choice.id;
         }
       });
@@ -394,9 +385,6 @@ export default class PlanMain extends React.Component <any, any> {
 
   }
 
-
-
-
   renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point) {
     let modalList = [];
     // modalList.add(
@@ -404,7 +392,7 @@ export default class PlanMain extends React.Component <any, any> {
     // );
     modalList.push(
       <Modal show={false}
-             buttons={[{click: () => this.handleClickGoReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
+             buttons={[{click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}`}]}
              key={0}
       >
         <div className="content">
@@ -418,28 +406,25 @@ export default class PlanMain extends React.Component <any, any> {
     );
     modalList.push(
       <AlertMessage { ...this.state.nextModal }
-        open={!!showWarningModal}
-        key={1}
-        handleClose={()=>this.setState({showWarningModal:false})}
-        content="我们发现你的综合练习还没有完成，这会影响你的学习报告内容,建议先返回完成它们"
+                    open={!!showWarningModal}
+                    key={1}
+                    handleClose={() => this.setState({showWarningModal: false})}
+                    content="我们发现你的综合练习还没有完成，这会影响你的学习报告内容,建议先返回完成它们"
       />
     );
     return modalList;
 
   }
 
-
   renderSection(item, idx) {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
     const {location} = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
-
-
 
     return (
       <div key={idx}>
@@ -457,18 +442,19 @@ export default class PlanMain extends React.Component <any, any> {
           {windowsClient ?
             <div className="submit-btn-footer">
               <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`}
-                   onClick={()=>this.handleChangeSection(item.series-1)}>上一节
+                   onClick={() => this.handleChangeSection(item.series - 1)}>上一节
               </div>
               { item.series !== totalSeries ?
-                <div className={`right`} onClick={()=>this.handleChangeSection(item.series+1)}>下一节</div> : null }
+                <div className={`right`} onClick={() => this.handleChangeSection(item.series + 1)}>下一节</div> : null }
               { item.series === totalSeries ?
-                <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.handleClickComplete()}>
+                <div className={`right ${reportStatus < 0 ? 'grey' : ''}`} onClick={() => this.handleClickComplete()}>
                   学习报告</div> : null }
             </div>
             : null}
           { item.series === totalSeries && !windowsClient ?
-            <div className={`submit-btn-footer ${reportStatus<0?'grey':''}`} onClick={()=>this.handleClickComplete()}>
-              学习报告</div>: null}
+            <div className={`submit-btn-footer ${reportStatus < 0 ? 'grey' : ''}`}
+                 onClick={() => this.handleClickComplete()}>
+              学习报告</div> : null}
           <div className="padding-footer"></div>
         </div>
       </div>
@@ -478,15 +464,14 @@ export default class PlanMain extends React.Component <any, any> {
   renderSidebar() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
     const {location} = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
 
-
-    if(selectProblem){
+    if(selectProblem) {
       return (
         <div className="plan-side-bar">
           <div className="side-header-title">
@@ -532,7 +517,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   renderPractice(list = []) {
-    if (!list) {
+    if(!list) {
       return null
     } else {
       return list.map((item, index) => {
@@ -580,13 +565,12 @@ export default class PlanMain extends React.Component <any, any> {
   render() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired,style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
     const {location} = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
-
 
     return (
       <div className="rise-main outer-wrapper">
@@ -594,8 +578,10 @@ export default class PlanMain extends React.Component <any, any> {
         {/* 打分 */}
         {renderExist(showScoreModal,
           <DropChoice
-            onSubmit={(questionList)=>this.handleClickSubmitScore(questionList)}
-            onClose={()=>this.setState({  showScoreModal: false },()=>{this.handleClickConfirmComplete()})}
+            onSubmit={(questionList) => this.handleClickSubmitScore(questionList)}
+            onClose={() => this.setState({showScoreModal: false}, () => {
+              this.handleClickConfirmComplete()
+            })}
             questionList={this.state.questionList}
           />
         )}
@@ -603,80 +589,80 @@ export default class PlanMain extends React.Component <any, any> {
         {this.renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point)}
         {/* 主页面内容 */}
         {renderExist(
-            showEmptyPage,
-            (
-              <div className="empty-container">
-                <div className="empty-img">
-                  <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150px'}}/>
-                </div>
-                <div className="empty-text">
-                  <span>没有正在学习的小课哦，</span><br/>
-                  <span>点击按钮去选课吧！</span>
-                </div>
-                <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+          showEmptyPage,
+          (
+            <div className="empty-container">
+              <div className="empty-img">
+                <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150px'}}/>
               </div>
-            ),
-            (
-              <div className="rise-main">
-                <div className="side-bar-container">
-                  <div className="side-bar">
-                    { this.renderSidebar(selectProblem) }
-                  </div>
-                  <div className="side-bar-content">
-                    <div className="header-img">
-                      <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
-                      {renderExist(isBoolean(riseMember) && !riseMember,
-                        <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                             onClick={() => this.handleClickRiseMemberTips()}>
-                        </div>)}
-                      <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
-                        <div className="section-title">
-                          <span className="plan-section-title">{problem.problem}</span>
-                          <div className="problem-describe" onClick={()=>this.handleClickProblemReview(problem.id)}>
-                            小课介绍
-                          </div>
+              <div className="empty-text">
+                <span>没有正在学习的小课哦，</span><br/>
+                <span>点击按钮去选课吧！</span>
+              </div>
+              <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+            </div>
+          ),
+          (
+            <div className="rise-main">
+              <div className="side-bar-container">
+                <div className="side-bar">
+                  { this.renderSidebar(selectProblem) }
+                </div>
+                <div className="side-bar-content">
+                  <div className="header-img">
+                    <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
+                    {renderExist(isBoolean(riseMember) && !riseMember,
+                      <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                           onClick={() => this.handleClickRiseMemberTips()}>
+                      </div>)}
+                    <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
+                      <div className="section-title">
+                        <span className="plan-section-title">{problem.problem}</span>
+                        <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
+                          小课介绍
                         </div>
-                        <div className="section-info">
+                      </div>
+                      <div className="section-info">
+                        <div className="section">
+                          <label>已完成:</label> {completeSeries}/{totalSeries}节训练
+                        </div>
+                        {renderExist(riseMember,
                           <div className="section">
-                            <label>已完成:</label> {completeSeries}/{totalSeries}节训练
+                            <label>距关闭:</label> {deadline}天
                           </div>
-                          {renderExist(riseMember,
-                            <div className="section">
-                              <label>距关闭:</label> {deadline}天
-                            </div>
-                          )}
-                          <div className="section">
-                            <label>总得分:</label> {point} 分
-                          </div>
+                        )}
+                        <div className="section">
+                          <label>总得分:</label> {point} 分
                         </div>
                       </div>
                     </div>
-                    {/*<div className="function-menu">*/}
-                    {/*<div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>*/}
-                    {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
-                    {/*<span>小课论坛</span>*/}
-                    {/*</div>*/}
-                    {/*<div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>*/}
-                    {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
-                    {/*<span>小课介绍</span>*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
-                    {renderExist(!isEmpty(planData),
-                      (
-                        <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
-                          <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                                          onTransitionEnd={() => this.handleSwipeTransitionEnd()}
-                                          onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
-                            {renderExist(sections, sections.map((item, idx) => {
-                              return this.renderSection(item, idx,windowsClient,totalSeries)
-                            }))}
-                          </SwipeableViews>
-                        </div>
-                      ))}
                   </div>
+                  {/*<div className="function-menu">*/}
+                  {/*<div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>*/}
+                  {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
+                  {/*<span>小课论坛</span>*/}
+                  {/*</div>*/}
+                  {/*<div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>*/}
+                  {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
+                  {/*<span>小课介绍</span>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {renderExist(!isEmpty(planData),
+                    (
+                      <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
+                        <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                                        onTransitionEnd={() => this.handleSwipeTransitionEnd()}
+                                        onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
+                          {renderExist(sections, sections.map((item, idx) => {
+                            return this.renderSection(item, idx, windowsClient, totalSeries)
+                          }))}
+                        </SwipeableViews>
+                      </div>
+                    ))}
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
       </div>
     );
   }
