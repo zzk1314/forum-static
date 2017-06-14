@@ -375,10 +375,10 @@ export default class Application extends React.Component<any, any> {
         {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
         { showDisable ?
-          <div className="button-footer disabled">提交中</div>
+          <div className="button-footer small disabled">提交中</div>
           :
           edit ?
-            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>
+            <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div>
             :
             null
         }
