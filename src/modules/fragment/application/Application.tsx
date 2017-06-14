@@ -43,6 +43,11 @@ export default class Application extends React.Component<any, any> {
     };
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+
   componentWillMount() {
     const {location,dispatch} = this.props;
     const {state} = location;
@@ -146,7 +151,7 @@ export default class Application extends React.Component<any, any> {
   goComment(submitId) {
     const {goBackUrl} = this.state;
     this.context.router.push({
-      pathname: "/rise/static/practice/application/comment",
+      pathname: "/fragment/application/comment",
       query: merge({submitId: submitId}, this.props.location.query),
       state: {goBackUrl}
     });
