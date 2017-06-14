@@ -7,6 +7,8 @@ import "./RiseBase.less"
 import NavigatorBar from  "../../components/NavigatorBar";
 import AlertMessage from "../../components/AlertMessage"
 import AssetImg from "../../components/AssetImg"
+import VerticalBarLoading from "../../components/Loading"
+import {isPending, renderExist} from "../../utils/helpers";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -42,6 +44,9 @@ export default class Main extends React.Component<any, any> {
         <div className="rise-base">
           <NavigatorBar/>
           <div className="min-width">{this.props.children}</div>
+          {renderExist(isPending(this.props,'base.loading'),
+            <VerticalBarLoading/>
+          )}
           <div className={`pc-icon ${this.props.showHomeIcon?'show':''}`} onClick={()=>this.handleClickGoRiseHome()}>
             <AssetImg type="pc_home_icon" size={50}/>
             <span>小课首页</span>

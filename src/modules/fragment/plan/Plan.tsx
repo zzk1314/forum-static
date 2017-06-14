@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { set, alertMsg } from "redux/actions";
+import { set, alertMsg,startLoad,endLoad } from "redux/actions";
 import { pget } from "../../../utils/request";
 import "./Plan.less";
 import AssetImg from "../../../components/AssetImg";
@@ -22,10 +22,15 @@ export default class Plan extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    const {dispatch} = this.props;
+    dispatch(startLoad());
     loadSelfPlans().then(res => {
+      dispatch(endLoad());
       if(res.code === 200) {
         this.setState({donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans})
       }
+    }).catch(ex=>{
+      dispatch(endLoad());
     });
   }
 
