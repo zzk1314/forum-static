@@ -57,6 +57,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               this.setState({discuss: res.msg})
             }
           });
+          dispatch(endLoad())
         } else {
           dispatch(endLoad())
           dispatch(alertMsg(res.msg))
