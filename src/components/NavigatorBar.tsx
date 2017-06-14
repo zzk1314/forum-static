@@ -79,7 +79,7 @@ export default class NavigatorBar extends React.Component<any,any>{
           <div className="nav-list">
             <div className={`nav-item ${this.state.activeNav===NavType.Home?'active':''}`} onClick={()=>this.handleClickNav(NavType.Home)}>首页</div>
             <div className={`nav-item ${this.state.activeNav===NavType.Rise?'active':''}`} onClick={()=>this.handleClickNav(NavType.Rise)}>RISE</div>
-            <div className={`nav-item ${this.state.activeNav===NavType.Forum?'active':''}`} onClick={()=>this.handleClickNav(NavType.Forum)}>论坛</div>
+            {/*<div className={`nav-item ${this.state.activeNav===NavType.Forum?'active':''}`} onClick={()=>this.handleClickNav(NavType.Forum)}>论坛</div>*/}
           </div>
         </div>
         <div className="user-info" style={{width:this.state.size.userInfoWidth}}>

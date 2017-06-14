@@ -192,17 +192,18 @@ export default class WarmUp extends React.Component<any, any> {
     }
 
     return (
-      <div>
+      <div className="container">
         {showKnowledge ?
           <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
-          <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
+          <div style={{height: "100%"}}>
+            <div className="has-footer" ref={'warmup'}>
               <div className="warm-up">
                 {practice[currentIndex] ?
                   <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>
+            {/*<div className="button-footer" style={{marginBottom: "50px"}}>*/}
             <div className="button-footer">
               <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
               </div>

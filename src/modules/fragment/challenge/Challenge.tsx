@@ -109,10 +109,7 @@ export default class Challenge extends React.Component<any, any> {
       if(edit) {
         return (
           <div className="no-comment">
-            <div className="content">
-              <div className="text">更喜欢电脑上提交?</div>
-              <div className="text">登录www.iquanwai.com/community</div>
-            </div>
+            <div className="content"></div>
           </div>
         )
       } else {
@@ -132,7 +129,7 @@ export default class Challenge extends React.Component<any, any> {
             <div className="page-header">{'小目标'}</div>
             <div className="intro-container">
               <div className="context-img">
-                <AssetImg url="https://static.iqycamp.com/images/fragment/challenge_practice_2.png" alt=""/>
+                <AssetImg url="https://static.iqycamp.com/images/fragment/challenge_practice_2.png" width="60%"/>
               </div>
               <div className="challenge-context">
                 <div>
@@ -165,13 +162,13 @@ export default class Challenge extends React.Component<any, any> {
                   />
                 </div> : null}
             </div>
+            {showDisable ?
+              <div className="button-footer disabled">提交中</div> :
+              edit ?
+                <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
+                null}
           </div>
         </div>
-        {showDisable ?
-          <div className="button-footer disabled">提交中</div> :
-          edit ?
-            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-            null}
       </div>
     )
   }

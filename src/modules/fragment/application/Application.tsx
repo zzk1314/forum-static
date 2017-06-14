@@ -268,10 +268,7 @@ export default class Application extends React.Component<any, any> {
       if(edit) {
         return (
           <div className="no-comment">
-            <div className="content">
-              <div className="text">更喜欢电脑上提交?</div>
-              <div className="text">登录www.iquanwai.com/community</div>
-            </div>
+            <div className="content"></div>
           </div>
         )
       } else {
@@ -320,7 +317,7 @@ export default class Application extends React.Component<any, any> {
               <div className="context-img">
                 <AssetImg
                   url={integrated == 'false' ? 'https://static.iqycamp.com/images/fragment/application_practice_2.png' : 'https://static.iqycamp.com/images/fragment/integrated_practice.png'}
-                  alt=""/>
+                  width="60%"/>
               </div>
               <div className="application-context">
                 <div className="section1">
@@ -370,18 +367,18 @@ export default class Application extends React.Component<any, any> {
               {!showOthers ? <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
+            { showDisable ?
+              <div className="button-footer small disabled">提交中</div>
+              :
+              edit ?
+                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div>
+                :
+                null
+            }
           </div>
         </div>
         {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
-        { showDisable ?
-          <div className="button-footer small disabled">提交中</div>
-          :
-          edit ?
-            <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div>
-            :
-            null
-        }
         <div className="main-toast">
           <Toast
             show={this.state.showDraftToast}

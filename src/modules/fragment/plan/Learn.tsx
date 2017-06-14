@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import "./Learn.less"
 import { renderExist, NumberToChinese, questionList } from "../../../utils/helpers";
 import { merge, isBoolean, get, isEmpty } from "lodash";
 import { set, startLoad, endLoad, alertMsg } from "redux/actions";
@@ -8,12 +7,13 @@ import {
   loadPlan, completePlan, updateOpenRise, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList
 } from "./async";
+import * as Async from "./async";
 import DropChoice from "../../../components/DropChoice";
 import Modal from "../../../components/Modal";
-import Sidebar from "../../../components/Sidebar"
 import AssetImg from "../../../components/AssetImg"
 import SwipeableViews from "../../../components/SwipeableViews"
 import AlertMessage from "../../../components/AlertMessage"
+import "./Learn.less"
 
 const typeMap = {
   1: '巩固练习',
@@ -69,7 +69,7 @@ export default class PlanMain extends React.Component <any, any> {
     }
 
     dispatch(startLoad())
-    loadPlan(planId).then(res => {
+    Async.loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
       if(code === 200) {
@@ -223,8 +223,8 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({module: "打点", function: "PC", action: "打开小课介绍", memo: problemId});
-    this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
+    // mark({module: "打点", function: "PC", action: "打开小课介绍", memo: problemId});
+    // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
   }
 
   handleClickGoReport() {
@@ -243,7 +243,10 @@ export default class PlanMain extends React.Component <any, any> {
     }
   }
 
+  // 提示购买信息
   handleClickRiseMemberTips() {
+    const {dispatch} = this.props;
+    dispatch(alertMsg(null, "请在手机微信上升级正式版"));
     // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
     //   window.location.href = `https://${window.location.hostname}/pay/pay`
     // })

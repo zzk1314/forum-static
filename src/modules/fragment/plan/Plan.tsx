@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { set, alertMsg, startLoad, endLoad } from "redux/actions";
-import AssetImg from "../../../components/AssetImg";
 import { loadSelfPlans } from "./async";
+import AssetImg from "../../../components/AssetImg";
 
 import "./Plan.less";
 
@@ -36,7 +36,7 @@ export default class Plan extends React.Component<any, any> {
 
   generatePlansView(plans) {
     if(!plans) {
-      return;
+      return
     }
     return (
       <div className="plan-problem-box">
@@ -46,9 +46,8 @@ export default class Plan extends React.Component<any, any> {
               <div className="plan-problem" key={index}
                    onClick={() =>
                      this.context.router.push({pathname: "/fragment/learn", query: {planId: item.planId}})
-                   }
-              >
-                <AssetImg width={200} height={120} url={item.pic}/>
+                   }>
+                <AssetImg width={210} height={98} url={item.pic}/>
                 <div className="plan-problem-desc">{item.name}</div>
               </div>
             );
@@ -58,22 +57,13 @@ export default class Plan extends React.Component<any, any> {
     );
   }
 
-  // renderRunningPlans() {
-  //   const runningPlans = this.state.runningPlans;
-  //   return this.generatePlansView(runningPlans);
-  // }
-  //
-  // renderDonePlans() {
-  //   const donePlans = this.state.donePlans;
-  //   return this.generatePlansView(donePlans);
-  // }
-
   render() {
     const {runningPlans, donePlans} = this.state
+    console.log(window.innerHeight);
 
     return (
       <div className="plan-container">
-        <div className="plan-content outer-wrapper">
+        <div className="plan-content outer-wrapper" style={{minHeight: window.innerHeight - 50}}>
           <div className="plan-header">
             我的小课
           </div>

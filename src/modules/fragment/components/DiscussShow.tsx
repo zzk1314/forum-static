@@ -16,6 +16,7 @@ export default class DiscussShow extends React.Component <any, any> {
     super()
     this.state = {
       show: false,
+      showCommentReplyArea: false
     }
   }
 
@@ -65,35 +66,37 @@ export default class DiscussShow extends React.Component <any, any> {
             {
               del === 1 ?
                 <div className="right">
-                  <AssetImg url="https://static.iqycamp.com/images/fragment/comment_reply_del.png" height={33} width={40} marginTop={-10}/>
+                  <AssetImg url="https://static.iqycamp.com/images/fragment/comment_reply_del.png" height={33}
+                            width={40} marginTop={-10}/>
                 </div> : null
             }
           </div>
           <div className="signature">{signature}</div>
           <div className="comment-content">{comment}</div>
-          {repliedComment && repliedDel != 1 && !isDel ? <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
+          {repliedComment && repliedDel != 1 && !isDel ?
+            <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           {
             isDel ? null :
-            <div className="function-area">
-              {isMine ?
-                <div className="function-div" style={{marginRight: 5}}>
-                  <AssetImg type="delete" height={15} width={15}/>
-                  <div className="function-button hover-cursor" onClick={() => this.setState({show: true})}>
-                    删除
-                  </div>
+              <div className="function-area">
+                {isMine ?
+                  <div className="function-div" style={{marginRight: 5}}>
+                    <AssetImg type="delete" height={15} width={15}/>
+                    <div className="function-button hover-cursor" onClick={() => this.setState({show: true})}>
+                      删除
+                    </div>
                     <AlertMessage { ...alertProps }
-                           open={show}
-                           title="确认要删除评论吗？"
+                                  open={show}
+                                  title="确认要删除评论吗？"
                     >
                     </AlertMessage>
-                </div> : null}
-              <div className="function-div" onClick={() => reply()}>
-                <AssetImg type="reply" height={12} width={15}/>
-                <div className="function-button hover-cursor">
-                  回复
+                  </div> : null}
+                <div className="function-div" onClick={() => reply()}>
+                  <AssetImg type="reply" height={12} width={15}/>
+                  <div className="function-button hover-cursor">
+                    回复
+                  </div>
                 </div>
               </div>
-            </div>
           }
         </div>
       </div>

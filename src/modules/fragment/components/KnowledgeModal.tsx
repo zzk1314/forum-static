@@ -57,11 +57,13 @@ export default class KnowledgeModal extends React.Component<any, any> {
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
-            { pic ? <div className="context-img"><img src={pic}/></div> : null }
+            { pic ? <div className="context-img" style={{textAlign: "center"}}>
+              <AssetImg url={pic} width="60%"/>
+            </div> : null }
             { analysis?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
+                    <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
                   <div className="text">
                     <pre>{analysis}</pre>
@@ -72,7 +74,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
             { means?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
+                    <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                   </div>
                   <div className="text">
                     <pre>{means}</pre>
@@ -83,7 +85,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
             {keynote ?
                 <div>
                     <div className="context-title-img">
-                      <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
+                      <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                     </div>
                     <div className="text">
                       <pre>{keynote}</pre>
@@ -93,7 +95,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
             {example ?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
+                    <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
                   </div>
                   <div className="question">
                     <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>
