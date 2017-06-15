@@ -102,7 +102,7 @@ export default class ChallengeList extends React.Component<any,any> {
           if (_.isEqual(res.code, 200)) {
             this.setState({voteCount: Number(voteCount) + 1, voteStatus: 1})
           }
-        }).catch(err => console.log(err));
+        }).catch(err => console.error(err));
     }
   }
 

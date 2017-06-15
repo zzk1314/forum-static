@@ -59,8 +59,6 @@ export default class Plan extends React.Component<any, any> {
 
   render() {
     const {runningPlans, donePlans} = this.state
-    console.log(window.innerHeight);
-
     return (
       <div className="plan-container">
         <div className="plan-content outer-wrapper" style={{minHeight: window.innerHeight - 50}}>

@@ -30,14 +30,12 @@ export default class NavigatorBar extends React.Component<any, any> {
   handleClickNav(navId) {
     switch(navId) {
       case NavType.Home: {
-        console.log('切换到 home');
         this.setState({activeNav: NavType.Home}, () => {
           this.context.router.push({pathname: '/home'})
         })
         break;
       }
       case NavType.Rise: {
-        console.log('切换到 Rise');
         this.setState({activeNav: NavType.Rise}, () => {
           this.context.router.push({pathname: '/fragment/plan'})
         })
@@ -45,7 +43,6 @@ export default class NavigatorBar extends React.Component<any, any> {
 
       }
       case NavType.Forum: {
-        console.log('切换到 Forum');
         this.setState({activeNav: NavType.Forum})
         break;
       }

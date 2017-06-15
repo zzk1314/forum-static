@@ -226,7 +226,6 @@ export default class Application extends React.Component<any, any> {
       if(code === 200) {
         loadApplicationPractice(location.query.id, planId).then(res => {
           const {code, msg} = res;
-          console.log(msg);
           if(code === 200) {
             this.setState({
               data: msg,

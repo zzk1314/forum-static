@@ -164,7 +164,6 @@ export default class Comment extends React.Component<any, any> {
   }
 
   reply(item) {
-    console.log('item', item)
     this.setState({
       id: item.id,
       placeholder: '回复 ' + item.name + ":",
