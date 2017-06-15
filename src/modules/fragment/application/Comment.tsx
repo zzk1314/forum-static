@@ -21,7 +21,8 @@ export default class Comment extends React.Component<any, any> {
       editDisable: false,
       commentList: [],
       article: {},
-      placeholder: '和作者切磋讨论一下吧'
+      placeholder: '和作者切磋讨论一下吧',
+      showSelfDiscuss: false
     };
     this.commentHeight = window.innerHeight;
   }
@@ -156,13 +157,14 @@ export default class Comment extends React.Component<any, any> {
 
   openWriteBox() {
     this.setState({
-      showDiscuss: true, content: '',
+      showSelfDiscuss: true, content: '',
       isReply: false,
       placeholder: '和作者切磋讨论一下吧'
     })
   }
 
   reply(item) {
+    console.log('item', item)
     this.setState({
       id: item.id,
       placeholder: '回复 ' + item.name + ":",
@@ -192,10 +194,14 @@ export default class Comment extends React.Component<any, any> {
   }
 
   cancel() {
-    const {showDiscuss} = this.state;
-    if(showDiscuss) {
+    const {showDiscuss, showSelfDiscuss} = this.state;
+
+    if(showDiscuss || showSelfDiscuss) {
       this.setState({
-        showDiscuss: false
+        showDiscuss: false,
+        showSelfDiscuss: false,
+        isReply: false,
+        id: null
       })
     }
   }
@@ -208,13 +214,24 @@ export default class Comment extends React.Component<any, any> {
         return (
           commentList.map((item, seq) => {
             return (
-              <DiscussShow
-                discuss={item} key={seq}
-                reply={() => {
-                  this.reply(item);
-                }}
-                onDelete={this.onDelete.bind(this, item.id)}
-              />
+              <div key={seq}>
+                <DiscussShow
+                  discuss={item} key={seq}
+                  reply={() => {
+                    this.reply(item);
+                  }}
+                  onDelete={this.onDelete.bind(this, item.id)}
+                />
+                {
+                  this.state.showDiscuss && item.id === this.state.id ?
+                    <Discuss
+                      isReply={isReply} placeholder={placeholder}
+                      submit={() => this.onSubmit()}
+                      onChange={(v) => this.onChange(v)}
+                      cancel={() => this.cancel()}/> :
+                    null
+                }
+              </div>
             )
           })
         )
@@ -269,13 +286,12 @@ export default class Comment extends React.Component<any, any> {
             </div>
           </div>
           {
-            showDiscuss ?
+            this.state.showSelfDiscuss ?
               <Discuss
                 isReply={isReply} placeholder={placeholder}
                 submit={() => this.onSubmit()}
                 onChange={(v) => this.onChange(v)}
-                cancel={() => this.cancel()}
-              /> :
+                cancel={() => this.cancel()}/> :
               <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
                 <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
               </div>

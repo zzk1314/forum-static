@@ -38,9 +38,10 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {location} = this.props;
+    const {location, dispatch} = this.props;
     const {practicePlanId, integrated} = location.query;
     this.setState({integrated});
+    dispatch(startLoad());
     loadWarmUpAnalysis(practicePlanId).then(res => {
       const {code, msg} = res
       if(code === 200) {
@@ -62,8 +63,15 @@ export default class WarmUp extends React.Component<any, any> {
           // } else {
             this.setState({list: msg, practiceCount: msg.practice.length})
           // }
+          dispatch(endLoad());
         }
+      } else {
+        dispatch(endLoad());
+        dispatch(alertMsg(res.msg));
       }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     });
 
     getOpenStatus().then(res => {
@@ -203,7 +211,6 @@ export default class WarmUp extends React.Component<any, any> {
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>
-            {/*<div className="button-footer" style={{marginBottom: "50px"}}>*/}
             <div className="button-footer">
               <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
               </div>

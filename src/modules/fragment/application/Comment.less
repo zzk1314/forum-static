@@ -1,11 +1,11 @@
 @import "../../../style/variable";
 
-.application-comment{
+.application-comment {
   overflow: auto;
   height: 100%;
   margin: 0 50px;
   .article {
-    > .article-header{
+    > .article-header {
       width: 100%;
       min-height: 45px;
       font-size: @font_title;
@@ -19,13 +19,15 @@
       font-size: @font_context;
       padding: 10px 0;
     }
-    > .comment-header{
-      font-size:1.3em;
-      line-height:1.3em;
+    > .comment-header {
+      width: 100%;
+      position: absolute;
+      left: 18.75%;
+      padding-left: 50px;
+      font-size: 1.3em;
+      line-height: 1.3em;
       color: @color_help;
       background-color: @color_weak_background;
-      margin: 0 -15px 20px -15px;
-      padding-left: 15px;
     }
     .comment-header-feedback {
       color: #999;
@@ -39,42 +41,43 @@
       }
     }
   }
-  .comment-body{
+  .comment-body {
     padding: 0 15px 0 15px;
-    .on_message{
+    margin-top: 50px;
+    .on_message {
       color: @color_weak;
       font-size: @font_context;
       text-align: center;
       margin-top: 15px;
-      > .no_comment{
+      > .no_comment {
         margin-top: 125px;
       }
     }
   }
   .writeDiscuss {
     position: fixed;
-    height:55px;
-    width:55px;
-    left:15px;
+    height: 55px;
+    width: 55px;
+    left: 15px;
     bottom: 68px;
   }
-  >.comment-area{
+  > .comment-area {
     padding: 6px;
     width: 100%;
     position: absolute;
     bottom: 0;
     border-top: 1px solid @color_weak;
-    >.comment-right-area{
+    > .comment-right-area {
       margin-left: 6px;
       display: inline-block;
       vertical-align: top;
-      >.reply-tip{
+      > .reply-tip {
         font-size: 13px;
         line-height: 13px;
         margin-bottom: 15px;
         color: @color_weak;
       }
-      >.comment-button{
+      > .comment-button {
         background-color: @color_strong;
         border-radius: @border-radius;
         font-size: @font_click;
@@ -85,7 +88,7 @@
         text-align: center;
       }
     }
-    textarea{
+    textarea {
       width: ~"calc(100% - 72px)";
       border-radius: @border-radius;
       display: inline-block;
@@ -94,8 +97,8 @@
       font-size: @font_context;
       height: 80px;
       padding: 0 2px;
-      box-shadow:0 0 0 rgba(0,0,0,0);
-      -webkit-appearance:none;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      -webkit-appearance: none;
     }
   }
 

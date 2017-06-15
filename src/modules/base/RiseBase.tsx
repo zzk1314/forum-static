@@ -7,8 +7,10 @@ import NavigatorBar from  "../../components/NavigatorBar"
 import AlertMessage from "../../components/AlertMessage"
 import AssetImg from "../../components/AssetImg"
 import VerticalBarLoading from "../../components/Loading"
-import {isPending, renderExist} from "../../utils/helpers";
+import { isPending, renderExist } from "../../utils/helpers";
 import Loading from "../../components/Loading";
+import { style } from "./RiseBase";
+import { imgSrc } from "utils/imgSrc";
 
 import "./RiseBase.less";
 
@@ -45,14 +47,15 @@ export default class Main extends React.Component<any, any> {
       <MuiThemeProvider>
         <div className="rise-base">
           <NavigatorBar/>
-          <div className="min-width">{this.props.children}</div>
-          {renderExist(isPending(this.props,'base.loading'),
+          {renderExist(isPending(this.props, 'base.loading'),
             <Loading/>
           )}
-          <div className={`pc-icon ${this.props.showHomeIcon?'show':''}`} onClick={()=>this.handleClickGoRiseHome()}>
+          <div className={`pc-icon ${this.props.showHomeIcon ? 'show' : ''}`}
+               onClick={() => this.handleClickGoRiseHome()}>
             <AssetImg type="pc_home_icon" size={50}/>
             <span>小课首页</span>
           </div>
+          <div className="min-width">{this.props.children}</div>
           <AlertMessage
             open={this.props.base.showModal}
             modal={false}

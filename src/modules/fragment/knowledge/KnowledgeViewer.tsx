@@ -4,14 +4,20 @@ import _ from "lodash";
 
 import "./KnowledgeViewer.less";
 import { stat } from "fs";
-import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges, deleteKnowledgeDiscuss} from "./async"
+import {
+  loadDiscuss,
+  discussKnowledge,
+  loadKnowledge,
+  learnKnowledge,
+  loadKnowledges,
+  deleteKnowledgeDiscuss
+} from "./async"
 
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-
 
 const sequenceMap = {
   0: "A",
@@ -44,7 +50,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    {console.log(this.props)}
+    {
+      console.log(this.props)
+    }
     const {id, practicePlanId} = this.props.location.query
     const {dispatch} = this.props
     dispatch(startLoad())
@@ -83,12 +91,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   reply(item) {
     this.setState({
-      showDiscuss: true,
       isReply: true,
       placeholder: '回复 ' + item.name + ':',
       content: '',
       repliedId: item.id,
-      referenceId: item.knowledgeId
+      referenceId: item.knowledgeId,
+      showDiscuss: true,
     })
   }
 
@@ -99,9 +107,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         this.setState({
           discuss: res.msg,
           showDiscuss: false,
+          showSelfDiscuss: false,
           repliedId: 0,
           isReply: false,
-          placeholder: '提出你的疑问或意见吧（限300字）'
+          placeholder: '提出你的疑问或意见吧（限300字）',
         })
         scroll('.discuss', '.container')
       }
@@ -124,7 +133,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   cancel() {
     this.setState({
       placeholder: '提出你的疑问或意见吧（限300字）',
-      isReply: false, showDiscuss: false, repliedId: 0
+      isReply: false,
+      repliedId: 0,
+      showDiscuss: false,
+      showSelfDiscuss: false
     })
   }
 
@@ -158,7 +170,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onDelete(id) {
-
     let newDiscuss = [];
     let discuss = this.state.discuss;
     const {dispatch} = this.props
@@ -181,6 +192,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     });
   }
 
+  openWriteBox() {
+    this.setState({
+      showSelfDiscuss: true, content: '',
+      isReply: false,
+      placeholder: '提出你的疑问或意见吧（限300字）'
+    })
+  }
+
   complete() {
     const {location} = this.props
     learnKnowledge(location.query.practicePlanId).then(res => {
@@ -194,7 +213,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder} = this.state
+    const {showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder} = this.state
     const {analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic} = knowledge
     const {location} = this.props
     const {practicePlanId} = location.query
@@ -279,15 +298,31 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                          dangerouslySetInnerHTML={{__html: example.analysis}}/>
                   </div>
                   : <div className="analysis">
-                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({showTip: true})}>点击查看解析</div>
+                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({showTip: true})}>点击查看解析
+                    </div>
                   </div>}
               </div>
               : null}
             <div className="title-bar">问答</div>
             <div className="discuss">
-              {_.isEmpty(discuss) ? null : discuss.map((item,key) => {
+              {_.isEmpty(discuss) ? null : discuss.map((item, seq) => {
                 return (
-                  <DiscussShow discuss={item} reply={() => {this.reply(item)}} onDelete={() => this.onDelete(item.id)} key={key}/>
+                  <div key={seq}>
+                    <DiscussShow
+                      discuss={item}
+                      reply={() => {
+                        this.reply(item)
+                      }}
+                      onDelete={() => this.onDelete(item.id)} key={seq}/>
+                    {
+                      this.state.showDiscuss && this.state.repliedId === item.id ?
+                        <Discuss isReply={isReply} placeholder={placeholder}
+                                 submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                 cancel={() => this.cancel()}/> :
+                        null
+                    }
+                  </div>
+
                 )
               })}
               { discuss ? (discuss.length > 0 ?
@@ -307,14 +342,18 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {practicePlanId && !showDiscuss ?
+        {practicePlanId && !showDiscuss && !showSelfDiscuss ?
           <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
-        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                cancel={() => this.cancel()}/> :
-          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>}
+        {
+          this.state.showSelfDiscuss ?
+            <Discuss isReply={isReply} placeholder={placeholder}
+                     submit={() => this.onSubmit()}
+                     onChange={(v) => this.onChange(v)}
+                     cancel={() => this.cancel()}/> :
+            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>
+        }
       </div>
     )
 
