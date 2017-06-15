@@ -1,10 +1,11 @@
-import * as React from "react"
+import * as React from "react";
 import AssetImg from "../../../components/AssetImg";
+import "./ViewComponents.less";
 
 interface HomeIconProps {
   showHomeIcon: boolean;
 }
-export class HomeIcon extends React.Component<HomeIconProps, any> {
+export class RISE_HomeIcon extends React.Component<HomeIconProps, any> {
 
   constructor() {
     super()
@@ -33,4 +34,21 @@ export class HomeIcon extends React.Component<HomeIconProps, any> {
 
 }
 
+interface TitleBarProps {
+  content: string;
+}
+export class RISE_TitleBar extends React.Component<TitleBarProps, any> {
 
+  constructor() {
+    super()
+  }
+
+  render() {
+    return (
+      <div className="title-bar">
+        <span>{this.props.content}</span>
+      </div>
+    )
+  }
+
+}

@@ -6,6 +6,7 @@ import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeModal from "../components/KnowledgeModal"
+import { RISE_HomeIcon } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -38,17 +39,17 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {location, dispatch} = this.props;
-    const {practicePlanId, integrated} = location.query;
-    this.setState({integrated});
+    const { location, dispatch } = this.props;
+    const { practicePlanId, integrated } = location.query;
+    this.setState({ integrated });
     dispatch(startLoad());
     loadWarmUpAnalysis(practicePlanId).then(res => {
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
-        const {practice} = msg;
+        const { practice } = msg;
         if(practice) {
           let idx = findIndex(practice, (item) => {
-            const {choiceList} = item;
+            const { choiceList } = item;
             if(choiceList) {
               return choiceList.filter(choice => choice.selected).length > 0;
             } else {
@@ -61,7 +62,7 @@ export default class WarmUp extends React.Component<any, any> {
           //     query: location.query,
           //   })
           // } else {
-            this.setState({list: msg, practiceCount: msg.practice.length})
+          this.setState({ list: msg, practiceCount: msg.practice.length })
           // }
           dispatch(endLoad());
         }
@@ -76,14 +77,14 @@ export default class WarmUp extends React.Component<any, any> {
 
     getOpenStatus().then(res => {
       if(res.code === 200) {
-        this.setState({openStatus: res.msg});
+        this.setState({ openStatus: res.msg });
       }
     })
 
   }
 
   onChoiceSelected(choiceId) {
-    const {list, currentIndex, selected} = this.state
+    const { list, currentIndex, selected } = this.state
     const curPractice = list.practice[currentIndex]
     let _list = selected
     if(_list.indexOf(choiceId) > -1) {
@@ -91,31 +92,31 @@ export default class WarmUp extends React.Component<any, any> {
     } else {
       _list.push(choiceId)
     }
-    this.setState({selected: _list})
+    this.setState({ selected: _list })
   }
 
   setChoice(cb) {
-    let {list, currentIndex, selected} = this.state
+    let { list, currentIndex, selected } = this.state
     set(list, `practice.${currentIndex}.choice`, selected)
-    this.setState({list})
+    this.setState({ list })
     if(cb) {
       cb(list.practice)
     }
   }
 
   prev() {
-    const {currentIndex, list} = this.state
+    const { currentIndex, list } = this.state
     if(currentIndex > 0) {
       this.setChoice()
       const selected = list.practice[`${currentIndex - 1}`].choice
-      this.setState({currentIndex: currentIndex - 1, selected})
+      this.setState({ currentIndex: currentIndex - 1, selected })
     }
     this.refs.warmup.scrollTop = 0
   }
 
   next() {
-    const {dispatch} = this.props;
-    const {selected, list, currentIndex, practiceCount} = this.state;
+    const { dispatch } = this.props;
+    const { selected, list, currentIndex, practiceCount } = this.state;
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"));
       return
@@ -126,23 +127,23 @@ export default class WarmUp extends React.Component<any, any> {
       if(!selected) {
         selected = []
       }
-      this.setState({currentIndex: currentIndex + 1, selected})
+      this.setState({ currentIndex: currentIndex + 1, selected })
     }
     this.refs.warmup.scrollTop = 0
   }
 
   onSubmit() {
     const { dispatch } = this.props;
-    const {selected, practice, currentIndex, practiceCount} = this.state;
-    const {practicePlanId} = this.props.location.query;
+    const { selected, practice, currentIndex, practiceCount } = this.state;
+    const { practicePlanId } = this.props.location.query;
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"));
       return;
     }
     if(currentIndex === practiceCount - 1) {
       this.setChoice(p => {
-        answer({practice: p}, practicePlanId).then(res => {
-          const {code, msg} = res
+        answer({ practice: p }, practicePlanId).then(res => {
+          const { code, msg } = res
           if(code === 200) this.context.router.push({
             pathname: '/fragment/warmup/result',
             query: merge(msg, this.props.location.query)
@@ -156,14 +157,14 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   closeModal() {
-    this.setState({showKnowledge: false})
+    this.setState({ showKnowledge: false })
   }
 
   render() {
-    const {list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated} = this.state
-    const {practice = []} = list
+    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated } = this.state
+    const { practice = [] } = list
     const questionRender = (practice) => {
-      const {question, pic, choiceList = [], score = 0} = practice
+      const { question, pic, choiceList = [], score = 0 } = practice
       return (
         <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
@@ -176,20 +177,20 @@ export default class WarmUp extends React.Component<any, any> {
             <AssetImg url={pic} width="80%" height="80%"/></div> : null
           }
           <div className="question">
-            <div dangerouslySetInnerHTML={{__html: question}}></div>
+            <div dangerouslySetInnerHTML={{ __html: question }}></div>
           </div>
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
           {integrated == 'false' ?
-            <div className="knowledge-link hover-cursor" onClick={() => this.setState({showKnowledge: true})}>不确定?
+            <div className="knowledge-link hover-cursor" onClick={() => this.setState({ showKnowledge: true })}>不确定?
               瞄一眼知识点</div> : null}
         </div>
       )
     }
 
     const choiceRender = (choice, idx) => {
-      const {id, subject} = choice
+      const { id, subject } = choice
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(id)}>
@@ -199,11 +200,19 @@ export default class WarmUp extends React.Component<any, any> {
       )
     }
 
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <RISE_HomeIcon showHomeIcon={true}/>
+        </div>
+      )
+    }
+
     return (
       <div className="container">
         {showKnowledge ?
           <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
-          <div style={{height: "100%"}}>
+          <div style={{ height: "100%" }}>
             <div className="has-footer" ref={'warmup'}>
               <div className="warm-up">
                 {practice[currentIndex] ?
@@ -220,6 +229,7 @@ export default class WarmUp extends React.Component<any, any> {
             </div>
           </div>
         }
+        {renderOtherComponents()}
       </div>
     )
   }

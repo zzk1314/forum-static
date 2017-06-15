@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import "./Application.less";
 import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
@@ -10,12 +10,12 @@ import {
   autoUpdateApplicationDraft
 } from "./async";
 import Work from "../components/NewWork";
-import { findIndex, remove, isEmpty, isBoolean ,merge,set} from "lodash";
+import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
 import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
-
+import { RISE_HomeIcon } from "../commons/ViewComponents";
 
 let timer;
 
@@ -47,23 +47,22 @@ export default class Application extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-
   componentWillMount() {
-    const {location,dispatch} = this.props;
-    const {state} = location;
+    const { location, dispatch } = this.props;
+    const { state } = location;
     if(state) {
-      const {goBackUrl} = state
+      const { goBackUrl } = state
       if(goBackUrl) {
-        this.setState({goBackUrl})
+        this.setState({ goBackUrl })
       }
     }
-    const {integrated, id, planId} = this.props.location.query;
-    this.setState({integrated})
+    const { integrated, id, planId } = this.props.location.query;
+    this.setState({ integrated })
     loadApplicationPractice(id, planId).then(res => {
-      const {code, msg} = res;
+      const { code, msg } = res;
       if(code === 200) {
         if(res.msg.draftId) {
-          this.setState({draftId: res.msg.draftId})
+          this.setState({ draftId: res.msg.draftId })
         }
         this.setState({
           data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
@@ -76,23 +75,23 @@ export default class Application extends React.Component<any, any> {
         dispatch(endLoad())
         // 如果存在未提交的草稿，则显示提醒toast
         if(res.msg.draft) {
-          this.setState({showDraftToast: true}, () => {
+          this.setState({ showDraftToast: true }, () => {
             setTimeout(() => {
               let draftToast = document.getElementById("main-toast-draft");
               draftToast.style.opacity = 0;
             }, 1500);
             setTimeout(() => {
-              this.setState({showDraftToast: false});
+              this.setState({ showDraftToast: false });
             }, 3000);
           });
         }
 
-        const {content} = msg;
+        const { content } = msg;
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
-            const {code, msg} = res;
+            const { code, msg } = res;
             if(code === 200) {
-              this.setState({knowledge: msg})
+              this.setState({ knowledge: msg })
             } else {
               dispatch(alertMsg(msg))
             }
@@ -101,7 +100,7 @@ export default class Application extends React.Component<any, any> {
 
         if(content !== null) {
           this.refs.submitBar.scrollTop = 0
-          this.setState({edit: false})
+          this.setState({ edit: false })
         }
       } else {
         dispatch(alertMsg(msg))
@@ -112,12 +111,12 @@ export default class Application extends React.Component<any, any> {
 
     getOpenStatus().then(res => {
       if(res.code === 200) {
-        this.setState({openStatus: res.msg});
+        this.setState({ openStatus: res.msg });
       }
     })
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(timer)
   }
 
@@ -130,52 +129,52 @@ export default class Application extends React.Component<any, any> {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
           autoSaveApplicationDraft(planId, applicationId).then(res => {
-            this.setState({draftId: res.msg})
-            autoUpdateApplicationDraft(res.msg, {draft})
+            this.setState({ draftId: res.msg })
+            autoUpdateApplicationDraft(res.msg, { draft })
           })
         } else {
-          autoUpdateApplicationDraft(this.state.draftId, {draft})
+          autoUpdateApplicationDraft(this.state.draftId, { draft })
         }
       }
     }, 10000)
   }
 
   onEdit() {
-    this.setState({edit: true});
+    this.setState({ edit: true });
   }
 
   closeModal() {
-    this.setState({showKnowledge: false});
+    this.setState({ showKnowledge: false });
   }
 
   goComment(submitId) {
-    const {goBackUrl} = this.state;
+    const { goBackUrl } = this.state;
     this.context.router.push({
       pathname: "/fragment/application/comment",
-      query: merge({submitId: submitId}, this.props.location.query),
-      state: {goBackUrl}
+      query: merge({ submitId: submitId }, this.props.location.query),
+      state: { goBackUrl }
     });
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
     if(!voteStatus) {
       if(isMine) {
-        this.setState({data: merge({}, this.state.data, {voteCount: voteCount + 1, voteStatus: true})});
+        this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
       } else {
         let newOtherList = merge([], this.state.otherList);
         set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
         set(newOtherList, `[${seq}].voteStatus`, 1);
-        this.setState({otherList: newOtherList})
+        this.setState({ otherList: newOtherList })
       }
       vote(id);
     }
   }
 
   back() {
-    const {goBackUrl} = this.state;
-    const {location} = this.props;
+    const { goBackUrl } = this.state;
+    const { location } = this.props;
     if(goBackUrl) {
-      this.context.router.push({pathname: goBackUrl});
+      this.context.router.push({ pathname: goBackUrl });
     } else {
       this.context.router.push({
         pathname: '/rise/static/learn',
@@ -187,17 +186,17 @@ export default class Application extends React.Component<any, any> {
   }
 
   tutorialEnd() {
-    const {openStatus} = this.state;
+    const { openStatus } = this.state;
     openApplication().then(res => {
-      const {code, msg} = res;
+      const { code, msg } = res;
       if(code === 200) {
-        this.setState({openStatus: merge({}, openStatus, {openApplication: true})})
+        this.setState({ openStatus: merge({}, openStatus, { openApplication: true }) })
       }
     })
   }
 
   others() {
-    const {location} = this.props;
+    const { location } = this.props;
     loadOtherList(location.query.id, 1).then(res => {
       if(res.code === 200) {
         this.setState({
@@ -212,20 +211,20 @@ export default class Application extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const {dispatch, location} = this.props;
-    const {data, planId} = this.state;
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
     const answer = this.refs.editor.getValue();
-    const {submitId} = data;
+    const { submitId } = data;
     if(answer == null || answer.length === 0) {
       alert("请填写作业");
       return;
     }
-    this.setState({showDisable: true});
-    submitApplicationPractice(planId, location.query.id, {answer}).then(res => {
-      const {code, msg} = res;
+    this.setState({ showDisable: true });
+    submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
+      const { code, msg } = res;
       if(code === 200) {
         loadApplicationPractice(location.query.id, planId).then(res => {
-          const {code, msg} = res;
+          const { code, msg } = res;
           if(code === 200) {
             this.setState({
               data: msg,
@@ -234,17 +233,18 @@ export default class Application extends React.Component<any, any> {
               edit: false,
               editorValue: msg.content
             })
-          };
+          }
+          ;
           clearInterval(timer)
         })
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
     })
   }
 
   render() {
-    const {data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated} = this.state
-    const {topic, description, content, voteCount, submitId, voteStatus} = data
+    const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated } = this.state
+    const { topic, description, content, voteCount, submitId, voteStatus } = data
 
     const renderList = (list) => {
       if(list) {
@@ -292,14 +292,22 @@ export default class Application extends React.Component<any, any> {
       if(showOthers) {
         if(!end) {
           return (
-            <div className="show-more" style={{borderTop: "1px solid #efefef"}}>上拉加载更多消息</div>
+            <div className="show-more" style={{ borderTop: "1px solid #efefef" }}>上拉加载更多消息</div>
           )
         } else {
           return (
-            <div className="show-more" style={{borderTop: '1px solid #efefef'}}>没有更多了</div>
+            <div className="show-more" style={{ borderTop: '1px solid #efefef' }}>没有更多了</div>
           )
         }
       }
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <RISE_HomeIcon showHomeIcon={true}/>
+        </div>
+      )
     }
 
     return (
@@ -326,11 +334,11 @@ export default class Application extends React.Component<any, any> {
                 <div className="application-title">
                   <AssetImg type="app" size={15}/><span>今日应用</span>
                 </div>
-                <div className="section2" dangerouslySetInnerHTML={{__html: description}}>
+                <div className="section2" dangerouslySetInnerHTML={{ __html: description }}>
                 </div>
               </div>
               {integrated == 'false' ?
-                <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>
+                <div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>
                   点击查看知识点</div> : null
               }
             </div>
@@ -363,7 +371,8 @@ export default class Application extends React.Component<any, any> {
               {showOthers && !isEmpty(otherList) ? <div>
                 <div className="submit-bar">{'最新文章'}</div>
                 {renderList(otherList)}</div> : null}
-              {!showOthers ? <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
+              {!showOthers ?
+                <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
             { showDisable ?
@@ -387,6 +396,8 @@ export default class Application extends React.Component<any, any> {
             <div>已自动保存，可以继续编辑啦</div>
           </Toast>
         </div>
+
+        {renderOtherComponents()}
       </div>
     )
   }

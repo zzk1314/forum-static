@@ -18,6 +18,7 @@ import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { RISE_HomeIcon } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -53,16 +54,16 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     {
       console.log(this.props)
     }
-    const {id, practicePlanId} = this.props.location.query
-    const {dispatch} = this.props
+    const { id, practicePlanId } = this.props.location.query
+    const { dispatch } = this.props
     dispatch(startLoad())
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          this.setState({knowledge: res.msg[0], referenceId: res.msg[0].id})
+          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
           loadDiscuss(res.msg[0].id, 1).then(res => {
             if(res.code === 200) {
-              this.setState({discuss: res.msg})
+              this.setState({ discuss: res.msg })
             }
           });
           dispatch(endLoad())
@@ -74,11 +75,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     } else if(id) {
       loadKnowledge(id).then(res => {
         if(res.code === 200) {
-          this.setState({knowledge: res.msg})
+          this.setState({ knowledge: res.msg })
           dispatch(endLoad())
           loadDiscuss(id, 1).then(res => {
             if(res.code === 200) {
-              this.setState({discuss: res.msg})
+              this.setState({ discuss: res.msg })
             }
           });
         } else {
@@ -101,7 +102,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   reload() {
-    const {knowledge} = this.state;
+    const { knowledge } = this.state;
     loadDiscuss(knowledge.id, 1).then(res => {
       if(res.code === 200) {
         this.setState({
@@ -118,7 +119,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   writeDiscuss() {
-    this.setState({showDiscuss: true, repliedId: 0}, () => {
+    this.setState({ showDiscuss: true, repliedId: 0 }, () => {
       scroll(0, 0)
     });
     if(this.props.trigger) {
@@ -127,7 +128,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onChange(value) {
-    this.setState({content: value})
+    this.setState({ content: value })
   }
 
   cancel() {
@@ -141,7 +142,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const {referenceId, repliedId, content} = this.state;
+    const { referenceId, repliedId, content } = this.state;
     if(content.length == 0) {
       alert("请填写评论");
       return;
@@ -150,12 +151,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       alert("您的评论字数已超过300字");
       return;
     }
-    let discussBody = {comment: content, referenceId: this.state.knowledge.id};
+    let discussBody = { comment: content, referenceId: this.state.knowledge.id };
     if(repliedId) {
-      _.merge(discussBody, {repliedId: repliedId})
+      _.merge(discussBody, { repliedId: repliedId })
     }
     discussKnowledge(discussBody).then(res => {
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
         this.reload()
       }
@@ -172,7 +173,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   onDelete(id) {
     let newDiscuss = [];
     let discuss = this.state.discuss;
-    const {dispatch} = this.props
+    const { dispatch } = this.props
 
     dispatch(startLoad())
     deleteKnowledgeDiscuss(id).then(res => {
@@ -201,11 +202,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   complete() {
-    const {location} = this.props
+    const { location } = this.props
     learnKnowledge(location.query.practicePlanId).then(res => {
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
-        this.context.router.push({pathname: "/fragment/learn", query: this.props.location.query})
+        this.context.router.push({ pathname: "/fragment/learn", query: this.props.location.query })
       }
     }).catch(ex => {
       dispatch(alert())
@@ -213,13 +214,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder} = this.state
-    const {analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic} = knowledge
-    const {location} = this.props
-    const {practicePlanId} = location.query
+    const { showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
+    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
+    const { location } = this.props
+    const { practicePlanId } = location.query
 
     const choiceRender = (choice, idx) => {
-      const {id, subject} = choice
+      const { id, subject } = choice
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
@@ -234,13 +235,21 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     }
 
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <RISE_HomeIcon showHomeIcon={true}/>
+        </div>
+      )
+    }
+
     return (
       <div className={`knowledge-page`}>
         <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
-            { pic ? <div className="context-img" style={{textAlign: "center"}}>
+            { pic ? <div className="context-img" style={{ textAlign: "center" }}>
               <AssetImg url={pic} width="60%"/></div> :
               null }
             { analysis ?
@@ -282,7 +291,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
                 </div>
                 <div className="question">
-                  <div className="context" dangerouslySetInnerHTML={{__html: example.question}}/>
+                  <div className="context" dangerouslySetInnerHTML={{ __html: example.question }}/>
                 </div>
                 <div className="choice-list">
                   {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
@@ -295,10 +304,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                       正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                     </div>
                     <div className="context"
-                         dangerouslySetInnerHTML={{__html: example.analysis}}/>
+                         dangerouslySetInnerHTML={{ __html: example.analysis }}/>
                   </div>
                   : <div className="analysis">
-                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({showTip: true})}>点击查看解析
+                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({ showTip: true })}>点击查看解析
                     </div>
                   </div>}
               </div>
@@ -354,6 +363,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>
         }
+        {renderOtherComponents()}
       </div>
     )
 

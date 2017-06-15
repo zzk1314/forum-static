@@ -7,6 +7,7 @@ import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
 import { merge } from "lodash";
 import AssetImg from "../../../components/AssetImg";
+import { RISE_HomeIcon } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Challenge extends React.Component<any, any> {
@@ -31,23 +32,23 @@ export default class Challenge extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props
-    const {state} = location
+    const { dispatch, location } = this.props
+    const { state } = location
     if(state) {
-      const {goBackUrl} = state
+      const { goBackUrl } = state
       if(goBackUrl) {
-        this.setState({goBackUrl})
+        this.setState({ goBackUrl })
       }
     }
     dispatch(startLoad())
     loadChallengePractice(location.query.id).then(res => {
       dispatch(endLoad())
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
-        const {content} = msg
-        this.setState({data: msg, submitId: msg.submitId, planId: msg.planId})
+        const { content } = msg
+        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId })
         if(content !== null) {
-          this.setState({edit: false})
+          this.setState({ edit: false })
         }
       } else {
         dispatch(alertMsg(msg))
@@ -63,47 +64,47 @@ export default class Challenge extends React.Component<any, any> {
   }
 
   onEdit() {
-    this.setState({edit: true})
+    this.setState({ edit: true })
   }
 
   onSubmit() {
-    const {dispatch, location} = this.props;
-    const {data, planId} = this.state;
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
     const answer = this.refs.editor.getValue();
-    const {submitId} = data;
+    const { submitId } = data;
     if(answer == null || answer.length === 0) {
       dispatch(alertMsg('请填写作业'));
       return;
     }
-    this.setState({showDisable: true});
-    submitChallengePractice(planId, location.query.id, {answer}).then(res => {
-      const {code, msg} = res
+    this.setState({ showDisable: true });
+    submitChallengePractice(planId, location.query.id, { answer }).then(res => {
+      const { code, msg } = res
       if(code === 200) {
         dispatch(startLoad());
         loadChallengePractice(location.query.id).then(res => {
           dispatch(endLoad());
-          const {code, msg} = res
+          const { code, msg } = res
           if(code === 200) {
-            this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false})
+            this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: false })
           }
           else dispatch(alertMsg(msg))
         })
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
       else {
         dispatch(alertMsg(msg))
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-      this.setState({showDisable: false})
+      this.setState({ showDisable: false })
     });
   }
 
   render() {
-    const {data, edit, showDisable} = this.state;
-    const {content} = data;
+    const { data, edit, showDisable } = this.state;
+    const { content } = data;
 
     const renderTip = () => {
       if(edit) {
@@ -120,6 +121,14 @@ export default class Challenge extends React.Component<any, any> {
           </div>
         )
       }
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <RISE_HomeIcon showHomeIcon={true}/>
+        </div>
+      )
     }
 
     return (
@@ -169,6 +178,7 @@ export default class Challenge extends React.Component<any, any> {
                 null}
           </div>
         </div>
+        {renderOtherComponents()}
       </div>
     )
   }
