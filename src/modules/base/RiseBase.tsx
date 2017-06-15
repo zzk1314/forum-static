@@ -5,21 +5,13 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import NavigatorBar from  "../../components/NavigatorBar"
 import AlertMessage from "../../components/AlertMessage"
-import AssetImg from "../../components/AssetImg"
-import VerticalBarLoading from "../../components/Loading"
-import { isPending, renderExist } from "../../utils/helpers";
 import Loading from "../../components/Loading";
-import { style } from "./RiseBase";
-import { imgSrc } from "utils/imgSrc";
 
 import "./RiseBase.less";
+import { isPending, renderExist } from "../../utils/helpers";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
 
   constructor() {
     super()
@@ -28,34 +20,17 @@ export default class Main extends React.Component<any, any> {
     };
   }
 
-  componentWillMount() {
-    const {dispatch} = this.props;
-    dispatch(set("showHomeIcon", false));
-  }
-
-  handleClickGoRiseHome() {
-    this.context.router.push("/fragment/learn");
-  }
-
   closeBaseAlert() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(set("base.showModal", false));
   }
 
   render() {
-    return (
-      <MuiThemeProvider>
-        <div className="rise-base">
-          <NavigatorBar/>
-          {renderExist(isPending(this.props, 'base.loading'),
-            <Loading/>
-          )}
-          <div className={`pc-icon ${this.props.showHomeIcon ? 'show' : ''}`}
-               onClick={() => this.handleClickGoRiseHome()}>
-            <AssetImg type="pc_home_icon" size={50}/>
-            <span>小课首页</span>
-          </div>
-          <div className="min-width">{this.props.children}</div>
+
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          {renderExist(isPending(this.porps, 'base.loading'), <Loading/>)}
           <AlertMessage
             open={this.props.base.showModal}
             modal={false}
@@ -63,6 +38,16 @@ export default class Main extends React.Component<any, any> {
             title={this.props.base.alertMsg.title}
             handleClose={() => this.closeBaseAlert()}
           />
+        </div>
+      )
+    }
+
+    return (
+      <MuiThemeProvider>
+        <div className="rise-base">
+          <NavigatorBar/>
+          <div className="min-width">{this.props.children}</div>
+          {renderOtherComponents()}
         </div>
       </MuiThemeProvider>
     )

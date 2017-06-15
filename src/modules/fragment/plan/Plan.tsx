@@ -22,15 +22,16 @@ export default class Plan extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(startLoad());
     loadSelfPlans().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans})
+        this.setState({ donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans })
       }
     }).catch(ex => {
       dispatch(endLoad());
+      console.error(ex);
     });
   }
 
@@ -40,28 +41,26 @@ export default class Plan extends React.Component<any, any> {
     }
     return (
       <div className="plan-problem-box">
-        {
-          plans.map((item, index) => {
-            return (
-              <div className="plan-problem" key={index}
-                   onClick={() =>
-                     this.context.router.push({pathname: "/fragment/learn", query: {planId: item.planId}})
-                   }>
-                <AssetImg width={210} height={98} url={item.pic}/>
-                <div className="plan-problem-desc">{item.name}</div>
-              </div>
-            );
-          })
-        }
+        {plans.map((item, index) => {
+          return (
+            <div className="plan-problem" key={index}
+                 onClick={() =>
+                   this.context.router.push({ pathname: "/fragment/learn", query: { planId: item.planId } })
+                 }>
+              <AssetImg width={210} height={98} url={item.pic}/>
+              <div className="plan-problem-desc">{item.name}</div>
+            </div>
+          );
+        })}
       </div>
     );
   }
 
   render() {
-    const {runningPlans, donePlans} = this.state
+    const { runningPlans, donePlans } = this.state
     return (
       <div className="plan-container">
-        <div className="plan-content outer-wrapper" style={{minHeight: window.innerHeight - 50}}>
+        <div className="plan-content" style={{ minHeight: window.innerHeight - 50 }}>
           <div className="plan-header">
             我的小课
           </div>

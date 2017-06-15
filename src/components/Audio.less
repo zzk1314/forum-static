@@ -1,7 +1,8 @@
 @import "../style/variable";
+
 .audio {
   margin: 20px auto;
-  width: 60%;
+  width: 80%;
   height: 36px;
   border: 1px solid #e7e7e7;
   background-color: #fff;
@@ -10,6 +11,12 @@
   border-radius: @border-radius;
   .audio-container {
     padding: 0 5px;
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
   }
   & > * {
     vertical-align: middle;
@@ -25,6 +32,7 @@
     }
   }
   .audio-duration {
+    flex-basis: 100px;
     display: inline-block;
     font-size: 11px;
     height: 36px;

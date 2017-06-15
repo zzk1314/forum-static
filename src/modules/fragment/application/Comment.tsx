@@ -227,7 +227,7 @@ export default class Comment extends React.Component<any, any> {
                       isReply={isReply} placeholder={placeholder}
                       submit={() => this.onSubmit()}
                       onChange={(v) => this.onChange(v)}
-                      cancel={() => this.cancel()}/> :
+                      cancel={() => this.cancel()}/>:
                     null
                 }
               </div>

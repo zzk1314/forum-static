@@ -173,7 +173,7 @@ export default class WarmUp extends React.Component<any, any> {
             </div> :
             null}
           {pic ? <div className="context-img">
-            <AssetImg url={pic}/></div> : null
+            <AssetImg url={pic} width="80%" height="80%"/></div> : null
           }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>

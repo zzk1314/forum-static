@@ -3,8 +3,8 @@ import * as React from "react";
 import "./Loading.less"
 
 export default class Loading extends React.Component<any,any>{
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
   }
 
   render(){

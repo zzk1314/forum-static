@@ -1,9 +1,30 @@
 .rise-base {
-  background-color:#f5f5f5;
-  .min-width{
-    width:62.5%;
-    margin:0 auto;
-    background-color:#FFF;
-    min-width:750px;
+  background-color: #f5f5f5;
+  .min-width {
+    width: 62.5%;
+    min-width: 750px;
+    margin: 30px auto;
+    background-color: #FFF;
+  }
+
+  // 首页图标
+  .pc-icon {
+    height: 100px;
+    width: 100px;
+    top: 50%;
+    right: 50px;
+    position: fixed;
+    cursor: pointer;
+    span {
+      display: block;
+    }
+    &.show {
+      display: block;
+    }
+  }
+
+  // 鼠标悬浮 样式转换
+  .hover-cursor {
+    cursor: pointer;
   }
 }

@@ -285,7 +285,7 @@ export default class PlanMain extends React.Component <any, any> {
           }
         } else {
           if(code === -1) {
-            dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+            dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
           } else {
             dispatch(alertMsg(msg))
           }

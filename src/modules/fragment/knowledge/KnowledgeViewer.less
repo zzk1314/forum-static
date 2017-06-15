@@ -29,7 +29,7 @@
     .text {
       > pre {
         line-height: 2.0em;
-        font-size: 1.6em;
+        font-size: 1.9em;
         white-space: pre-wrap;
         word-wrap: break-word;
         overflow: hidden;
@@ -38,6 +38,7 @@
     .question {
       width: 100%;
       margin-bottom: 20px;
+      font-size: @font_context;
       white-space: normal;
       word-break: break-all;
     }
@@ -48,7 +49,9 @@
       padding: 0 15px;
       margin-left: -15px;
       font-size: @font_index;
-      margin-bottom: 10px;
+    }
+    .discuss {
+      margin-top: 40px;
     }
     .analysis {
       padding-bottom: 20px;
@@ -56,6 +59,9 @@
         color: @color_strong;
         font-size: @font_click;
         cursor: pointer;
+      }
+      .context {
+        margin-top: 20px;
       }
     }
     .choice-list {

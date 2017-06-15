@@ -27,7 +27,6 @@
     }
   }
 
-
   .plan-main {
     > .list {
       margin-bottom: 10px;
@@ -119,10 +118,10 @@
         vertical-align: middle;
         height: 100%;
         > .title {
-          margin-top: 24px;
           font-size: @font_title;
           color: @color_title;
-          line-height: @font_title;
+          height: 75px;
+          line-height: 75px;
         }
       }
       > .footer {
@@ -141,6 +140,7 @@
       margin-top: 10px;
     }
   }
+
   .plan-side-bar{
     color:#FFF;
     .side-header-title{
@@ -211,7 +211,6 @@
       }
     }
   }
-
 
   .plan-guide {
     position: relative;
@@ -345,6 +344,10 @@
   100% {transform: translateX(0px)}
 }
 
+.min-width {
+  width: ~"calc(62.5% + 100px)";
+  padding: 0;
+}
 
 .empty-container {
   text-align: center;
@@ -384,7 +387,6 @@
   }
 
 }
-
 
 .header-img {
   position: relative;

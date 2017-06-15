@@ -30,20 +30,20 @@ export default class NavigatorBar extends React.Component<any, any> {
   handleClickNav(navId) {
     switch(navId) {
       case NavType.Home: {
-        this.setState({activeNav: NavType.Home}, () => {
-          this.context.router.push({pathname: '/home'})
+        this.setState({ activeNav: NavType.Home }, () => {
+          this.context.router.push({ pathname: '/home' })
         })
         break;
       }
       case NavType.Rise: {
-        this.setState({activeNav: NavType.Rise}, () => {
-          this.context.router.push({pathname: '/fragment/plan'})
+        this.setState({ activeNav: NavType.Rise }, () => {
+          this.context.router.push({ pathname: '/fragment/plan' })
         })
         break;
 
       }
       case NavType.Forum: {
-        this.setState({activeNav: NavType.Forum})
+        this.setState({ activeNav: NavType.Forum })
         break;
       }
       default: {
@@ -55,30 +55,37 @@ export default class NavigatorBar extends React.Component<any, any> {
   checkCurNav() {
     let url = window.location.pathname;
     if(url === '/fragment/plan' || url === '/fragment/learn') {
-      this.setState({activeNav: NavType.Rise});
+      this.setState({ activeNav: NavType.Rise });
     } else if(url === '/home' || url === '/') {
-      this.setState({activeNav: NavType.Home});
+      this.setState({ activeNav: NavType.Home });
     }
   }
 
   render() {
+
     return (
       <div className="nav-container">
         <div className="navigator-bar">
-          <div className="logo-img">
-            <AssetImg url="http://static.iqycamp.com/images/logo.png" width="36" height="38"/>
-          </div>
-          <span className="logo-name">
-              圈外
+          <div className="nav-logo">
+            <div className="logo-img">
+              <AssetImg url="http://static.iqycamp.com/images/logo.png" width="36" height="38"/>
+            </div>
+            <span className="logo-name">
+                圈外
             </span>
-          <button className="nav-item first-item"
-                  onClick={() => this.handleClickNav(NavType.Home)}>首页
-          </button>
-          <button className="nav-item"
-                  onClick={() => this.handleClickNav(NavType.Rise)}>RISE
-          </button>
-          <div className="user-img"><img src={window.ENV.headImage}/></div>
-          <span className="user-name">{window.ENV.userName}</span>
+          </div>
+          <div className="nav-btn">
+            <button className="nav-item first-item"
+                    onClick={() => this.handleClickNav(NavType.Home)}>首页
+            </button>
+            <button className="nav-item"
+                    onClick={() => this.handleClickNav(NavType.Rise)}>RISE
+            </button>
+          </div>
+          <div className="nav-user">
+            <div className="user-img"><img src={window.ENV.headImage}/></div>
+            <span className="user-name">{window.ENV.userName}</span>
+          </div>
         </div>
       </div>
     )
