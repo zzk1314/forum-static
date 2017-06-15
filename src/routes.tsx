@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Route, IndexRoute } from "react-router";
 import Base from "modules/base/Base.tsx";
-import RiseBase from "modules/base/RiseBase"
+import RiseBase from "modules/base/RiseBase.tsx";
 import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
