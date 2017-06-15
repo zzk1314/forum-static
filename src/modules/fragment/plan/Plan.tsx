@@ -5,7 +5,6 @@ import { loadSelfPlans } from "./async";
 import AssetImg from "../../../components/AssetImg";
 
 import "./Plan.less";
-import { RISE_TitleBar } from "../commons/ViewComponents.tsx";
 
 @connect(state => state)
 export default class Plan extends React.Component<any, any> {
@@ -74,7 +73,6 @@ export default class Plan extends React.Component<any, any> {
             <span>已完成</span>
             {this.generatePlansView(donePlans)}
           </div>
-          <RISE_TitleBar content="zheshi title bar"/>
         </div>
       </div>
     );

@@ -9,7 +9,7 @@ import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
 import { scroll } from "../../../utils/helpers"
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: 'A',
@@ -228,21 +228,21 @@ export default class Analysis extends React.Component <any, any> {
               <AssetImg url={pic}/></div> : null
             }
             <div className="question">
-              <div dangerouslySetInnerHTML={{ __html: question }}></div>
+              <div dangerouslySetInnerHTML={{ __html: question }}/>
             </div>
             <div className="choice-list">
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
             </div>
             <div className="analysis">
-              <div className="title-bar">解析</div>
-              <div className="context">
+              {<RISE_TitleBar content="解析"/>}
+              <div className="context" style={{marginTop: 10}}>
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
               <div className="context" style={{ marginBottom: 15 }}>
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
               <div className="context"
-                   dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}></div>
+                   dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
               {integrated == 'false' ?
                 <div className="knowledge-link hover-cursor" onClick={() => this.setState({ showKnowledge: true })}>
                   点击查看相关知识</div> : null
@@ -251,7 +251,8 @@ export default class Analysis extends React.Component <any, any> {
           </div>
           <div className="discuss-container">
             <div className="discuss">
-              <div className="title-bar">问答</div>
+              {/*<div className="title-bar">问答</div>*/}
+              {<RISE_TitleBar content="问答"/>}
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="show-more">
@@ -260,7 +261,7 @@ export default class Analysis extends React.Component <any, any> {
                 :
                 <div className="discuss-end">
                   <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}/>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 
@@ -286,7 +287,6 @@ export default class Analysis extends React.Component <any, any> {
              className={`hover-cursor choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
             {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
-            {/*{choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx]}*/}
           </span>
           <span className={`text`}>{subject}</span>
         </div>

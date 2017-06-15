@@ -7,7 +7,7 @@ import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
 import { merge } from "lodash";
 import AssetImg from "../../../components/AssetImg";
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Challenge extends React.Component<any, any> {
@@ -151,7 +151,7 @@ export default class Challenge extends React.Component<any, any> {
               </div>
             </div>
             <div ref="workContainer" className="work-container">
-              <div className="submit-bar"><span className="padding"></span>{ content === null ? '提交方式' : '我的目标'}</div>
+              {<RISE_TitleBar content={content === null ? "提交方式" : "我的目标"}/>}
               {renderTip()}
               {edit ?
                 <div className="editor">

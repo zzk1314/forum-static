@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import "./KnowledgeViewer.less";
-import { stat } from "fs";
 import {
   loadDiscuss,
   discussKnowledge,
@@ -18,7 +17,7 @@ import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -219,13 +218,123 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { location } = this.props
     const { practicePlanId } = location.query
 
+    const renderKnowledgeContent = () => {
+      return (
+        <div>
+          {audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
+          {pic ?
+            <div className="context-img" style={{ textAlign: "center" }}>
+              <AssetImg url={pic} width="60%"/></div> :
+            null }
+          {analysis ?
+            <div>
+              <div className="context-title-img">
+                <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
+              </div>
+              <div className="text">
+                <pre>{analysis}</pre>
+              </div>
+              { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+            </div> :
+            null}
+          {means ?
+            <div>
+              <div className="context-title-img">
+                <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
+              </div>
+              <div className="text">
+                <pre>{means}</pre>
+              </div>
+              { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+            </div> :
+            null}
+          {keynote ?
+            <div>
+              <div className="context-title-img">
+                <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
+              </div>
+              <div className="text">
+                <pre>{keynote}</pre>
+              </div>
+              { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
+            </div> :
+            null}
+          {example ?
+            <div>
+              <div className="context-title-img">
+                <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
+              </div>
+              <div className="question">
+                <div className="context" dangerouslySetInnerHTML={{ __html: example.question }}/>
+              </div>
+              <div className="choice-list">
+                {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
+              </div>
+
+              {showTip ?
+                <div className="analysis">
+                  {<RISE_TitleBar content="解析"/>}
+                  <div className="context">
+                    正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
+                  </div>
+                  <div className="context" dangerouslySetInnerHTML={{ __html: example.analysis }}/>
+                </div> :
+                <div className="analysis">
+                  <div className="analysis-tip hover-cursor" onClick={() => this.setState({ showTip: true })}>点击查看解析
+                  </div>
+                </div>}
+            </div>
+            : null}
+        </div>
+      )
+    }
+
+    const renderDiscussContent = () => {
+      return (
+        <div className="discuss">
+          {_.isEmpty(discuss) ? null : discuss.map((item, seq) => {
+            return (
+              <div key={seq}>
+                <DiscussShow
+                  discuss={item}
+                  reply={() => {
+                    this.reply(item)
+                  }}
+                  onDelete={() => this.onDelete(item.id)} key={seq}/>
+                {
+                  this.state.showDiscuss && this.state.repliedId === item.id ?
+                    <Discuss isReply={isReply} placeholder={placeholder}
+                             submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                             cancel={() => this.cancel()}/> :
+                    null
+                }
+              </div>
+            )
+          })}
+          { discuss ? (discuss.length > 0 ?
+            <div className="show-more">
+              你已经浏览完所有的讨论啦
+            </div>
+            :
+            <div className="discuss-end">
+              <div className="discuss-end-img">
+                <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
+                          height={92}/>
+              </div>
+              <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+            </div>)
+            : null}
+        </div>
+      )
+    }
+
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
-          <span className={`index`}>
-            {sequenceMap[idx]}
-          </span>
+                                                  <span className={`index`}>
+                                                  {sequenceMap[idx]}
+                                                  </span>
           <span className={`subject`}>{subject}</span>
         </div>
       )
@@ -244,115 +353,21 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
 
     return (
-      <div className={`knowledge-page`}>
-        <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
-          <div className="page-header">{knowledge.knowledge}</div>
-          <div className="intro-container">
-            { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
-            { pic ? <div className="context-img" style={{ textAlign: "center" }}>
-              <AssetImg url={pic} width="60%"/></div> :
-              null }
-            { analysis ?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
-                </div>
-                <div className="text">
-                  <pre>{analysis}</pre>
-                </div>
-                { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
-              </div>
-              : null}
-            { means ?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
-                </div>
-                <div className="text">
-                  <pre>{means}</pre>
-                </div>
-                { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
-              </div>
-              : null}
-            {keynote ?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
-                </div>
-                <div className="text">
-                  <pre>{keynote}</pre>
-                </div>
-                { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
-              </div>
-              : null}
-            {example ?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
-                </div>
-                <div className="question">
-                  <div className="context" dangerouslySetInnerHTML={{ __html: example.question }}/>
-                </div>
-                <div className="choice-list">
-                  {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
-                </div>
-
-                {showTip ?
-                  <div className="analysis">
-                    <div className="title-bar">解析</div>
-                    <div className="context">
-                      正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
-                    </div>
-                    <div className="context"
-                         dangerouslySetInnerHTML={{ __html: example.analysis }}/>
-                  </div>
-                  : <div className="analysis">
-                    <div className="analysis-tip hover-cursor" onClick={() => this.setState({ showTip: true })}>点击查看解析
-                    </div>
-                  </div>}
-              </div>
-              : null}
-            <div className="title-bar">问答</div>
-            <div className="discuss">
-              {_.isEmpty(discuss) ? null : discuss.map((item, seq) => {
-                return (
-                  <div key={seq}>
-                    <DiscussShow
-                      discuss={item}
-                      reply={() => {
-                        this.reply(item)
-                      }}
-                      onDelete={() => this.onDelete(item.id)} key={seq}/>
-                    {
-                      this.state.showDiscuss && this.state.repliedId === item.id ?
-                        <Discuss isReply={isReply} placeholder={placeholder}
-                                 submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                 cancel={() => this.cancel()}/> :
-                        null
-                    }
-                  </div>
-
-                )
-              })}
-              { discuss ? (discuss.length > 0 ?
-                <div className="show-more">
-                  你已经浏览完所有的讨论啦
-                </div>
-                :
-                <div className="discuss-end">
-                  <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
-                              height={92}/>
-                  </div>
-                  <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-                </div>)
-                : null}
+      <div>
+        <div className="knowledge-page">
+          <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
+            <div className="page-header">{knowledge.knowledge}</div>
+            <div className="intro-container">
+              {renderKnowledgeContent()}
+              {<RISE_TitleBar content="问答"/>}
+              {renderDiscussContent()}
             </div>
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
+        {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         {practicePlanId && !showDiscuss && !showSelfDiscuss ?
-          <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
+          <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
+          null}
         {
           this.state.showSelfDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder}

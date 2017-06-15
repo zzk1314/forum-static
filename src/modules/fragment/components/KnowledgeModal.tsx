@@ -5,6 +5,7 @@ import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: 'A',
@@ -106,8 +107,8 @@ export default class KnowledgeModal extends React.Component<any, any> {
 
                   {showTip?
                   <div className="analysis">
-                    <div className="title-bar">解析</div>
-                    <div className="context">
+                    {<RISE_TitleBar content="解析"/>}
+                    <div className="context" style={{marginTop: 20}}>
                       正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                     </div>
                     <div className="context"

@@ -15,7 +15,7 @@ import { Work } from "../components/NewWork";
 import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 let timer;
 
@@ -343,7 +343,7 @@ export default class Application extends React.Component<any, any> {
               }
             </div>
             <div ref="workContainer" className="work-container">
-              <div ref="submitBar" className="submit-bar">{ content === null ? '提交方式' : '我的作业'}</div>
+              {<RISE_TitleBar content={content === null ? "提交方式" : "我的作业"}/>}
               {renderTip()}
 
               {edit ?

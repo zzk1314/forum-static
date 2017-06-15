@@ -4,6 +4,8 @@
  */
 
 @font-size: 1.4em;
+@color_title: #666;
+@color_weak_background: #f5f5f5;
 
 // RISE_HomeIcon
 .pc-icon {
@@ -20,9 +22,12 @@
 
 //RISE_TitleBar
 .title-bar {
-  width: 100%;
-  background-color: #ccc;
-  padding-left: 50px;
+  width: ~"calc(100% + 100px)";
+  margin-left: -50px;
+  background-color: @color_weak_background;
   font-size: @font-size;
+  span {
+    padding-left: 50px;
+  }
 }
 
