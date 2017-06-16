@@ -16,7 +16,6 @@ export default class NavigatorBar extends React.Component<any, any> {
     this.state = {
       size: {},
       activeNav: 0,
-
     }
   }
 
@@ -41,7 +40,6 @@ export default class NavigatorBar extends React.Component<any, any> {
           this.context.router.push({ pathname: '/fragment/rise' })
         })
         break;
-
       }
       case NavType.Forum: {
         this.setState({ activeNav: NavType.Forum })
@@ -64,6 +62,8 @@ export default class NavigatorBar extends React.Component<any, any> {
 
   render() {
 
+    const { activeNav } = this.state
+
     return (
       <div className="nav-container">
         <div className="navigator-bar">
@@ -76,10 +76,10 @@ export default class NavigatorBar extends React.Component<any, any> {
             </span>
           </div>
           <div className="nav-btn">
-            <button className="nav-item first-item"
+            <button className={`nav-item first-item ${activeNav === NavType.Home ? 'active' : ''}`}
                     onClick={() => this.handleClickNav(NavType.Home)}>首页
             </button>
-            <button className="nav-item"
+            <button className={`nav-item ${activeNav === NavType.Rise ? 'active' : ''}`}
                     onClick={() => this.handleClickNav(NavType.Rise)}>RISE
             </button>
           </div>

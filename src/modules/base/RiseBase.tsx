@@ -33,6 +33,8 @@ export default class Main extends React.Component<any, any> {
       "primary": true
     }]
 
+    console.log(this.props.base)
+
     const renderOtherComponents = () => {
       return (
         <div>

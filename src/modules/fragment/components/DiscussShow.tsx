@@ -21,16 +21,16 @@ export default class DiscussShow extends React.Component <any, any> {
   }
 
   delete() {
-    const {onDelete} = this.props
-    this.setState({show: false})
+    const { onDelete } = this.props
+    this.setState({ show: false })
     if(onDelete) {
       onDelete()
     }
   }
 
   render() {
-    const {discuss, reply} = this.props
-    const {show} = this.state
+    const { discuss, reply } = this.props
+    const { show } = this.state
     const {
       id, name, avatar, discussTime, priority, comment, repliedComment, repliedName,
       role, signature, isMine, repliedDel, del
@@ -38,8 +38,8 @@ export default class DiscussShow extends React.Component <any, any> {
     const isDel = discuss.del
     const alertProps = {
       actions: [
-        {label: '再想想', onClick: () => this.setState({show: false})},
-        {label: '确定', onClick: () => this.delete()}
+        { label: '再想想', onClick: () => this.setState({ show: false }) },
+        { label: '确定', onClick: () => this.delete() }
       ],
     }
     return (
@@ -79,22 +79,16 @@ export default class DiscussShow extends React.Component <any, any> {
             isDel ? null :
               <div className="function-area">
                 {isMine ?
-                  <div className="function-div" style={{marginRight: 5}}>
+                  <div className="function-div" style={{ marginRight: 5 }}>
                     <AssetImg type="delete" height={15} width={15}/>
-                    <div className="function-button click-key" onClick={() => this.setState({show: true})}>
+                    <div className="function-button click-key" onClick={() => this.setState({ show: true })}>
                       删除
                     </div>
-                    <AlertMessage { ...alertProps }
-                                  open={show}
-                                  title="确认要删除评论吗？"
-                    >
-                    </AlertMessage>
+                    <AlertMessage actions={alertProps.actions} open={show} content="确认要删除评论吗？"/>
                   </div> : null}
                 <div className="function-div" onClick={() => reply()}>
                   <AssetImg type="reply" height={12} width={15}/>
-                  <div className="function-button click-key">
-                    回复
-                  </div>
+                  <div className="function-button click-key">回复</div>
                 </div>
               </div>
           }

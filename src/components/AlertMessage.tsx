@@ -3,20 +3,20 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import "./AlertMessage.less"
 
-interface AlertMessageProps {
-  open: boolean;
-  handlerClose: object;
-  title: string;
-}
+export default class AlertMessage extends React.Component<any, any> {
 
-export default class AlertMessage extends React.Component<AlertMessageProps, any> {
+  // propTypes: {
+  //   open: React.PropTypes.bool,
+  //   handlerClose: React.PropTypes.func,
+  //   title: React.PropTypes.string,
+  // }
 
   constructor() {
-    super()
+    super();
   }
 
   render() {
-    const { open, handleClose, title, modal = false, actions } = this.props;
+    const { open, handleClose, title = '', modal = false, actions } = this.props;
     const getActions = (actions) => {
       return actions ?
         actions.map(item =>
