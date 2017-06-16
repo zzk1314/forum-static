@@ -1,7 +1,7 @@
 import * as React from "react";
-import AssetImg from "../../../components/AssetImg";
 import "./ViewComponents.less";
 
+import AssetImg from "../../../components/AssetImg";
 interface HomeIconProps {
   showHomeIcon: boolean;
 }
@@ -52,3 +52,5 @@ export class RISE_TitleBar extends React.Component<TitleBarProps, any> {
   }
 
 }
+
+

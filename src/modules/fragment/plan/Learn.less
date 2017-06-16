@@ -9,6 +9,7 @@
     bottom: 10px;
     width: 88px;
     height: 34px;
+    cursor: pointer;
     transform: translateX(88px);
     &.open {
       animation: riseMember-left-show 1s alternate forwards;
@@ -76,14 +77,15 @@
       }
     }
     .practice-card {
-      position: relative;
-      background-color: #fff;
       height: 75px;
-      //border-radius: @border-radius;
       width: 45%;
       margin-left: 3.3%;
+      position: relative;
+      background-color: #fff;
+      border-radius: @border-radius;
       display: inline-block;
-      border: 1px solid #f5f5f5;
+      border: 1px solid @color_weak_background;
+      cursor: pointer;
       > .header {
         position: absolute;
         width: 50px;

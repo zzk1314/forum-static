@@ -1,16 +1,27 @@
+@import "../style/variable";
+
+.alertTitle {
+
+}
+
+.alertBody {
+  padding: 24px 0 0 0 !important;
+  line-height: 2em;
+}
+
 .alertContent {
   width: 400px !important;
   text-align: center;
 }
 
-.alertTitle {
-}
-
 .alertActions {
   text-align: center !important;
-  padding: 10px 0px 20px !important;
+  padding: 10px 0 20px !important;
 }
 
-.alertBody {
+.close-btn {
+  &:hover {
+    background-color: @color_weak_background;
+    cursor: pointer;
+  }
 }
-

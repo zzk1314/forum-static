@@ -27,6 +27,12 @@ export default class Main extends React.Component<any, any> {
 
   render() {
 
+    const actions = [{
+      "label": "我知道了",
+      "onClick": this.closeBaseAlert.bind(this),
+      "primary": true
+    }]
+
     const renderOtherComponents = () => {
       return (
         <div>
@@ -36,6 +42,7 @@ export default class Main extends React.Component<any, any> {
             content={this.props.base.alertMsg.msg}
             title={this.props.base.alertMsg.title}
             handleClose={() => this.closeBaseAlert()}
+            actions={actions}
           />
           {renderExist(isPending(this.props, 'base.loading'), <Loading/>)}
         </div>

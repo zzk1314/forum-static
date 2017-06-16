@@ -15,7 +15,8 @@ export default class NavigatorBar extends React.Component<any, any> {
     super(props);
     this.state = {
       size: {},
-      activeNav: 0
+      activeNav: 0,
+
     }
   }
 

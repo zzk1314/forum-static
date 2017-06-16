@@ -3,25 +3,28 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import "./AlertMessage.less"
 
-export default class AlertMessage extends React.Component {
-  propTypes: {
-    open: React.PropTypes.bool,
-    handlerClose: React.PropTypes.func,
-    title: React.PropTypes.string,
-  }
+interface AlertMessageProps {
+  open: boolean;
+  handlerClose: object;
+  title: string;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {}
+export default class AlertMessage extends React.Component<AlertMessageProps, any> {
+
+  constructor() {
+    super()
   }
 
   render() {
-    const {handleClose, open, title, modal = false, actions} = this.props;
+    const { open, handleClose, title, modal = false, actions } = this.props;
     const getActions = (actions) => {
-
-      return actions ? actions.map(item => <FlatButton label={item.label} primary={!!item.primary}
-                                                       secondary={!!item.secondary}
-                                                       style={item.style} onClick={item.onClick}/>) : null;
+      return actions ?
+        actions.map(item =>
+          <FlatButton
+            label={item.label} primary={!!item.primary}
+            secondary={!!item.secondary}
+            style={item.style} onClick={item.onClick}/>) :
+        null
     }
 
     // 将 props 中的 content 转换成数组，方便下面进行换行处理
@@ -31,7 +34,7 @@ export default class AlertMessage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="alert-message">
         <Dialog
           titleClassName="alertTitle"
           bodyClassName="alertBody"
@@ -45,10 +48,10 @@ export default class AlertMessage extends React.Component {
           onRequestClose={handleClose}
         >
           {content.map((item, index) =>
-            <p key={index}>{item}</p>
+            <div key={index}>{item}</div>
           )}
         </Dialog>
       </div>
-    );
+    )
   }
 }
