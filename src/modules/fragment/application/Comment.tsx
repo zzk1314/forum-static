@@ -68,6 +68,7 @@ export default class Comment extends React.Component<any, any> {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
+              showSelfDiscuss: false,
               editDisable: false
             });
             scroll('.comment-body', '.application-comment')
@@ -84,6 +85,7 @@ export default class Comment extends React.Component<any, any> {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
+              showSelfDiscuss: false,
               editDisable: false
             });
             scroll('.comment-body', '.application-comment')
