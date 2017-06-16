@@ -70,7 +70,7 @@ export default class Comment extends React.Component<any, any> {
               showDiscuss: false,
               editDisable: false
             });
-            scroll('.comment-header', '.application-comment')
+            scroll('.comment-body', '.application-comment')
           } else {
             dispatch(alertMsg(res.msg));
           }
@@ -86,7 +86,7 @@ export default class Comment extends React.Component<any, any> {
               showDiscuss: false,
               editDisable: false
             });
-            scroll('.comment-header', '.application-comment')
+            scroll('.comment-body', '.application-comment')
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable: false});
