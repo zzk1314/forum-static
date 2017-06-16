@@ -363,11 +363,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               {renderDiscussContent()}
             </div>
           </div>
+          {practicePlanId && !showDiscuss && !showSelfDiscuss ?
+              <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
+              null}
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        {practicePlanId && !showDiscuss && !showSelfDiscuss ?
-          <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
-          null}
         {
           this.state.showSelfDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder}
