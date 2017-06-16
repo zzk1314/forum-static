@@ -195,6 +195,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       showSelfDiscuss: true, content: '',
       isReply: false,
       placeholder: '提出你的疑问或意见吧（限300字）'
+    }, ()=> {
+      document.body.scrollTop = document.body.scrollHeight;
     })
   }
 
