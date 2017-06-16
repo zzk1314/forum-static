@@ -1,11 +1,12 @@
 @import "../../../style/variable";
 
 .improvement-report{
+  margin: 0 auto;
   height:auto !important;
   > .header{
     height:auto;
     position: relative;
-    background-color: #CCEAEB;
+    background-color: #BEE7F9;
     > .bg{
       height:100%;
       width:auto;
@@ -61,7 +62,8 @@
     overflow: hidden;
     > .body{
       padding:15px 25px;
-      margin:25px;
+      margin:25px auto;
+      width: 375px;
       border-radius:20px;
       background-color:#FFFFFF;
 
@@ -96,10 +98,11 @@
         }
         padding:10px 0;
         > .info{
+          height: 22px;
           > .name{
-            display: inline-block;
+            //display: inline-block;
             font-size:@font_click;
-            float: left;
+            //float: left;
             margin-bottom:5px;
           }
         }
@@ -158,6 +161,7 @@
       }
 
       > .vote-info{
+        line-height: 2.0em;
         font-size:@font_help;
         margin-top:10px;
         text-align: left;
@@ -170,7 +174,8 @@
 
 
     > .tips{
-      margin:25px 30px;
+      //margin:25px auto;
+      text-align: center;
       color:@color_help;
       font-size:@font_help;
     }

@@ -14,7 +14,9 @@ const numeral = require('numeral');
 export default class Report extends React.Component<any,any> {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      width: 375,
+    };
   }
 
   static contextTypes = {
@@ -52,13 +54,13 @@ export default class Report extends React.Component<any,any> {
       return chapterList.map((item, key) => {
         let clazz = 'complete-item ' + (key === 0 ? 'first' : '');
         return (
-          <div className={clazz}>
+          <div className={clazz} key={key}>
             <div className="info">
               <span className="name">{NumberToChinese(item.chapter)}、{item.name}</span>
               {/*<span className="score"><span className="point number">{item.myWarmScore}</span> / <span className="number">{item.totalWarmScore}</span></span>*/}
               <div className="clear"></div>
             </div>
-            <Progress progressStyle={{width:`${window.innerWidth - 170}px`}} score={item.myWarmScore}
+            <Progress progressStyle={{width:`${this.state.width - 170}px`}} score={item.myWarmScore}
                       totalScore={item.totalWarmScore}/>
           </div>
         )
@@ -84,7 +86,7 @@ export default class Report extends React.Component<any,any> {
             className="big-point">{applicationCompleteCount}</span> / {applicationShouldCount} 份，得分：</span>
           <div className="clear"></div>
         </div>
-        <Progress holderClass="article" progressStyle={{width:`${window.innerWidth - 170}px`}} score={applicationScore}
+        <Progress holderClass="article" progressStyle={{width:`${this.state.width - 170}px`}} score={applicationScore}
                   totalScore={applicationTotalScore}/>
       </div>
     )
@@ -97,7 +99,7 @@ export default class Report extends React.Component<any,any> {
             className="big-point">{integratedCompleteCount}</span> / {integratedShouldCount} 份，得分：</span>
           <div className="clear"></div>
         </div>
-        <Progress holderClass="article" progressStyle={{width:`${window.innerWidth - 170}px`}} score={integratedScore}
+        <Progress holderClass="article" progressStyle={{width:`${this.state.width - 170}px`}} score={integratedScore}
                   totalScore={integratedTotalScore}/>
       </div>
     );
@@ -234,7 +236,7 @@ export default class Report extends React.Component<any,any> {
               获得  <span className="big-point">{votedScore}</span> 积分 <span className="tips">（1被赞=2积分）</span>
             </div>
           </div>
-          <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>
+          <div className="tips">不错！你还可以拿到更多积分，点击右边按钮，返回小课完成更多练习吧！</div>
           <div className="padding-footer" style={{height:'80px'}}/>
         </div>
         {renderOtherComponents()}
