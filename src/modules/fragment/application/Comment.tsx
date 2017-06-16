@@ -12,15 +12,17 @@ import {RISE_TitleBar} from "../commons/ViewComponents";
 @connect(state => state)
 export default class Comment extends React.Component<any, any> {
 
+  // id 为 repliedId
   constructor() {
     super();
     this.state = {
       page: 1,
       editDisable: false,
+      id: 0,
       commentList: [],
       article: {},
       placeholder: '和作者切磋讨论一下吧',
-      showSelfDiscuss: false
+      showSelfDiscuss: false,
     };
     this.commentHeight = window.innerHeight;
   }
@@ -105,7 +107,9 @@ export default class Comment extends React.Component<any, any> {
 
   openWriteBox() {
     this.setState({
-      showSelfDiscuss: true, content: '',
+      id: 0,
+      showSelfDiscuss: true,
+      content: '',
       isReply: false,
       placeholder: '和作者切磋讨论一下吧'
     })
