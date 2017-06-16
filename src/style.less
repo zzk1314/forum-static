@@ -18,7 +18,12 @@ html {
   &.has-footer {
     height: ~"calc(100% - 40px)";
   }
-  font-family: "思源黑体cn", "Helvetica Neue" !important;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -128,10 +133,6 @@ body {
       word-wrap: break-word;
       line-height: 23px;
       margin-top: 7px;
-      pre {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
     }
     > .comment-replied-content {
       font-size: 13px;
@@ -255,6 +256,11 @@ body {
   }
 }
 
+.click-key {
+  cursor: pointer;
+  color: @color_strong !important;
+}
+
 .hover-cursor {
   cursor: pointer;
 }
@@ -265,6 +271,10 @@ body {
   font-size: @font_click;
   text-align: center;
   padding: 20px 0;
+
+  &.more{
+    color: @color_strong;
+  }
 }
 
 

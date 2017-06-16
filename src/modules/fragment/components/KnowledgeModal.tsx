@@ -114,7 +114,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                     <div className="context"
                          dangerouslySetInnerHTML={{__html: example.analysis}}></div>
                   </div>
-                      :<div className="analysis"><div className="analysis-tip hover-cursor" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
+                      :<div className="analysis"><div className="analysis-tip click-key" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
                 </div>
             : null}
           </div>

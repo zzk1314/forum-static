@@ -277,7 +277,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context" dangerouslySetInnerHTML={{ __html: example.analysis }}/>
                 </div> :
                 <div className="analysis">
-                  <div className="analysis-tip hover-cursor" onClick={() => this.setState({ showTip: true })}>点击查看解析
+                  <div className="analysis-tip click-key" onClick={() => this.setState({ showTip: true })}>点击查看解析
                   </div>
                 </div>}
             </div>
@@ -360,11 +360,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               {renderDiscussContent()}
             </div>
           </div>
-          {practicePlanId && !showDiscuss && !showSelfDiscuss ?
-              <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
-              null}
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+        {practicePlanId && !showDiscuss && !showSelfDiscuss ?
+            <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
+            null}
         {
           this.state.showSelfDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder}

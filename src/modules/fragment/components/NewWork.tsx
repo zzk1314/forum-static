@@ -142,14 +142,14 @@ export default class Work extends React.Component<any,any> {
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}}>
               <div className="function-area" onClick={()=>onEdit()} style={{marginRight:8}}>
                 <AssetImg type="edit" height={12}/>
-                <div className="submit-button hover-cursor">
+                <div className="submit-button click-key">
                   编辑
                 </div>
               </div>
                 {!request && requestCommentCount!=null && requestCommentCount>0?
                 <div className="function-area" onClick={this.click.bind(this)}>
                   <AssetImg type="request_comment" height={12}/>
-                  <div className={`submit-button hover-cursor`}>
+                  <div className={`submit-button click-key`}>
                     求点评
                   </div>
                 </div>
@@ -185,7 +185,7 @@ export default class Work extends React.Component<any,any> {
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.show(showAll)}
-                                                                   className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
+                                                                   className="show-all click-key" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
             {
               showOperation()
               ? <div className={`operation-area`}>

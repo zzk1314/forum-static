@@ -81,7 +81,7 @@ export default class DiscussShow extends React.Component <any, any> {
                 {isMine ?
                   <div className="function-div" style={{marginRight: 5}}>
                     <AssetImg type="delete" height={15} width={15}/>
-                    <div className="function-button hover-cursor" onClick={() => this.setState({show: true})}>
+                    <div className="function-button click-key" onClick={() => this.setState({show: true})}>
                       删除
                     </div>
                     <AlertMessage { ...alertProps }
@@ -92,7 +92,7 @@ export default class DiscussShow extends React.Component <any, any> {
                   </div> : null}
                 <div className="function-div" onClick={() => reply()}>
                   <AssetImg type="reply" height={12} width={15}/>
-                  <div className="function-button hover-cursor">
+                  <div className="function-button click-key">
                     回复
                   </div>
                 </div>

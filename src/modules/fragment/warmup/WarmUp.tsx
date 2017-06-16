@@ -185,7 +185,7 @@ export default class WarmUp extends React.Component<any, any> {
           {console.log(this.state)}
           {console.log(this.props)}
           {integrated == 'false' ?
-            <div className="knowledge-link hover-cursor"
+            <div className="knowledge-link click-key"
                  onClick={() =>
                    window.open(`/fragment/knowledge?id=${knowledgeId}`)
                  }>不确定?瞄一眼知识点</div> :

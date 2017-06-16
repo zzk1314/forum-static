@@ -135,7 +135,7 @@ export default class WriteSubject extends React.Component<any,any> {
     }
 
     if(title.length > 64){
-      this.showAlert("标题最多输入64个字哦");
+      this.showAlert("标题最多输入64个字哦","提示");
       return;
     }
 
