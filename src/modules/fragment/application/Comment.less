@@ -1,7 +1,6 @@
 @import "../../../style/variable";
 
 .application-comment {
-  overflow: auto;
   height: 100%;
   margin: 0 50px;
   .article {
@@ -14,7 +13,6 @@
       text-align: center;
       color: @color_title;
     }
-    padding: 0 15px 0 15px;
     > .description {
       font-size: @font_context;
       padding: 10px 0;
@@ -43,12 +41,11 @@
   }
   .comment-body {
     padding: 0 15px 0 15px;
-    margin-top: 50px;
+    min-height: 200px;
     .on_message {
       color: @color_weak;
       font-size: @font_context;
       text-align: center;
-      margin-top: 15px;
       > .no_comment {
         margin-top: 125px;
       }

@@ -62,10 +62,10 @@ export default class KnowledgeReview extends React.Component<any,any>{
     const renderSection = (section, idx, chapter) => {
       return (
       section.integrated?
-          <div key={idx} className="hover-cursor">
+          <div key={idx} className="click-key">
             <div className='section'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>:
-          <div key={idx} className="hover-cursor" onClick={this.goKnowledgeIntro.bind(this, section)}>
+          <div key={idx} className="click-key" onClick={this.goKnowledgeIntro.bind(this, section)}>
             <div className='section click'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )

@@ -244,7 +244,7 @@ export default class Analysis extends React.Component <any, any> {
               <div className="context"
                    dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
               {integrated == 'false' ?
-                <div className="knowledge-link hover-cursor"
+                <div className="knowledge-link click-key"
                      onClick={() =>
                        window.open(`/fragment/knowledge?id=${knowledgeId}`)
                      }>

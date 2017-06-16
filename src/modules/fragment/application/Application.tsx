@@ -28,7 +28,7 @@ export default class Application extends React.Component<any, any> {
       knowledge: {},
       showKnowledge: false,
       submitId: 0,
-      page: 1,
+      page: 0,
       otherList: [],
       otherHighlightList: [],
       goBackUrl: '',
@@ -48,15 +48,8 @@ export default class Application extends React.Component<any, any> {
 
   componentWillMount() {
     const { location, dispatch } = this.props;
-    const { state } = location;
-    if(state) {
-      const { goBackUrl } = state
-      if(goBackUrl) {
-        this.setState({ goBackUrl })
-      }
-    }
-    const { integrated, id, planId } = this.props.location.query;
-    this.setState({ integrated })
+    const { integrated, id, planId } = location.query;
+    this.setState({ integrated });
     loadApplicationPractice(id, planId).then(res => {
       const { code, msg } = res;
       if(code === 200) {
@@ -71,7 +64,7 @@ export default class Application extends React.Component<any, any> {
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
-        dispatch(endLoad())
+        dispatch(endLoad());
         // 如果存在未提交的草稿，则显示提醒toast
         if(res.msg.draft) {
           this.setState({ showDraftToast: true }, () => {
@@ -126,7 +119,7 @@ export default class Application extends React.Component<any, any> {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
           autoSaveApplicationDraft(planId, applicationId).then(res => {
-            this.setState({ draftId: res.msg })
+            this.setState({ draftId: res.msg });
             autoUpdateApplicationDraft(res.msg, { draft })
           })
         } else {
@@ -159,7 +152,7 @@ export default class Application extends React.Component<any, any> {
         this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
       } else {
         let newOtherList = merge([], this.state.otherList);
-        set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
+        set(newOtherList, `[${seq}].voteCount`, voteCount + 1);
         set(newOtherList, `[${seq}].voteStatus`, 1);
         this.setState({ otherList: newOtherList })
       }
@@ -193,18 +186,30 @@ export default class Application extends React.Component<any, any> {
   }
 
   others() {
-    const { location } = this.props;
-    loadOtherList(location.query.id, 1).then(res => {
+    const { location, dispatch } = this.props;
+    this.setState({showOthers:true, loading:true});
+    loadOtherList(location.query.id, this.state.page + 1).then(res => {
       if(res.code === 200) {
-        this.setState({
-          otherList: res.msg.list,
-          otherHighlightList: res.msg.highlightList,
-          page: 1,
-          end: res.msg.end,
-          showOthers: true
-        })
+        this.setState({loading:false});
+        if(res.msg && res.msg.list && res.msg.list.length !== 0) {
+          remove(res.msg.list, (item) => {
+            return findIndex(this.state.otherList, item) !== -1;
+          })
+          this.setState({
+            otherList: this.state.otherList.concat(res.msg.list),
+            page: this.state.page + 1,
+            end: res.msg.end,
+          });
+        } else {
+          // dispatch(alertMsg('没有更多了'));
+          this.setState({end: res.msg.end});
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
       }
-    })
+    }).catch(ex => {
+      dispatch(alertMsg(ex));
+    });
   }
 
   onSubmit() {
@@ -238,15 +243,18 @@ export default class Application extends React.Component<any, any> {
     })
   }
 
+  loadMore(){
+    this.others();
+  }
+
   render() {
-    const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus } = data
-    const { currentIndex, planId, practicePlanId } = this.props.location.query;
+    const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end,
+        showOthers, edit, showDisable, integrated, loading } = this.state
+    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId } = data
 
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
-          console.log(seq);
           return (
             <Work
               onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}
@@ -287,9 +295,16 @@ export default class Application extends React.Component<any, any> {
 
     const renderEnd = () => {
       if(showOthers) {
+        if(loading){
+          return (
+              <div style={{textAlign:'center', margin: '5px 0'}}>
+                <AssetImg url="https://static.iqycamp.com/images/loading2.gif" width={30} />
+              </div>
+          )
+        }
         if(!end) {
           return (
-            <div className="show-more" style={{ borderTop: "1px solid #efefef" }}>上拉加载更多消息</div>
+            <div onClick={()=>this.loadMore()} className="show-more click-key" style={{ borderTop: "1px solid #efefef"}}>点击加载更多消息</div>
           )
         } else {
           return (
@@ -329,12 +344,10 @@ export default class Application extends React.Component<any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{ __html: description }}>
                 </div>
               </div>
-              {console.log(this.props)}
-              {console.log(this.state)}
               {integrated == 'false' ?
-                <div className="knowledge-link"
+                <div className="knowledge-link click-key"
                      onClick={() =>
-                       window.open(`/fragment/knowledge?id=${data.knowledgeId}`, "_blank")
+                       window.open(`/fragment/knowledge?id=${knowledgeId}`, "_blank")
                      }>点击查看知识点</div> :
                 null
               }
@@ -371,17 +384,17 @@ export default class Application extends React.Component<any, any> {
                 <RISE_TitleBar content={'最新文章'}/>
                 {renderList(otherList)}</div> : null}
               {!showOthers ?
-                <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
+                <div className="show-others-tip click-key" onClick={()=>this.others()}>同学的作业</div> : null}
               {renderEnd()}
             </div>
             { showDisable ?
               <div className="button-footer small disabled">提交中</div> :
               edit ?
-                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
+                <div className="button-footer small" onClick={()=>this.onSubmit()}>提交</div> : null
             }
           </div>
         </div>
-        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={()=>this.closeModal()}/> : null}
 
         <div className="main-toast">
           <Toast

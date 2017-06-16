@@ -180,7 +180,7 @@ export default class AnalysisNew extends React.Component <any, any> {
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
               {integrated=='false'?
-              <div className="knowledge-link hover-cursor" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
+              <div className="knowledge-link click-key" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
             </div>
           </div>
           <div className="discuss-container">

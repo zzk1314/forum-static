@@ -282,7 +282,7 @@ class Progress extends React.Component<any,any>{
             {/*</div>*/}
           </div>
         </div>
-        <span className="score" style={{width:'65px'}}><span className="point number">{this.props.score}</span> / <span className="number">{this.props.totalScore}</span></span>
+        <span className="score"><span className="point number">{this.props.score}</span> / <span className="number">{this.props.totalScore}</span></span>
       </div>
     )
   }
