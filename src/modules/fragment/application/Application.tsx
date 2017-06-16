@@ -12,7 +12,6 @@ import {
 import Work from "../components/NewWork";
 import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
 import { Work } from "../components/NewWork";
-import Tutorial from "../../../components/Tutorial";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
@@ -97,9 +96,7 @@ export default class Application extends React.Component<any, any> {
             }
           })
         }
-
         if(content !== null) {
-          this.refs.submitBar.scrollTop = 0
           this.setState({ edit: false })
         }
       } else {
@@ -234,9 +231,8 @@ export default class Application extends React.Component<any, any> {
               editorValue: msg.content
             })
           }
-          ;
-          clearInterval(timer)
-        })
+          clearInterval(timer);
+        });
         this.setState({ showDisable: false })
       }
     })
@@ -313,11 +309,6 @@ export default class Application extends React.Component<any, any> {
 
     return (
       <div>
-        <Tutorial
-          bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-          show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
-          onShowEnd={() => this.tutorialEnd()}
-        />
         <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="application">
             <div className="page-header">{topic}</div>
@@ -374,22 +365,19 @@ export default class Application extends React.Component<any, any> {
                   />
                 </div> : null}
               {showOthers && !isEmpty(otherHighlightList) ? <div>
-                <div className="submit-bar">{'管理员推荐'}</div>
+                <RISE_TitleBar content={'管理员推荐'}/>
                 {renderList(otherHighlightList)}</div> : null}
               {showOthers && !isEmpty(otherList) ? <div>
-                <div className="submit-bar">{'最新文章'}</div>
+                <RISE_TitleBar content={'最新文章'}/>
                 {renderList(otherList)}</div> : null}
               {!showOthers ?
                 <div className="show-others-tip hover-cursor" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
             { showDisable ?
-              <div className="button-footer small disabled">提交中</div>
-              :
+              <div className="button-footer small disabled">提交中</div> :
               edit ?
-                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div>
-                :
-                null
+                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
             }
           </div>
         </div>

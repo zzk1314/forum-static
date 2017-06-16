@@ -4,10 +4,10 @@ import "./Subject.less";
 import { loadSubjects, vote, CommentType, ArticleViewModule} from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
-import PullElement from 'pull-element'
+// import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import { findIndex, remove, isArray, findLast, isNull, isString, truncate, merge, set, get } from "lodash";
-import { mark } from './../plan/async';
+import { mark } from '../plan/async';
 
 @connect(state => state)
 export default class Subject extends React.Component<any, any> {
@@ -73,62 +73,62 @@ export default class Subject extends React.Component<any, any> {
 
   }
 
-  componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
-  }
-
-  componentDidUpdate(preProps, preState) {
-    if(!this.pullElement) {
-      const {dispatch} = this.props;
-      this.pullElement = new PullElement({
-        target: '.container-no-pd',
-        scroller: '.container-no-pd',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadSubjects(this.props.location.query.id, this.state.page + 1).then(res => {
-            if(res.code === 200) {
-              if(res.msg && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.perfectList, item) !== -1;
-                })
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.normalList, item) !== -1;
-                })
-                let newPerfectList = [];
-                let newNormalList = [];
-                res.msg.list.forEach(item => {
-                  if(item.perfect) {
-                    newPerfectList.push(item);
-                  } else {
-                    newNormalList.push(item);
-                  }
-                });
-                this.setState({
-                  perfectList: this.state.perfectList.concat(newPerfectList),
-                  normalList: this.state.normalList.concat(newNormalList),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                });
-              } else {
-                this.setState({end: res.msg.end});
-                // dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      })
-      this.pullElement.init();
-    }
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
-    }
-  }
+  // componentWillUnmount() {
+  //   this.pullElement ? this.pullElement.destroy() : null;
+  // }
+  //
+  // componentDidUpdate(preProps, preState) {
+  //   if(!this.pullElement) {
+  //     const {dispatch} = this.props;
+  //     this.pullElement = new PullElement({
+  //       target: '.container-no-pd',
+  //       scroller: '.container-no-pd',
+  //       damping: 4,
+  //       detectScroll: true,
+  //       detectScrollOnStart: true,
+  //       onPullUpEnd: (data) => {
+  //         loadSubjects(this.props.location.query.id, this.state.page + 1).then(res => {
+  //           if(res.code === 200) {
+  //             if(res.msg && res.msg.list.length !== 0) {
+  //               remove(res.msg.list, (item) => {
+  //                 return findIndex(this.state.perfectList, item) !== -1;
+  //               })
+  //               remove(res.msg.list, (item) => {
+  //                 return findIndex(this.state.normalList, item) !== -1;
+  //               })
+  //               let newPerfectList = [];
+  //               let newNormalList = [];
+  //               res.msg.list.forEach(item => {
+  //                 if(item.perfect) {
+  //                   newPerfectList.push(item);
+  //                 } else {
+  //                   newNormalList.push(item);
+  //                 }
+  //               });
+  //               this.setState({
+  //                 perfectList: this.state.perfectList.concat(newPerfectList),
+  //                 normalList: this.state.normalList.concat(newNormalList),
+  //                 page: this.state.page + 1,
+  //                 end: res.msg.end
+  //               });
+  //             } else {
+  //               this.setState({end: res.msg.end});
+  //               // dispatch(alertMsg('没有更多了'));
+  //             }
+  //           } else {
+  //             dispatch(alertMsg(res.msg));
+  //           }
+  //         }).catch(ex => {
+  //           dispatch(alertMsg(ex));
+  //         });
+  //       }
+  //     })
+  //     this.pullElement.init();
+  //   }
+  //   if(this.pullElement && this.state.end) {
+  //     this.pullElement.disable();
+  //   }
+  // }
 
   onEdit(submitId) {
     const {location} = this.props

@@ -114,7 +114,7 @@ const routes = (
     </Route>
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
-      <Route path="/fragment/plan" component={Plan}/>
+      <Route path="/fragment/rise" component={Plan}/>
       <Route path="/fragment/learn" component={Learn}/>
       <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/application" component={Application}/>

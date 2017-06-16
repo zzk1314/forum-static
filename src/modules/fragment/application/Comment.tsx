@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { loadCommentList, comment, deleteComment, commentReply, getApplicationPractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import PullElement from "pull-element";
-import { findIndex, remove } from "lodash";
+// import { findIndex, remove } from "lodash";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss";
 import { scroll } from "../../../utils/helpers";
@@ -59,51 +58,51 @@ export default class Comment extends React.Component<any, any> {
     });
   }
 
-  componentDidUpdate() {
-    const {commentList = [], end} = this.state;
-    const {dispatch, location} = this.props;
-    if(commentList && commentList.length !== 0 && !this.pullElement) {
-      this.pullElement = new PullElement({
-        target: '.pull-target',
-        scroller: '.application-comment',
-        trigger: '.application-comment',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1).then(res => {
-            if(res.code === 200) {
-              if(res.msg && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.commentList, item) !== -1;
-                });
-                this.setState({
-                  commentList: this.state.commentList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                })
-              } else {
-                dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      });
-      this.pullElement.init();
-    }
-
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
-    }
-  }
-
-  componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
-  }
+  // componentDidUpdate() {
+  //   const {commentList = [], end} = this.state;
+  //   const {dispatch, location} = this.props;
+  //   if(commentList && commentList.length !== 0 && !this.pullElement) {
+  //     this.pullElement = new PullElement({
+  //       target: '.pull-target',
+  //       scroller: '.application-comment',
+  //       trigger: '.application-comment',
+  //       damping: 4,
+  //       detectScroll: true,
+  //       detectScrollOnStart: true,
+  //       onPullUpEnd: (data) => {
+  //         loadCommentList(location.query.submitId, this.state.page + 1).then(res => {
+  //           if(res.code === 200) {
+  //             if(res.msg && res.msg.list.length !== 0) {
+  //               remove(res.msg.list, (item) => {
+  //                 return findIndex(this.state.commentList, item) !== -1;
+  //               });
+  //               this.setState({
+  //                 commentList: this.state.commentList.concat(res.msg.list),
+  //                 page: this.state.page + 1,
+  //                 end: res.msg.end
+  //               })
+  //             } else {
+  //               dispatch(alertMsg('没有更多了'));
+  //             }
+  //           } else {
+  //             dispatch(alertMsg(res.msg));
+  //           }
+  //         }).catch(ex => {
+  //           dispatch(alertMsg(ex));
+  //         });
+  //       }
+  //     });
+  //     this.pullElement.init();
+  //   }
+  //
+  //   if(this.pullElement && this.state.end) {
+  //     this.pullElement.disable();
+  //   }
+  // }
+  //
+  // componentWillUnmount() {
+  //   this.pullElement ? this.pullElement.destroy() : null;
+  // }
 
   onSubmit() {
     const {dispatch, location} = this.props;
@@ -207,7 +206,7 @@ export default class Comment extends React.Component<any, any> {
 
   render() {
     const {commentList = [], showDiscuss, end, isReply, placeholder} = this.state;
-    const {topic, description} = this.state.article;
+    const {topic, content} = this.state.article;
     const renderCommentList = () => {
       if(commentList && commentList.length !== 0) {
         return (
@@ -265,7 +264,7 @@ export default class Comment extends React.Component<any, any> {
         <div className="application-comment">
           <div className="article">
             <div className="article-header">{topic}</div>
-            <pre dangerouslySetInnerHTML={{__html: description}} className="description"></pre>
+            <pre dangerouslySetInnerHTML={{__html: content}} className="description"/>
             <div className="comment-header">
               当前评论
             </div>

@@ -5,7 +5,6 @@ import { loadChallengePractice, submitChallengePractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
-import { merge } from "lodash";
 import AssetImg from "../../../components/AssetImg";
 import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
@@ -172,10 +171,10 @@ export default class Challenge extends React.Component<any, any> {
                 </div> : null}
             </div>
             {showDisable ?
-              <div className="button-footer disabled">提交中</div> :
-              edit ?
-                <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-                null}
+                <div className="button-footer small disabled">提交中</div> :
+                edit ?
+                    <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
+            }
           </div>
         </div>
         {renderOtherComponents()}

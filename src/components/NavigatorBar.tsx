@@ -37,7 +37,7 @@ export default class NavigatorBar extends React.Component<any, any> {
       }
       case NavType.Rise: {
         this.setState({ activeNav: NavType.Rise }, () => {
-          this.context.router.push({ pathname: '/fragment/plan' })
+          this.context.router.push({ pathname: '/fragment/rise' })
         })
         break;
 
@@ -54,7 +54,7 @@ export default class NavigatorBar extends React.Component<any, any> {
 
   checkCurNav() {
     let url = window.location.pathname;
-    if(url === '/fragment/plan' || url === '/fragment/learn') {
+    if(url === '/fragment/rise' || url === '/fragment/learn') {
       this.setState({ activeNav: NavType.Rise });
     } else if(url === '/home' || url === '/') {
       this.setState({ activeNav: NavType.Home });
