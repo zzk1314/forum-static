@@ -50,6 +50,7 @@ import Comment from "./modules/fragment/application/Comment";
 import WarmUp from "./modules/fragment/warmup/WarmUp";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
 import Learn from './modules/fragment/plan/Learn';
+import Report from './modules/fragment/plan/Report';
 import WarmupResult from './modules/fragment/warmup/Result'
 import WarmUpAnalysis from "modules/fragment/warmup/Analysis";
 import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
@@ -116,6 +117,7 @@ const routes = (
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
       <Route path="/fragment/learn" component={Learn}/>
+      <Route path="/fragment/report" component={Report}/>
       <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/application" component={Application}/>
       <Route path="/fragment/application/comment" component={Comment}/>

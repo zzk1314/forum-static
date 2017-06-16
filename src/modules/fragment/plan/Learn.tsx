@@ -232,7 +232,7 @@ export default class PlanMain extends React.Component <any, any> {
     const {status, reportStatus} = planData;
     if(reportStatus === 3) {
       this.context.router.push({
-        pathname: "/rise/static/plan/report",
+        pathname: "/fragment/report",
         query: this.props.location.query
       })
     } else {
@@ -260,7 +260,7 @@ export default class PlanMain extends React.Component <any, any> {
 
     if(reportStatus === 3) {
       this.context.router.push({
-        pathname: '/rise/static/plan/report',
+        pathname: '/fragment/report',
         query: {planId: planId}
       });
     } else if(reportStatus === -1) {
@@ -338,7 +338,7 @@ export default class PlanMain extends React.Component <any, any> {
       return
     }
     this.context.router.push({
-      pathname: '/rise/static/plan/report',
+      pathname: '/fragment/report',
       query: {planId: planId}
     });
   }
