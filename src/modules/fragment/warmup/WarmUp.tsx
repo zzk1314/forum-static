@@ -182,8 +182,6 @@ export default class WarmUp extends React.Component<any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {console.log(this.state)}
-          {console.log(this.props)}
           {integrated == 'false' ?
             <div className="knowledge-link click-key"
                  onClick={() =>

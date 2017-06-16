@@ -110,9 +110,6 @@ export default class CommentedList extends React.Component<any,any> {
         const {pageXOffset=0,pageYOffset=0} = window;
         dispatch(set("page.scroll",{x:pageXOffset,y:pageYOffset}));
 
-        console.log(type)
-        console.log(submitId)
-
         if(type === 3){
             this.context.router.push({
                 pathname: "/asst/subject/view",
