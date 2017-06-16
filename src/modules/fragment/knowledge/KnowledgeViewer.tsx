@@ -174,6 +174,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     dispatch(startLoad())
     deleteKnowledgeDiscuss(id).then(res => {
       if(res.code === 200) {
+        dispatch(endLoad());
         discuss.map(disItem => {
           if(disItem.id !== id) {
             newDiscuss.push(disItem);
