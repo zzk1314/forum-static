@@ -267,7 +267,7 @@ export default class Application extends React.Component<any, any> {
       if(edit) {
         return (
           <div className="no-comment">
-            <div className="content"></div>
+            <div className="content"/>
           </div>
         )
       } else {

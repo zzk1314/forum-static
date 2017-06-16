@@ -30,7 +30,6 @@ export default class Main extends React.Component<any, any> {
     const renderOtherComponents = () => {
       return (
         <div>
-          {renderExist(isPending(this.porps, 'base.loading'), <Loading/>)}
           <AlertMessage
             open={this.props.base.showModal}
             modal={false}
@@ -38,6 +37,7 @@ export default class Main extends React.Component<any, any> {
             title={this.props.base.alertMsg.title}
             handleClose={() => this.closeBaseAlert()}
           />
+          {renderExist(isPending(this.props, 'base.loading'), <Loading/>)}
         </div>
       )
     }
