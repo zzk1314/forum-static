@@ -42,6 +42,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       discuss: {},
       placeholder: '提出你的疑问或意见吧（限300字）',
       isReply: false,
+      clickedCompleteBtn: false
     }
   }
 
@@ -195,25 +196,26 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       showSelfDiscuss: true, content: '',
       isReply: false,
       placeholder: '提出你的疑问或意见吧（限300字）'
-    }, ()=> {
+    }, () => {
       document.body.scrollTop = document.body.scrollHeight;
     })
   }
 
   complete() {
+    this.setState({ clickedCompleteBtn: true })
     const { location } = this.props
     learnKnowledge(location.query.practicePlanId).then(res => {
-      const { code, msg } = res
+      const { code } = res
       if(code === 200) {
         this.context.router.push({ pathname: "/fragment/learn", query: this.props.location.query })
       }
     }).catch(ex => {
-      dispatch(alert())
+      dispatch(alertMsg(ex))
     })
   }
 
   render() {
-    const { showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
+    const { showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
     const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
@@ -353,7 +355,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
 
     return (
-      <div>
+      <div className="knowledgeviewer-container">
         <div className="knowledge-page">
           <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
             <div className="page-header">{knowledge.knowledge}</div>
@@ -366,8 +368,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         {practicePlanId && !showDiscuss && !showSelfDiscuss ?
-            <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> :
-            null}
+          <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
+            标记完成</div> :
+          null}
         {
           this.state.showSelfDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder}

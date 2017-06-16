@@ -131,7 +131,7 @@ export default class Analysis extends React.Component <any, any> {
   }
 
   cancel() {
-    this.setState({ placeholder: '解答同学的提问（限300字）', isReply: false, showDiscuss: false, showSelfDiscuss: false})
+    this.setState({ placeholder: '解答同学的提问（限300字）', isReply: false, showDiscuss: false, showSelfDiscuss: false })
   }
 
   onSubmit() {
@@ -196,7 +196,7 @@ export default class Analysis extends React.Component <any, any> {
       isReply: false,
       repliedId: 0,
       placeholder: '和作者切磋讨论一下吧'
-    }, ()=> {
+    }, () => {
       document.body.scrollTop = document.body.scrollHeight;
     })
   }
@@ -245,6 +245,7 @@ export default class Analysis extends React.Component <any, any> {
               }
             </div>
           </div>
+          {renderClickBtn()}
           <div className="discuss-container">
             <div className="discuss">
               {<RISE_TitleBar content="问答"/>}
@@ -308,6 +309,22 @@ export default class Analysis extends React.Component <any, any> {
       return (choice.selected ? sequenceMap[idx] + ' ' : '')
     }
 
+                 // style={currentIndex === 0 ? {backgroundColor: '#ccc'}}
+    const renderClickBtn = () => {
+      return (
+        <div>
+          <div className="button-footer">
+            <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`}
+                 onClick={this.prev.bind(this)}>上一题
+            </div>
+            {currentIndex + 1 < practiceCount ?
+              <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+              <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
+          </div>
+        </div>
+      )
+    }
+
     const renderOtherComponents = () => {
       return (
         <div>
@@ -326,22 +343,16 @@ export default class Analysis extends React.Component <any, any> {
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {showKnowledge ?
-          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+
+        {/*{showKnowledge ?*/}
+        {/*<KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}*/}
+
         {showSelfDiscuss ?
           <Discuss isReply={isReply} placeholder={placeholder}
                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
                    cancel={() => this.cancel()}/> :
           <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-          </div>}
-        {showDiscuss || showSelfDiscuss ? null :
-          <div className="button-footer">
-            <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题
-            </div>
-            {currentIndex + 1 < practiceCount ?
-              <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-              <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
           </div>}
 
         {showKnowledge ?

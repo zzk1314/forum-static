@@ -15,6 +15,7 @@ import { Work } from "../components/NewWork";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import Snackbar from 'material-ui/Snackbar'
 
 let timer;
 
@@ -187,10 +188,10 @@ export default class Application extends React.Component<any, any> {
 
   others() {
     const { location, dispatch } = this.props;
-    this.setState({showOthers:true, loading:true});
+    this.setState({ showOthers: true, loading: true });
     loadOtherList(location.query.id, this.state.page + 1).then(res => {
       if(res.code === 200) {
-        this.setState({loading:false});
+        this.setState({ loading: false });
         if(res.msg && res.msg.list && res.msg.list.length !== 0) {
           remove(res.msg.list, (item) => {
             return findIndex(this.state.otherList, item) !== -1;
@@ -202,7 +203,7 @@ export default class Application extends React.Component<any, any> {
           });
         } else {
           // dispatch(alertMsg('没有更多了'));
-          this.setState({end: res.msg.end});
+          this.setState({ end: res.msg.end });
         }
       } else {
         dispatch(alertMsg(res.msg));
@@ -243,13 +244,15 @@ export default class Application extends React.Component<any, any> {
     })
   }
 
-  loadMore(){
+  loadMore() {
     this.others();
   }
 
   render() {
-    const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end,
-        showOthers, edit, showDisable, integrated, loading } = this.state
+    const {
+      data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end,
+      showOthers, edit, showDisable, integrated, loading
+    } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId } = data
 
     const renderList = (list) => {
@@ -295,16 +298,17 @@ export default class Application extends React.Component<any, any> {
 
     const renderEnd = () => {
       if(showOthers) {
-        if(loading){
+        if(loading) {
           return (
-              <div style={{textAlign:'center', margin: '5px 0'}}>
-                <AssetImg url="https://static.iqycamp.com/images/loading2.gif" width={30} />
-              </div>
+            <div style={{ textAlign: 'center', margin: '5px 0' }}>
+              <AssetImg url="https://static.iqycamp.com/images/loading2.gif" width={30}/>
+            </div>
           )
         }
         if(!end) {
           return (
-            <div onClick={()=>this.loadMore()} className="show-more click-key" style={{ borderTop: "1px solid #efefef"}}>点击加载更多消息</div>
+            <div onClick={() => this.loadMore()} className="show-more click-key"
+                 style={{ borderTop: "1px solid #efefef" }}>点击加载更多消息</div>
           )
         } else {
           return (
@@ -384,17 +388,17 @@ export default class Application extends React.Component<any, any> {
                 <RISE_TitleBar content={'最新文章'}/>
                 {renderList(otherList)}</div> : null}
               {!showOthers ?
-                <div className="show-others-tip click-key" onClick={()=>this.others()}>同学的作业</div> : null}
+                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
               {renderEnd()}
             </div>
             { showDisable ?
               <div className="button-footer small disabled">提交中</div> :
               edit ?
-                <div className="button-footer small" onClick={()=>this.onSubmit()}>提交</div> : null
+                <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
             }
           </div>
         </div>
-        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={()=>this.closeModal()}/> : null}
+        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={() => this.closeModal()}/> : null}
 
         <div className="main-toast">
           <Toast
@@ -405,7 +409,6 @@ export default class Application extends React.Component<any, any> {
             <div>已自动保存，可以继续编辑啦</div>
           </Toast>
         </div>
-
         {renderOtherComponents()}
       </div>
     )
