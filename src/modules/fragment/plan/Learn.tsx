@@ -192,12 +192,12 @@ export default class PlanMain extends React.Component <any, any> {
     } else if(type === 11) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
+        query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId}
       }) : null;
     } else if(type === 12) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}
+        query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId}
       }) : null;
     } else if(type === 21) {
       this.context ? this.context.router.push({

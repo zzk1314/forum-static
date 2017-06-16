@@ -245,6 +245,7 @@ export default class Application extends React.Component<any, any> {
   render() {
     const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus } = data
+    const { currentIndex, planId, practicePlanId } = this.props.location.query;
 
     const renderList = (list) => {
       if(list) {
@@ -337,10 +338,17 @@ export default class Application extends React.Component<any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{ __html: description }}>
                 </div>
               </div>
+              {console.log(this.props)}
+              {console.log(this.state)}
               {integrated == 'false' ?
-                <div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>
-                  点击查看知识点</div> : null
+                <div className="knowledge-link"
+                     onClick={() =>
+                       window.open(`/fragment/knowledge?id=${data.knowledgeId}`, "_blank")
+                     }>点击查看知识点</div> :
+                null
               }
+              {/*<div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>*/}
+              {/*点击查看知识点</div> : null*/}
             </div>
             <div ref="workContainer" className="work-container">
               {<RISE_TitleBar content={content === null ? "提交方式" : "我的作业"}/>}

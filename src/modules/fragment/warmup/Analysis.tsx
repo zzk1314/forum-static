@@ -216,7 +216,7 @@ export default class Analysis extends React.Component <any, any> {
     const { practice = [] } = list
 
     const questionRender = (practice) => {
-      const { id, question, pic, choiceList = [], score = 0, discussList = [] } = practice
+      const { id, question, pic, choiceList = [], score = 0, discussList = [], knowledgeId } = practice
       return (
         <div>
           <div className="intro-container">
@@ -235,7 +235,7 @@ export default class Analysis extends React.Component <any, any> {
             </div>
             <div className="analysis">
               {<RISE_TitleBar content="解析"/>}
-              <div className="context" style={{marginTop: 10}}>
+              <div className="context" style={{ marginTop: 10 }}>
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
               <div className="context" style={{ marginBottom: 15 }}>
@@ -244,7 +244,10 @@ export default class Analysis extends React.Component <any, any> {
               <div className="context"
                    dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
               {integrated == 'false' ?
-                <div className="knowledge-link hover-cursor" onClick={() => this.setState({ showKnowledge: true })}>
+                <div className="knowledge-link hover-cursor"
+                     onClick={() =>
+                       window.open(`/fragment/knowledge?id=${knowledgeId}`)
+                     }>
                   点击查看相关知识</div> : null
               }
             </div>

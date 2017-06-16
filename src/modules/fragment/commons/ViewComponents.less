@@ -2,10 +2,7 @@
  * 该文件主要用来保存 ViewComponents 中各组件样式
  * @author xfduan
  */
-
-@font-size: 1.4em;
-@color_title: #666;
-@color_weak_background: #f5f5f5;
+@import "../../../style/variable";
 
 // RISE_HomeIcon
 .pc-icon {
@@ -18,14 +15,17 @@
   span {
     display: block;
   }
+  &.show {
+    display: block;
+  }
 }
 
 //RISE_TitleBar
 .title-bar {
   width: ~"calc(100% + 100px)";
-  margin-left: -50px;
+  margin: 10px -50px;
   background-color: @color_weak_background;
-  font-size: @font-size;
+  font-size: @font_title;
   span {
     padding-left: 50px;
   }

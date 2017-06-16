@@ -50,9 +50,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    {
-      console.log(this.props)
-    }
     const { id, practicePlanId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())

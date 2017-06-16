@@ -164,7 +164,7 @@ export default class WarmUp extends React.Component<any, any> {
     const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated } = this.state
     const { practice = [] } = list
     const questionRender = (practice) => {
-      const { question, pic, choiceList = [], score = 0 } = practice
+      const { question, pic, choiceList = [], score = 0, knowledgeId } = practice
       return (
         <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
@@ -177,14 +177,19 @@ export default class WarmUp extends React.Component<any, any> {
             <AssetImg url={pic} width="80%" height="80%"/></div> : null
           }
           <div className="question">
-            <div dangerouslySetInnerHTML={{ __html: question }}></div>
+            <div dangerouslySetInnerHTML={{ __html: question }}/>
           </div>
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
+          {console.log(this.state)}
+          {console.log(this.props)}
           {integrated == 'false' ?
-            <div className="knowledge-link hover-cursor" onClick={() => this.setState({ showKnowledge: true })}>不确定?
-              瞄一眼知识点</div> : null}
+            <div className="knowledge-link hover-cursor"
+                 onClick={() =>
+                   window.open(`/fragment/knowledge?id=${knowledgeId}`)
+                 }>不确定?瞄一眼知识点</div> :
+            null}
         </div>
       )
     }
