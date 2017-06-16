@@ -151,8 +151,14 @@ export default class AnalysisNew extends React.Component <any, any> {
     })
   }
 
-  onDiscuss(){
-    this.setState({ showDiscuss: true }, ()=>{
+  openWriteBox() {
+    this.setState({
+      showSelfDiscuss: true,
+      content: '',
+      isReply: false,
+      repliedId: 0,
+      placeholder: '和作者切磋讨论一下吧'
+    }, ()=> {
       document.body.scrollTop = document.body.scrollHeight;
     })
   }
@@ -254,7 +260,7 @@ export default class AnalysisNew extends React.Component <any, any> {
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.onDiscuss()}>
+            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
               <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>}
       </div>
