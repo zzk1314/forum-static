@@ -499,7 +499,7 @@ export default class PlanMain extends React.Component <any, any> {
                     {item.sectionList.map((section, index) => {
                       return (
                         <div id={`section${section.series}`}
-                             className={`hover-cursor click-key ${currentIndex === section.series ? 'open' : ''} section`}
+                             className={`hover-cursor ${currentIndex === section.series ? 'open' : ''} section`}
                              onClick={() => {
                                this.handleChangeSection(section.series);
                              }} key={index}>
