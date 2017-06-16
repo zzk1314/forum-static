@@ -151,6 +151,12 @@ export default class AnalysisNew extends React.Component <any, any> {
     })
   }
 
+  onDiscuss(){
+    this.setState({ showDiscuss: true }, ()=>{
+      document.body.scrollTop = document.body.scrollHeight;
+    })
+  }
+
   render() {
     const {data, selected, showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state
     const {knowledge} = data
@@ -248,8 +254,8 @@ export default class AnalysisNew extends React.Component <any, any> {
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            <div className="writeDiscuss" onClick={() => this.onDiscuss()}>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>}
       </div>
     )

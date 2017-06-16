@@ -196,6 +196,8 @@ export default class Analysis extends React.Component <any, any> {
       isReply: false,
       repliedId: 0,
       placeholder: '和作者切磋讨论一下吧'
+    }, ()=> {
+      document.body.scrollTop = document.body.scrollHeight;
     })
   }
 
@@ -341,6 +343,17 @@ export default class Analysis extends React.Component <any, any> {
               <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
               <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
           </div>}
+<<<<<<< HEAD
+=======
+        {showKnowledge ?
+          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder}
+                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                cancel={() => this.cancel()}/> :
+          <div className="writeDiscuss" onClick={() => this.onDiscuss()}>
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          </div>}
+>>>>>>> fix
         {renderOtherComponents()}
       </div>
     )
