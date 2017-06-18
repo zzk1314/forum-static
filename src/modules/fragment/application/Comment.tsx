@@ -7,7 +7,7 @@ import AssetImg from "../../../components/AssetImg";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss";
 import { scroll } from "../../../utils/helpers";
-import {RISE_TitleBar} from "../commons/ViewComponents";
+import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Comment extends React.Component<any, any> {
@@ -32,15 +32,15 @@ export default class Comment extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props;
+    const { dispatch, location } = this.props;
     dispatch(startLoad());
     getApplicationPractice(location.query.submitId).then(res => {
       if(res.code === 200) {
-        this.setState({article: res.msg})
+        this.setState({ article: res.msg })
         loadCommentList(location.query.submitId, 1).then(res => {
           if(res.code === 200) {
             dispatch(endLoad());
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end, isFeedback: res.msg.feedback});
+            this.setState({ commentList: res.msg.list, page: 1, end: res.msg.end, isFeedback: res.msg.feedback });
           } else {
             dispatch(endLoad());
             dispatch(alertMsg(res.msg));
@@ -59,12 +59,12 @@ export default class Comment extends React.Component<any, any> {
     });
   }
 
-  onSubmit() {
-    const {dispatch, location} = this.props;
-    const {content, isReply} = this.state;
+  onSubmit(isSelfDiscuss = false) {
+    const { dispatch, location } = this.props;
+    const { content } = this.state;
     if(content) {
-      this.setState({editDisable: true});
-      if(isReply) {
+      this.setState({ editDisable: true });
+      if(!isSelfDiscuss) {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
@@ -78,7 +78,7 @@ export default class Comment extends React.Component<any, any> {
             dispatch(alertMsg(res.msg));
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
+          this.setState({ editDisable: false });
           dispatch(alertMsg(ex));
         });
       } else {
@@ -93,10 +93,10 @@ export default class Comment extends React.Component<any, any> {
             scroll('.comment-body', '.application-comment')
           } else {
             dispatch(alertMsg(res.msg));
-            this.setState({editDisable: false});
+            this.setState({ editDisable: false });
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
+          this.setState({ editDisable: false });
           dispatch(alertMsg(ex));
         })
       }
@@ -126,7 +126,7 @@ export default class Comment extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {commentList = []} = this.state;
+    const { commentList = [] } = this.state;
     deleteComment(id).then(res => {
       if(res.code === 200) {
         let newCommentList = []
@@ -135,17 +135,17 @@ export default class Comment extends React.Component<any, any> {
             newCommentList.push(item)
           }
         })
-        this.setState({commentList: newCommentList})
+        this.setState({ commentList: newCommentList })
       }
     })
   }
 
   onChange(value) {
-    this.setState({content: value});
+    this.setState({ content: value });
   }
 
   cancel() {
-    const {showDiscuss, showSelfDiscuss} = this.state;
+    const { showDiscuss, showSelfDiscuss } = this.state;
 
     if(showDiscuss || showSelfDiscuss) {
       this.setState({
@@ -158,8 +158,8 @@ export default class Comment extends React.Component<any, any> {
   }
 
   render() {
-    const {commentList = [], showDiscuss, end, isReply, placeholder} = this.state;
-    const {topic, content} = this.state.article;
+    const { commentList = [], showDiscuss, end, isReply, placeholder } = this.state;
+    const { topic, content } = this.state.article;
     const renderCommentList = () => {
       if(commentList && commentList.length !== 0) {
         return (
@@ -179,7 +179,7 @@ export default class Comment extends React.Component<any, any> {
                       isReply={isReply} placeholder={placeholder}
                       submit={() => this.onSubmit()}
                       onChange={(v) => this.onChange(v)}
-                      cancel={() => this.cancel()}/>:
+                      cancel={() => this.cancel()}/> :
                     null
                 }
               </div>
@@ -212,12 +212,37 @@ export default class Comment extends React.Component<any, any> {
       }
     }
 
+    const renderSelftDiscuss = () => {
+      return (
+        <div>
+          <Discuss
+            isReply={isReply} placeholder={`和作者切磋讨论一下吧`}
+            submit={() => this.onSubmit(true)}
+            onChange={(v) => this.onChange(v)}
+            cancel={() => this.cancel()}
+            showCancelBtn={false}
+          />
+          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+          {/*</div>*/}
+        </div>
+      )
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <RISE_HomeIcon showHomeIcon={true}/>
+        </div>
+      )
+    }
+
     return (
       <div>
         <div className="application-comment">
           <div className="article">
             <div className="article-header">{topic}</div>
-            <pre dangerouslySetInnerHTML={{__html: content}} className="description"/>
+            <pre dangerouslySetInnerHTML={{ __html: content }} className="description"/>
             {
               this.state.isFeedback ?
                 <div className="comment-header-feedback">
@@ -228,22 +253,13 @@ export default class Comment extends React.Component<any, any> {
             }
           </div>
           <RISE_TitleBar content={'当前评论'}/>
+          {renderSelftDiscuss()}
           <div className="comment-body">
             {renderCommentList()}
             {renderTips()}
           </div>
-          {
-            this.state.showSelfDiscuss ?
-              <Discuss
-                isReply={isReply} placeholder={placeholder}
-                submit={() => this.onSubmit()}
-                onChange={(v) => this.onChange(v)}
-                cancel={() => this.cancel()}/> :
-              <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-              </div>
-          }
         </div>
+        {renderOtherComponents()}
       </div>
     )
   }

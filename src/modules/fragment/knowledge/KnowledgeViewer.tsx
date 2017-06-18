@@ -134,12 +134,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       isReply: false,
       repliedId: 0,
       showDiscuss: false,
-      showSelfDiscuss: false
+      showSelfDiscuss: false,
     })
   }
 
-  onSubmit() {
-    const { referenceId, repliedId, content } = this.state;
+  onSubmit(isSelfDiscuss = false) {
+    const { dispatch } = this.props
+    const { content } = this.state;
+    const repliedId = isSelfDiscuss ? 0 : this.state.repliedId
     if(content.length == 0) {
       alert("请填写评论");
       return;
@@ -164,7 +166,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     });
-
   }
 
   onDelete(id) {
@@ -346,6 +347,30 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     }
 
+    const renderClickBtn = () => {
+      return (
+        <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
+          标记完成</div>
+      )
+    }
+
+    const renderSelfDisucss = () => {
+      return (
+        <div>
+          <Discuss
+            isReply={isReply} placeholder={`提出你的疑问或意见吧（限300字）`}
+            submit={() => this.onSubmit(true)}
+            onChange={(v) => this.onChange(v)}
+            cancel={() => this.cancel()}
+            showCancelBtn={false}
+          />
+          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+          {/*</div>*/}
+        </div>
+      )
+    }
+
     const renderOtherComponents = () => {
       return (
         <div>
@@ -361,26 +386,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             <div className="page-header">{knowledge.knowledge}</div>
             <div className="intro-container">
               {renderKnowledgeContent()}
+              {renderClickBtn()}
               {<RISE_TitleBar content="问答"/>}
+              {renderSelfDisucss()}
               {renderDiscussContent()}
             </div>
           </div>
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        {practicePlanId && !showDiscuss && !showSelfDiscuss ?
-          <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
-            标记完成</div> :
-          null}
-        {
-          this.state.showSelfDiscuss ?
-            <Discuss isReply={isReply} placeholder={placeholder}
-                     submit={() => this.onSubmit()}
-                     onChange={(v) => this.onChange(v)}
-                     cancel={() => this.cancel()}/> :
-            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>
-        }
         {renderOtherComponents()}
       </div>
     )

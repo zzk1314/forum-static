@@ -56,14 +56,7 @@ export default class WarmUp extends React.Component<any, any> {
               return false;
             }
           })
-          // if(idx !== -1) {
-          //   this.context.router.push({
-          //     pathname: '/rise/static/practice/warmup/analysis',
-          //     query: location.query,
-          //   })
-          // } else {
           this.setState({ list: msg, practiceCount: msg.practice.length })
-          // }
           dispatch(endLoad());
         }
       } else {
@@ -203,6 +196,18 @@ export default class WarmUp extends React.Component<any, any> {
       )
     }
 
+    const renderClickBtn = () => {
+      return (
+        <div className="button-footer">
+          <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+          </div>
+          { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+            <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+          }
+        </div>
+      )
+    }
+
     const renderOtherComponents = () => {
       return (
         <div>
@@ -213,25 +218,21 @@ export default class WarmUp extends React.Component<any, any> {
 
     return (
       <div className="container">
-        {showKnowledge ?
-          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
-          <div style={{ height: "100%" }}>
-            <div className="has-footer" ref={'warmup'}>
-              <div className="warm-up">
-                {practice[currentIndex] ?
-                  <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
-                {questionRender(practice[currentIndex] || {})}
+        <div className="warm-up">
+          {showKnowledge ?
+            <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
+            <div style={{ height: "100%" }}>
+              <div className="has-footer" ref={'warmup'}>
+                <div className="warm-up">
+                  {practice[currentIndex] ?
+                    <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+                  {questionRender(practice[currentIndex] || {})}
+                </div>
               </div>
+              {renderClickBtn()}
             </div>
-            <div className="button-footer">
-              <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
-              </div>
-              { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
-              }
-            </div>
-          </div>
-        }
+          }
+        </div>
         {renderOtherComponents()}
       </div>
     )

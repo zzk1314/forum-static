@@ -134,9 +134,11 @@ export default class Analysis extends React.Component <any, any> {
     this.setState({ placeholder: '解答同学的提问（限300字）', isReply: false, showDiscuss: false, showSelfDiscuss: false })
   }
 
-  onSubmit() {
+  onSubmit(isSelfDiscuss = false) {
     const { dispatch } = this.props
-    const { repliedId, content, list, currentIndex } = this.state
+    const { content, list, currentIndex } = this.state
+    // 针对回复框类型，选择评论类型，是否回复
+    const repliedId = isSelfDiscuss ? 0 : this.state.repliedId
     const { practice = [] } = list
     const { id } = practice[currentIndex]
     if(content.length == 0) {
@@ -249,6 +251,7 @@ export default class Analysis extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               {<RISE_TitleBar content="问答"/>}
+              {renderSelfDiscuss()}
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="show-more">
@@ -309,7 +312,6 @@ export default class Analysis extends React.Component <any, any> {
       return (choice.selected ? sequenceMap[idx] + ' ' : '')
     }
 
-                 // style={currentIndex === 0 ? {backgroundColor: '#ccc'}}
     const renderClickBtn = () => {
       return (
         <div>
@@ -321,6 +323,23 @@ export default class Analysis extends React.Component <any, any> {
               <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
               <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
           </div>
+        </div>
+      )
+    }
+
+    const renderSelfDiscuss = () => {
+      return (
+        <div>
+          <Discuss
+            isReply={isReply} placeholder={`解答同学的提问（限300字）`}
+            submit={() => this.onSubmit(true)}
+            onChange={(v) => this.onChange(v)}
+            cancel={() => this.cancel()}
+            showCancelBtn={false}
+          />
+          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+          {/*</div>*/}
         </div>
       )
     }
@@ -343,26 +362,14 @@ export default class Analysis extends React.Component <any, any> {
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-
-        {/*{showKnowledge ?*/}
-        {/*<KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}*/}
-
-        {showSelfDiscuss ?
-          <Discuss isReply={isReply} placeholder={placeholder}
-                   submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                   cancel={() => this.cancel()}/> :
-          <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>}
-
         {showKnowledge ?
           <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                cancel={() => this.cancel()}/> :
-          <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>}
+        {/*{showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder}*/}
+        {/*submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}*/}
+        {/*cancel={() => this.cancel()}/> :*/}
+        {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+        {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+        {/*</div>}*/}
         {renderOtherComponents()}
       </div>
     )
