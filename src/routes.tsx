@@ -41,6 +41,7 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
+import SmsManager from "./modules/backend/operation/SmsManager"
 
 const routes = (
   <Route path="/" component={Base}>
@@ -80,6 +81,8 @@ const routes = (
       <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
         <Route path="/backend/application/catalog" component={CatalogView}/>
         <Route path="/backend/application/list" component={ApplicationView}/>
+      </Route>
+      <Route path="/backend/sms/manager" component={SmsManager}>
       </Route>
     </Route>
     <Route component={AsstIndex}>
