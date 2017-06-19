@@ -9,8 +9,12 @@ enum NavType {
   Forum
 }
 
+interface NavigatorBarProps {
+  isFixed: boolean;
+}
+
 @connect(state => state)
-export default class NavigatorBar extends React.Component<any, any> {
+export default class NavigatorBar extends React.Component<NavigatorBarProps, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +69,7 @@ export default class NavigatorBar extends React.Component<any, any> {
     const { activeNav } = this.state
 
     return (
-      <div className="nav-container">
+      <div className={this.props.isFixed ? `nav-container-fixed` : `nav-container`}>
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">

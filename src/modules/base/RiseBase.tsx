@@ -3,12 +3,12 @@ import { connect } from "react-redux"
 import { set, alertMsg } from "redux/actions"
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-ui/Toolbar"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
-import NavigatorBar from  "../../components/NavigatorBar"
 import AlertMessage from "../../components/AlertMessage"
 import Loading from "../../components/Loading";
 
 import "./RiseBase.less";
 import { isPending, renderExist } from "../../utils/helpers";
+import NavigatorBar from "../../components/NavigatorBar.tsx";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -54,7 +54,7 @@ export default class Main extends React.Component<any, any> {
     return (
       <MuiThemeProvider>
         <div className="rise-base">
-          <NavigatorBar/>
+          <NavigatorBar isFixed={true}/>
           <div className="min-width">{this.props.children}</div>
           {renderOtherComponents()}
         </div>

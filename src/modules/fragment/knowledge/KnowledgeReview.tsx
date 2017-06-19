@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import "./KnowledgeReview.less"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { loadProblem, } from "./async"
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class KnowledgeReview extends React.Component<any, any> {
@@ -83,6 +83,10 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
     return (
       <div className="problem-detail">
+        <div className="problem-head">
+          <RISE_BreadCrumbsProps navList={['小课', '知识回顾']}/>
+          <div className="problem-header">知识回顾</div>
+        </div>
         <div className="detail-header click" style={{ marginBottom: '10px', borderBottom: "none" }}
              onClick={this.goProblemIntro.bind(this)}>
           <div className="header-label" style={{ float: "left" }}>
@@ -95,7 +99,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
         <div className="detail-container">
           {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
         </div>
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

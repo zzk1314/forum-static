@@ -1,18 +1,36 @@
 @import "../../../style/variable";
 
-.problem-detail{
-  //position: absolute;
-  width:100%;
-  height:100%;
-  background-color:#efefef;
-  > .detail-header{
-    background-color:#ffffff;
-    height:50px;
-    line-height:50px;
-    color:@color_title;
-    padding-left:15px;
-    font-size:@font_title;
-    border-bottom:10px;
+.problem-detail {
+  margin: 0 50px;
+  height: 100%;
+  background-color: #fff;
+  padding-top: 125px;
+
+  .problem-head {
+    position: fixed;
+    top: 80px;
+    width: ~"calc(62.5% - 100px)";
+    background-color: #fff;
+    z-index: 150;
+    .problem-header {
+      width: 100%;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-size: 1.7em;
+      color: #666;
+      border-bottom: 2px solid #55cbcb;
+    }
+  }
+
+  > .detail-header {
+    background-color: #ffffff;
+    height: 50px;
+    line-height: 50px;
+    color: @color_title;
+    padding-left: 15px;
+    font-size: @font_title;
+    border-bottom: 10px;
     &.click:after {
       content: ' ';
       display: inline-block;
@@ -24,16 +42,16 @@
       margin-right: 15px;
     }
   }
-  > .detail-container{
-    background-color:#ffffff;
-    .chapter{
+  > .detail-container {
+    background-color: #ffffff;
+    .chapter {
       height: 50px;
       line-height: 50px;
       font-size: @font_title;
       color: @color_context;
       padding-left: 15px;
-      border-top:1px solid @color_weak_background;
-      &:before{
+      border-top: 1px solid @color_weak_background;
+      &:before {
         content: '';
         background: url('https://static.iqycamp.com/images/fragment/chapter.png?imageslim') no-repeat center center/ 1.1em 1.0em;
         vertical-align: middle;
@@ -45,13 +63,13 @@
       }
     }
 
-    .section{
+    .section {
       height: 50px;
       line-height: 50px;
       font-size: @font_context;
       color: @color_context;
       padding-left: 29px;
-      border-top:1px solid @color_weak_background;
+      border-top: 1px solid @color_weak_background;
       &:before {
         content: '';
         display: inline-block;
