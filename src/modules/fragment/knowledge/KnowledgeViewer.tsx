@@ -17,7 +17,7 @@ import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -391,7 +391,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       <div className="knowledgeviewer-container">
         <div className="knowledge-page">
           <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
-            <div className="page-header">{knowledge.knowledge}</div>
+            <div className="knowledge-head">
+              <RISE_BreadCrumbsProps navList={["小课", "知识理解"]}/>
+              <div className="page-header">{knowledge.knowledge}</div>
+            </div>
             <div className="intro-container">
               {renderKnowledgeContent()}
               {renderClickBtn()}
@@ -402,7 +405,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           </div>
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
 

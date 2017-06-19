@@ -32,3 +32,26 @@
   }
 }
 
+//RISE_BreadCrumbs
+.bread-crumbs {
+  font-size: 1.8em;
+  letter-spacing: 1px;
+  position: absolute;
+  padding-top: 10px;
+  display: inline-block;
+
+  .bread-first-item {
+    display: inline-block;
+    color: #5FC8D0;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .bread-items {
+    display: inline-block;
+    div {
+      margin-left: 4px;
+      color: @color_title;
+      display: inline-block;
+    }
+  }
+}

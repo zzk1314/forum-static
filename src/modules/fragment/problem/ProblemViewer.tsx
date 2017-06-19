@@ -6,7 +6,7 @@ import AssetImg from "../../../components/AssetImg";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan} from "./async";
 import AlertMessage from "../../../components/AlertMessage";
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class ProblemViewer extends React.Component<any, any> {
@@ -120,8 +120,9 @@ export default class ProblemViewer extends React.Component<any, any> {
       <div className="problem-page outer-wrapper">
         <div className={`container ${show?'':'has-footer'}`}>
           <div className="problem-intro">
-            <div className="page-header">
-              {problem}
+            <div className="problem-head">
+              <RISE_BreadCrumbsProps navList={["小课", "小课介绍"]}/>
+              <div className="page-header">{problem}</div>
             </div>
             <div className="page-content">
               { audio ? <div className="context-audio">
@@ -202,7 +203,6 @@ export default class ProblemViewer extends React.Component<any, any> {
           open={this.state.showAlert}>
           <p className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</p>
         </AlertMessage>
-        {renderOtherComponents()}
       </div>
     )
   }

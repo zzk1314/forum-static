@@ -6,7 +6,7 @@ import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeModal from "../components/KnowledgeModal"
-import { RISE_HomeIcon } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -111,7 +111,7 @@ export default class WarmUp extends React.Component<any, any> {
     const { dispatch } = this.props;
     const { selected, list, currentIndex, practiceCount } = this.state;
     if(selected.length === 0) {
-      dispatch(alertMsg("你还没有选择答案哦"));
+      dispatch(alertMsg(null, "你还没有选择答案哦"));
       return
     }
     if(currentIndex < practiceCount - 1) {
@@ -130,7 +130,7 @@ export default class WarmUp extends React.Component<any, any> {
     const { selected, practice, currentIndex, practiceCount } = this.state;
     const { practicePlanId } = this.props.location.query;
     if(selected.length === 0) {
-      dispatch(alertMsg("你还没有选择答案哦"));
+      dispatch(alertMsg(null, "你还没有选择答案哦"));
       return;
     }
     if(currentIndex === practiceCount - 1) {
@@ -143,7 +143,7 @@ export default class WarmUp extends React.Component<any, any> {
               query: merge(msg, this.props.location.query)
             })
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(null, "这组训练已经提交过答案啦"));
           }
         }).catch(e => {
           dispatch(endLoad());
@@ -227,9 +227,12 @@ export default class WarmUp extends React.Component<any, any> {
             <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
             <div style={{ height: "100%" }}>
               <div className="has-footer" ref={'warmup'}>
-                <div className="warm-up">
-                  {practice[currentIndex] ?
-                    <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+                <div>
+                  <div className="warm-up-head">
+                    <RISE_BreadCrumbsProps navList={["小课", "巩固练习"]}/>
+                    {practice[currentIndex] ?
+                      <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+                  </div>
                   {questionRender(practice[currentIndex] || {})}
                 </div>
               </div>
@@ -237,7 +240,7 @@ export default class WarmUp extends React.Component<any, any> {
             </div>
           }
         </div>
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

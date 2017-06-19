@@ -3,15 +3,26 @@
 .application-comment {
   height: 100%;
   margin: 0 50px;
+  padding-top: 125px;
+
   .article {
-    > .article-header {
-      width: 100%;
-      min-height: 45px;
-      font-size: @font_title;
-      line-height: 2.5em;
-      border-bottom: 2px solid @color_strong;
-      text-align: center;
-      color: @color_title;
+
+    .article-head {
+      position: fixed;
+      top: 80px;
+      width: ~"calc(62.5% - 100px)";
+      background-color: #fff;
+      z-index: 150;
+
+      > .article-header {
+        width: 100%;
+        min-height: 45px;
+        font-size: @font_title;
+        line-height: 2.5em;
+        border-bottom: 2px solid @color_strong;
+        text-align: center;
+        color: @color_title;
+      }
     }
     > .description {
       font-size: @font_context;

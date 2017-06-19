@@ -9,7 +9,7 @@ import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
 import { scroll } from "../../../utils/helpers"
-import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: 'A',
@@ -357,8 +357,11 @@ export default class Analysis extends React.Component <any, any> {
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            {practice[currentIndex] ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+            <div className="warm-up-head">
+              <RISE_BreadCrumbsProps navList={['小课', '巩固练习']}/>
+              {practice[currentIndex] ?
+                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+            </div>
             {questionRender(practice[currentIndex] || {})}
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
@@ -371,7 +374,7 @@ export default class Analysis extends React.Component <any, any> {
         {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
         {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
         {/*</div>}*/}
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

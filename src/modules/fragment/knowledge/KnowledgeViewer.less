@@ -1,18 +1,26 @@
 @import "../../../style/variable";
 
 .knowledgeviewer-container {
+  padding-top: 125px;
   .knowledge-page {
     height: 100%;
     z-index: 100;
     margin: 0 50px;
-    .page-header {
-      width: 100%;
-      height: 45px;
-      text-align: center;
-      line-height: 45px;
-      font-size: 1.7em;
-      color: #666;
-      border-bottom: 2px solid #55cbcb;
+    .knowledge-head {
+      position: fixed;
+      top: 80px;
+      width: ~"calc(62.5% - 100px)";
+      background-color: #fff;
+      z-index: 150;
+      .page-header {
+        width: 100%;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 1.7em;
+        color: #666;
+        border-bottom: 2px solid #55cbcb;
+      }
     }
     .intro-container {
       .context-title-img {

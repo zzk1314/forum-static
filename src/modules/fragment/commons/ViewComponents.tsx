@@ -53,4 +53,54 @@ export class RISE_TitleBar extends React.Component<TitleBarProps, any> {
 
 }
 
+interface BreadCrumbsProps {
+  navList: object;
+}
+export class RISE_BreadCrumbsProps extends React.Component<BreadCrumbsProps, any> {
+
+  constructor() {
+    super()
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  handleClickGoHomePage() {
+    this.context.router.push("/fragment/learn")
+  }
+
+  render() {
+    const { navList } = this.props
+
+    const renderNavs = () => {
+      return (
+        navList.map((item, idx) => {
+          if(idx === 0) {
+            return (
+              <div className="bread-first-item" key={idx}
+                   onClick={() => this.handleClickGoHomePage()}>
+                {item}
+              </div>
+            )
+          } else {
+            return (
+              <div className="bread-items" key={idx}>
+                <div>&gt;</div>
+                <div>{item}</div>
+              </div>
+            )
+          }
+        })
+      )
+    }
+
+    return (
+      <div className="bread-crumbs">
+        {renderNavs()}
+      </div>
+    )
+  }
+
+}
 

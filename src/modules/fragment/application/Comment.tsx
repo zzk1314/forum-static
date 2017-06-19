@@ -7,7 +7,7 @@ import AssetImg from "../../../components/AssetImg";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss";
 import { scroll } from "../../../utils/helpers";
-import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Comment extends React.Component<any, any> {
@@ -243,7 +243,10 @@ export default class Comment extends React.Component<any, any> {
       <div>
         <div className="application-comment">
           <div className="article">
-            <div className="article-header">{topic}</div>
+            <div className="article-head">
+              <RISE_BreadCrumbsProps navList={['小课', '应用练习']}/>
+              <div className="article-header">{topic}</div>
+            </div>
             <pre dangerouslySetInnerHTML={{ __html: content }} className="description"/>
             {
               this.state.isFeedback ?
@@ -261,7 +264,7 @@ export default class Comment extends React.Component<any, any> {
             {renderTips()}
           </div>
         </div>
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

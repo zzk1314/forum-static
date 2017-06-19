@@ -4,6 +4,7 @@ import "./Result.less";
 // import { loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
+import { RISE_BreadCrumbsProps } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Result extends React.Component <any, any> {
@@ -53,7 +54,10 @@ export default class Result extends React.Component <any, any> {
       <div>
         <div className="container has-footer outer-wrapper">
           <div className="warm-up-result">
-            <div className="page-header">{'巩固练习'}</div>
+            <div className="warm-up-result-head">
+              <RISE_BreadCrumbsProps navList={['小课', '巩固练习']}/>
+              <div className="page-header">{'巩固练习'}</div>
+            </div>
             <div className="intro-container">
               <div className="section">
                 <div className="section-title">答对题数</div>

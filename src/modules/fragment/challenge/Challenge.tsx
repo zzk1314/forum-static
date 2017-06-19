@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
 import AssetImg from "../../../components/AssetImg";
-import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 @connect(state => state)
 export default class Challenge extends React.Component<any, any> {
@@ -134,7 +134,10 @@ export default class Challenge extends React.Component<any, any> {
       <div>
         <div className="container">
           <div className="challenge">
-            <div className="page-header">{'小目标'}</div>
+            <div className="challenge-head">
+              <RISE_BreadCrumbsProps navList={['小课', '小目标']}/>
+              <div className="page-header">{'小目标'}</div>
+            </div>
             <div className="intro-container">
               <div className="context-img">
                 <AssetImg url="https://static.iqycamp.com/images/fragment/challenge_practice_2.png" width="60%"/>
@@ -177,7 +180,7 @@ export default class Challenge extends React.Component<any, any> {
             }
           </div>
         </div>
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

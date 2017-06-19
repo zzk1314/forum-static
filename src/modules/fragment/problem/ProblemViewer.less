@@ -3,18 +3,24 @@
 .problem-page {
   .problem-intro{
     margin: 0 50px;
-    > .page-header {
-      //position: fixed;
-      margin-left: -15px;
-      background: #fff;
-      z-index: 100;
-      width: 100%;
-      height: 45px;
-      line-height: 2.5em;
-      font-size: @font_title;
-      border-bottom: 2px solid @color_strong;
-      text-align: center;
-      color: @color_title;
+    .problem-head {
+      position: fixed;
+      top: 80px;
+      width: ~"calc(62.5% - 100px)";
+      background-color: #fff;
+      z-index: 150;
+      .page-header {
+        margin-left: -15px;
+        background: #fff;
+        z-index: 100;
+        width: 100%;
+        height: 45px;
+        line-height: 2.5em;
+        font-size: @font_title;
+        border-bottom: 2px solid @color_strong;
+        text-align: center;
+        color: @color_title;
+      }
     }
     > .page-content{
       padding: 47px 15px 20px 15px;

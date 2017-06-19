@@ -52,12 +52,15 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
-      return (
-        <div key={idx}>
-          <div className='chapter'>{'第' + chapter.chapter + '章 '}{chapter.name}</div>
-          {sections ? sections.map((section, idx) => renderSection(section, idx, chapter.chapter)) : null}
-        </div>
-      )
+      console.log(sections)
+      if(chapter.name !== "复习") {
+        return (
+          <div key={idx}>
+            <div className='chapter'>{'第' + chapter.chapter + '章 '}{chapter.name}</div>
+            {sections ? sections.map((section, idx) => renderSection(section, idx, chapter.chapter)) : null}
+          </div>
+        )
+      }
     }
 
     const renderSection = (section, idx, chapter) => {

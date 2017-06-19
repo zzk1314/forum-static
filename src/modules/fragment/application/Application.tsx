@@ -14,7 +14,7 @@ import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
 import { Work } from "../components/NewWork";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
-import { RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 import Snackbar from 'material-ui/Snackbar'
 
 let timer;
@@ -330,7 +330,10 @@ export default class Application extends React.Component<any, any> {
       <div>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="application">
-            <div className="page-header">{topic}</div>
+            <div className="application-head">
+              <RISE_BreadCrumbsProps navList={['小课', '应用练习']}/>
+              <div className="page-header">{topic}</div>
+            </div>
             <div className="intro-container">
               <div className="context-img">
                 <AssetImg
@@ -381,21 +384,21 @@ export default class Application extends React.Component<any, any> {
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
-              {showOthers && !isEmpty(otherHighlightList) ? <div>
-                <RISE_TitleBar content={'管理员推荐'}/>
-                {renderList(otherHighlightList)}</div> : null}
-              {showOthers && !isEmpty(otherList) ? <div>
-                <RISE_TitleBar content={'最新文章'}/>
-                {renderList(otherList)}</div> : null}
-              {!showOthers ?
-                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
-              {renderEnd()}
             </div>
             { showDisable ?
               <div className="button-footer small disabled">提交中</div> :
               edit ?
                 <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
             }
+            {!showOthers ?
+              <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
+            {showOthers && !isEmpty(otherHighlightList) ? <div>
+              <RISE_TitleBar content={'管理员推荐'}/>
+              {renderList(otherHighlightList)}</div> : null}
+            {showOthers && !isEmpty(otherList) ? <div>
+              <RISE_TitleBar content={'最新文章'}/>
+              {renderList(otherList)}</div> : null}
+            {renderEnd()}
           </div>
         </div>
         {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={() => this.closeModal()}/> : null}
@@ -409,7 +412,7 @@ export default class Application extends React.Component<any, any> {
             <div>已自动保存，可以继续编辑啦</div>
           </Toast>
         </div>
-        {renderOtherComponents()}
+        {/*{renderOtherComponents()}*/}
       </div>
     )
   }
