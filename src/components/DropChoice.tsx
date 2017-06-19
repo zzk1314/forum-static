@@ -87,7 +87,7 @@ export default class DropChoice extends React.Component<any,any>{
     return (
       <div className="screen-mask-container">
         <div className="screen-mask"/>
-        <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} onChange={(e)=>this.onEnd(e)} animation={{ y:this.state.close || this.state.submit? - window.innerWidth:this.contentHeight }} component="div" className="content-container">
+        <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`,left:`${(window.innerWidth - this.contentWidth)/2}px`}} onChange={(e)=>this.onEnd(e)} animation={{y:this.state.close || this.state.submit? - window.innerWidth:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
             <div className="top-tips" style={{height:`${this.topHeight/2.1}px`}}>
               <span dangerouslySetInnerHTML={{__html: subject}}/>

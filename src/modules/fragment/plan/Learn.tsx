@@ -279,7 +279,7 @@ export default class PlanMain extends React.Component <any, any> {
             // this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
             //   this.confirmComplete();
             // })
-            this.confirmComplete();
+            this.handleClickConfirmComplete();
           } else {
             // 未评分
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
@@ -383,7 +383,7 @@ export default class PlanMain extends React.Component <any, any> {
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
       this.setState({showScoreModal: false, planData: merge({}, planData, {hasProblemScore: true})}, () => {
-          this.confirmComplete()
+          this.handleClickConfirmComplete()
         }
       );
     }).catch(ex => {
