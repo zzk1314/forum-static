@@ -38,7 +38,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
   }
 
   goKnowledgeIntro(section) {
-    this.context.router.push({ pathname: "/fragment/knowledge", query: { id: section.knowledgeId } })
+    this.context.router.push({ pathname: "/fragment/knowledge", query: { id: section.knowledgeId, tag: false } })
   }
 
   goProblemIntro() {

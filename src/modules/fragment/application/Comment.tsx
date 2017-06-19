@@ -101,7 +101,7 @@ export default class Comment extends React.Component<any, any> {
         })
       }
     } else {
-      dispatch(alertMsg('请先输入内容再提交'));
+      dispatch(alertMsg(null, '请先输入内容再提交'));
     }
   }
 

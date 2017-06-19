@@ -241,7 +241,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="text">
                 <pre>{analysis}</pre>
               </div>
-              { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+              { analysisPic ?
+                <div className="context-img">
+                  <AssetImg width={'60%'} url={analysisPic}/>
+                </div> : null
+              }
             </div> :
             null}
           {means ?
@@ -252,7 +256,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="text">
                 <pre>{means}</pre>
               </div>
-              { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+              { meansPic ?
+                <div className="context-img">
+                  <AssetImg width={'60%'} url={meansPic}/>
+                </div>
+                : null }
             </div> :
             null}
           {keynote ?
@@ -263,7 +271,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="text">
                 <pre>{keynote}</pre>
               </div>
-              { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
+              { keynotePic ? <div className="context-img"><AssetImg width={'60%'} url={keynotePic}/></div> : null }
             </div> :
             null}
           {example ?

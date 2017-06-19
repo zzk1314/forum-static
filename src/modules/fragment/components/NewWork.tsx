@@ -57,11 +57,11 @@ export default class Work extends React.Component<any,any> {
     const { dispatch, requestCommentCount } = this.props;
     const { request } = this.state;
     if(request){
-      dispatch(alertMsg('本练习已经使用过求点评啦'));
+      dispatch(alertMsg(null, '本练习已经使用过求点评啦'));
       return;
     }
     if(requestCommentCount===0){
-      dispatch(alertMsg('本小课求点评次数已用完'));
+      dispatch(alertMsg(null, '本小课求点评次数已用完'));
       return;
     }
     this.setState({showRequestComment:true})
@@ -73,7 +73,7 @@ export default class Work extends React.Component<any,any> {
       let {code,msg} = res;
       if(code===200){
         this.setState({request:true})
-        dispatch(alertMsg('教练已经收到你的请求啦\n点评后，会在消息中心通知你的'))
+        dispatch(alertMsg(null, '教练已经收到你的请求啦<br/>点评后，会在消息中心通知你的'))
       } else {
         dispatch(alertMsg(msg));
       }
@@ -176,7 +176,7 @@ export default class Work extends React.Component<any,any> {
       <div className={`new-work`} >
         <AlertMessage { ...alertProps }
             open={showRequestComment}
-            title={`当前小课还剩${requestCommentCount}次请求教练点评的机会,确定要在这次使用吗？`}
+            content={`当前小课还剩${requestCommentCount}次请求教练点评的机会,确定要在这次使用吗？`}
         >
         </AlertMessage>
         <div className="submit-cell">

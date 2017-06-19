@@ -34,17 +34,21 @@
 
 //RISE_BreadCrumbs
 .bread-crumbs {
-  font-size: 0.9em;
+  font-size: 1.4em;
   letter-spacing: 1px;
   position: absolute;
-  bottom: 17px;
+  bottom: 13px;
   display: inline-block;
+  margin-left: 50px;
 
   .bread-first-item {
     display: inline-block;
-    color: #5FC8D0;
+    color: @color_title;
     cursor: pointer;
-    text-decoration: underline;
+    &:hover {
+      color: #5FC8D0;
+      text-decoration: underline;
+    }
   }
   .bread-items {
     display: inline-block;

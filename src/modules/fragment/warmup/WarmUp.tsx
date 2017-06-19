@@ -30,7 +30,8 @@ export default class WarmUp extends React.Component<any, any> {
       selected: [],
       knowledge: {},
       showKnowledge: false,
-      integrated: false
+      integrated: false,
+      submitting: false
     };
   }
 
@@ -127,7 +128,15 @@ export default class WarmUp extends React.Component<any, any> {
 
   onSubmit() {
     const { dispatch } = this.props;
-    const { selected, practice, currentIndex, practiceCount } = this.state;
+    const { selected, practice, currentIndex, practiceCount, submitting } = this.state;
+
+    // 正在提交
+    if(submitting) {
+      return
+    } else {
+      this.setState({ submitting: true })
+    }
+
     const { practicePlanId } = this.props.location.query;
     if(selected.length === 0) {
       dispatch(alertMsg(null, "你还没有选择答案哦"));
@@ -158,7 +167,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated, submitting } = this.state
     const { practice = [] } = list
     const questionRender = (practice) => {
       const { question, pic, choiceList = [], score = 0, knowledgeId } = practice
@@ -206,7 +215,7 @@ export default class WarmUp extends React.Component<any, any> {
           <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
           </div>
           { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-            <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+            <div className={`right ${submitting ? 'disabled' : ''}`} onClick={this.onSubmit.bind(this)}>提交</div>
           }
         </div>
       )

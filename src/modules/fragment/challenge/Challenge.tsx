@@ -72,7 +72,7 @@ export default class Challenge extends React.Component<any, any> {
     const answer = this.refs.editor.getValue();
     const { submitId } = data;
     if(answer == null || answer.length === 0) {
-      dispatch(alertMsg('请填写作业'));
+      dispatch(alertMsg(null, '请填写作业'));
       return;
     }
     this.setState({ showDisable: true });
