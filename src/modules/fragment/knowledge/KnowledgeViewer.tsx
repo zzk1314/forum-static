@@ -99,6 +99,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   reload() {
+    console.log(1111)
     const { knowledge } = this.state;
     loadDiscuss(knowledge.id, 1).then(res => {
       if(res.code === 200) {
@@ -110,7 +111,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           isReply: false,
           placeholder: '提出你的疑问或意见吧（限300字）',
         })
-        scroll('.discuss', '.container')
+        document.body.scrollTop = document.querySelector(".discuss").offsetTop - 140
       }
     });
   }
@@ -154,12 +155,15 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     if(repliedId) {
       _.merge(discussBody, { repliedId: repliedId })
     }
+    dispatch(startLoad())
     discussKnowledge(discussBody).then(res => {
       const { code, msg } = res
       if(code === 200) {
+        dispatch(endLoad());
         this.reload()
       }
       else {
+        dispatch(endLoad());
         dispatch(alertMsg(msg))
       }
     }).catch(ex => {
@@ -348,27 +352,31 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
 
     const renderClickBtn = () => {
-      return (
-        <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
-          标记完成</div>
-      )
+      if(!location.query.tag) {
+        return (
+          <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
+            标记完成</div>
+        )
+      }
     }
 
     const renderSelfDisucss = () => {
-      return (
-        <div>
-          <Discuss
-            isReply={isReply} placeholder={`提出你的疑问或意见吧（限300字）`}
-            submit={() => this.onSubmit(true)}
-            onChange={(v) => this.onChange(v)}
-            cancel={() => this.cancel()}
-            showCancelBtn={false}
-          />
-          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-          {/*</div>*/}
-        </div>
-      )
+      if(!showDiscuss) {
+        return (
+          <div>
+            <Discuss
+              isReply={isReply} placeholder={`提出你的疑问或意见吧（限300字）`}
+              submit={() => this.onSubmit(true)}
+              onChange={(v) => this.onChange(v)}
+              cancel={() => this.cancel()}
+              showCancelBtn={false}
+            />
+            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+            {/*</div>*/}
+          </div>
+        )
+      }
     }
 
     const renderOtherComponents = () => {

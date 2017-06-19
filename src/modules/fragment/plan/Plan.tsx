@@ -66,12 +66,20 @@ export default class Plan extends React.Component<any, any> {
           </div>
           <div className="plan-plans">
             <span>进行中</span>
-            {this.generatePlansView(runningPlans)}
+            {
+              runningPlans.length > 0 ?
+                this.generatePlansView(runningPlans) :
+                <div className="plan-tip">请先去微信”圈外学习号“选择一门小课吧</div>
+            }
           </div>
           <div className="plan-splitline"/>
           <div className="plan-plans">
             <span>已完成</span>
-            {this.generatePlansView(donePlans)}
+            {
+              donePlans.length > 0 ?
+                this.generatePlansView(donePlans) :
+                <div className="plan-tip">暂时没有已完成的小课</div>
+            }
           </div>
         </div>
       </div>

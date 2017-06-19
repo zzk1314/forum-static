@@ -219,7 +219,7 @@ export default class Application extends React.Component<any, any> {
     const answer = this.refs.editor.getValue();
     const { submitId } = data;
     if(answer == null || answer.length === 0) {
-      alert("请填写作业");
+      dispatch(alertMsg(null, "先写内容再提交哦"))
       return;
     }
     this.setState({ showDisable: true });

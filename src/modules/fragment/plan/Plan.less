@@ -1,3 +1,5 @@
+@import "../../../style/variable";
+
 .plan-container {
   background-color: #fff;
   margin: 0 50px;
@@ -13,6 +15,7 @@
     .plan-plans {
       margin-top: 30px;
       span {
+        color: @color_help;
         font-size: 1.9em;
       }
       .plan-problem-box {
@@ -41,6 +44,12 @@
             font-size: 1.6em;
           }
         }
+      }
+      .plan-tip {
+        text-align: center;
+        padding: 20px;
+        color: @color_help;
+        font-size: @font_context;
       }
       &:before {
         content: "";

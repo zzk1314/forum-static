@@ -74,11 +74,11 @@ export default class Result extends React.Component <any, any> {
                 </div>
               </div>
             </div>
+            <div className="button-footer">
+              <div className="left" onClick={this.nextTask.bind(this)}>返回</div>
+              <div className="right" onClick={this.onSubmit.bind(this)}>答题解析</div>
+            </div>
           </div>
-        </div>
-        <div className="button-footer">
-          <div className="left" onClick={this.nextTask.bind(this)}>返回</div>
-          <div className="right" onClick={this.onSubmit.bind(this)}>答题解析</div>
         </div>
       </div>
     )

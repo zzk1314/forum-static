@@ -29,9 +29,10 @@
         padding: 20px 0;
         text-align: center;
         color: @color_weak;
-        font-size: @font_index;
+        font-size: @font_click;
         > .discuss-end-span {
           margin-top: 13px;
+          font-size: @font_click;
         }
         > .discuss-end-img {
           text-align: center;
@@ -156,18 +157,23 @@
   }
 
   .button-footer {
+    font-size: 1.8em;
+    letter-spacing: 2px;
     display: inline-flex;
     background-color: #fff;
     justify-content: center;
+    margin-top: 10px;
     .left {
       background-color: #5BCACA;
       width: 33.3%;
+      cursor: pointer;
       &.disabled {
         background-color: @color_weak;
       }
     }
     .right {
-      margin-left: 3px;
+      margin-left: 17%;
+      cursor: pointer;
       background-color: #5BCACA;
       width: 33.3%;
     }

@@ -7,10 +7,10 @@ import AssetImg from "./AssetImg";
 export default class DropChoice extends React.Component<any,any>{
   constructor(props){
     super(props);
-    this.contentWidth = 560/750 * window.innerWidth;
-    this.problemFontSize = 30/750 * window.innerWidth;
-    this.topFontSize = 28/750 * window.innerWidth;
-    this.topLineHeight = 40/750 * window.innerWidth;
+    this.contentWidth = (560/750 * window.innerWidth) > 300 ?300:(560/750 * window.innerWidth);
+    this.problemFontSize = (30/750 * window.innerWidth)>25?25:(30/750 * window.innerWidth);
+    this.topFontSize = (28/750 * window.innerWidth)>20?20:(28/750 * window.innerWidth);
+    this.topLineHeight = (40/750 * window.innerWidth)>40?40:40/750 * window.innerWidth;
     this.topHeight = 384/560 * this.contentWidth;
 
     this.topDotBM = 20 /560 * this.contentWidth;
@@ -89,7 +89,7 @@ export default class DropChoice extends React.Component<any,any>{
         <div className="screen-mask"/>
         <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} onChange={(e)=>this.onEnd(e)} animation={{ y:this.state.close || this.state.submit? - window.innerWidth:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
-            <div className="top-tips" style={{height:`${this.topHeight/2.1}px`,lineHeight:`${this.topLineHeight}px`,fontSize:`${this.topFontSize}px`}}>
+            <div className="top-tips" style={{height:`${this.topHeight/2.1}px`}}>
               <span dangerouslySetInnerHTML={{__html: subject}}/>
             </div>
             <div className="top-dots" style={{height:`${this.topTipBM}px`,lineHeight:`${this.topTipBM}px`,fontSize:`${this.dotFontSize}px`}}>

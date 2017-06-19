@@ -178,7 +178,7 @@ export default class WarmUp extends React.Component<any, any> {
           {integrated == 'false' ?
             <div className="knowledge-link click-key"
                  onClick={() =>
-                   window.open(`/fragment/knowledge?id=${knowledgeId}`)
+                   window.open(`/fragment/knowledge?id=${knowledgeId}&tag=${false}`, "_blank")
                  }>不确定?瞄一眼知识点</div> :
             null}
         </div>

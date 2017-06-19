@@ -73,7 +73,7 @@ export default class Comment extends React.Component<any, any> {
               showSelfDiscuss: false,
               editDisable: false
             });
-            scroll('.comment-body', '.application-comment')
+            document.body.scrollTop = document.querySelector(".comment-body").offsetTop - 140
           } else {
             dispatch(alertMsg(res.msg));
           }
@@ -213,20 +213,22 @@ export default class Comment extends React.Component<any, any> {
     }
 
     const renderSelftDiscuss = () => {
-      return (
-        <div>
-          <Discuss
-            isReply={isReply} placeholder={`和作者切磋讨论一下吧`}
-            submit={() => this.onSubmit(true)}
-            onChange={(v) => this.onChange(v)}
-            cancel={() => this.cancel()}
-            showCancelBtn={false}
-          />
-          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-          {/*</div>*/}
-        </div>
-      )
+      if(!showDiscuss) {
+        return (
+          <div>
+            <Discuss
+              isReply={isReply} placeholder={`和作者切磋讨论一下吧`}
+              submit={() => this.onSubmit(true)}
+              onChange={(v) => this.onChange(v)}
+              cancel={() => this.cancel()}
+              showCancelBtn={false}
+            />
+            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+            {/*</div>*/}
+          </div>
+        )
+      }
     }
 
     const renderOtherComponents = () => {

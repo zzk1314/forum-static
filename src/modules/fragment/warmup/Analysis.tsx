@@ -106,7 +106,7 @@ export default class Analysis extends React.Component <any, any> {
       if(code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg)
         this.setState({ showDiscuss: false, showSelfDiscuss: false, list })
-        scroll('.discuss', '.container')
+        document.body.scrollTop = document.querySelector(".discuss").offsetTop
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -241,7 +241,7 @@ export default class Analysis extends React.Component <any, any> {
               {integrated == 'false' ?
                 <div className="knowledge-link click-key"
                      onClick={() =>
-                       window.open(`/fragment/knowledge?id=${knowledgeId}`)
+                       window.open(`/fragment/knowledge?id=${knowledgeId}&tag=${false}`)
                      }>
                   点击查看相关知识</div> : null
               }
@@ -263,7 +263,6 @@ export default class Analysis extends React.Component <any, any> {
                     <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}/>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-
                 </div>
               }
             </div>
@@ -321,27 +320,29 @@ export default class Analysis extends React.Component <any, any> {
             </div>
             {currentIndex + 1 < practiceCount ?
               <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-              <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
+              <div className={`right`} onClick={this.nextTask.bind(this)}>返回</div>}
           </div>
         </div>
       )
     }
 
     const renderSelfDiscuss = () => {
-      return (
-        <div>
-          <Discuss
-            isReply={isReply} placeholder={`解答同学的提问（限300字）`}
-            submit={() => this.onSubmit(true)}
-            onChange={(v) => this.onChange(v)}
-            cancel={() => this.cancel()}
-            showCancelBtn={false}
-          />
-          {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-          {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-          {/*</div>*/}
-        </div>
-      )
+      if(!showDiscuss) {
+        return (
+          <div>
+            <Discuss
+              isReply={isReply} placeholder={`解答同学的提问（限300字）`}
+              submit={() => this.onSubmit(true)}
+              onChange={(v) => this.onChange(v)}
+              cancel={() => this.cancel()}
+              showCancelBtn={false}
+            />
+            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
+            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
+            {/*</div>*/}
+          </div>
+        )
+      }
     }
 
     const renderOtherComponents = () => {
