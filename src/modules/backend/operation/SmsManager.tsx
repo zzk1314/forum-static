@@ -27,12 +27,15 @@ export default class SmsManager extends React.Component<any,any> {
     const {dispatch} = this.props;
     if(!phone){
       dispatch(alertMsg("请输入电话号码"));
+      return;
     }
     if(!content){
       dispatch(alertMsg("请输入短信内容"));
+      return;
     } else {
       if(content.length > 350){
         dispatch(alertMsg("短信内容不得超过350字"));
+        return;
       }
     }
 
