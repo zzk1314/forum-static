@@ -137,10 +137,14 @@ export default class WarmUp extends React.Component<any, any> {
       this.setChoice(p => {
         answer({ practice: p }, practicePlanId).then(res => {
           const { code, msg } = res
-          if(code === 200) this.context.router.push({
-            pathname: '/fragment/warmup/result',
-            query: merge(msg, this.props.location.query)
-          })
+          if(code === 200) {
+            this.context.router.push({
+              pathname: '/fragment/warmup/result',
+              query: merge(msg, this.props.location.query)
+            })
+          } else {
+            dispatch(alertMsg(res.msg));
+          }
         }).catch(e => {
           dispatch(endLoad());
           dispatch(alertMsg(e));
