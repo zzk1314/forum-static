@@ -45,8 +45,8 @@ export default class PlanMain extends React.Component <any, any> {
       showedPayTip: false,
       nextModal: {
         actions: [
-          {label: '我不听', onClick: () => this.handleClickConfirmComplete(true)},
-          {label: '好的', onClick: () => this.setState({showWarningModal: false})}
+          { label: '我不听', onClick: () => this.handleClickConfirmComplete(true) },
+          { label: '好的', onClick: () => this.setState({ showWarningModal: false }) }
         ],
       },
       showEmptyPage: false,
@@ -59,11 +59,11 @@ export default class PlanMain extends React.Component <any, any> {
 
   componentWillMount(newProps) {
     this.resize();
-    const {dispatch, location} = this.props
+    const { dispatch, location } = this.props
 
     dispatch(set("showHomeIcon", false));
 
-    let {planId} = location.query
+    let { planId } = location.query
     if(newProps) {
       planId = newProps.location.query.planId
     }
@@ -71,13 +71,13 @@ export default class PlanMain extends React.Component <any, any> {
     dispatch(startLoad())
     Async.loadPlan(planId).then(res => {
       dispatch(endLoad())
-      let {code, msg} = res
+      let { code, msg } = res
       if(code === 200) {
         if(msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem: msg.problem})
+          this.setState({ planData: msg, currentIndex: msg.currentSeries, selectProblem: msg.problem })
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/fragment/main' && msg.status === 3) {
-            this.setState({expired: true})
+            this.setState({ expired: true })
           }
         } else {
           // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
@@ -100,18 +100,18 @@ export default class PlanMain extends React.Component <any, any> {
       }
     )
     if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
-      this.setState({windowsClient: true})
+      this.setState({ windowsClient: true })
     } else {
-      this.setState({windowsClient: false})
+      this.setState({ windowsClient: false })
     }
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
-    const {planId} = this.props.location.query;
+    const { planId } = this.props.location.query;
     queryChapterList(planId).then(res => {
       if(res.code === 200) {
-        this.setState({chapterList: res.msg})
+        this.setState({ chapterList: res.msg })
       }
     })
   }
@@ -124,7 +124,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(set("showHomeIcon", true));
   }
 
@@ -138,13 +138,13 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   riseMemberCheck() {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     return isRiseMember().then(res => {
       if(res.code === 200) {
-        this.setState({riseMember: res.msg});
+        this.setState({ riseMember: res.msg });
         if(!res.msg) {
           setTimeout(() => {
-            this.setState({riseMemberTips: true});
+            this.setState({ riseMemberTips: true });
           }, 10)
 
         }
@@ -155,10 +155,10 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickPracticeSelected(item) {
-    const {dispatch} = this.props
-    const {planData, currentIndex} = this.state
-    const {problemId, lockedStatus} = planData
-    const {type, practicePlanId, planId, unlocked} = item
+    const { dispatch } = this.props
+    const { planData, currentIndex } = this.state
+    const { problemId, lockedStatus } = planData
+    const { type, practicePlanId, planId, unlocked } = item
 
     if(!unlocked) {
       if(lockedStatus === -1) {
@@ -181,41 +181,41 @@ export default class PlanMain extends React.Component <any, any> {
       if(item.status === 1) {
         this.context ? this.context.router.push({
           pathname: '/fragment/warmup/analysis',
-          query: {practicePlanId, currentIndex, integrated, planId}
+          query: { practicePlanId, currentIndex, integrated, planId }
         }) : null;
       } else {
         this.context ? this.context.router.push({
           pathname: '/fragment/warmup',
-          query: {practicePlanId, currentIndex, integrated, planId}
+          query: { practicePlanId, currentIndex, integrated, planId }
         }) : null;
       }
     } else if(type === 11) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId}
+        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId }
       }) : null;
     } else if(type === 12) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId}
+        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId }
       }) : null;
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/fragment/challenge',
-        query: {id: item.practiceIdList[0], currentIndex, planId}
+        query: { id: item.practiceIdList[0], currentIndex, planId }
       }) : null;
     } else if(type === 31) {
       this.context ? this.context.router.push({
         pathname: '/fragment/knowledge',
-        query: {practicePlanId, currentIndex, planId}
+        query: { practicePlanId, currentIndex, planId }
       }) : null;
     } else if(type === 32) {
       learnKnowledge(practicePlanId).then(res => {
-        const {code, msg} = res
+        const { code, msg } = res
         if(code === 200) {
           this.context ? this.context.router.push({
             pathname: '/fragment/knowledge/review',
-            query: {problemId, planId}
+            query: { problemId, planId }
           }) : null;
         }
       })
@@ -223,14 +223,14 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({module: "打点", function: "小课介绍", action: "PC打开小课介绍", memo: problemId});
+    mark({ module: "打点", function: "小课介绍", action: "PC打开小课介绍", memo: problemId });
     // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, "_blank")
   }
 
   handleClickGoReport() {
-    const {planData = {}} = this.state;
-    const {status, reportStatus} = planData;
+    const { planData = {} } = this.state;
+    const { status, reportStatus } = planData;
     if(reportStatus === 3) {
       this.context.router.push({
         pathname: "/fragment/report",
@@ -246,7 +246,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   // 提示购买信息
   handleClickRiseMemberTips() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(alertMsg(null, "请在手机微信上升级正式版"));
     // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
     //   window.location.href = `https://${window.location.hostname}/pay/pay`
@@ -254,15 +254,15 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickComplete() {
-    const {dispatch, location} = this.props
-    const {planData = {}} = this.state;
-    const {planId} = location.query
-    const {status, reportStatus} = planData;
+    const { dispatch, location } = this.props
+    const { planData = {} } = this.state;
+    const { planId } = location.query
+    const { status, reportStatus } = planData;
 
     if(reportStatus === 3) {
       this.context.router.push({
         pathname: '/fragment/report',
-        query: {planId: planId}
+        query: { planId: planId }
       });
     } else if(reportStatus === -1) {
       dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
@@ -270,7 +270,7 @@ export default class PlanMain extends React.Component <any, any> {
       dispatch(startLoad());
       completePlan(planId).then(res => {
         dispatch(endLoad());
-        const {code, msg} = res;
+        const { code, msg } = res;
         if(code === 200) {
           // 设置完成
           if(planData.hasProblemScore) {
@@ -282,7 +282,7 @@ export default class PlanMain extends React.Component <any, any> {
             this.handleClickConfirmComplete();
           } else {
             // 未评分
-            this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
+            this.setState({ showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays })
           }
         } else {
           if(code === -1) {
@@ -299,48 +299,48 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickConfirmNextPlan() {
-    this.setState({showCompleteModal: false, showConfirmModal: true})
+    this.setState({ showCompleteModal: false, showConfirmModal: true })
   }
 
   handleSwipeTransitionEnd() {
-    const {location} = this.props
-    const {planId} = location.query
-    const {currentIndex} = this.state
+    const { location } = this.props
+    const { planId } = location.query
+    const { currentIndex } = this.state
     markPlan(currentIndex, planId)
   }
 
   handleClickCloseConfirmModal() {
-    this.setState({showConfirmModal: false})
+    this.setState({ showConfirmModal: false })
   }
 
   handleClickEssenceShare(problemId, series) {
-    this.context.router.push({pathname: '/rise/static/practice/subject', query: {id: problemId, series}})
+    this.context.router.push({ pathname: '/rise/static/practice/subject', query: { id: problemId, series } })
   }
 
   handleClickCloseCompleteModal() {
-    this.setState({showCompleteModal: false})
+    this.setState({ showCompleteModal: false })
   }
 
   handleChangeSection(series) {
-    this.setState({currentIndex: series}, () => {
-      const {location} = this.props
-      const {planId} = location.query
+    this.setState({ currentIndex: series }, () => {
+      const { location } = this.props
+      const { planId } = location.query
       markPlan(series, planId)
     });
   }
 
   handleClickConfirmComplete(force) {
-    const {dispatch, location} = this.props;
-    const {planData, mustStudyDays} = this.state
-    const {planId} = location.query
-    const {doneAllIntegrated} = planData
+    const { dispatch, location } = this.props;
+    const { planData, mustStudyDays } = this.state
+    const { planId } = location.query
+    const { doneAllIntegrated } = planData
     if(!force && !doneAllIntegrated) {
-      this.setState({showCompleteModal: false, showWarningModal: true})
+      this.setState({ showCompleteModal: false, showWarningModal: true })
       return
     }
     this.context.router.push({
       pathname: '/fragment/report',
-      query: {planId: planId}
+      query: { planId: planId }
     });
   }
 
@@ -351,12 +351,12 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickTutorialEnd() {
-    const {dispatch} = this.props
-    const {planData} = this.state
+    const { dispatch } = this.props
+    const { planData } = this.state
     updateOpenRise().then(res => {
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
-        this.setState({planData: merge({}, planData, {openRise: true})})
+        this.setState({ planData: merge({}, planData, { openRise: true }) })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -364,12 +364,12 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickOpenMessageBox() {
-    this.context.router.push({pathname: '/rise/static/message/center'})
+    this.context.router.push({ pathname: '/rise/static/message/center' })
   }
 
   handleClickSubmitScore(questionList) {
-    const {selectProblem, planData} = this.state;
-    const {dispatch} = this.props;
+    const { selectProblem, planData } = this.state;
+    const { dispatch } = this.props;
     let problemScores = questionList.map(item => {
       let selectedChoice;
       item.choiceList.forEach(choice => {
@@ -377,12 +377,12 @@ export default class PlanMain extends React.Component <any, any> {
           selectedChoice = choice.id;
         }
       });
-      return {question: item.id, choice: selectedChoice};
+      return { question: item.id, choice: selectedChoice };
     });
     dispatch(startLoad());
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
-      this.setState({showScoreModal: false, planData: merge({}, planData, {hasProblemScore: true})}, () => {
+      this.setState({ showScoreModal: false, planData: merge({}, planData, { hasProblemScore: true }) }, () => {
           this.handleClickConfirmComplete()
         }
       );
@@ -400,7 +400,7 @@ export default class PlanMain extends React.Component <any, any> {
     // );
     modalList.push(
       <Modal show={false}
-             buttons={[{click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}`}]}
+             buttons={[{ click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}` }]}
              key={0}
       >
         <div className="content">
@@ -416,7 +416,7 @@ export default class PlanMain extends React.Component <any, any> {
       <AlertMessage { ...this.state.nextModal }
                     open={!!showWarningModal}
                     key={1}
-                    handleClose={() => this.setState({showWarningModal: false})}
+                    handleClose={() => this.setState({ showWarningModal: false })}
                     content="我们发现你的综合练习还没有完成，这会影响你的学习报告内容,建议先返回完成它们"
       />
     );
@@ -429,7 +429,7 @@ export default class PlanMain extends React.Component <any, any> {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
       selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
-    const {location} = this.props
+    const { location } = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
@@ -474,7 +474,7 @@ export default class PlanMain extends React.Component <any, any> {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
       selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
-    const {location} = this.props
+    const { location } = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
@@ -575,7 +575,7 @@ export default class PlanMain extends React.Component <any, any> {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
       selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
     } = this.state
-    const {location} = this.props
+    const { location } = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
@@ -587,7 +587,7 @@ export default class PlanMain extends React.Component <any, any> {
         {renderExist(showScoreModal,
           <DropChoice
             onSubmit={(questionList) => this.handleClickSubmitScore(questionList)}
-            onClose={() => this.setState({showScoreModal: false}, () => {
+            onClose={() => this.setState({ showScoreModal: false }, () => {
               this.handleClickConfirmComplete()
             })}
             questionList={this.state.questionList}
@@ -601,7 +601,7 @@ export default class PlanMain extends React.Component <any, any> {
           (
             <div className="empty-container">
               <div className="empty-img">
-                <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150px'}}/>
+                <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{ height: '150px' }}/>
               </div>
               <div className="empty-text">
                 <span>没有正在学习的小课哦，</span><br/>
@@ -612,18 +612,19 @@ export default class PlanMain extends React.Component <any, any> {
           ),
           (
             <div className="rise-main">
-              <div className="side-bar-container">
+              <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
                   { this.renderSidebar(selectProblem) }
                 </div>
+
                 <div className="side-bar-content">
                   <div className="header-img">
-                    <AssetImg url={problem.pic} style={{height: `${style.picHeight}px`, float: 'right'}}/>
+                    <AssetImg url={problem.pic} style={{ height: `${style.picHeight}px`, float: 'right' }}/>
                     {renderExist(isBoolean(riseMember) && !riseMember,
                       <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
                            onClick={() => this.handleClickRiseMemberTips()}>
                       </div>)}
-                    <div className="plan-guide" style={{height: `${style.picHeight}px`}}>
+                    <div className="plan-guide" style={{ height: `${style.picHeight}px` }}>
                       <div className="section-title">
                         <span className="plan-section-title">{problem.problem}</span>
                         <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
@@ -657,7 +658,7 @@ export default class PlanMain extends React.Component <any, any> {
                   {/*</div>*/}
                   {renderExist(!isEmpty(planData),
                     (
-                      <div style={{padding: "0 15px"}}>
+                      <div style={{ padding: "0 15px" }}>
                         <SwipeableViews ref="planSlider" index={currentIndex - 1}
                                         onTransitionEnd={() => this.handleSwipeTransitionEnd()}
                                         onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
