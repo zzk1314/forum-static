@@ -47,7 +47,7 @@ export default class Subject extends React.Component<any, any> {
         this.setState({goBackUrl})
       }
     }
-    mark({module: "打点", function: "小课论坛", action: "打开小课论坛", memo: location.query.id});
+    mark({module: "打点", function: "小课论坛", action: "PC打开小课论坛", memo: location.query.id});
     dispatch(startLoad());
 
     loadSubjects(location.query.id, 1).then(res => {

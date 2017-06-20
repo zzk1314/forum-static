@@ -223,7 +223,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({module: "打点", function: "PC", action: "打开小课介绍", memo: problemId});
+    mark({module: "打点", function: "小课介绍", action: "PC打开小课介绍", memo: problemId});
     // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, "_blank")
   }
