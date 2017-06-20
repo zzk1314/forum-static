@@ -89,7 +89,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, any
           </div>
           <div className="nav-user">
             <div className="user-img"><img src={window.ENV.headImage}/></div>
-            <span className="user-name">{window.ENV.userName}</span>
+            <div className="user-name">{window.ENV.userName}</div>
           </div>
         </div>
       </div>
