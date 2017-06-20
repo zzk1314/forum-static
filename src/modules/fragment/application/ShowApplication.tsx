@@ -363,7 +363,7 @@ export default class ShowApplication extends React.Component<any,any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{__html:desc}}/>
             </div>
-            <div className="knowledge-tip" onClick={()=>window.open(`/fragment/knowledge/show?id=${knowledgeId}`)}>点击查看知识点</div>
+            <div className="knowledge-tip" onClick={()=>window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看知识点</div>
           </div>
           <Divider style={style.divider}/>
           {renderEdit()}
