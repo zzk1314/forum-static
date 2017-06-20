@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import AssetImg from "../components/AssetImg";
+import Paper from 'material-ui/Paper';
 import './NavigatorBar.less';
 
 enum NavType {
@@ -9,17 +10,24 @@ enum NavType {
   Forum
 }
 
+// TODO 后期删除 showNotes、isFixed
 interface NavigatorBarProps {
   isFixed: boolean;
+  showNotes?: boolean;
 }
-
+interface NavigatorBarStates {
+  size: object;
+  activeNav: number;
+  hoverShowNotes: boolean;
+}
 @connect(state => state)
-export default class NavigatorBar extends React.Component<NavigatorBarProps, any> {
+export default class NavigatorBar extends React.Component<NavigatorBarProps, NavigatorBarStates> {
   constructor(props) {
     super(props);
     this.state = {
       size: {},
       activeNav: 0,
+      hoverShowNotes: false
     }
   }
 
@@ -66,10 +74,21 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, any
 
   render() {
 
-    const { activeNav } = this.state
+    const { isFixed, showNotes = true } = this.props
+    const { activeNav, hoverShowNotes } = this.state
+
+    const renderNotes = () => {
+      if(showNotes && hoverShowNotes) {
+        return (
+          <Paper style={{ position: "absolute", top: 70, marginLeft: "-10px" }}>
+            <div className="nav-notes">个人中心正在开发中<br/>敬请期待</div>
+          </Paper>
+        )
+      }
+    }
 
     return (
-      <div className={this.props.isFixed ? `nav-container-fixed` : `nav-container`}>
+      <div className={isFixed ? `nav-container-fixed` : `nav-container`}>
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">
@@ -87,9 +106,11 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, any
                     onClick={() => this.handleClickNav(NavType.Rise)}>RISE
             </button>
           </div>
-          <div className="nav-user">
+          <div className="nav-user" onMouseOver={() => this.setState({hoverShowNotes: true})}
+               onMouseOut={() => this.setState({hoverShowNotes: false})}>
             <div className="user-img"><img src={window.ENV.headImage}/></div>
             <div className="user-name">{window.ENV.userName}</div>
+            {renderNotes()}
           </div>
         </div>
       </div>
