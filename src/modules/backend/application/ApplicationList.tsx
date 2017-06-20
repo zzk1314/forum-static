@@ -286,7 +286,6 @@ export default class ApplicationList extends React.Component<any, any> {
                 <div onClick={this.onClickTopicEdit.bind(this)} className="edit-topic"
                      dangerouslySetInnerHTML={{__html: application.topic}}/>
           }
-          <hr/>
           {
             this.props.menu === Menus.APPLICATION_DISCUSS ?
               <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}/> :
