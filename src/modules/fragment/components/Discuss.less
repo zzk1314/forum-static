@@ -1,0 +1,48 @@
+@import "../../../style/variable";
+
+.padding-comment-dialog{
+  height: 100px;
+}
+
+.comment-dialog{
+  padding: 6px;
+  width: ~"calc(100% - 12px)";
+  //border-top: 1px solid @color_weak;
+  background-color: #fff;
+  >.comment-right-area{
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: top;
+    >.reply-tip{
+      font-size: 13px;
+      line-height: 13px;
+      margin-bottom: 15px;
+      color: @color_weak;
+    }
+    >.comment-button{
+      background-color: @color_strong;
+      border-radius: @border-radius;
+      font-size: @font_click;
+      width: 52px;
+      height: 25px;
+      line-height: 25px;
+      color: #fff;
+      text-align: center;
+      &.disabled{
+        background-color: #999999;
+      }
+    }
+  }
+  textarea{
+    width: ~"calc(100% - 72px)";
+    border-radius: @border-radius;
+    display: inline-block;
+    resize: none;
+    border: 1px solid #d0d0d0;
+    font-size: @font_context;
+    height: 80px;
+    padding: 0 2px;
+    box-shadow:0 0 0 rgba(0,0,0,0);
+    -webkit-appearance:none;
+  }
+}

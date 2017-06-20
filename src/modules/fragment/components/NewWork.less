@@ -1,0 +1,210 @@
+@import "../../../style/variable";
+
+.new-work{
+  overflow: hidden;
+  margin-top: 30px;
+  padding-bottom:10px;
+  &:not(:nth-last-of-type(1)){
+    border-bottom:1px solid #efefef;
+  }
+  > .submit-cell {
+    > .submit-area {
+      display: inline-block;
+      width:100%;
+      > .pic-list{
+        overflow: hidden;
+        > .pic{
+          &:nth-of-type(odd){
+            float: left;
+            clear:both;
+          }
+          &:nth-of-type(even){
+            float: right;;
+          }
+          width:45%;
+          display: block;
+          margin:10px auto;
+        }
+      }
+      > .submit-head {
+        line-height:13px;
+        position: relative;
+        > .submit-img{
+          width: 30px;
+          display: inline-block;
+          > .submit-avatar {
+            display: inline-block;
+            border-radius: 40px;
+            &.top{
+              height: 30px;
+              width: 30px;
+            }
+            &.left{
+              height:30px;
+              width:30px;
+              vertical-align: top;
+            }
+          }
+        }
+
+        > .submit-memo{
+          display: inline-block;
+          margin-left:10px;
+          width: ~"calc(100% - 60px)";
+          vertical-align: top;
+          > .intro{
+            > .submit-name {
+              display: inline-block;
+              color: @color_title;
+              font-size: 1.3em;
+            }
+            > .role{
+              margin-left: 5px;
+              display: inline-block;
+              > img{
+                vertical-align: bottom;
+                width: 53px;
+                height: 23px;
+              }
+            }
+            > .submit-time {
+              display: inline-block;
+              font-size: @font_help;
+              line-height:@font_help;
+              color: @color_help;
+              margin-left: 5px;
+            }
+          }
+          > .signature{
+            font-size: @font_help;
+            line-height:@font_help;
+            color: @color_help;
+            margin-top: 3px;
+          }
+
+        }
+        > .right{
+          display: inline-block;
+          position: absolute;
+          top:0;
+          right:0;
+          > .function-area{
+            display: inline-block;
+            img{
+              vertical-align: top;
+              margin-right: 2px;
+              margin-left: 2px;
+              margin-top: 2px;
+              height: 12px;
+              width: 15px;
+
+              display: inline-block;
+            }
+            > .submit-button {
+              display: inline-block;
+              font-size: @font_click;
+              line-height:@font_click;
+              &.disabled{
+                color: @color_weak;
+              }
+            }
+          }
+        }
+      }
+      > .submit-title{
+        color:@color_title;
+        font-size:@font_title;
+        line-height: @font_title;
+        margin-top:5px;
+        margin-bottom: 10px;
+      }
+      > .submit-content {
+        line-height: 23px;
+        font-size: @font_context !important;
+        color: @color_context !important;
+        > div,pre {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          &.left {
+            width: 100%;
+            margin-top: 7px;
+          }
+        }
+        ol, ul {
+          padding: 0 15px;
+        }
+      }
+
+      > .show-all{
+        font-size:@font_click;
+        position: relative;
+        background: white;
+        padding: 0 1px;
+      }
+
+      > .operation-area{
+        float: right;
+        margin-top: 5px;
+        position: relative;
+        .operation-asset {
+          position: absolute;
+          top: -4px;
+          left: 12px;
+          img {
+            width: 45px;
+            height: 13px;
+          }
+        }
+        span{
+          line-height:@font_click;
+          font-size:@font_click;
+          color: @color_help;
+        }
+        > .vote{
+          display: inline-block;
+          height: 25px;
+          float: right;
+          > span{
+            &:before {
+              content: '';
+              display: inline-block;
+              vertical-align: bottom;
+              width: 25px;
+              height: 25px;
+              margin-right:5px;
+              margin-bottom: 2px;
+            }
+          }
+          > .disVote{
+            &:before{
+              background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
+            }
+          }
+          > .voted{
+            &:before{
+              background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
+            }
+          }
+        }
+        > .comment{
+          display: inline-block;
+          height:25px;
+          margin-right: 20px;
+          float: left;
+          > span{
+            &:before {
+              background: url('https://static.iqycamp.com/images/fragment/comment.png?imageslim') no-repeat bottom center/25px 25px;
+              content: '';
+              display: inline-block;
+              vertical-align: bottom;
+              width: 25px;
+              height: 25px;
+              margin-right:5px;
+              margin-bottom: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

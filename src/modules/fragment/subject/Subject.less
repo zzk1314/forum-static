@@ -1,0 +1,38 @@
+@import "../../../style/variable";
+
+.subject {
+  margin: 0 auto;
+  .header{
+    vertical-align: middle;
+    background:url('https://static.iqycamp.com/images/subject_head.png?imageslim') center center/100% 100% no-repeat;
+    .main-tip{
+      font-size:2.4em;
+      line-height:2.4em;
+      text-align: center;
+      color:#fff;
+    }
+    .sec-tip{
+      margin-top:20px;
+      font-size:1.3em;
+      line-height:1.3em;
+      text-align: center;
+      color:@color_weak;
+    }
+  }
+  > .intro{
+    font-size:@font_index;
+    padding:15px;
+    color:@color_help;
+  }
+  .content{
+    padding:0 15px;
+    > .submit-bar {
+      width: 100%;
+      color: @color_title;
+      background-color: @color_weak_background;
+      padding: 0 15px;
+      margin-left: -15px;
+      font-size: @font_index;
+    }
+  }
+}

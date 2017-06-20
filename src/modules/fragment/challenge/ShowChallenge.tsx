@@ -2,7 +2,7 @@ import * as React from "react"
 import "../application/ShowApplication.less"
 import * as _ from "lodash"
 import {connect} from "react-redux"
-import {loadChallengeSubmit} from "./async"
+import {loadChallengeSubmit} from "./async.bak"
 import {vote, loadComments, submitComment,VoteType,CommentType} from "../async"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';

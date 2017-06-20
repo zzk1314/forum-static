@@ -8,7 +8,7 @@ import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import Divider from 'material-ui/Divider';
-import {loadSubject,submitSubject,loadLabels} from "./async"
+import {loadSubject,submitSubject,loadLabels} from "./async.bak"
 import {PictureModule} from "../async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {imgSrc} from "../../../utils/imgSrc"
@@ -135,7 +135,7 @@ export default class WriteSubject extends React.Component<any,any> {
     }
 
     if(title.length > 64){
-      this.showAlert("标题最多输入64个字哦");
+      this.showAlert("标题最多输入64个字哦","提示");
       return;
     }
 

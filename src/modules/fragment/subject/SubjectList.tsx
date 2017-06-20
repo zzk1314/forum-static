@@ -7,7 +7,7 @@ import {ppost, BreakSignal, Stop} from "../../../utils/request";
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import "./SubjectList.less"
-import {loadSubjectList} from  "./async"
+import {loadSubjectList} from  "./async.bak"
 import {CommentType} from  "../async"
 
 

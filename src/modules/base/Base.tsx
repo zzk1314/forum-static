@@ -2,15 +2,13 @@ import * as React from "react"
 import {connect} from "react-redux"
 import {set,alertMsg} from "redux/actions"
 import {Grid, Row, Col} from "react-flexbox-grid"
-import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar';
-import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./Base.less"
 import {style} from "./Base.ts";
-import {imgSrc} from "utils/imgSrc"
 import AlertMessage from "../../components/AlertMessage"
+import NavigatorBar from "../../components/NavigatorBar";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -63,33 +61,7 @@ export default class Main extends React.Component<any, any> {
     return (
       <MuiThemeProvider>
         <div className="container">
-          <div className="topBannerContainer">
-            <Toolbar style={style.banner}>
-              <ToolbarGroup >
-                <div className="logoContainer">
-                  <img style={{width:"36px",marginTop:"5px"}} src={imgSrc.logo}/>
-                  <span className="logoName">圈外</span>
-                </div>
-                {window.ENV.backend?null:
-                <div>
-                  <FlatButton
-                    labelStyle={(this.props.location.pathname.indexOf("home") > -1)?style.navLabelActive:style.navLabel}
-                    onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/home")}}
-                    label="首页"
-                  />
-                  <FlatButton
-                    labelStyle={(this.props.location.pathname.indexOf("fragment") > -1 || this.props.location.pathname.indexOf("servercode") > -1)?style.navLabelActive:style.navLabel}
-                    onClick={()=>{const {dispatch} = this.props;dispatch(set("page.scroll",{x:0,y:0})); this.context.router.push("/fragment/rise")}}
-                    label="Rise"
-                  />
-                </div>
-                }
-              </ToolbarGroup>
-              <ToolbarGroup>
-                {renderAvatar()}
-              </ToolbarGroup>
-            </Toolbar>
-          </div>
+          <NavigatorBar isFixed={false}/>
           {this.props.children}
           <AlertMessage open={this.props.base.showModal}
                         modal={false}

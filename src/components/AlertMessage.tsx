@@ -3,29 +3,38 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import "./AlertMessage.less"
 
-export default class AlertMessage extends React.Component {
-  propTypes: {
-    open: React.PropTypes.bool,
-    handlerClose: React.PropTypes.func,
-    title: React.PropTypes.string,
-  }
+export default class AlertMessage extends React.Component<any, any> {
 
-  constructor(props) {
-    super(props);
-    this.state = {}
-  }
+  // propTypes: {
+  //   open: React.PropTypes.bool,
+  //   handlerClose: React.PropTypes.func,
+  //   title: React.PropTypes.string,
+  // }
 
+  constructor() {
+    super();
+  }
 
   render() {
-    const {handleClose, open, title, modal = false, content, actions} = this.props;
+    const { open, handleClose, title, modal = false, actions } = this.props;
     const getActions = (actions) => {
+      return actions ?
+        actions.map(item =>
+          <FlatButton
+            label={item.label} primary={!!item.primary}
+            secondary={!!item.secondary}
+            style={item.style} onClick={item.onClick}/>) :
+        null
+    }
 
-      return actions?actions.map(item =><FlatButton label={item.label} primary={!!item.primary} secondary={!!item.secondary}
-                                              style={item.style} onClick={item.onClick}/>):null;
+    // 将 props 中的 content 转换成数组，方便下面进行换行处理
+    let content = [];
+    if(this.props.content) {
+      content = this.props.content.split("<br/>");
     }
 
     return (
-      <div>
+      <div className="alert-message">
         <Dialog
           titleClassName="alertTitle"
           bodyClassName="alertBody"
@@ -38,9 +47,11 @@ export default class AlertMessage extends React.Component {
           open={open}
           onRequestClose={handleClose}
         >
-          {content}
+          {content.map((item, index) =>
+            <div key={index}>{item}</div>
+          )}
         </Dialog>
       </div>
-    );
+    )
   }
 }

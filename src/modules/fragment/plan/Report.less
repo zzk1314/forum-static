@@ -1,0 +1,216 @@
+@import "../../../style/variable";
+
+.improvement-report {
+  //margin: 0 auto -30px;
+  margin: 0 50px;
+  height: auto !important;
+  padding-top: 125px;
+
+  .improvement-report-head {
+    position: fixed;
+    top: 80px;
+    width: ~"calc(62.5% - 100px)";
+    background-color: #fff;
+    z-index: 150;
+
+    .improvement-report-header {
+      width: 100%;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-size: 1.7em;
+      color: #666;
+      border-bottom: 2px solid #55cbcb;
+    }
+  }
+
+  > .header {
+    height: auto;
+    position: relative;
+    background-color: #BEE7F9;
+    > .bg {
+      height: 100%;
+      width: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+    }
+    > .msg {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      color: #666666;
+
+      .title {
+        font-size: 2.6em;
+        line-height: 34px;
+        padding: 20px 20px 10px;
+      }
+
+      .problem-title {
+        font-size: 1.4em;
+        line-height: 18px;
+        padding-left: 20px;
+        padding-bottom: 10px;
+      }
+
+      .sub-text {
+        font-size: @font_help;
+        line-height: 11px;
+        padding: 10px 20px 10px;
+        > .socre {
+          color: #55cbcb;
+          font-size: 1.8em;
+        }
+        > .percent {
+          color: #55cbcb;
+          font-size: 1.8em;
+        }
+      }
+
+      .time {
+        padding-left: 20px;
+        padding-bottom: 20px;
+        color: #767575;
+      }
+    }
+  }
+
+  > .body-container {
+    background-color: #edf4f7;
+    overflow: hidden;
+    > .body {
+      padding: 15px 25px;
+      margin: 25px auto;
+      width: 375px;
+      border-radius: 20px;
+      background-color: #FFFFFF;
+
+      > .header {
+        text-align: center;
+        color: #777573;
+        > .title {
+          border-bottom: 1px solid #e6e6e6;
+          display: inline-block;
+          line-height: 15px;
+          padding-bottom: 10px;
+          font-size: 1.5em;
+
+        }
+        > .question {
+          font-weight: 700;
+          border: 1px solid #777573;
+          display: inline-block;
+          margin-left: 10px;
+          width: 14px;
+          text-align: center;
+          line-height: 1.4em;
+          height: 14px;
+          border-radius: 10px;
+        }
+      }
+
+      > .complete-item {
+        color: @color_title;
+        &.first {
+          padding: 25px 0 10px;
+        }
+        padding: 10px 0;
+        > .info {
+          height: 22px;
+          > .name {
+            //display: inline-block;
+            font-size: @font_click;
+            //float: left;
+            margin-bottom: 5px;
+          }
+        }
+        .score {
+          display: inline-block;
+          //float: right;
+          width: 100px;
+          //text-align: right;
+          margin-left: 15px;
+          &.top {
+            vertical-align: text-top;
+          }
+        }
+        .number {
+          &.point {
+            color: @color_strong;
+          }
+          font-size: @font_help;
+        }
+        .progress {
+          position: relative;
+          height: 10px;
+          display: inline-block;
+          > .track {
+            background-color: #e6e6e6;
+            height: 100%;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+          }
+          > .holder {
+            height: 100%;
+            position: absolute;
+            background: rgb(88, 177, 223);
+            background: -webkit-gradient(linear, left center, right center, from(#55cbcb), to(rgb(88, 177, 223)));
+            width: 0;
+            border-radius: 5px;
+            overflow: hidden;
+            &.article {
+              background: rgb(88, 177, 223);
+              background: -webkit-gradient(linear, left center, right center, from(rgb(235, 214, 99)), to(rgb(175, 235, 95)));
+            }
+
+            > .slider {
+              position: absolute;
+              background: #e6e6e6;
+              right: 2.5px;
+              top: 2.4px;
+              height: 5px;
+              width: 5px;
+              border-radius: 5px;
+            }
+          }
+        }
+      }
+
+      > .vote-info {
+        line-height: 2.0em;
+        font-size: @font_help;
+        margin-top: 10px;
+        text-align: left;
+        color: #777573;
+        > .tips {
+          color: @color_help;
+        }
+      }
+    }
+
+    > .tips {
+      //margin:25px auto;
+      text-align: center;
+      color: @color_help;
+      font-size: @font_help;
+    }
+  }
+  .clear-position {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+  .big-point {
+    font-size: @font_context;
+    color: @color_strong;
+    line-height: 16px;
+  }
+
+}

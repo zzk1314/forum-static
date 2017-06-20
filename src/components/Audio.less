@@ -1,0 +1,93 @@
+@import "../style/variable";
+
+.audio {
+  margin: 20px auto;
+  width: 80%;
+  height: 36px;
+  border: 1px solid #e7e7e7;
+  background-color: #fff;
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  border-radius: @border-radius;
+  .audio-container {
+    padding: 0 5px;
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+  }
+  & > * {
+    vertical-align: middle;
+  }
+  .audio-btn {
+    display: inline-block;
+    height: 100%;
+    border-color: #e7e7e7;
+    margin: 8px 8px 8px 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    & > * {
+      vertical-align: middle;
+    }
+  }
+  .audio-duration {
+    flex-basis: 100px;
+    display: inline-block;
+    font-size: 11px;
+    height: 36px;
+    line-height: 36px;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 100px;
+  }
+  .audio-progress {
+    display: inline-block;
+    vertical-align: middle;
+    width: 65%;
+    height: 100%;
+  }
+}
+
+/**
+* Rangeslider
+*/
+.rangeslider {
+  margin: 15.5px 0;
+  position: relative;
+  background: #e7e7e7;
+  .rangeslider__fill, .rangeslider__handle {
+    position: absolute;
+  }
+  &, .rangeslider__fill {
+    display: block;
+  }
+  .rangeslider__handle {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+  }
+}
+
+/**
+* Rangeslider - Horizontal slider
+*/
+.rangeslider-horizontal {
+  height: 5px;
+  border-radius: 2.5px;
+  .rangeslider__fill {
+    height: 100%;
+    background: #2aa8aa;
+    border-radius: 10px;
+    top: 0;
+  }
+  .rangeslider__handle {
+    background: url('https://static.iqycamp.com/images/audio_round4.png?imageslim') no-repeat left center / 16px 16px;
+    width: 16px;
+    height: 16px;
+    top: -15px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+}

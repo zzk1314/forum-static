@@ -1,0 +1,106 @@
+@import "../../../style/variable";
+
+.application-comment {
+  height: 100%;
+  margin: 0 50px;
+  padding-top: 125px;
+
+  .article {
+
+    .article-head {
+      position: fixed;
+      top: 80px;
+      width: ~"calc(62.5% - 100px)";
+      background-color: #fff;
+      z-index: 150;
+
+      > .article-header {
+        width: 100%;
+        min-height: 45px;
+        font-size: @font_title;
+        line-height: 2.5em;
+        border-bottom: 2px solid @color_strong;
+        text-align: center;
+        color: @color_title;
+      }
+    }
+    > .description {
+      font-size: @font_context;
+      padding: 10px 0;
+    }
+    > .comment-header {
+      width: 100%;
+      position: absolute;
+      left: 18.75%;
+      padding-left: 50px;
+      font-size: 1.3em;
+      line-height: 1.3em;
+      color: @color_help;
+      background-color: @color_weak_background;
+    }
+    .comment-header-feedback {
+      color: #999;
+      background-color: @color_weak_background;
+      font-size: 12px;
+      line-height: 13px;
+      margin: -19px -15px 20px -15px;
+      padding: 6px 15px;
+      .comment-feedback-tips {
+        color: #666;
+      }
+    }
+  }
+  .comment-body {
+    padding: 0 15px 0 15px;
+    min-height: 200px;
+    .on_message {
+      color: @color_weak;
+      font-size: @font_context;
+      text-align: center;
+      > .no_comment {
+        margin-top: 125px;
+      }
+    }
+  }
+  > .comment-area {
+    padding: 6px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid @color_weak;
+    > .comment-right-area {
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: top;
+      > .reply-tip {
+        font-size: 13px;
+        line-height: 13px;
+        margin-bottom: 15px;
+        color: @color_weak;
+      }
+      > .comment-button {
+        background-color: @color_strong;
+        border-radius: @border-radius;
+        font-size: @font_click;
+        width: 50px;
+        height: 25px;
+        line-height: 25px;
+        color: #fff;
+        text-align: center;
+      }
+    }
+    textarea {
+      width: ~"calc(100% - 72px)";
+      border-radius: @border-radius;
+      display: inline-block;
+      resize: none;
+      border: 1px solid #d0d0d0;
+      font-size: @font_context;
+      height: 80px;
+      padding: 0 2px;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      -webkit-appearance: none;
+    }
+  }
+
+}

@@ -1,0 +1,411 @@
+@import "../../../style/variable";
+
+.rise-main {
+  margin-bottom: -30px;
+  padding-top: 40px;
+  .trial-tip {
+    background: url('https://static.iqycamp.com/images/riseMemberUpButtonV2.png?imageslim') no-repeat center center/100% 100%;
+    position: absolute;
+    z-index: 20;
+    right: 0;
+    bottom: 10px;
+    width: 88px;
+    height: 34px;
+    cursor: pointer;
+    transform: translateX(88px);
+    &.open {
+      animation: riseMember-left-show 1s alternate forwards;
+    }
+  }
+
+  .side-bar-container {
+    display: flex;
+    flex-direction: row;
+    .side-bar {
+      width: 350px;
+      overflow: auto;
+      display: inline-block;
+      position: relative;
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 10px;
+        background: #7ACFE6;
+      }
+      &::-webkit-scrollbar-thumb {
+        height: 80px;
+        color: rgba(255, 255, 255, 0.3);
+        background-color: rgba(255, 255, 255, 0.3);
+        -webkit-border-radius: 4px;
+      }
+    }
+    > .side-bar-content {
+      flex-grow: 1;
+    }
+  }
+
+  .plan-main {
+    > .list {
+      margin-bottom: 10px;
+    }
+    > .submit-btn-footer {
+      cursor: pointer;
+      &.grey {
+        background: #afafaf;
+      }
+      margin-top: 30px;
+      display: block;
+      border-radius: @border-radius;
+      font-size: @font_title;
+      width: 100%;
+      height: @button_footer_height;
+      text-align: center;
+      line-height: @button_footer_height;
+      background-size: 100% 100%;
+      background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+      color: #fff;
+      > .left {
+        border-radius: 0;
+        display: inline-block;
+        width: ~"calc(50% - 1px)";
+        border-right: 1px solid white;
+        background-size: 100% 100%;
+        background-image: url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      > .right {
+        &.grey {
+          background: #afafaf;
+        }
+        border-radius: 0;
+        display: inline-block;
+        width: 50%;
+        background-image: url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
+        background-size: 100% 100%;
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      &.disabled {
+        background: #cccccc;
+      }
+    }
+    .practice-card {
+      height: 75px;
+      width: 45%;
+      margin-left: 3.3%;
+      position: relative;
+      background-color: #fff;
+      border-radius: @border-radius;
+      display: inline-block;
+      border: 1px solid @color_weak_background;
+      cursor: pointer;
+      > .header {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: 12px;
+        border-radius: 50px;
+        margin: 0 5px 0 10px;
+        img {
+          display: block;
+        }
+        z-index: 1;
+      }
+      > .locked {
+        top: 12px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        position: absolute;
+        margin: 0 5px 0 10px;
+        background-color: rgba(0, 0, 0, 0.4);
+        img {
+          display: block;
+          margin: 12px 15px;
+        }
+        z-index: 2;
+      }
+      > .body {
+        position: absolute;
+        left: 75px;
+        display: inline-block;
+        width: ~"calc(100% - 65px - 42px)";
+        vertical-align: middle;
+        height: 100%;
+        > .title {
+          font-size: @font_title;
+          color: @color_title;
+          height: 75px;
+          line-height: 75px;
+        }
+      }
+      > .footer {
+        position: absolute;
+        display: inline-block;
+        vertical-align: top;
+        right: 0;
+        height: 100%;
+        img {
+          display: block;
+          margin-top: 10px;
+        }
+      }
+    }
+    .practice-card + .practice-card {
+      margin-top: 10px;
+    }
+  }
+
+  .plan-side-bar {
+    color: #FFF;
+    .side-header-title {
+      height: 75px;
+      font-size: @font_title;
+      line-height: @font_title;
+      font-weight: bolder;
+      background-color: #7FD8F0;
+      width: 100%;
+      .content {
+        padding-left: 10px;
+        display: inline-block;
+        line-height: 75px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-right: 10px;
+      }
+    }
+    .side-content {
+      background-color: #7ACFE6;
+      .chapter-area {
+        width: 100%;
+        &:not(:nth-last-of-type(1)) {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cell {
+          > div {
+            display: table;
+            width: 100%;
+            > div {
+              display: table-cell;
+              vertical-align: middle;
+            }
+          }
+          .label {
+            display: inline-block;
+            width: 2.6rem;
+            text-align: right;
+            vertical-align: middle;
+            margin-left: 15px;
+
+          }
+          .str {
+            width: 245px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+            margin-left: 5px;
+          }
+        }
+        .chapter {
+          font-size: @font_context;
+          line-height: @font_context;
+          height: 60px;
+        }
+        .section {
+          font-size: @font_click;
+          line-height: @font_click;
+          height: 50px;
+          &.open {
+            background-color: #7FD8F0;
+          }
+        }
+      }
+    }
+  }
+
+  .plan-guide {
+    position: relative;
+    width: 100%;
+    .section-title {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      .plan-section-title {
+        font-size: @font_title;
+        color: @color_title;
+        line-height: @font_title;
+      }
+      .problem-describe {
+        position: absolute;
+        right: -6em;
+        top: 0;
+        color: #FFF;
+        background-color: #55cbcb;
+        border-radius: 1px;
+        padding: 5px;
+        font-size: @font_help;
+        cursor: pointer;
+      }
+    }
+
+    .section-info {
+      position: absolute;
+      bottom: 15px;
+      left: 20px;
+      .section {
+        color: @color_title;
+        font-size: @font_help;
+        line-height: @font_help;
+        margin-bottom: 5px;
+        > label {
+          color: @color_help;
+        }
+      }
+    }
+  }
+
+  .problem-review {
+    position: absolute;
+    right: 10px;
+    margin-top: -31px;
+    font-size: @font_help;
+    width: 65px;
+    height: 23px;
+    background-color: @color_strong;
+    color: #fff;
+    text-align: center;
+    line-height: 23px;
+    border-radius: @border-radius;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+
+  .function-menu {
+    background-color: #fff;
+    color: @color_title;
+    height: 50px;
+    text-align: center;
+    font-size: @font_title;
+    border-bottom: 1px solid #f5f5f5;
+    > .left {
+      height: 50px;
+      line-height: 50px;
+      display: inline-block;
+      width: ~"calc(50% - 1px)";
+      border-right: 1px solid #f5f5f5;
+      > .essence {
+        height: 18px;
+        margin-right: 5px;
+      }
+    }
+
+    > .right {
+      height: 50px;
+      line-height: 50px;
+      display: inline-block;
+      width: ~"calc(50% - 1px)";
+      border-left: 1px solid #f5f5f5;
+      > .problem_detail {
+        height: 18px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .plan-progress {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    color: @color_help;
+
+    .intro {
+      position: relative;
+      margin-top: 5px;
+      .intro-chapter {
+        position: relative;
+        color: @color_title;
+        z-index: 1;
+        background-color: #FFF;
+        padding: 0 13px;
+        display: inline-block;
+      }
+      .bar {
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        background-color: @color_weak;
+      }
+    }
+
+    .intro-section {
+      margin-top: 5px;
+      color: @color_title;
+    }
+  }
+
+}
+
+@keyframes riseMember-left-show {
+  0% {
+    transform: translateX(88px)
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}
+
+.empty-container {
+  text-align: center;
+  .empty-img {
+    height: 100px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin: 100px auto;
+  }
+  .empty-text {
+    text-align: center;
+    width: 100%;
+    float: left;
+    height: 1.6rem;
+    line-height: 16px;
+    font-size: 16px;
+    padding: 20px;
+    margin: -10px;
+    color: #cccccc;
+    span {
+      line-height: 22px;
+    }
+  }
+  .empty-button {
+    float: left;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 40px;
+    background-color: #55CBCB;
+    color: #ffffff;
+    height: 40px;
+    font-size: 15px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+}
+
+.header-img {
+  position: relative;
+  background-color: #CCEAEB;
+  img {
+    display: block;
+  }
+  overflow: hidden;
+}

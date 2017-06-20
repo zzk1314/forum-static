@@ -1,21 +1,44 @@
-import {pget,ppost} from "../../../utils/request"
+import { pget, ppost } from "utils/request";
 
-export function loadMineChallenge(planId,challengeId) {
-  return pget(`/pc/fragment/challenge/list/mine/${planId}/${challengeId}`);
+export function loadKnowledgeIntro(knowledgeId) {
+  return pget(`/rise/plan/knowledge/load/${knowledgeId}`)
 }
 
-export function loadOtherChallenge(cid) {
-  return pget(`/pc/fragment/challenge/list/other/${cid}`);
+export function loadChallengePractice(id) {
+  return pget(`/rise/practice/challenge/start/${id}`)
 }
 
-export function loadSelfChallengeSubmit(planId, cid) {
-  return pget(`/pc/fragment/challenge/mine/${planId}/${cid}`);
+export function loadWarmUpNext(id) {
+  return pget(`/rise/practice/next/${id}`)
 }
 
-export function submitChallenge(planId,challengeId, content) {
-  return ppost(`/pc/fragment/challenge/submit/${planId}/${challengeId}`, {answer: content});
+export function submitChallengePractice(planId,challengeId, params) {
+  return ppost(`/rise/practice/challenge/submit/${planId}/${challengeId}`, params)
 }
 
-export function loadChallengeSubmit(submitId){
-  return pget(`/pc/fragment/challenge/show/${submitId}`);
+export function vote(referencedId){
+  return ppost("/rise/practice/vote", {referencedId: referencedId, status: 1,type:CommentType.Challenge})
 }
+
+export function loadOtherList(challengeId,page){
+  return pget(`/rise/practice/challenge/list/other/${challengeId}`,{page:page})
+}
+
+export function loadCommentList(submitId,page,searchTime){
+  return pget(`/rise/practice/comment/${CommentType.Challenge}/${submitId}`,{page:page,searchType:searchTime})
+}
+
+export function comment(submitId,content){
+  return ppost(`/rise/practice/comment/${CommentType.Challenge}/${submitId}`,{content:content})
+}
+
+const CommentType = {
+  Challenge:1,
+  Application:2,
+}
+
+const VoteType = {
+  Challenge:1,
+  Application:2,
+}
+

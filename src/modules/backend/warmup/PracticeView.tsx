@@ -98,7 +98,6 @@ export default class practiceView extends React.Component <any, any> {
     this.setState({delMsgOpen: false})
     deleteWarmupDiscuss(id).then(res => {
       if(res.code === 200) {
-        console.log(res)
         let newArray = []
         this.state.discussList.map(discuss => {
           if(discuss.id !== id) {

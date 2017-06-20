@@ -1,0 +1,106 @@
+@import "../../../style/variable";
+
+.knowledgeviewer-container {
+  padding-top: 125px;
+  .knowledge-page {
+    height: 100%;
+    z-index: 100;
+    margin: 0 50px;
+    .knowledge-head {
+      position: fixed;
+      top: 80px;
+      width: ~"calc(62.5% - 100px)";
+      background-color: #fff;
+      z-index: 150;
+      .page-header {
+        width: 100%;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 1.7em;
+        color: #666;
+        border-bottom: 2px solid #55cbcb;
+      }
+    }
+    .intro-container {
+      .context-title-img {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        > img {
+          width: 60%;
+        }
+      }
+      .text {
+        > pre {
+          line-height: 2.0em;
+          font-size: 1.6em;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          overflow: hidden;
+        }
+      }
+      .question {
+        width: 100%;
+        margin-bottom: 20px;
+        font-size: @font_context;
+        white-space: normal;
+        word-break: break-all;
+      }
+      .discuss {
+      }
+      .analysis {
+        margin: 25px 0;
+        .analysis-tip {
+          font-size: @font_click;
+        }
+        .context {
+          font-size: @font_context;
+        }
+      }
+      .choice-list {
+        margin-right: 20px;
+        margin-bottom: 10px;
+        > .choice {
+          width: 100%;
+          display: table;
+          color: @color_context;
+          font-size: @font_context;
+          > .index {
+            display: table-cell;
+            width: 25px;
+          }
+          > .subject {
+            display: table-cell;
+            width: ~"calc(100% - 30px)";
+            vertical-align: middle;
+            padding-left: 5px;
+          }
+        }
+      }
+    }
+    .discuss-end {
+      padding: 20px 0;
+      text-align: center;
+      color: @color_weak;
+      font-size: @font_index;
+      > .discuss-end-span {
+        margin-top: 13px;
+      }
+      > .discuss-end-img {
+        text-align: center;
+      }
+    }
+  }
+  .button-footer {
+    cursor: pointer;
+    width: 33.3%;
+    margin: 0 auto;
+    font-size: 1.8em;
+    letter-spacing: 2px;
+    &.disable {
+      background-color: @color_weak;
+    }
+  }
+}
+
