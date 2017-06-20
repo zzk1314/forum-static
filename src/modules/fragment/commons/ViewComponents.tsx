@@ -55,6 +55,7 @@ export class RISE_TitleBar extends React.Component<TitleBarProps, any> {
 
 interface BreadCrumbsProps {
   navList: object;
+  urlList?: object;
 }
 export class RISE_BreadCrumbsProps extends React.Component<BreadCrumbsProps, any> {
 
@@ -70,9 +71,9 @@ export class RISE_BreadCrumbsProps extends React.Component<BreadCrumbsProps, any
     this.context.router.push("/fragment/learn")
   }
 
+  // TODO
   render() {
-    const { navList } = this.props
-
+    const { navList, urlList } = this.props
     const renderNavs = () => {
       return (
         navList.map((item, idx) => {
@@ -83,9 +84,17 @@ export class RISE_BreadCrumbsProps extends React.Component<BreadCrumbsProps, any
                 {item}
               </div>
             )
+          } else if (idx < navList.length - 1){
+            return (
+              <div className="bread-items" key={idx}
+                   onClick={() => this.context.router.push(urlList[idx - 1])}>
+                <div>&gt;</div>
+                <div>{item}</div>
+              </div>
+            )
           } else {
             return (
-              <div className="bread-items" key={idx}>
+              <div className="bread-last-items" key={idx}>
                 <div>&gt;</div>
                 <div>{item}</div>
               </div>

@@ -52,7 +52,6 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
-      console.log(sections)
       if(chapter.name !== "复习") {
         return (
           <div key={idx}>

@@ -67,7 +67,7 @@ export default class ShowApplication extends React.Component<any,any> {
             document.body.scrollTop = 0
           }
         }).catch(err => {
-        console.log("catch", err);
+        console.error("catch", err);
         if (err instanceof BreakSignal) {
           dispatch(alertMsg(err.title, err.msg));
         } else if (!(err instanceof Stop)) {

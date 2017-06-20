@@ -227,13 +227,17 @@ export default class Comment extends React.Component<any, any> {
         )
       }
     }
+    const {currentIndex, id, integrated, planId, practicePlanId} = this.props.location.query
 
     return (
       <div>
         <div className="application-comment">
           <div className="article">
             <div className="article-head">
-              <RISE_BreadCrumbsProps navList={['小课', '应用练习']}/>
+              <RISE_BreadCrumbsProps
+                navList={['小课', '应用练习', '评论']}
+                urlList={[`/fragment/application?currentIndex=${currentIndex}&id=${id}&integrated=${integrated}&planId=${planId}&practicePlanId=${practicePlanId}`]}
+              />
               <div className="article-header">{topic}</div>
             </div>
             <pre dangerouslySetInnerHTML={{ __html: content }} className="description"/>
