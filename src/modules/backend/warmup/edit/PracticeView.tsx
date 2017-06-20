@@ -83,12 +83,14 @@ export default class practiceView extends React.Component <any, any> {
 
   save() {
     const {data, edit} = this.state
-    if (this.refs.editor_question || this.refs.editor_analysis) {
+    if (this.refs.editor_question) {
       let editor_question_value = this.refs.editor_question.getValue()
       if (data.question != editor_question_value) {
         this.setState({edit: true})
         _.set(data, "question", editor_question_value)
       }
+    }
+    if (this.refs.editor_analysis) {
       let editor_analysis_value = this.refs.editor_analysis.getValue()
       if (data.analysis != editor_analysis_value) {
         _.set(data, "analysis", editor_analysis_value)

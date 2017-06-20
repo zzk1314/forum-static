@@ -42,6 +42,7 @@ import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
+import SmsManager from "./modules/backend/operation/SmsManager"
 
 // pc rise 改版
 import Plan from "./modules/fragment/plan/Plan";
@@ -99,8 +100,10 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
+        <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
-      <Route component={AsstIndex}>
+    </Route>
+    <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>
         <Route path="asst/commented" component={CommentedList}/>
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
