@@ -102,17 +102,17 @@ const routes = (
         </Route>
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
-    </Route>
-    <Route component={AsstIndex}>
-      <Route path="asst" component={AsstWelcome}/>
-      <Route path="asst/commented" component={CommentedList}/>
-      <Route path="/asst/application/comment" component={AsstApplicationComment}>
-        <Route path="/asst/application/list" component={AsstApplicationList}/>
-        <Route path="/asst/application/view" component={ShowApplication}/>
-      </Route>
-      <Route path="/asst/subject/comment" component={AsstSubjectComment}>
-        <Route path="/asst/subject/list" component={AsstSubjectList}/>
-        <Route path="/asst/subject/view" component={ShowSubject}/>
+      <Route component={AsstIndex}>
+        <Route path="asst" component={AsstWelcome}/>
+        <Route path="asst/commented" component={CommentedList}/>
+        <Route path="/asst/application/comment" component={AsstApplicationComment}>
+          <Route path="/asst/application/list" component={AsstApplicationList}/>
+          <Route path="/asst/application/view" component={ShowApplication}/>
+        </Route>
+        <Route path="/asst/subject/comment" component={AsstSubjectComment}>
+          <Route path="/asst/subject/list" component={AsstSubjectList}/>
+          <Route path="/asst/subject/view" component={ShowSubject}/>
+        </Route>
       </Route>
     </Route>
     {/*Rise PC 改版*/}
