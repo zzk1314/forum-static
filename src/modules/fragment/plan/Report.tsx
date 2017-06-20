@@ -41,6 +41,10 @@ export default class Report extends React.Component<any, any> {
 
   }
 
+  componentDidMount() {
+    document.body.scrollTop = 0
+  }
+
   renderChapterScores() {
     const { planData = {} } = this.state;
     const {
