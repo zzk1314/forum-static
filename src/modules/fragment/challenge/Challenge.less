@@ -25,13 +25,16 @@
     overflow: auto;
     text-align: center;
     > .challenge-context {
+      .context {
+        font-size: @font_context;
+      }
       .tip {
-        font-size: @font_help;
+        font-size: @font_click;
         color: @color_help;
       }
       .tip-title {
         color: @color_title;
-        font-size: 1.2em;
+        font-size: @font_click;
         margin-top: 12px;
       }
 
