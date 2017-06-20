@@ -221,14 +221,6 @@ export default class WarmUp extends React.Component<any, any> {
       )
     }
 
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
-    }
-
     return (
       <div className="container">
         <div className="warm-up">
@@ -249,7 +241,6 @@ export default class WarmUp extends React.Component<any, any> {
             </div>
           }
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

@@ -122,14 +122,6 @@ export default class Challenge extends React.Component<any, any> {
       }
     }
 
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
-    }
-
     return (
       <div>
         <div className="container">
@@ -180,7 +172,6 @@ export default class Challenge extends React.Component<any, any> {
             }
           </div>
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

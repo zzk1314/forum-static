@@ -463,7 +463,7 @@ export default class PlanMain extends React.Component <any, any> {
             <div className={`submit-btn-footer ${reportStatus < 0 ? 'grey' : ''}`}
                  onClick={() => this.handleClickComplete()}>
               学习报告</div> : null}
-          <div className="padding-footer"></div>
+          <div className="padding-footer"/>
         </div>
       </div>
     )

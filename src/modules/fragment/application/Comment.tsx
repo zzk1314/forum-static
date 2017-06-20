@@ -223,20 +223,9 @@ export default class Comment extends React.Component<any, any> {
               cancel={() => this.cancel()}
               showCancelBtn={false}
             />
-            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-            {/*</div>*/}
           </div>
         )
       }
-    }
-
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
     }
 
     return (
@@ -264,7 +253,6 @@ export default class Comment extends React.Component<any, any> {
             {renderTips()}
           </div>
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

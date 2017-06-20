@@ -99,7 +99,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   reload() {
-    console.log(1111)
     const { knowledge } = this.state;
     loadDiscuss(knowledge.id, 1).then(res => {
       if(res.code === 200) {
@@ -379,20 +378,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               cancel={() => this.cancel()}
               showCancelBtn={false}
             />
-            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-            {/*</div>*/}
           </div>
         )
       }
-    }
-
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
     }
 
     return (
@@ -413,7 +401,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           </div>
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        {/*{renderOtherComponents()}*/}
       </div>
     )
 

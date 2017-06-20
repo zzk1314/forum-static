@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './Report.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { queryReport } from './async'
-// import { Modal } from '../../../components/Modal'
 import { isNumber, merge } from 'lodash';
 import { NumberToChinese } from '../../../utils/helpers'
 import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
@@ -156,13 +155,6 @@ export default class Report extends React.Component<any, any> {
         返回
       </div>
     )
-    // } else {
-    //   return (
-    //     <div className="button-footer">
-    //       <div  onClick={this.goBack.bind(this)}>返回本小课</div>
-    //     </div>
-    //   )
-    // }
 
   }
 
@@ -174,26 +166,8 @@ export default class Report extends React.Component<any, any> {
       applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore
     } = planData;
 
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
-    };
-
     return (
       <div className="improvement-report">
-        {/*<Modal show={showConfirmModal}*/}
-        {/*height={240}*/}
-        {/*buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>*/}
-        {/*<div className="content" style={{marginTop:'0px'}}>*/}
-        {/*<div className="text">确定开始下一小课吗？</div>*/}
-        {/*</div>*/}
-        {/*<div className="content2">*/}
-        {/*<div className="text2">当前小课可以进入我的-我的小课中复习</div>*/}
-        {/*</div>*/}
-        {/*</Modal>*/}
         <div className="improvement-report-head">
           <RISE_BreadCrumbsProps navList={['小课', '学习报告']}/>
           <div className="improvement-report-header">学习报告</div>
@@ -220,7 +194,6 @@ export default class Report extends React.Component<any, any> {
           <div className="body">
             <div className="header">
               <span className="title">各章巩固练习得分</span>
-              {/*<span className="question">?</span>*/}
             </div>
             {this.renderChapterScores()}
           </div>
@@ -228,7 +201,6 @@ export default class Report extends React.Component<any, any> {
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
               <span className="title">应用练&amp;综合练习</span>
-              {/*<span className="question">?</span>*/}
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">
@@ -240,7 +212,6 @@ export default class Report extends React.Component<any, any> {
           <div className="tips">选课需要在微信”圈外学习号“中操作哦</div>
           <div className="padding-footer" style={{ height: '80px' }}/>
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }
@@ -279,8 +250,6 @@ class Progress extends React.Component<any, any> {
           <div className="track"/>
           <div className={`holder ${this.props.holderClass ? this.props.holderClass : ''}`}
                style={{ width: `${this.calculatePercent(this.props.score, this.props.totalScore)}%` }}>
-            {/*<div className="slider">*/}
-            {/*</div>*/}
           </div>
         </div>
         <span className="score"><span className="point number">{this.props.score}</span> / <span

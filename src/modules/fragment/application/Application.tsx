@@ -202,7 +202,6 @@ export default class Application extends React.Component<any, any> {
             end: res.msg.end,
           });
         } else {
-          // dispatch(alertMsg('没有更多了'));
           this.setState({ end: res.msg.end });
         }
       } else {
@@ -318,14 +317,6 @@ export default class Application extends React.Component<any, any> {
       }
     }
 
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
-    }
-
     return (
       <div>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -358,8 +349,6 @@ export default class Application extends React.Component<any, any> {
                      }>点击查看知识点</div> :
                 null
               }
-              {/*<div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>*/}
-              {/*点击查看知识点</div> : null*/}
             </div>
             <div ref="workContainer" className="work-container">
               {<RISE_TitleBar content={content === null ? "提交方式" : "我的作业"}/>}
@@ -412,7 +401,6 @@ export default class Application extends React.Component<any, any> {
             <div>已自动保存，可以继续编辑啦</div>
           </Toast>
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

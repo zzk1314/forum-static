@@ -337,9 +337,6 @@ export default class Analysis extends React.Component <any, any> {
               cancel={() => this.cancel()}
               showCancelBtn={false}
             />
-            {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-            {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-            {/*</div>*/}
           </div>
         )
       }
@@ -368,13 +365,6 @@ export default class Analysis extends React.Component <any, any> {
         </div>
         {showKnowledge ?
           <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {/*{showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder}*/}
-        {/*submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}*/}
-        {/*cancel={() => this.cancel()}/> :*/}
-        {/*<div className="writeDiscuss" onClick={() => this.openWriteBox()}>*/}
-        {/*<AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>*/}
-        {/*</div>}*/}
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

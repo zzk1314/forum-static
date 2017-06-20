@@ -108,14 +108,6 @@ export default class ProblemViewer extends React.Component<any, any> {
       )
     }
 
-    const renderOtherComponents = () => {
-      return (
-          <div>
-            <RISE_HomeIcon showHomeIcon={true}/>
-          </div>
-      )
-    }
-
     return (
       <div className="problem-page outer-wrapper">
         <div className={`container ${show?'':'has-footer'}`}>

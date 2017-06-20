@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Result.less";
-// import { loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import { RISE_BreadCrumbsProps } from "../commons/ViewComponents";
@@ -17,20 +16,6 @@ export default class Result extends React.Component <any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  }
-
-  componentWillMount() {
-    // const { dispatch, location } = this.props
-    // dispatch(startLoad())
-    // loadKnowledgeIntro(location.query.kid).then(res => {
-    //   dispatch(endLoad())
-    //   const { code, msg } = res
-    //   if (code === 200)  this.setState({ data: msg })
-    //   else dispatch(alertMsg(msg))
-    // }).catch(ex => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(ex))
-    // })
   }
 
   onSubmit() {

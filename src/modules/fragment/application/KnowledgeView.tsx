@@ -12,7 +12,6 @@ export default class KnowledgeModal extends React.Component<any, any> {
     this.state = {
       data:{},
     }
-
   }
 
   componentWillMount(){
