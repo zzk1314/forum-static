@@ -43,3 +43,6 @@ function log(msg) {
 	ppost('/b/log', { result: msg, cookie: document.cookie })
 }
 
+export function mark(param){
+  return ppost('/rise/b/mark',param);
+}

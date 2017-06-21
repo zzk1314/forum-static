@@ -15,7 +15,7 @@ import { Work } from "../components/NewWork";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
-import Snackbar from 'material-ui/Snackbar'
+import { mark } from "../../../utils/request"
 
 let timer;
 
@@ -48,6 +48,7 @@ export default class Application extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "RISE", action: "PC打开应用练习页",memo:"PC"})
     const { location, dispatch } = this.props;
     const { integrated, id, planId } = location.query;
     this.setState({ integrated });

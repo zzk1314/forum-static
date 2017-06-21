@@ -7,6 +7,7 @@ import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeModal from "../components/KnowledgeModal"
 import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
+import { mark } from "../../../utils/request"
 
 const sequenceMap = {
   0: "A",
@@ -40,6 +41,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module:"打点",function:"RISE",action:"PC打开巩固练习页",memo:"PC"});
     const { location, dispatch } = this.props;
     const { practicePlanId, integrated } = location.query;
     this.setState({ integrated });

@@ -8,7 +8,7 @@ import KnowledgeModal from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
-import { scroll } from "../../../utils/helpers"
+import { mark } from "../../../utils/request"
 import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
@@ -52,6 +52,7 @@ export default class Analysis extends React.Component <any, any> {
   }
 
   componentWillMount(props) {
+    mark({module:"打点",function:"RISE",action:"PC打开巩固练习解析页",memo:"PC"});
     const { dispatch, location } = props || this.props
     this.setState({ currentIndex: 0 })
     const { practicePlanId, integrated } = location.query

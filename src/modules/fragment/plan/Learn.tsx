@@ -7,6 +7,7 @@ import {
   loadPlan, completePlan, updateOpenRise, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList
 } from "./async";
+import { mark } from "../../../utils/request"
 import * as Async from "./async";
 import DropChoice from "../../../components/DropChoice";
 import Modal from "../../../components/Modal";
@@ -107,6 +108,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   componentDidMount() {
+    mark({module:"打点",function:"RISE",action:"PC打开学习页",memo:"PC"});
     window.addEventListener('resize', this.resize.bind(this));
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res => {
@@ -223,7 +225,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({ module: "打点", function: "小课介绍", action: "PC打开小课介绍", memo: problemId });
+    mark({ module: "打点", function: "RISE", action: "PC打开小课介绍", memo:"PC" });
     // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, "_blank")
   }
@@ -248,6 +250,7 @@ export default class PlanMain extends React.Component <any, any> {
   handleClickRiseMemberTips() {
     const { dispatch } = this.props;
     dispatch(alertMsg(null, "请在手机微信上升级正式版"));
+    mark({module: "打点", function: "RISE", action: "PC点击升级专业版按钮", memo: "PC"});
     // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
     //   window.location.href = `https://${window.location.hostname}/pay/pay`
     // })
