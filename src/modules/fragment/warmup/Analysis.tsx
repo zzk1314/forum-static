@@ -136,28 +136,28 @@ export default class Analysis extends React.Component <any, any> {
   }
 
   onSubmit(isSelfDiscuss = false) {
-    const { dispatch } = this.props
-    const { content, list, currentIndex } = this.state
+    const { dispatch } = this.props;
+    const { content, list, currentIndex } = this.state;
     // 针对回复框类型，选择评论类型，是否回复
-    const repliedId = isSelfDiscuss ? 0 : this.state.repliedId
-    const { practice = [] } = list
-    const { id } = practice[currentIndex]
+    const repliedId = isSelfDiscuss ? 0 : this.state.repliedId;
+    const { practice = [] } = list;
+    const { id } = practice[currentIndex];
     if(content.length == 0) {
-      dispatch(alertMsg('请填写评论'))
-      return
+      dispatch(alertMsg('请填写评论'));
+      return false;
     }
     if(content.length > 300) {
-      dispatch(alertMsg('您的评论字数已超过300字'))
-      return
+      dispatch(alertMsg('您的评论字数已超过300字'));
+      return false;
     }
 
-    let discussBody = { comment: content, referenceId: id }
+    let discussBody = { comment: content, referenceId: id };
     if(repliedId) {
       _.merge(discussBody, { repliedId: repliedId })
     }
 
     discuss(discussBody).then(res => {
-      const { code, msg } = res
+      const { code, msg } = res;
       if(code === 200) {
         this.closeDiscussModal()
       }
@@ -166,7 +166,9 @@ export default class Analysis extends React.Component <any, any> {
       }
     }).catch(ex => {
       dispatch(alertMsg(ex))
-    })
+    });
+
+    return true;
   }
 
   onDelete(discussId) {

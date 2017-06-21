@@ -21,9 +21,11 @@ export default class Discuss extends React.Component <any, any> {
   }
 
   onSubmit() {
-    const { submit } = this.props
-    submit()
-    this.refs.input.value = ''
+    const { submit } = this.props;
+    const result = submit();
+    if(result !== false){
+      this.refs.input.value = '';
+    }
   }
 
   render() {

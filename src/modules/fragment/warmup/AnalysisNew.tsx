@@ -122,15 +122,15 @@ export default class AnalysisNew extends React.Component <any, any> {
   }
 
   onSubmit(){
-    const {dispatch} = this.props
-    const {warmupPracticeId, repliedId, content} = this.state
+    const {dispatch} = this.props;
+    const {warmupPracticeId, repliedId, content} = this.state;
     if(content.length==0){
-      dispatch(alertMsg('请填写评论'))
-      return
+      dispatch(alertMsg('请填写评论'));
+      return false;
     }
     if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
-      return
+      dispatch(alertMsg('您的评论字数已超过300字'));
+      return false;
     }
 
     let discussBody = {comment:content, referenceId: warmupPracticeId}
@@ -149,6 +149,8 @@ export default class AnalysisNew extends React.Component <any, any> {
     }).catch(ex => {
       dispatch(alertMsg(ex))
     })
+
+    return true;
   }
 
   openWriteBox() {
