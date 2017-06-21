@@ -157,7 +157,7 @@ export default class ApplicationList extends React.Component<any, any> {
 
   onClickGoDetail(item) {
     this.context.router.push({
-      pathname: "/fragment/application/show",
+      pathname: "/asst/application/view",
       query: {
         submitId: item.id,
         applicationId: item.applicationId,
