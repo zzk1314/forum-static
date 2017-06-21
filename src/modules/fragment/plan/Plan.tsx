@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { set, alertMsg, startLoad, endLoad } from "redux/actions";
 import { loadSelfPlans } from "./async";
+import { mark } from '../../../utils/request'
 import AssetImg from "../../../components/AssetImg";
 
 import "./Plan.less";
@@ -22,6 +23,7 @@ export default class Plan extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module:"打点",function:"RISE",action:"PC打开计划列表页",memo:"PC"});
     const { dispatch } = this.props;
     dispatch(startLoad());
     loadSelfPlans().then(res => {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
+import { mark } from "../../../utils/request"
 
 import "./KnowledgeViewer.less";
 import {
@@ -51,6 +52,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "RISE", action: "PC打开知识点",memo:"PC"})
     const { id, practicePlanId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
