@@ -6,7 +6,7 @@ import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
+  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft,
   autoUpdateApplicationDraft
 } from "./async";
 import Work from "../components/NewWork";
@@ -15,6 +15,7 @@ import { Work } from "../components/NewWork";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { ArticleViewModule } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 
 let timer;
