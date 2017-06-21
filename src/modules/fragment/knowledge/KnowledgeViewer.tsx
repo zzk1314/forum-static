@@ -145,12 +145,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { content } = this.state;
     const repliedId = isSelfDiscuss ? 0 : this.state.repliedId
     if(content.length == 0) {
-      alert("请填写评论");
-      return;
+      dispatch(alertMsg("请填写评论"));
+      return false;
     }
     if(content.length > 300) {
-      alert("您的评论字数已超过300字");
-      return;
+      dispatch(alertMsg("您的评论字数已超过300字"));
+      return false;
     }
     let discussBody = { comment: content, referenceId: this.state.knowledge.id };
     if(repliedId) {
@@ -171,6 +171,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     });
+
+    return true;
   }
 
   onDelete(id) {

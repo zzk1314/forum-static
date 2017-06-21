@@ -103,6 +103,8 @@ export default class Comment extends React.Component<any, any> {
     } else {
       dispatch(alertMsg(null, '请先输入内容再提交'));
     }
+
+    return true;
   }
 
   openWriteBox() {
