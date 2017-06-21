@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Subject.less";
-import { loadSubjects, vote, CommentType, ArticleViewModule} from "./async";
+import { loadSubjects, vote, CommentType } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
 // import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import { findIndex, remove, isArray, findLast, isNull, isString, truncate, merge, set, get } from "lodash";
 import { mark } from '../plan/async';
+import { ArticleViewModule } from "../../../utils/helpers"
 
 @connect(state => state)
 export default class Subject extends React.Component<any, any> {

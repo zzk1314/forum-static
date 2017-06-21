@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Challenge.less";
-import { loadChallengePractice, submitChallengePractice } from "./async";
+import { loadChallengePractice, submitChallengePractice} from "./async";
+import { ArticleViewModule } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
@@ -116,6 +117,7 @@ export default class Challenge extends React.Component<any, any> {
         return (
           <div>
             <Work onEdit={() => this.onEdit()} operation={false}
+                  articleModule={ArticleViewModule.Challenge}
                   headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
           </div>
         )

@@ -147,3 +147,9 @@ export const questionList = [
     ]
   }
 ];
+
+export const ArticleViewModule = {
+  Challenge:1,
+  Application:2,
+  Subject:3,
+}
