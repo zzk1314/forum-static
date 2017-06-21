@@ -92,7 +92,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">
-              <AssetImg url="http://static.iqycamp.com/images/logo.png" width="36" height="38"/>
+              <AssetImg url="https://static.iqycamp.com/images/logo.png" width="36" height="38"/>
             </div>
             <span className="logo-name">
                 圈外
