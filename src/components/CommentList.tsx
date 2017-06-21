@@ -100,7 +100,7 @@ class Comment extends React.Component{
 
 
     return (
-      <div className="comment" key={index}>
+      <div className="comment-container" key={index}>
         <Author headPic={headPic} upName={upName} upTime={upTime} role={role}/>
         <pre className="commentContent">
           {content}
