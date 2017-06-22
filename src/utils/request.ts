@@ -26,6 +26,7 @@ export function pget(url: string ,query?: Object) {
 		} else {
 			log(error.message)
 		}
+    throw "网络不给力";
 	})
 }
 
@@ -36,6 +37,7 @@ export function ppost(url: string, body: Object) {
 		} else {
 			log(error.message)
 		}
+    throw "网络不给力";
 	})
 }
 

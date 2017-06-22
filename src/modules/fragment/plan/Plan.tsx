@@ -37,7 +37,7 @@ export default class Plan extends React.Component<any, any> {
       }
     }).catch(ex => {
       dispatch(endLoad());
-      console.error(ex);
+      dispatch(alertMsg(ex));
     });
   }
 
