@@ -30,6 +30,10 @@ export default class Plan extends React.Component<any, any> {
       dispatch(endLoad());
       if(res.code === 200) {
         this.setState({ donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans })
+      } else if(res.code === 401){
+        dispatch(alertMsg("提示", "请先登录"));
+        setTimeout(() => window.location.href = "/login?callbackUrl=/backend", 500);
+
       }
     }).catch(ex => {
       dispatch(endLoad());
