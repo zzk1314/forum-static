@@ -57,5 +57,5 @@ export function queryReport(planId){
 }
 
 export function loadSelfPlans() {
-  return pget("/rise/customer/plans")
+  return pget("/rise/customer/pc/plans")
 }
