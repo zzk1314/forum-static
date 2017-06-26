@@ -9,6 +9,8 @@ import "./Base.less"
 import {style} from "./Base.ts";
 import AlertMessage from "../../components/AlertMessage"
 import NavigatorBar from "../../components/NavigatorBar";
+import { isPending, renderExist } from "../../utils/helpers";
+import Loading from "../../components/Loading";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -33,6 +35,12 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
+    const actions = [{
+      "label": "我知道了",
+      "onClick": this.closeBaseAlert.bind(this),
+      "primary": true
+    }]
+
     // 渲染头像
     const renderAvatar = () => {
       if (this.props.location.pathname.indexOf("fragment") > 0 ||
@@ -68,6 +76,7 @@ export default class Main extends React.Component<any, any> {
                         content={this.props.base.alertMsg.msg}
                         title={this.props.base.alertMsg.title}
                         handleClose={()=>this.closeBaseAlert()} />
+          {renderExist(isPending(this.props, 'base.loading'), <Loading/>)}
         </div>
       </MuiThemeProvider>
     )
