@@ -26,45 +26,12 @@ export default class Main extends React.Component<any, any> {
     };
   }
 
-  componentWillMount(){
-  }
-
   closeBaseAlert(){
     const {dispatch} = this.props;
     dispatch(set("base.showModal",false));
   }
 
   render() {
-    const actions = [{
-      "label": "我知道了",
-      "onClick": this.closeBaseAlert.bind(this),
-      "primary": true
-    }]
-
-    // 渲染头像
-    const renderAvatar = () => {
-      if (this.props.location.pathname.indexOf("fragment") > 0 ||
-          this.props.location.pathname.indexOf("asst") > 0) {
-        if (!window.ENV.userName) {
-          return (
-            <div>
-              <Avatar className="avatar" style={style.avatar} src=""/>
-              <div className="avatarName">未登录</div>
-            </div>
-          )
-        } else {
-          return (
-            <div>
-              <Avatar size={30} style={style.avatar} src={window.ENV.headImage}/>
-              <div className="avatarName">{window.ENV.userName}</div>
-            </div>
-          )
-        }
-      } else {
-        return null;
-      }
-    }
-
 
     return (
       <MuiThemeProvider>
