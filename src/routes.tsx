@@ -2,24 +2,14 @@ import * as React from "react";
 import { Route, IndexRoute } from "react-router";
 import Base from "modules/base/Base.tsx";
 import RiseBase from "modules/base/RiseBase.tsx";
-import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
 import ServerCode from "./modules/ServerCode"
-import Catalog from "./modules/fragment/Catalog"
-import DoChallenge from "./modules/fragment/challenge/DoChallenge"
-import DoApplication from "./modules/fragment/application/DoApplication"
-import ChallengeList from "./modules/fragment/challenge/ChallengeList"
-import ApplicationList from "./modules/fragment/application/ApplicationList"
-import ShowChallenge from "./modules/fragment/challenge/ShowChallenge"
-import ShowApplication from "./modules/fragment/application/ShowApplication"
-import ShowSubject from "./modules/fragment/subject/ShowSubject"
+import ShowApplication from "./modules/asst/application/ShowApplication"
+import ShowSubject from "./modules/asst/subject/ShowSubject"
 import Stranger from "./modules/Stranger"
 import Reject from "./modules/Reject"
 import NotFoundPage from "./modules/NotFoundPage"
-import SubjectList from "./modules/fragment/subject/SubjectList"
-import MineSubject from "./modules/fragment/subject/MineSubject"
-import WriteSubject from "./modules/fragment/subject/WriteSubject"
 import Test from "./modules/Test"
 import BackendIndex from "./modules/backend/BackendIndex"
 import BackendWelcome from "./modules/backend/Welcome"
@@ -41,24 +31,23 @@ import AsstApplicationList from "./modules/asst/application/ApplicationList"
 import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
-import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 import SmsManager from "./modules/backend/operation/SmsManager"
 
 // pc rise 改版
-import Plan from "./modules/fragment/plan/Plan";
-import Application from "./modules/fragment/application/Application";
-import Comment from "./modules/fragment/application/Comment";
-import WarmUp from "./modules/fragment/warmup/WarmUp";
-import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
-import Learn from './modules/fragment/plan/Learn';
-import Report from './modules/fragment/plan/Report';
-import WarmupResult from './modules/fragment/warmup/Result'
-import WarmUpAnalysis from "modules/fragment/warmup/Analysis";
-import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
-import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview";
-import ProblemViewer from "modules/fragment/problem/ProblemViewer";
-import Subject from "modules/fragment/subject/Subject";
-import Challenge from "modules/fragment/challenge/Challenge"
+import Plan from              "./modules/fragment/plan/Plan";
+import Learn from             "./modules/fragment/plan/Learn";
+import Report from            "./modules/fragment/plan/Report";
+import Subject from           "./modules/fragment/subject/Subject";
+import Challenge from         "./modules/fragment/challenge/Challenge"
+import Application from       "./modules/fragment/application/Application";
+import Comment from           "./modules/fragment/application/Comment";
+import WarmUp from            "./modules/fragment/warmup/WarmUp";
+import WarmupResult from      "./modules/fragment/warmup/Result";
+import WarmUpAnalysis from    "./modules/fragment/warmup/Analysis";
+import AnalysisNew from       "./modules/fragment/warmup/AnalysisNew";
+import KnowledgeViewer from   "./modules/fragment/knowledge/KnowledgeViewer";
+import KnowledgeReview from   "./modules/fragment/knowledge/KnowledgeReview";
+import ProblemViewer from     "./modules/fragment/problem/ProblemViewer";
 
 const routes = (
   <Route path="/">
@@ -69,21 +58,7 @@ const routes = (
       <Route path="login" component={Login}/>
       <Route path="stranger" component={Stranger}/>
       <Route path="pc/static/reject" component={Reject}/>
-      {/*<Route component={ProblemList}>*/}
-      {/*<Route path="fragment/rise" component={Catalog}/>*/}
-      {/*<Route path="fragment/challenge" component={DoChallenge}/>*/}
-      {/*<Route path="fragment/application" component={DoApplication}/>*/}
-      {/*<Route path="fragment/challenge/list" component={ChallengeList}/>*/}
-      {/*<Route path="fragment/application/list" component={ApplicationList}/>*/}
-      {/*<Route path="fragment/challenge/show" component={ShowChallenge}/>*/}
-      {/*<Route path="fragment/application/show" component={ShowApplication}/>*/}
-      {/*<Route path="fragment/subject/list" component={SubjectList}/>*/}
-      {/*<Route path="fragment/subject/show" component={ShowSubject}/>*/}
-      {/*<Route path="fragment/subject/list/mine" component={MineSubject}/>*/}
-      {/*<Route path="fragment/subject/write" component={WriteSubject}/>*/}
-      {/*<Route path="fragment/knowledge/show" component={KnowledgeView}/>*/}
       <Route path="servercode" component={ServerCode}/>
-      {/*</Route>*/}
       <Route component={BackendIndex}>
         <Route path="backend" component={BackendWelcome}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>

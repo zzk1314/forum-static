@@ -2,16 +2,16 @@ import * as React from "react"
 import "./ShowSubject.less"
 import * as _ from "lodash"
 import { connect } from "react-redux"
-import { loadSubject } from "./async.bak"
+import { loadSubject } from "../async"
 import {
   vote,
   loadComments,
   submitComment,
   submitReplyComment,
+  requestAsstComment,
+  deleteComment,
   VoteType,
   CommentType,
-  requestAsstComment,
-  deleteComment
 } from "../async"
 import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import Avatar from 'material-ui/Avatar';

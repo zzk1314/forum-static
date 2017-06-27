@@ -4,7 +4,7 @@ import Avatar from 'material-ui/Avatar';
 import "./WorkItem.less"
 import Snackbar from 'material-ui/Snackbar';
 import Alert from "./AlertMessage";
-import {requestAsstComment} from  "../modules/fragment/async"
+import {requestAsstComment} from  "../modules/asst/async"
 import {set, startLoad, endLoad, alertMsg} from "../redux/actions"
 import {connect} from "react-redux";
 

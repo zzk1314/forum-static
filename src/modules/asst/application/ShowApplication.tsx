@@ -2,7 +2,7 @@ import * as React from "react"
 import "./ShowApplication.less"
 import * as _ from "lodash"
 import { connect } from "react-redux"
-import { loadApplicationSubmit } from "./async.bak"
+import { loadApplicationSubmit } from "../async"
 import {
   vote,
   loadComments,
