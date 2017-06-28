@@ -1,0 +1,108 @@
+@import "../../../../style/variable";
+
+.message-container {
+  overflow: auto;
+  margin: 0 50px;
+  padding-bottom: 25px;
+  .message-page {
+
+  }
+
+}
+
+.scroll {
+  height: 40px;
+  width: 92%;
+  position: absolute;
+  bottom: 60px;
+  background-color: red;
+}
+
+.read {
+  color: @color_weak !important;
+}
+
+.unread {
+  color: @color_title !important;
+}
+
+.no_message {
+  color: @color_weak_background;
+  font-size: @font_context;
+  text-align: center;
+  padding-top: 15px;
+  > .no_comment {
+    margin-top: 125px;
+  }
+}
+
+.message_box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  > .container {
+    padding: 0 !important;
+  }
+  .message-cell {
+    position: relative;
+    padding: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    > .message-avatar {
+      display: inline-block;
+      vertical-align: top;
+      height: 40px;
+      width: 40px;
+      > .message-avatar-img {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+      }
+    }
+    > .message-area {
+      display: inline-block;
+      margin-left: 15px;
+      width: ~"calc(100% - 40px - 15px)";
+      > .message-head {
+        line-height: 13px;
+        height: 27px;
+        > .message-name {
+          display: inline-block;
+          color: @color_title;
+          font-size: 1.3em;
+        }
+        > .message-time {
+          display: inline-block;
+          font-size: @font_help;
+          color: @color_help;
+          position: absolute;
+          top: 15px;
+          right: 15px;
+        }
+        > .right {
+          float: right;
+          display: inline-block;
+          > .function-icon {
+            float: left;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 2px;
+          }
+          > .function-button {
+            display: inline-block;
+            float: right;
+            color: @color_strong;
+            font-size: @font_click;
+          }
+        }
+      }
+      > .message-content {
+        line-height: 1.3em;
+        font-size: 1.3em;
+        width: 100%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+    }
+  }
+}

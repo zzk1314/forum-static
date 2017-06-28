@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AssetImg from "../components/AssetImg";
 import Paper from 'material-ui/Paper';
 import './NavigatorBar.less';
+import { Divider, Paper, Menu, MenuItem } from "material-ui"
 
 enum NavType {
   Home = 1,
@@ -80,8 +81,13 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
     const renderNotes = () => {
       if(showNotes && hoverShowNotes) {
         return (
-          <Paper style={{ position: "absolute", top: 70, marginLeft: "-10px" }}>
-            <div className="nav-notes">个人中心正在开发中<br/>敬请期待</div>
+          <Paper className="nav-notes" style={{ position: "absolute", top: 70, marginLeft: "-10px" }}>
+            <Menu>
+              <MenuItem primaryText="个人主页" onClick={() => this.context.router.push("/fragment/customer/profile")}/>
+              <MenuItem primaryText="消息通知" onClick={() => this.context.router.push("/fragment/customer/message")}/>
+              <Divider/>
+              <MenuItem primaryText="退出"/>
+            </Menu>
           </Paper>
         )
       }
@@ -94,8 +100,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
             <div className="logo-img">
               <AssetImg url="https://static.iqycamp.com/images/logo.png" width="36" height="38"/>
             </div>
-            <span className="logo-name">
-                圈外
+            <span className="logo-name">圈外
             </span>
           </div>
           <div className="nav-btn">
@@ -106,8 +111,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
                     onClick={() => this.handleClickNav(NavType.Rise)}>RISE
             </button>
           </div>
-          <div className="nav-user" onMouseOver={() => this.setState({hoverShowNotes: true})}
-               onMouseOut={() => this.setState({hoverShowNotes: false})}>
+          <div className="nav-user" onMouseOver={() => this.setState({ hoverShowNotes: true })}>
             <div className="user-img"><img src={window.ENV.headImage}/></div>
             <div className="user-name">{window.ENV.userName}</div>
             {renderNotes()}

@@ -86,11 +86,6 @@ export default class PlanMain extends React.Component <any, any> {
             this.setState({
               showEmptyPage: true
             })
-          } else {
-            alert('进入欢迎页面');
-            // this.context.router.push({
-            //   pathname: '/rise/static/welcome'
-            // })
           }
         }
       }
@@ -108,7 +103,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   componentDidMount() {
-    mark({module:"打点",function:"RISE",action:"PC打开学习页",memo:"PC"});
+    mark({ module: "打点", function: "RISE", action: "PC打开学习页", memo: "PC" });
     window.addEventListener('resize', this.resize.bind(this));
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res => {
@@ -148,7 +143,6 @@ export default class PlanMain extends React.Component <any, any> {
           setTimeout(() => {
             this.setState({ riseMemberTips: true });
           }, 10)
-
         }
       } else {
         dispatch(alertMsg(res.msg));
@@ -225,7 +219,7 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({ module: "打点", function: "RISE", action: "PC打开小课介绍", memo:"PC" });
+    mark({ module: "打点", function: "RISE", action: "PC打开小课介绍", memo: "PC" });
     // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, "_blank")
   }
@@ -241,7 +235,6 @@ export default class PlanMain extends React.Component <any, any> {
     } else {
       this.context.router.push({
         pathname: "/rise/static/problem/explore",
-        // query:this.props.location.query
       })
     }
   }
@@ -250,10 +243,7 @@ export default class PlanMain extends React.Component <any, any> {
   handleClickRiseMemberTips() {
     const { dispatch } = this.props;
     dispatch(alertMsg(null, "请在手机微信上升级正式版"));
-    mark({module: "打点", function: "RISE", action: "PC点击升级专业版按钮", memo: "PC"});
-    // mark({module: "打点", function: "升级专业版", action: "点击升级专业版按钮", memo: "首页"}).then(() => {
-    //   window.location.href = `https://${window.location.hostname}/pay/pay`
-    // })
+    mark({ module: "打点", function: "RISE", action: "PC点击升级专业版按钮", memo: "PC" });
   }
 
   handleClickComplete() {
@@ -278,10 +268,6 @@ export default class PlanMain extends React.Component <any, any> {
           // 设置完成
           if(planData.hasProblemScore) {
             // 已经评分
-            //
-            // this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
-            //   this.confirmComplete();
-            // })
             this.handleClickConfirmComplete();
           } else {
             // 未评分
@@ -398,9 +384,6 @@ export default class PlanMain extends React.Component <any, any> {
 
   renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point) {
     let modalList = [];
-    // modalList.add(
-    //   <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.handleClickTutorialEnd()}/>
-    // );
     modalList.push(
       <Modal show={false}
              buttons={[{ click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}` }]}
@@ -614,7 +597,7 @@ export default class PlanMain extends React.Component <any, any> {
             </div>
           ),
           (
-            <div className="rise-main">
+            <div className="rise-main" style={{minHeight: window.innerHeight}}>
               <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
                   { this.renderSidebar(selectProblem) }
@@ -649,16 +632,6 @@ export default class PlanMain extends React.Component <any, any> {
                       </div>
                     </div>
                   </div>
-                  {/*<div className="function-menu">*/}
-                  {/*<div className="left" onClick={() => this.handleClickEssenceShare(problem.id, currentIndex)}>*/}
-                  {/*<span className="essence"><AssetImg type="essence" height={13} width={19}/></span>*/}
-                  {/*<span>小课论坛</span>*/}
-                  {/*</div>*/}
-                  {/*<div className="right" onClick={() => this.handleClickProblemReview(problem.id)}>*/}
-                  {/*<span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>*/}
-                  {/*<span>小课介绍</span>*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
                   {renderExist(!isEmpty(planData),
                     (
                       <div style={{ padding: "0 15px" }}>

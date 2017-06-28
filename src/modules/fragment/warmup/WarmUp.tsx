@@ -6,8 +6,8 @@ import "./WarmUp.less";
 import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeModal from "../components/KnowledgeModal"
-import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
-import { mark } from "../../../utils/request"
+import { BreadCrumbs } from "../commons/FragmentComponent";
+import { mark } from "../../../utils/request";
 
 const sequenceMap = {
   0: "A",
@@ -41,7 +41,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module:"打点",function:"RISE",action:"PC打开巩固练习页",memo:"PC"});
+    mark({ module: "打点", function: "RISE", action: "PC打开巩固练习页", memo: "PC" });
     const { location, dispatch } = this.props;
     const { practicePlanId, integrated } = location.query;
     this.setState({ integrated });
@@ -232,7 +232,7 @@ export default class WarmUp extends React.Component<any, any> {
               <div className="has-footer" ref={'warmup'}>
                 <div>
                   <div className="warm-up-head">
-                    <RISE_BreadCrumbsProps navList={["小课", "巩固练习"]}/>
+                    <BreadCrumbs navList={["小课", "巩固练习"]}/>
                     {practice[currentIndex] ?
                       <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
                   </div>

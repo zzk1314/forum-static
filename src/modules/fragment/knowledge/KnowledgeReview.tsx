@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import "./KnowledgeReview.less"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { loadProblem, } from "./async"
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent";
 
 @connect(state => state)
 export default class KnowledgeReview extends React.Component<any, any> {
@@ -74,30 +74,23 @@ export default class KnowledgeReview extends React.Component<any, any> {
       )
     }
 
-    const renderOtherComponents = () => {
-      return (
-        <RISE_HomeIcon showHomeIcon={true}/>
-      )
-    }
-
     return (
       <div className="problem-detail">
         <div className="problem-head">
-          <RISE_BreadCrumbsProps navList={['小课', '知识回顾']}/>
+          <BreadCrumbs navList={['小课', '知识回顾']}/>
           <div className="problem-header">知识回顾</div>
         </div>
         <div className="detail-header click" style={{ marginBottom: '10px', borderBottom: "none" }}
              onClick={this.goProblemIntro.bind(this)}>
           <div className="header-label hover-cursor" style={{ float: "left" }}>小课介绍</div>
         </div>
-        <RISE_TitleBar content=""/>
+        <TitleBar content=""/>
         <div className="detail-header">
           小课知识点
         </div>
         <div className="detail-container">
           {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
         </div>
-        {/*{renderOtherComponents()}*/}
       </div>
     )
   }

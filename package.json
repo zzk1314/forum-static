@@ -24,6 +24,7 @@
   "homepage": "https://github.com/zzk1314/forum-static#readme",
   "dependencies": {
     "@types/lodash": "0.0.29",
+    "@types/material-ui": "^0.17.12",
     "@types/react": "^0.14.28",
     "@types/react-dom": "^0.14.14",
     "@types/react-redux": "^4.4.29",

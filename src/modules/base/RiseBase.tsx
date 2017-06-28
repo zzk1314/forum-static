@@ -5,10 +5,10 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import AlertMessage from "../../components/AlertMessage"
 import Loading from "../../components/Loading";
+import NavigatorBar from "../../components/NavigatorBar.tsx";
+import { isPending, renderExist } from "../../utils/helpers";
 
 import "./RiseBase.less";
-import { isPending, renderExist } from "../../utils/helpers";
-import NavigatorBar from "../../components/NavigatorBar.tsx";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -36,7 +36,9 @@ export default class Main extends React.Component<any, any> {
     const renderFeedBack = () => {
       return (
         <div className="feed-back">
-          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank"><img src="https://www.iqycamp.com/images/pcFeedBack.png"/></a>
+          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank">
+            <img src="https://www.iqycamp.com/images/pcFeedBack.png"/>
+          </a>
         </div>
       )
     }

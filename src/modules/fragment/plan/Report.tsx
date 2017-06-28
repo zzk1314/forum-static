@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { queryReport } from './async'
 import { isNumber, merge } from 'lodash';
 import { NumberToChinese } from '../../../utils/helpers'
-import { RISE_BreadCrumbsProps, RISE_HomeIcon } from "../commons/ViewComponents";
+import { BreadCrumbs } from "../commons/FragmentComponent"
 const numeral = require('numeral');
 
 @connect(state => state)
@@ -169,7 +169,7 @@ export default class Report extends React.Component<any, any> {
     return (
       <div className="improvement-report">
         <div className="improvement-report-head">
-          <RISE_BreadCrumbsProps navList={['小课', '学习报告']}/>
+          <BreadCrumbs navList={['小课', '学习报告']}/>
           <div className="improvement-report-header">学习报告</div>
         </div>
 
@@ -238,8 +238,6 @@ class Progress extends React.Component<any, any> {
     }
     return tempScore;
   }
-
-  // appScore
 
   render() {
     let progressStyle = merge({ width: '50%' }, this.props.progressStyle);
