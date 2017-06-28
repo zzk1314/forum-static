@@ -6,7 +6,7 @@ import {set, alertMsg} from "../../../redux/actions"
 import {BreakSignal, Stop} from "../../../utils/request"
 import "./Catalog.less"
 import Divider from 'material-ui/Divider';
-import {removelHtmlTags} from "../../textUtils"
+import {removeHtmlTags} from "../../textUtils"
 
 @connect(state => state)
 export default class Catalog extends React.Component<any,any> {
@@ -98,7 +98,7 @@ export default class Catalog extends React.Component<any,any> {
               {applicationList.map((item,seq) =>{
                     return (
                         <div key={seq} onClick={()=>this.goApp(item.id)} className="item">
-                          <div className="content">{removelHtmlTags(item.topic)}</div>
+                          <div className="content">{removeHtmlTags(item.topic)}</div>
                         </div>
                     )
                   })}

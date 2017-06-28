@@ -18,7 +18,7 @@ import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { RISE_BreadCrumbsProps, RISE_TitleBar } from "../commons/ViewComponents";
 
 const sequenceMap = {
   0: "A",
@@ -41,7 +41,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       commentId: 0,
       knowledge: {},
       discuss: {},
-      placeholder: '提出你的疑问或意见吧（限300字）',
+      placeholder: '对知识点有疑问？在这里和大家讨论吧（限1000字）',
       isReply: false,
       clickedCompleteBtn: false
     }
@@ -110,7 +110,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           showSelfDiscuss: false,
           repliedId: 0,
           isReply: false,
-          placeholder: '提出你的疑问或意见吧（限300字）',
+          placeholder: '对知识点有疑问？在这里和大家讨论吧（限1000字）',
         })
         document.body.scrollTop = document.querySelector(".discuss").offsetTop - 140
       }
@@ -132,7 +132,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   cancel() {
     this.setState({
-      placeholder: '提出你的疑问或意见吧（限300字）',
+      placeholder: '对知识点有疑问？在这里和大家讨论吧（限1000字）',
       isReply: false,
       repliedId: 0,
       showDiscuss: false,
@@ -146,10 +146,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const repliedId = isSelfDiscuss ? 0 : this.state.repliedId
     if(content.length == 0) {
       dispatch(alertMsg("请填写评论"));
-      return false;
-    }
-    if(content.length > 300) {
-      dispatch(alertMsg("您的评论字数已超过300字"));
       return false;
     }
     let discussBody = { comment: content, referenceId: this.state.knowledge.id };
@@ -203,7 +199,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     this.setState({
       showSelfDiscuss: true, content: '',
       isReply: false,
-      placeholder: '提出你的疑问或意见吧（限300字）'
+      placeholder: '对知识点有疑问？在这里和大家讨论吧（限1000字）'
     }, () => {
       document.body.scrollTop = document.body.scrollHeight;
     })
@@ -321,7 +317,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   onDelete={() => this.onDelete(item.id)} key={seq}/>
                 {
                   this.state.showDiscuss && this.state.repliedId === item.id ?
-                    <Discuss isReply={isReply} placeholder={placeholder}
+                    <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                              submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
                              cancel={() => this.cancel()}/> :
                     null
@@ -376,8 +372,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         return (
           <div>
             <Discuss
-              isReply={isReply} placeholder={`提出你的疑问或意见吧（限300字）`}
-              submit={() => this.onSubmit(true)}
+              isReply={isReply} placeholder={`对知识点有疑问？在这里和大家讨论吧（限1000字）`}
+              submit={() => this.onSubmit(true)} limit={1000}
               onChange={(v) => this.onChange(v)}
               cancel={() => this.cancel()}
               showCancelBtn={false}

@@ -5,12 +5,13 @@ import { renderExist } from "../../../utils/helpers";
 
 export default class Discuss extends React.Component <any, any> {
   constructor(props) {
-    super()
-    const { isReply, placeholder } = props
+    super();
+    const { isReply, placeholder } = props;
     this.state = {
       isReply: isReply,
       placeholder: placeholder,
       editDisable: false,
+      length: 0,
     }
   }
 
@@ -28,14 +29,22 @@ export default class Discuss extends React.Component <any, any> {
     }
   }
 
+  change(value) {
+    const { onChange } = this.props;
+    this.setState({length:value.length});
+    onChange(value);
+  }
+
   render() {
-    const { placeholder, editDisable } = this.state
-    const { onChange, cancel, showCancelBtn = true } = this.props
+    const { placeholder, editDisable, length } = this.state;
+    const { cancel, showCancelBtn = true, limit } = this.props;
 
     return (
       <div className="comment-dialog">
-          <textarea ref="input" placeholder={placeholder} onChange={(e) => onChange(e.currentTarget.value)}>
+        <div className="textarea-div">
+          <textarea ref="input" placeholder={placeholder} maxLength={limit} onChange={(e) => this.change(e.currentTarget.value)}>
           </textarea>
+        </div>
         <div className="comment-right-area">
           {renderExist(showCancelBtn, <div className="reply-tip click-key" onClick={() => cancel()}>取消评论</div>)}
           {
@@ -43,6 +52,11 @@ export default class Discuss extends React.Component <any, any> {
               <div className="comment-button disabled">评论中</div> :
               <div className="comment-button hover-cursor" onClick={this.onSubmit.bind(this)}>评论</div>
           }
+        </div>
+        <div className="length-div">
+          <div className="length-tip">
+            {length} / {limit}
+          </div>
         </div>
       </div>
     )

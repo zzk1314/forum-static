@@ -7,7 +7,7 @@ import {loadWarmupList} from "../async"
 import {BreakSignal, Stop} from "../../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {removelHtmlTags} from "../../../textUtils"
+import {removeHtmlTags} from "../../../textUtils"
 
 
 @connect(state => state)
@@ -73,8 +73,8 @@ export default class WarmupPracticeList extends React.Component<any, any> {
                 this.view(practice)
               }}>
                 {
-                  removelHtmlTags(practice.question).length > 40 ?
-                    removelHtmlTags(practice.question).substring(0, 40).concat(' ...') : removelHtmlTags(practice.question)
+                  removeHtmlTags(practice.question).length > 40 ?
+                    removeHtmlTags(practice.question).substring(0, 40).concat(' ...') : removeHtmlTags(practice.question)
                 }
               </div>
               <Divider/>
