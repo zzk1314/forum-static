@@ -31,7 +31,7 @@ export default class AnalysisNew extends React.Component <any, any> {
       repliedId: 0,
       warmupPracticeId: 0,
       integrated:false,
-      placeholder:'解答同学的提问（限300字）',
+      placeholder:'解答同学的提问（限1000字）',
       isReply:false,
     }
   }
@@ -118,7 +118,7 @@ export default class AnalysisNew extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
@@ -126,10 +126,6 @@ export default class AnalysisNew extends React.Component <any, any> {
     const {warmupPracticeId, repliedId, content} = this.state;
     if(content.length==0){
       dispatch(alertMsg('请填写评论'));
-      return false;
-    }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'));
       return false;
     }
 
@@ -259,7 +255,7 @@ export default class AnalysisNew extends React.Component <any, any> {
         {showDiscuss?null:<div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
 
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.openWriteBox()}>

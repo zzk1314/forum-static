@@ -179,7 +179,7 @@ export default class Comment extends React.Component<any, any> {
                   this.state.showDiscuss && item.id === this.state.id ?
                     <Discuss
                       isReply={isReply} placeholder={placeholder}
-                      submit={() => this.onSubmit()}
+                      submit={() => this.onSubmit()} limit={10000}
                       onChange={(v) => this.onChange(v)}
                       cancel={() => this.cancel()}/> :
                     null
@@ -220,7 +220,7 @@ export default class Comment extends React.Component<any, any> {
           <div>
             <Discuss
               isReply={isReply} placeholder={`和作者切磋讨论一下吧`}
-              submit={() => this.onSubmit(true)}
+              submit={() => this.onSubmit(true)} limit={10000}
               onChange={(v) => this.onChange(v)}
               cancel={() => this.cancel()}
               showCancelBtn={false}

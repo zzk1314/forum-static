@@ -9,6 +9,17 @@
   width: ~"calc(100% - 12px)";
   //border-top: 1px solid @color_weak;
   background-color: #fff;
+  >.length-div{
+    margin-right: 75px;
+    margin-top: -18px;
+    z-index:1;
+    position: relative;
+    >.length-tip{
+      color: @color_help;
+      font-size: 11px;
+      text-align: right;
+    }
+  }
   >.comment-right-area{
     margin-left: 10px;
     display: inline-block;
@@ -33,16 +44,23 @@
       }
     }
   }
-  textarea{
-    width: ~"calc(100% - 72px)";
-    border-radius: @border-radius;
+  .textarea-div{
+    width: ~"calc(100% - 64px)";
     display: inline-block;
-    resize: none;
+    border-radius: @border-radius;
     border: 1px solid #d0d0d0;
-    font-size: @font_context;
+    padding: 1px 0 25px;
     height: 80px;
-    padding: 0 2px;
-    box-shadow:0 0 0 rgba(0,0,0,0);
-    -webkit-appearance:none;
+    textarea{
+      width: ~"calc(100% - 4px)";
+      resize: none;
+      outline: none;
+      border: 0;
+      font-size: @font_context;
+      height: 80px;
+      box-shadow:0 0 0 rgba(0,0,0,0);
+      -webkit-appearance:none;
+    }
   }
+
 }

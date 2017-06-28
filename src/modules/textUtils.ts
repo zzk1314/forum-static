@@ -24,7 +24,7 @@ export function decodeTextAreaString3(str) {
   return str;
 }
 
-export function removelHtmlTags(str) {
+export function removeHtmlTags(str) {
   str = str.replace(/<[^>]+>/g,"");
   return str
 }
