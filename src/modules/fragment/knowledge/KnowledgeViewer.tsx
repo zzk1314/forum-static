@@ -392,7 +392,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         <div className="knowledge-page">
           <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
             <div className="knowledge-head">
-              <BreadCrumbs navList={["小课", "知识理解"]}/>
+              <BreadCrumbs/>
               <div className="page-header">{knowledge.knowledge}</div>
             </div>
             <div className="intro-container">

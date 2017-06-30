@@ -232,7 +232,7 @@ export default class WarmUp extends React.Component<any, any> {
               <div className="has-footer" ref={'warmup'}>
                 <div>
                   <div className="warm-up-head">
-                    <BreadCrumbs navList={["小课", "巩固练习"]}/>
+                    <BreadCrumbs/>
                     {practice[currentIndex] ?
                       <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
                   </div>

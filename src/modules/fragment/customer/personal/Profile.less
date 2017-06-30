@@ -5,6 +5,55 @@
 
   .profile-page {
 
+    .profile-edit {
+
+      .profile-item {
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        align-content: center;
+
+        .item-name {
+          font-size: 1.5em;
+          display: inline-block;
+        }
+
+        .item-edit {
+          width: 200px !important;
+          height: 48px;
+          position: absolute !important;
+          left: ~"calc(18.75% + 150px)";
+
+          &.item-second {
+            left: ~"calc(18.75% + 383px)";
+          }
+        }
+      }
+    }
+
   }
+
+  .profile-button {
+    width: 354px;
+    height: 43px;
+    line-height: 43px;
+    font-size: 18px;
+    margin: 70px auto;
+    text-align: center;
+    border-radius: 5px;
+
+    &.enable {
+      background-color: #FFF;
+      color: @color_strong;
+      border: 1px solid @color_strong;
+    }
+
+    &.disable {
+      background-color: @color_strong;
+      color: #FFF;
+    }
+
+  }
+
 }
 

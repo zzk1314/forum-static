@@ -1,6 +1,6 @@
 import * as React from "react";
 import { mark } from "../../../../utils/request";
-import "./Help.less";
+import "./UserProtocol.less";
 
 interface UserProtocolProps {
 }

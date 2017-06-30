@@ -129,7 +129,7 @@ export default class Challenge extends React.Component<any, any> {
         <div className="container">
           <div className="challenge">
             <div className="challenge-head">
-              <BreadCrumbs navList={['小课', '小目标']}/>
+              <BreadCrumbs/>
               <div className="page-header">{'小目标'}</div>
             </div>
             <div className="intro-container">

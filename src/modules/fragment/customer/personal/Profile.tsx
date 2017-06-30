@@ -4,6 +4,8 @@ import { set, startLoad, endLoad, alertMsg } from "../../../../redux/actions"
 import { pget, ppost, mark } from "utils/request"
 import { TextField, SelectField, MenuItem } from "material-ui"
 import "./Profile.less"
+import { loadProfile, loadRegion, updateProfile } from "../async";
+import  * as _ from "lodash"
 
 const industryList = [
   { id: "1", value: "互联网/电商" },
@@ -26,18 +28,30 @@ const industryList = [
 ];
 
 const workingLifeList = [
-  { id: "2", value: "0" },
-  { id: "3", value: "0~1年" },
-  { id: "4", value: "1~3年" },
-  { id: "5", value: "3~5年" },
-  { id: "6", value: "5~7年" },
-  { id: "7", value: "7~10年" },
-  { id: "8", value: "10~15年" },
-  { id: "9", value: "15年以上" }
+  { id: "1", value: "0" },
+  { id: "2", value: "0~1年" },
+  { id: "3", value: "1~3年" },
+  { id: "4", value: "3~5年" },
+  { id: "5", value: "5~7年" },
+  { id: "6", value: "7~10年" },
+  { id: "7", value: "10~15年" },
+  { id: "8", value: "15年以上" }
 ];
-
+interface ProfileStates {
+  workingLife: string;
+  industry: string;
+  job: string;
+  province: string;
+  city: string;
+  // 省市列表
+  provinceList: object;
+  cityList: object;
+  // 联动列表
+  cityChoose: object;
+  updateable: boolean;
+}
 @connect(state => state)
-export default class Profile extends React.Component<any, any> {
+export default class Profile extends React.Component<any, ProfileStates> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -46,36 +60,201 @@ export default class Profile extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      workingYear: ''
+      workingLife: '',
+      industry: '',
+      job: '',
+      province: '',
+      city: '',
+      provinceList: [],
+      cityList: [],
+      cityChoose: [],
+      updateable: true
     }
   }
 
+  componentWillMount() {
+    mark({ module: "打点", function: "个人中心", action: "打开我的信息页面" });
+    loadProfile().then(res => {
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({
+          workingLife: msg.workingLife,
+          industry: msg.industry,
+          job: msg.function,
+          province: msg.province,
+          city: msg.city
+        })
+        loadRegion().then(res => {
+          this.setState({
+            provinceList: res.msg.provinceList,
+            cityList: res.msg.cityList,
+          }, () => {
+            let provinceObject = _.filter(res.msg.provinceList, { value: this.state.province })
+            let parentId = 0;
+            if(provinceObject.length > 0) {
+              parentId = provinceObject[0].id
+            }
+            this.setState({ cityChoose: _.filter(res.msg.cityList, { parentId: parentId }) })
+          })
+        })
+      }
+    })
+  }
+
+  // 处理工作年限选择
   handleWorkingYear(ev) {
-    console.log(ev)
-    console.log(ev.target.textContent)
     this.setState({ workingYear: ev.target.textContent })
   }
 
+  // 处理职业选择类别
+  handleIndustry(ev) {
+    this.setState({ industry: ev.target.textContent })
+  }
+
+  handleProvince(ev, index, value) {
+    let province = _.filter(this.state.provinceList, { value: value })
+    let provinceId = 0
+    if(province.length > 0) {
+      provinceId = province[0].id
+    }
+    this.setState({
+      province: value,
+      provinceText: ev.target.textContent,
+      cityChoose: _.filter(this.state.cityList, { parentId: provinceId })
+    })
+  }
+
+  handleCity(ev, index, value) {
+    this.setState({
+      city: value,
+      cityText: ev.target.textContent
+    })
+  }
+
+  handleUpdateProfile() {
+    const { workingLife, industry, province, city, provinceList, cityList } = this.state
+    const job = document.getElementById("job").value
+    let chooseProvince = _.filter(provinceList, { value: province })
+    console.log(chooseProvince)
+    if(chooseProvince.length > 0) {
+      let provinceId = chooseProvince[0].id
+      if(_.filter(cityList, { parentId: provinceId, value: city }).length === 0) {
+        alert("请选择城市")
+        return
+      }
+    }
+    this.setState({ updateable: false })
+    updateProfile(workingLife, industry, job, province, city).then(res => {
+      if(res.code === 200) {
+        this.setState({ updateable: true })
+      }
+    })
+  }
+
   render() {
+    const { workingLife, industry, job, province, city, provinceList, cityList, cityChoose, updateable } = this.state
+
+    const renderWorkingLife = () => {
+      return (
+        <div>
+          <div className="profile-item">
+            <div className="item-name">工作年限</div>
+            <SelectField
+              className="item-edit"
+              hintText="请选择工作年限"
+              value={workingLife}
+              onChange={this.handleWorkingYear.bind(this)}
+            >
+              {
+                workingLifeList.map((item, idx) => {
+                  return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
+                })
+              }
+            </SelectField>
+          </div>
+        </div>
+      )
+    }
+
+    const renderIndustry = () => {
+      <div>
+        <div className="profile-item">
+          <div className="item-name">行业</div>
+          <SelectField
+            className="item-edit"
+            hintText="请选择工作行业"
+            value={industry}
+            onChange={this.handleIndustry.bind(this)}>
+            {
+              industryList.map((item, idx) => {
+                return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
+              })
+            }
+          </SelectField>
+        </div>
+      </div>
+    }
+
+    const renderJob = () => {
+      return (
+        <div>
+          <div className="profile-item">
+            <div className="item-name">职业</div>
+            {
+              job ?
+                <TextField id="job" className="item-edit" defaultValue={job}/> :
+                null
+            }
+          </div>
+        </div>
+      )
+    }
+
+    const renderRegion = () => {
+      // if(cityChoose.length === 0) return
+      return (
+        <div>
+          <div className="profile-item">
+            <div className="item-name">省份/城市</div>
+            <SelectField
+              className="item-edit"
+              hintText="请选择省份"
+              value={province}
+              onChange={this.handleProvince.bind(this)}>
+              {
+                provinceList.map((item, idx) => {
+                  return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
+                })
+              }
+            </SelectField>
+            <SelectField
+              className="item-edit item-second"
+              hintText="请选择城市"
+              value={city}
+              onChange={this.handleCity.bind(this)}>
+              {
+                cityChoose.map((item, idx) => {
+                  return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
+                })
+              }
+            </SelectField>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="profile-container">
         <div className="profile-page">
           <div className="profile-edit">
-            <div className="profile-item">
-              <div className="item-name">工作年限</div>
-              <div className="item-edit">
-                <SelectField
-                  hintText="请选择工作年限"
-                  value={this.state.workingYear}
-                  onChange={this.handleWorkingYear.bind(this)}>
-                  {
-                    workingLifeList.map((item, index) => {
-                      return <MenuItem key={index} className="edit-value" value={item.value} primaryText={item.value}/>
-                    })
-                  }
-                </SelectField>
-              </div>
-            </div>
+            {renderWorkingLife()}
+            {renderIndustry()}
+            {renderJob()}
+            {renderRegion()}
+          </div>
+          <div className={`profile-button ${updateable ? "enable" : "disable"}`}
+               onClick={this.handleUpdateProfile.bind(this)}>
+            {updateable ? "更新信息" : "更新中" }
           </div>
         </div>
       </div>

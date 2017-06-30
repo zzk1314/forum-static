@@ -127,7 +127,7 @@ export default class Message extends React.Component<MessageProps, MessageStates
     return (
       <div className="message-container">
         <div className="message-page">
-          <ModuleHeader content="消息通知"/>
+          <div className="message-header">消息通知</div>
           <div className="message_box">
             { no_message ?
               <div className="no_message">

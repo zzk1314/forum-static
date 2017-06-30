@@ -28,9 +28,9 @@ export function pget(url: string, query?: Object) {
       window.location.href("/login")
     }
     if(error.response) {
-      log(JSON.stringify(error.response))
+      // log(JSON.stringify(error.response))
     } else {
-      log(error.message)
+      // log(error.message)
     }
     throw "网络不给力";
   })
@@ -43,9 +43,9 @@ export function ppost(url: string, body: Object) {
       window.location.href("/login")
     }
     if(error.response) {
-      log(JSON.stringify(error.response))
+      // log(JSON.stringify(error.response))
     } else {
-      log(error.message)
+      // log(error.message)
     }
     throw "网络不给力";
   })

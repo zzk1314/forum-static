@@ -15,3 +15,53 @@ export function loadAccount() {
 export function loadMember() {
   return pget(`/rise/customer/member`)
 }
+// 获取个人基本信息
+export function loadProfile() {
+  return pget(`/rise/customer/profile`)
+}
+// 更新个人信息
+export function updateProfile(workingLife, industry, job, province, city) {
+  return ppost(`/rise/customer/profile`, {
+    workingLife: workingLife,
+    industry: industry,
+    function: job,
+    province: province,
+    city: city
+  })
+}
+// 获取地域信息
+export function loadRegion() {
+  return pget(`/rise/customer/region`)
+}
+// 获取知识点评论回复
+export function loadKnowledgeDiscussReply(discussId) {
+  return pget(`/rise/message/knowledge/discuss/reply/${discussId}`)
+}
+// 获取知识点内容
+export function loadKnowledge(id){
+  return pget(`/rise/practice/knowledge/${id}`)
+}
+// 对知识点进行讨论
+export function discussKnowledge(body) {
+  return ppost(`/rise/practice/knowledge/discuss`, body)
+}
+//
+export function loadArticleData(moduleId, commentId) {
+  return pget(`/rise/message/comment/reply/${moduleId}/${commentId}`);
+}
+// 应用练习评论回复
+export function commentReply(moduleId, submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${moduleId}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
+}
+// 应用练习评论删除
+export function deleteComment(id) {
+  return ppost(`/rise/practice/delete/comment/${id}`)
+}
+// 获取巩固练习对应评论回复
+export function loadWarmUpDiscussReply(discussId) {
+  return pget(`/rise/message/warmup/discuss/reply/${discussId}`)
+}
+// 获取巩固练习信息
+export function loadWarmUp(id) {
+  return pget(`/rise/practice/warmup/${id}`)
+}

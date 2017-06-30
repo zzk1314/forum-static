@@ -218,10 +218,11 @@ export default class Analysis extends React.Component <any, any> {
       return (
         <div>
           <div className="intro-container">
-            { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
-              <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-              <span className="type"><span className="number">{score}</span>分</span>
-            </div> : null}
+            { practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
+              <div className="intro-index">
+                <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+                <span className="type"><span className="number">{score}</span>分</span>
+              </div> : null}
             {pic ? <div className="context-img">
               <AssetImg url={pic}/></div> : null
             }
@@ -350,7 +351,7 @@ export default class Analysis extends React.Component <any, any> {
         <div className="container has-footer">
           <div className="warm-up">
             <div className="warm-up-head">
-              <BreadCrumbs navList={['小课', '巩固练习']}/>
+              <BreadCrumbs/>
               {practice[currentIndex] ?
                 <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
             </div>

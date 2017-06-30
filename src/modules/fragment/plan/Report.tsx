@@ -169,7 +169,7 @@ export default class Report extends React.Component<any, any> {
     return (
       <div className="improvement-report">
         <div className="improvement-report-head">
-          <BreadCrumbs navList={['小课', '学习报告']}/>
+          <BreadCrumbs/>
           <div className="improvement-report-header">学习报告</div>
         </div>
 

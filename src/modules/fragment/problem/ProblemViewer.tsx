@@ -113,7 +113,7 @@ export default class ProblemViewer extends React.Component<any, any> {
         <div className={`container ${show ? '' : 'has-footer'}`}>
           <div className="problem-intro">
             <div className="problem-head">
-              <BreadCrumbs navList={["小课", "小课介绍"]}/>
+              <BreadCrumbs/>
               <div className="page-header">{problem}</div>
             </div>
             <div className="page-content">

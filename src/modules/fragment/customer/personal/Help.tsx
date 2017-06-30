@@ -26,7 +26,7 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
       <div className="help-container">
         <div className="help-page">
           <div className="feedback">
-            <div onClick={() => this.context.router.push("/rise/static/customer/userprotocol")}
+            <div onClick={() => this.context.router.push("/fragment/customer/userprotocol")}
                  className="feedback-header arrow">
               用户协议
             </div>
@@ -34,7 +34,7 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
               <div className="tip">
                 <p style={{ fontSize: '15px', fontWeight: 'bolder' }}>有疑问或建议，请给后台留言</p>
                 <div className="serverCode">
-                  <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv1.png"/>
+                  <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv1.png" size="60%"/>
                 </div>
                 <p style={{ fontSize: '15px', fontWeight: 'bolder' }}>常见问题</p><br/>
 

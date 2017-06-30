@@ -84,7 +84,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
           <Paper className="nav-notes" style={{ position: "absolute", top: 70, marginLeft: "-10px" }}>
             <Menu>
               <MenuItem primaryText="个人主页" onClick={() => this.context.router.push("/fragment/customer/profile")}/>
-              <MenuItem primaryText="消息通知" onClick={() => this.context.router.push("/fragment/customer/message")}/>
+              <MenuItem primaryText="消息通知" onClick={() => this.context.router.push("/fragment/message")}/>
               <Divider/>
               <MenuItem primaryText="退出"/>
             </Menu>
