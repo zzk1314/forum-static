@@ -597,7 +597,7 @@ export default class PlanMain extends React.Component <any, any> {
             </div>
           ),
           (
-            <div className="rise-main" style={{minHeight: window.innerHeight}}>
+            <div className="rise-main" style={{minHeight: window.innerHeight - 80}}>
               <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
                   { this.renderSidebar(selectProblem) }

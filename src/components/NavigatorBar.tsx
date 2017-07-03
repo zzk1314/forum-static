@@ -4,6 +4,7 @@ import AssetImg from "../components/AssetImg";
 import Paper from 'material-ui/Paper';
 import './NavigatorBar.less';
 import { Divider, Paper, Menu, MenuItem } from "material-ui"
+import { pget } from "../utils/request";
 
 enum NavType {
   Home = 1,
@@ -23,6 +24,7 @@ interface NavigatorBarStates {
 }
 @connect(state => state)
 export default class NavigatorBar extends React.Component<NavigatorBarProps, NavigatorBarStates> {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -73,6 +75,11 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
     }
   }
 
+  // 页面进行跳转而非 ajax 请求，让后台拦截器进行拦截，以便进行缓存清除和页面重定向
+  handleClickLoginOut() {
+    window.location.href = "/logout"
+  }
+
   render() {
 
     const { isFixed, showNotes = true } = this.props
@@ -81,12 +88,15 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
     const renderNotes = () => {
       if(showNotes && hoverShowNotes) {
         return (
-          <Paper className="nav-notes" style={{ position: "absolute", top: 70, marginLeft: "-10px" }}>
-            <Menu>
+          <Paper className="nav-notes" style={{ position: "absolute", top: 70, marginLeft: "-10px" }}
+                 onMouseLeave={() => {
+                   this.setState({ hoverShowNotes: false })
+                 }}>
+            <Menu style={{ paddingTop: 20 }}>
               <MenuItem primaryText="个人主页" onClick={() => this.context.router.push("/fragment/customer/profile")}/>
               <MenuItem primaryText="消息通知" onClick={() => this.context.router.push("/fragment/message")}/>
               <Divider/>
-              <MenuItem primaryText="退出"/>
+              <MenuItem primaryText="退出" onClick={() => this.handleClickLoginOut()}/>
             </Menu>
           </Paper>
         )
@@ -94,7 +104,8 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
     }
 
     return (
-      <div className={isFixed ? `nav-container-fixed` : `nav-container`}>
+      <div className={isFixed ? `nav-container-fixed` : `nav-container`}
+           onMouseLeave={() => this.setState({ hoverShowNotes: false })}>
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">
@@ -111,11 +122,15 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
                     onClick={() => this.handleClickNav(NavType.Rise)}>RISE
             </button>
           </div>
-          <div className="nav-user" onMouseOver={() => this.setState({ hoverShowNotes: true })}>
-            <div className="user-img"><img src={window.ENV.headImage}/></div>
-            <div className="user-name">{window.ENV.userName}</div>
-            {renderNotes()}
-          </div>
+          {
+            window.ENV.headImage && window.ENV.userName ?
+              <div className="nav-user" onMouseOver={() => this.setState({ hoverShowNotes: true })}>
+                <div className="user-img"><img src={window.ENV.headImage}/></div>
+                <div className="user-name">{window.ENV.userName}</div>
+                {renderNotes()}
+              </div> : null
+          }
+
         </div>
       </div>
     )

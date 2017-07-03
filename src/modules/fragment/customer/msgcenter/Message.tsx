@@ -1,19 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { ModuleHeader } from "../../commons/FragmentComponent"
+import { alertMsg, startLoad, endLoad } from "redux/actions";
+import { ModuleHeader } from "../../commons/FragmentComponent";
 import { loadMessage, readMessage } from "../async";
 import { mark } from "../../../../utils/request";
 import { set } from "lodash";
 import "./Message.less";
 
-interface MessageProps {
-
-}
-interface MessageStates {
-
-}
 @connect(state => state)
-export default class Message extends React.Component<MessageProps, MessageStates> {
+export default class Message extends React.Component<any, any> {
 
   constructor() {
     super()
@@ -31,20 +26,22 @@ export default class Message extends React.Component<MessageProps, MessageStates
   }
 
   componentWillMount() {
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadMessage(1).then(res => {
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        console.log(res)
         this.setState({
           list: msg.notifyMessageList,
           no_message: msg.notifyMessageList === 0,
           end: msg.end
         })
-        if(msg.end) {
-          console.log('已无更多数据消息通知');
-        }
       }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
   }
 
   componentDidMount() {
@@ -52,7 +49,10 @@ export default class Message extends React.Component<MessageProps, MessageStates
   }
 
   loadMoreMessages() {
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadMessage(this.state.page + 1).then(res => {
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({
@@ -60,10 +60,10 @@ export default class Message extends React.Component<MessageProps, MessageStates
           index: this.state.index + 1,
           end: msg.end
         })
-        if(msg.end) {
-          console.log('已无更多数据消息通知')
-        }
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
@@ -76,7 +76,7 @@ export default class Message extends React.Component<MessageProps, MessageStates
       this.context.router.push({
         pathname: url,
         state: {
-          goBackUrl: '/rose/static/message/center'
+          goBackUrl: '/fragment/message'
         }
       })
     } else {
@@ -95,7 +95,7 @@ export default class Message extends React.Component<MessageProps, MessageStates
 
         set(param, argName, argValue)
       }
-      this.context.router.push({ pathname: path, query: param, state: { goBackUrl: '/rise/static/message/center' } })
+      this.context.router.push({ pathname: path, query: param, state: { goBackUrl: '/fragment/message' } })
     }
   }
 
@@ -140,7 +140,8 @@ export default class Message extends React.Component<MessageProps, MessageStates
                 {renderMessages()}
                 { end && !no_message ?
                   <div className="show-more">已经到最底部了</div> :
-                  <div className="show-more" style={{cursor: "pointer"}} onClick={() => this.loadMoreMessages()}>点击加载更多消息</div>
+                  <div className="show-more" style={{ cursor: "pointer" }} onClick={() => this.loadMoreMessages()}>
+                    点击加载更多消息</div>
                 }
               </div>}
           </div>

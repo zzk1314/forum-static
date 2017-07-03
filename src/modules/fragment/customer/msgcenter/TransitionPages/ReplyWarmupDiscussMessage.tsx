@@ -32,7 +32,6 @@ export default class ReplyWarmupDiscussMessage extends React.Component<any, any>
     const { commentId } = location.query
     dispatch(startLoad())
     loadWarmUpDiscussReply(commentId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {

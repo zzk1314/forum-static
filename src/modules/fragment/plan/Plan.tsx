@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { set, alertMsg, startLoad, endLoad } from "redux/actions";
-import { loadSelfPlans } from "./async";
+import { checkIsFollow, loadSelfPlans } from "./async";
 import { mark } from '../../../utils/request'
 import AssetImg from "../../../components/AssetImg";
 import { ModuleHeader } from "../commons/FragmentComponent"
@@ -9,12 +9,13 @@ import { ModuleHeader } from "../commons/FragmentComponent"
 import "./Plan.less";
 
 interface PlanStates {
-  // 是否是 RISE 会员
-  memberShip: boolean;
   // 进行中计划
   runningPlans: object;
   // 已完成计划
   donePlans: object;
+  // 是否正在获取数据
+  isloading: boolean;
+  isFollow: boolean;
 }
 @connect(state => state)
 export default class Plan extends React.Component<any, PlanStates> {
@@ -22,9 +23,10 @@ export default class Plan extends React.Component<any, PlanStates> {
   constructor() {
     super();
     this.state = {
-      memberShip: true,
       runningPlans: [],
-      donePlans: []
+      donePlans: [],
+      isloading: true,
+      isFollow: true
     };
   }
 
@@ -34,18 +36,19 @@ export default class Plan extends React.Component<any, PlanStates> {
 
   componentWillMount() {
     mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
+    checkIsFollow().then(res => {
+      if(res.code === 401) {
+        this.setState({ isFollow: false })
+      }
+    })
     const { dispatch } = this.props;
     dispatch(startLoad());
     loadSelfPlans().then(res => {
+      this.setState({ isloading: false })
       dispatch(endLoad());
-      if(res.code === 200) {
-        this.setState({ donePlans: res.msg.donePlans, runningPlans: res.msg.runningPlans })
-      } else if(res.code === 301) {
-        console.log('您不是 RISE 会员')
-        this.setState({ memberShip: false })
-      } else if(res.code === 401) {
-        dispatch(alertMsg("提示", "请先登录"));
-        setTimeout(() => window.location.href = "/login?callbackUrl=/fragment/rise", 500);
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
       }
     }).catch(ex => {
       dispatch(endLoad());
@@ -74,7 +77,7 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   render() {
-    const { runningPlans, donePlans } = this.state
+    const { runningPlans, donePlans, isloading, isFollow } = this.state
 
     const renderRunningPlans = () => {
       if(runningPlans.length > 0) {
@@ -95,6 +98,7 @@ export default class Plan extends React.Component<any, PlanStates> {
     }
 
     const renderAllPlans = () => {
+      if(!isFollow) return
       return (
         <div>
           <div className="plan-header">我的小课</div>
@@ -112,9 +116,12 @@ export default class Plan extends React.Component<any, PlanStates> {
     }
 
     const renderNoPermissionTips = () => {
+      if(isFollow) return
       return (
         <div className="qr-code">
-
+          <div className="tip-top">扫码关注</div>
+          <AssetImg url="https://static.iqycamp.com/images/serverQrCode.jpg" size={282}/>
+          <div className="tip-bottom">扫一扫关注 “圈外学习号”</div>
         </div>
       )
     }
@@ -122,11 +129,11 @@ export default class Plan extends React.Component<any, PlanStates> {
     return (
       <div className="plan-container">
         <div className="plan-content" style={{ minHeight: window.innerHeight - 50 }}>
-          {
-            this.state.memberShip ?
-              renderAllPlans() :
-              renderNoPermissionTips()
-          }
+          {!isloading ?
+            <div>
+              {renderAllPlans()}
+              {renderNoPermissionTips()}
+            </div> : null}
         </div>
       </div>
     );

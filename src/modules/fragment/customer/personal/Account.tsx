@@ -1,25 +1,41 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { alertMsg, startLoad, endLoad } from "redux/actions";
 import { mark } from "../../../../utils/request";
-import { loadAccount, loadMember } from "../async";
-import "./Account.less"
+import { loadAccount, loadMember, sendValidCode, validPhone } from "../async";
+import "./Account.less";
+import { TextField } from "material-ui"
 
-interface AccountProps {
-
-}
 interface AccountStates {
-
+  // 显示手机号码更改编辑区
+  showMobileEdit: boolean;
+  // 个人相关信息
+  data: object;
+  // 是否是 RISE 会员
+  riseMember: boolean;
+  // 会员类型
+  memberType: string;
+  // 一分钟计时
+  timeCount: number;
+  // 是否处于等待时间
+  isWaiting: boolean;
+  // 用于显示的手机号
+  displayPhoneNo: number;
 }
 @connect(state => state)
-export default class Account extends React.Component<AccountProps, AccountStates> {
+export default class Account extends React.Component<any, AccountStates> {
 
   constructor() {
     super()
     this.state = {
+      showMobileEdit: false,
       data: {},
       riseMember: false,
-      memberType: ''
+      memberType: '',
+      timeCount: 60,
+      isWaiting: false
     }
+    this.timeCountTimer = null
   }
 
   static contextTypes = {
@@ -28,14 +44,17 @@ export default class Account extends React.Component<AccountProps, AccountStates
 
   componentWillMount() {
     mark({ module: "打点", function: "个人中心", action: "打开我的账户页面" });
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadAccount().then(res => {
-      console.log('account', res)
       if(res.code === 200) {
-        this.setState({ data: res.msg })
+        this.setState({ data: res.msg, displayPhoneNo: res.msg.mobile })
       }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+      dispatch(alertMsg(e))
+    })
     loadMember().then(res => {
-      console.log('member', res)
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         if(msg) {
@@ -44,7 +63,10 @@ export default class Account extends React.Component<AccountProps, AccountStates
           this.setState({ riseMember: false })
         }
       }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
   }
 
   memberDescription(memberType) {
@@ -174,45 +196,113 @@ export default class Account extends React.Component<AccountProps, AccountStates
         </div>
       )
     } else {
-      if(riseMember) {
-        return (
-          <div className="point-tip-container">
-            <b style={{ fontSize: "14px" }}>还未升级成正式版哦！</b><br/>
-            <div className="rocket-container">
-              <img className="rocket" src="https://www.iqycamp.com/images/riseButtonRocket.png" width="90%"
-                   height="auto"/>
-              <div className="ReferenceError: isBoolean is not defined button" onClick={() => {
-                this.goUp()
-              }}>
-                升级正式版
-              </div>
-            </div>
-          </div>
-        )
-      } else {
-        return null;
-      }
-
+      return null;
     }
   }
 
+  handleClickSendVerifyCode() {
+    const areacode = document.getElementById("areacode").value.slice(1)
+    const phone = document.getElementById("phone").value
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    sendValidCode(phone, areacode).then(res => {
+      dispatch(endLoad())
+      this.timeCountTimer = setInterval(() => {
+        this.setState({ timeCount: this.state.timeCount - 1 })
+        if(this.state.timeCount <= 1) {
+          clearInterval(this.timeCountTimer)
+          this.setState({ isWaiting: false, timeCount: 60 })
+        }
+      }, 1000)
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
+    this.setState({ isWaiting: true })
+  }
+
+  handleClickOnSubmit() {
+    const code = document.getElementById("code").value
+    const phone = document.getElementById("phone").value
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    validPhone(code).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.setState({ displayPhoneNo: phone, showMobileEdit: false })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
+  }
+
   render() {
-    const { riseId, memberType } = this.state.data
+
+    const { showMobileEdit, timeCount, isWaiting, displayPhoneNo } = this.state
+    const { mobile, riseId, memberType } = this.state.data
+
+    const renderPhoneNoBindArea = () => {
+      return (
+        <div className="phoneno-edit">
+          <div>
+            <div className="profile-item">
+              <div className="item-name-area">国家/地区</div>
+              <TextField id="areacode" className="item-edit-area" hintText="国际区号" defaultValue="+86"/>
+            </div>
+          </div>
+          <div>
+            <div className="profile-item">
+              <div className="item-name-phone">手机号</div>
+              <TextField id="phone" className="item-edit" hintText="请输入手机号"/>
+            </div>
+          </div>
+          <div>
+            <div className="profile-item">
+              <div className="item-name-verify">验证码</div>
+              <TextField id="code" className="item-edit" hintText="请输入验证码"/>
+              {
+                isWaiting ?
+                  <div className="verify-code-btn disable">{timeCount}S之后重新发送</div> :
+                  <div className="verify-code-btn" onClick={() => this.handleClickSendVerifyCode()}>发送验证码</div>
+              }
+            </div>
+          </div>
+          <div className="phoneno-submit" onClick={() => this.handleClickOnSubmit()}>提交</div>
+        </div>
+      )
+    }
+
+    const renderAccountDesc = () => {
+      return (
+        <div className="account">
+          <div className="item">
+            <div className="label">手机号：{displayPhoneNo ? displayPhoneNo : `未绑定`}</div>
+            <div className="mobile-change-btn"
+                 onClick={() => this.setState({ showMobileEdit: true })}>{mobile ? `修改手机号` : `手机号`}</div>
+          </div>
+          <div className="item">
+            <div className="label">RISE ID：{riseId}</div>
+          </div>
+          <div className="item">
+            <div className="label">RISE会员：{memberType}</div>
+          </div>
+          {this.renderMemberTips()}
+          <div className="padding-footer"/>
+        </div>
+      )
+    }
 
     return (
       <div className="account-container">
         <div className="account-page">
-          <div className="account">
-            <div className="item">
-              <div className="label">RISE ID：{riseId}</div>
-            </div>
-
-            <div className="item">
-              <div className="label">RISE会员：{memberType}</div>
-            </div>
-            {this.renderMemberTips()}
-            <div className="padding-footer"/>
-          </div>
+          {
+            showMobileEdit ?
+              renderPhoneNoBindArea() :
+              renderAccountDesc()
+          }
         </div>
       </div>
     )

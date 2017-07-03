@@ -114,14 +114,11 @@ const routes = (
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
-
       <Route onEnter={() => generateNavList(0)}>
         <Route path="/fragment/learn" component={Learn}/>
         <Route path="/fragment/main" component={Learn}/>
       </Route>
-
       <Route path="/fragment/subject" component={Subject}/>
-
       <Route onEnter={() => generateNavList(1)}>
         <Route path="/fragment/problem/view" component={ProblemViewer}/>
         <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
@@ -133,11 +130,9 @@ const routes = (
         <Route path="/fragment/report" component={Report}/>
         <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
       </Route>
-
       <Route onEnter={() => generateNavList(2)}>
         <Route path="/fragment/application/comment" component={Comment}/>
       </Route>
-
       <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
       <Route component={Personal}>
         <Route path="/fragment/customer/profile" component={Profile}/>
@@ -146,9 +141,9 @@ const routes = (
         <Route path="/fragment/customer/userprotocol" component={UserProtocol}/>
       </Route>
       <Route path="/fragment/message" component={Message}/>
-      <Route path="/fragment/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
-      <Route path="/fragment/comment/reply" component={ReplyCommentMessage}/>
-      <Route path="/fragment/warmup/reply" component={ReplyWarmupDiscussMessage}/>
+      <Route path="/fragment/message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
+      <Route path="/fragment/message/comment/reply" component={ReplyCommentMessage}/>
+      <Route path="/fragment/message/warmup/reply" component={ReplyWarmupDiscussMessage}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>

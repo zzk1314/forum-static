@@ -1,4 +1,5 @@
 import * as React from "react";
+import { startLoad, endLoad, alertMsg } from "../../../../redux/actions"
 import { discussKnowledge, loadKnowledge, loadKnowledgeDiscussReply } from "../../async";
 import DiscussShow from "../../../components/DiscussShow";
 import Discuss from "../../../components/Discuss";
@@ -25,19 +26,27 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
   componentWillMount() {
     const {dispatch, location} = this.props
     const { knowledgeId, commentId } = location.query
+    dispatch(startLoad())
     loadKnowledgeDiscussReply(commentId).then(res => {
       const { code, msg } = res
       if(code === 200) {
         this.setState({ data: msg, commentId: commentId })
       }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
 
     loadKnowledge(knowledgeId).then(res => {
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({ knowledge: res.msg, knowledgeId: knowledgeId })
       }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
   }
 
   handleClickGoKnowledgePage() {
@@ -78,18 +87,19 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
     if(repliedId) {
       _.merge(discussBody, { repliedId: repliedId })
     }
-
+    dispatch(startLoad())
     discussKnowledge(discussBody).then(res => {
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.context.router.push({
           pathname: '/rise/static/practice/knowledge', query: { id: this.props.location.query.knowledgeId }
         })
-      }
-      else {
+      } else {
         dispatch(alertMsg(msg))
       }
     }).catch(ex => {
+      dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
   }

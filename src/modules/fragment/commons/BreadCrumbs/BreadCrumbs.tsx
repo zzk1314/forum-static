@@ -17,7 +17,6 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, any> 
   generatenavNameList(navList) {
     const navNameList = []
     navList.map((nav, idx) => {
-      console.log(nav, this.getNameByUrl(nav))
       navNameList.push(this.getNameByUrl(nav))
     })
     return navNameList

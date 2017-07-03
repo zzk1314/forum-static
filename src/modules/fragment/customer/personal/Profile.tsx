@@ -135,7 +135,6 @@ export default class Profile extends React.Component<any, ProfileStates> {
     const { workingLife, industry, province, city, provinceList, cityList } = this.state
     const job = document.getElementById("job").value
     let chooseProvince = _.filter(provinceList, { value: province })
-    console.log(chooseProvince)
     if(chooseProvince.length > 0) {
       let provinceId = chooseProvince[0].id
       if(_.filter(cityList, { parentId: provinceId, value: city }).length === 0) {
@@ -203,7 +202,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
             {
               job ?
                 <TextField id="job" className="item-edit" defaultValue={job}/> :
-                null
+                <TextField id="job" className="item-edit" hintText="填写您的职业"/>
             }
           </div>
         </div>
@@ -211,7 +210,6 @@ export default class Profile extends React.Component<any, ProfileStates> {
     }
 
     const renderRegion = () => {
-      // if(cityChoose.length === 0) return
       return (
         <div>
           <div className="profile-item">

@@ -56,6 +56,10 @@ export function queryReport(planId){
   return pget(`/rise/plan/improvement/report${planId?'?planId='+planId:''}`);
 }
 
+export function checkIsFollow() {
+  return pget(`/account/check/follow`)
+}
+
 export function loadSelfPlans() {
   return pget("/rise/customer/pc/plans")
 }

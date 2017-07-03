@@ -22,6 +22,17 @@
         > .label {
           float: left;
         }
+        > .mobile-change-btn {
+          border: 1px solid @color_strong;
+          color: @color_strong;
+          width: 120px;
+          position: absolute;
+          left: 200px;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 1.1em;
+          cursor: pointer;
+        }
         > .content {
           float: right;
           position: relative;
@@ -44,6 +55,78 @@
           padding-right: 20px;
           font-size: 13px;
         }
+      }
+    }
+
+    .phoneno-edit {
+      .profile-item {
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        align-content: center;
+
+        .item-name-area {
+          font-size: 1.5em;
+          display: inline-block;
+        }
+        .item-edit-area {
+          width: 86px !important;
+          height: 42px;
+          position: absolute !important;
+          left: ~"calc(18.75% + 200px)";
+          >input {
+            padding-left: 22px !important;
+          }
+        }
+        .item-name-phone {
+          font-size: 1.5em;
+          display: inline-block;
+        }
+        .item-name-verify {
+          font-size: 1.5em;
+          display: inline-block;
+        }
+        .item-edit {
+          width: 200px !important;
+          height: 42px;
+          position: absolute !important;
+          left: ~"calc(18.75% + 200px)";
+
+          &.item-second {
+            left: ~"calc(18.75% + 383px)";
+          }
+        }
+        .verify-code-btn {
+          height: 28px;
+          font-size: 1.5em;
+          cursor: pointer;
+          line-height: 28px;
+          position: absolute;
+          left: ~"calc(18.75% + 450px)";
+          background-color: @color_strong;
+          color: #FFF;
+          padding: 5px 20px;
+          border-radius: 5px;
+          text-align: center;
+
+          &.disable {
+            background-color: @color_weak;
+            min-width: 130px;
+            text-align: center;
+          }
+        }
+      }
+
+      .phoneno-submit {
+        width: 300px;
+        height: 45px;
+        color: @color_strong;
+        border: 1px solid @color_strong;
+        font-size: 1.8em;
+        line-height: 45px;
+        text-align: center;
+        margin-top: 20px;
+        cursor: pointer;
       }
     }
 

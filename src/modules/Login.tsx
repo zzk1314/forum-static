@@ -29,7 +29,6 @@ export default class Login extends React.Component<any, any> {
         `${encodeURIComponent(this.props.location.query.callbackUrl)}` :
         `https://${window.location.host}/fragment/rise`
     }).then(res => {
-      console.log(res)
       if(res.code === 200) {
         let param = _.merge({}, res.msg, { id: "qr_code" });
         window.obj = new WxLogin(param);
