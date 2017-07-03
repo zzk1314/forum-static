@@ -4,7 +4,6 @@ import AssetImg from "../components/AssetImg";
 import Paper from 'material-ui/Paper';
 import './NavigatorBar.less';
 import { Divider, Paper, Menu, MenuItem } from "material-ui"
-import { pget } from "../utils/request";
 
 enum NavType {
   Home = 1,

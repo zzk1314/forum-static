@@ -1,6 +1,5 @@
 import * as React from "react";
 import { commentReply, deleteComment, loadArticleData } from "../../async";
-
 import DiscussShow from "../../../components/DiscussShow";
 import {truncate, isString} from "lodash";
 import "./ReplyCommentMessage.less"

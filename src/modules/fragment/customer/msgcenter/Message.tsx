@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { alertMsg, startLoad, endLoad } from "redux/actions";
-import { ModuleHeader } from "../../commons/FragmentComponent";
 import { loadMessage, readMessage } from "../async";
 import { mark } from "../../../../utils/request";
 import { set } from "lodash";
