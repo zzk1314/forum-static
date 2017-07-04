@@ -1,15 +1,15 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import "./WarmUp.less";
-import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "./async";
+import "./WarmupPracticeView.less";
+import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "../../fragment/warmup/async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeModal";
-import Discuss from "../components/Discuss";
+import KnowledgeViewer from "../../fragment/components/KnowledgeModal";
+import Discuss from "../../fragment/components/Discuss";
 import _ from "lodash"
-import DiscussShow from "../components/DiscussShow";
+import DiscussShow from "../../fragment/components/DiscussShow";
 import {scroll} from "../../../utils/helpers"
-import {RISE_TitleBar} from "../commons/ViewComponents";
+import {RISE_TitleBar} from "../../fragment/commons/ViewComponents";
 
 const sequenceMap = {
   0: 'A',
@@ -22,7 +22,7 @@ const sequenceMap = {
 }
 
 @connect(state => state)
-export default class AnalysisNew extends React.Component <any, any> {
+export default class WarmupPracticeView extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
@@ -43,14 +43,13 @@ export default class AnalysisNew extends React.Component <any, any> {
 
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
-    const {warmupPracticeId, integrated} = location.query
-    this.setState({integrated})
+    const {id} = location.query
     dispatch(startLoad())
-    loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
+    loadWarmUpAnalysisNew(id).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200){
-        this.setState({data: msg, warmupPracticeId})
+        this.setState({data: msg})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -81,10 +80,6 @@ export default class AnalysisNew extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-  }
-
-  back(){
-    this.context.router.push({ pathname: '/rise/static/message/center'})
   }
 
   reply(item){
@@ -152,13 +147,11 @@ export default class AnalysisNew extends React.Component <any, any> {
 
   openWriteBox() {
     this.setState({
-      showSelfDiscuss: true,
+      showDiscuss: true,
       content: '',
       isReply: false,
       repliedId: 0,
       placeholder: '和作者切磋讨论一下吧'
-    }, ()=> {
-      document.body.scrollTop = document.body.scrollHeight;
     })
   }
 
@@ -169,51 +162,57 @@ export default class AnalysisNew extends React.Component <any, any> {
     const questionRender = (practice) => {
       const {id, question, pic, choiceList = [], discussList = []} = practice
       return (
-        <div>
-          <div className="intro-container">
-            {pic ? <div className="context-img">
-                  <AssetImg url={pic}/></div>:null
-            }
-            <div className="question">
-              <div dangerouslySetInnerHTML={{__html: question}}></div>
-            </div>
-            <div className="choice-list">
-              {choiceList.map((choice, idx) => choiceRender(choice, idx))}
-            </div>
-            <div className="analysis">
-              <RISE_TitleBar content="解析"/>
-              <div className="context">
-                正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
-              </div>
-              <div className="context" style={{marginBottom:15}}>
-                已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
-              </div>
-              <div className="context"
-                   dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              {integrated=='false'?
-              <div className="knowledge-link click-key" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
-            </div>
-          </div>
-          <div className="discuss-container">
-            <div className="discuss">
-              <RISE_TitleBar content="问答"/>
-              {discussList.map((discuss, idx) => discussRender(discuss, idx))}
-              { discussList.length > 0 ?
-                <div className="show-more">
-                  你已经浏览完所有的讨论啦
-                </div>
-                :
-                <div className="discuss-end">
-                  <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
-                  </div>
-                  <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-
-                </div>
+          <div>
+            <div className="intro-container">
+              {pic ? <div className="context-img">
+                    <AssetImg url={pic}/></div>:null
               }
+              <div className="question">
+                <div dangerouslySetInnerHTML={{__html: question}}></div>
+              </div>
+              <div className="choice-list">
+                {choiceList.map((choice, idx) => choiceRender(choice, idx))}
+              </div>
+              <div className="analysis">
+                <RISE_TitleBar content="解析"/>
+                <div className="context">
+                  正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
+                </div>
+                <div className="context" style={{marginBottom:15}}>
+                  已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
+                </div>
+                <div className="context"
+                     dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
+                {integrated=='false'?
+                    <div className="knowledge-link click-key" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
+              </div>
+            </div>
+            <div className="discuss-container">
+              <div className="discuss">
+                <RISE_TitleBar content="问答"/>
+                {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                      submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                                      cancel={()=>this.cancel()}/>:
+                    <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+                      <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+                    </div>}
+                {discussList.map((discuss, idx) => discussRender(discuss, idx))}
+                { discussList.length > 0 ?
+                    <div className="show-more">
+                      你已经浏览完所有的讨论啦
+                    </div>
+                    :
+                    <div className="discuss-end">
+                      <div className="discuss-end-img">
+                        <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                      </div>
+                      <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+
+                    </div>
+                }
+              </div>
             </div>
           </div>
-        </div>
       )
     }
 
@@ -244,26 +243,18 @@ export default class AnalysisNew extends React.Component <any, any> {
     }
 
     return (
-      <div>
-        <div className="container has-footer">
-          <div className="warm-up">
-            <div className="warm-up-head">
+        <div>
+          <div className="container has-footer">
+            <div className="warm-up-view">
               {knowledge?<div className="page-header">{knowledge.knowledge}</div>:null}
-            </div>
-            {questionRender(data)}
-          </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
-        </div>
-        {showDiscuss?null:<div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
+              {questionRender(data)}
 
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                              submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                              cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>}
-      </div>
+            </div>
+          </div>
+
+          {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+
+        </div>
     )
   }
 }

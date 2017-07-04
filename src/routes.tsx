@@ -41,6 +41,7 @@ import AsstApplicationList from "./modules/asst/application/ApplicationList"
 import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
+import WarmupPracticeView from "./modules/asst/warmup/WarmupPracticeView"
 import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 import SmsManager from "./modules/backend/operation/SmsManager"
 
@@ -113,6 +114,8 @@ const routes = (
           <Route path="/asst/subject/list" component={AsstSubjectList}/>
           <Route path="/asst/subject/view" component={ShowSubject}/>
         </Route>
+        <Route path="asst/warmup/comment" component={HotWarmupPractice}/>
+        <Route path="asst/warmup/view" component={WarmupPracticeView}/>
       </Route>
     </Route>
     {/*Rise PC 改版*/}

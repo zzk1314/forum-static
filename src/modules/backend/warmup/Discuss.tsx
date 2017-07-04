@@ -9,7 +9,7 @@ import {replyDiscuss} from "./async"
 import VerticalBarLoading from "../../../components/VerticalBarLoading"
 
 @connect(state => state)
-export default class ReplyDiscuss extends React.Component<any,any> {
+export default class Discuss extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -54,7 +54,7 @@ export default class ReplyDiscuss extends React.Component<any,any> {
         this.showAlert(`提交成功`);
         setTimeout(() => {
           this.context.router.push({
-            pathname: "/backend/warmup/view",
+            pathname: this.props.location.pathname,
             query: {
               id: warmupPracticeId
             }

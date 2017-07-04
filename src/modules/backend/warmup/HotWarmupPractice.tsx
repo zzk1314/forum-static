@@ -1,6 +1,5 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {List, ListItem, makeSelectable} from 'material-ui/List';
 import "./HotWarmupPractice.less"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import {loadHotPractice} from "./async"
@@ -21,20 +20,24 @@ export default class HotWarmupPractice extends React.Component<any,any> {
     super();
     this.state = {
       practiceList: [],
+      end: true,
+      page:1,
     }
   }
 
   componentWillMount() {
-    loadHotPractice().then(res => {
+    loadHotPractice(1).then(res => {
       if (res.code === 200) {
         this.setState({
-          practiceList: res.msg
+          practiceList: res.msg.list,
+          end:res.msg.end,
+          page:2,
         })
       } else if(res.code === 401) {
         this.context.router.push({
           pathname:"/login",
           query:{
-            callbackUrl:`/backend/warmup`
+            callbackUrl:this.props.location.pathname
           }
         })
       } else if(res.code === 403) {
@@ -45,12 +48,31 @@ export default class HotWarmupPractice extends React.Component<any,any> {
     })
   }
 
+  loadMoreContent(){
+    const {practiceList = [], page} = this.state;
+    loadHotPractice(page).then(res => {
+      if (res.code === 200) {
+        this.setState({
+          practiceList: practiceList.concat(res.msg.list),
+          end:res.msg.end,
+          page:page+1,
+        })
+      } else {
+        throw new BreakSignal(res.msg, "加载当前问题失败")
+      }
+    })
+  }
+
   view(practice){
-    window.open(`/backend/warmup/view?id=${practice.id}`)
+    if(this.props.location.pathname.indexOf('asst')!=-1){
+      window.open(`/asst/warmup/view?id=${practice.id}`)
+    }else{
+      window.open(`/backend/warmup/view?id=${practice.id}`)
+    }
   }
 
   render() {
-    const {practiceList=[]} = this.state
+    const {practiceList=[], end} = this.state
 
     const renderPractice = (practiceList) =>{
       return (
@@ -72,6 +94,8 @@ export default class HotWarmupPractice extends React.Component<any,any> {
         <div className="hotPractice">
           <Subheader>热门的巩固练习</Subheader>
           {renderPractice(practiceList)}
+          {end ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
+              <div className="no-more">没有更多了</div>}
         </div>
     )
   }

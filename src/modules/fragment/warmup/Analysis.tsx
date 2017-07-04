@@ -205,12 +205,12 @@ export default class Analysis extends React.Component <any, any> {
   render() {
     const {
       list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, showSelfDiscuss, repliedId, isReply, integrated, placeholder
+      showKnowledge, showDiscuss, isReply, integrated, placeholder
     } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
-      const { id, question, pic, choiceList = [], score = 0, discussList = [], knowledgeId } = practice
+      const { id, question, pic, choiceList = [], score = 0, discussList = [], knowledgeId } = practice;
       return (
         <div>
           <div className="intro-container">
@@ -249,7 +249,7 @@ export default class Analysis extends React.Component <any, any> {
           {renderClickBtn()}
           <div className="discuss-container">
             <div className="discuss">
-              {<RISE_TitleBar content="问答"/>}
+              <RISE_TitleBar content="问答"/>
               {renderSelfDiscuss()}
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?

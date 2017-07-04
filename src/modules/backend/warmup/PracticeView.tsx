@@ -37,7 +37,8 @@ export default class practiceView extends React.Component <any, any> {
       delMsgOpen: false,
       nodelAuthority: false,
       delDiscussId: 0,
-      discussList: []
+      discussList: [],
+      roleId: window.ENV.roleId,
     }
   }
 
@@ -46,8 +47,8 @@ export default class practiceView extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props
-    const {id} = location.query
+    const {dispatch, location} = this.props;
+    const {id} = location.query;
     loadWarmUp(id).then(res => {
       if(res.code === 200) {
         this.setState({
@@ -114,7 +115,7 @@ export default class practiceView extends React.Component <any, any> {
   }
 
   render() {
-    const {data} = this.state
+    const {data, roleId} = this.state
     const {id} = data
     let actions = [
       {
@@ -156,6 +157,22 @@ export default class practiceView extends React.Component <any, any> {
       )
     }
 
+    const renderElite = (priority) => {
+      if(priority === 0){
+        return (
+            <div className="function-button" onClick={() => this.highlight(id)}>
+              加精
+            </div>
+        )
+      } else {
+        return (
+            <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
+              已加精
+            </div>
+        )
+      }
+    }
+
     const discussRender = (discuss, idx) => {
       const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority} = discuss
       return (
@@ -166,25 +183,20 @@ export default class practiceView extends React.Component <any, any> {
               <div className="comment-name">{name}</div>
               <div className="comment-time">{discussTime}</div>
               <div className="right">
-                <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
+                {roleId === 8 || roleId === 9 || roleId === 10 ?
+                    <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
+                : null}
                 <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
                   回复
                 </div>
-                {priority === 0 ?
-                  <div className="function-button" onClick={() => this.highlight(id)}>
-                    加精
-                  </div> :
-                  <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
-                    已加精
-                  </div>
-                }
+                {roleId === 8 || roleId === 9 || roleId === 10 ?
+                  renderElite(priority) : null}
               </div>
             </div>
             <div className="comment-content">{comment}</div>
             {repliedComment ?
               <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           </div>
-          <div className="comment-hr"/>
 
         </div>
       )
