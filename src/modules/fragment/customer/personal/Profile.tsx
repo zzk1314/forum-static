@@ -121,7 +121,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
 
   // 处理工作年限选择
   handleWorkingYear(ev) {
-    this.setState({ workingYear: ev.target.textContent })
+    this.setState({ workingLife: ev.target.textContent })
   }
 
   // 处理行业选择类别
@@ -163,7 +163,6 @@ export default class Profile extends React.Component<any, ProfileStates> {
     }
     this.setState({ updateable: false })
     dispatch(startLoad())
-    console.log("各参数：", workingLife, industry, job, province, city)
     updateProfile(workingLife, industry, job, province, city).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
@@ -193,6 +192,8 @@ export default class Profile extends React.Component<any, ProfileStates> {
               className="item-edit"
               hintText="请选择工作年限"
               value={workingLife}
+              maxHeight={300}
+              selectedMenuItemStyle={{color: "#55cbcb"}}
               onChange={this.handleWorkingYear.bind(this)}
             >
               {
@@ -215,6 +216,8 @@ export default class Profile extends React.Component<any, ProfileStates> {
               className="item-edit"
               hintText="请选择工作行业"
               value={industry}
+              maxHeight={300}
+              selectedMenuItemStyle={{color: "#55cbcb"}}
               onChange={this.handleIndustry.bind(this)}>
               {
                 industryList.map((item, idx) => {
@@ -253,6 +256,8 @@ export default class Profile extends React.Component<any, ProfileStates> {
               className="item-edit"
               hintText="请选择省份"
               value={province}
+              maxHeight={300}
+              selectedMenuItemStyle={{color: "#55cbcb"}}
               onChange={this.handleProvince.bind(this)}>
               {
                 provinceList.map((item, idx) => {
@@ -264,6 +269,8 @@ export default class Profile extends React.Component<any, ProfileStates> {
               className="item-edit item-second"
               hintText="请选择城市"
               value={city}
+              maxHeight={300}
+              selectedMenuItemStyle={{color: "#55cbcb"}}
               onChange={this.handleCity.bind(this)}>
               {
                 cityChoose.map((item, idx) => {
