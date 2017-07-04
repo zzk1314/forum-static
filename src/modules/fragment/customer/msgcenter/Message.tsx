@@ -68,8 +68,17 @@ export default class Message extends React.Component<any, any> {
   }
 
   open(url, id, isRead) {
+    const { list } = this.state
     if(!isRead) {
-      readMessage(id)
+      readMessage(id).then(res => {
+      })
+    }
+    if(!url) return
+    let reg = new RegExp("^(http|https):");
+    if(reg.test(url)) {
+      window.location.href = url
+    } else {
+      this.context.router.push(url)
     }
     if(url == "/fragment/message") {
       this.setState({ showSnackBar: true }, () => {
@@ -78,7 +87,12 @@ export default class Message extends React.Component<any, any> {
         }, 1000)
       })
     }
-    this.context.router.push(url)
+    list.map((item) => {
+      if(item.id === id) {
+        item.isRead = true;
+      }
+    })
+    this.setState({ list })
   }
 
   render() {

@@ -24,25 +24,25 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, any> 
 
   getNameByUrl(url) {
     let name = ''
-    if(url.indexOf("/fragment/learn") > 0 || url.indexOf("/fragment/main") > 0) {
+    if(url.indexOf("/fragment/learn") >= 0 || url.indexOf("/fragment/main") >= 0) {
       name = "小课"
-    } else if(url.indexOf("/fragment/problem/view") > 0) {
+    } else if(url.indexOf("/fragment/problem/view") >= 0) {
       name = "小课介绍"
-    } else if(url.indexOf("/fragment/knowledge") > 0) {
+    } else if(url.indexOf("/fragment/knowledge") >= 0) {
       name = "知识理解"
-    } else if(url.indexOf("/fragment/warmup") > 0
-      || url.indexOf("/fragment/warmup/result") > 0
-      || url.indexOf("/fragment/warmup/analysis") > 0
+    } else if(url.indexOf("/fragment/warmup") >= 0
+      || url.indexOf("/fragment/warmup/result") >= 0
+      || url.indexOf("/fragment/warmup/analysis") >= 0
     ) {
       name = "巩固练习"
-    } else if(url.indexOf("/fragment/application") > 0) {
+    } else if(url.indexOf("/fragment/application") >= 0) {
       name = "应用练习"
-    } else if(url.indexOf("/fragment/challenge") > 0) {
+    } else if(url.indexOf("/fragment/challenge") >= 0) {
       name = "小目标"
-    } else if(url.indexOf("/fragment/report") > 0) {
+    } else if(url.indexOf("/fragment/report") >= 0) {
       name = "学习报告"
     }
-    if(url.indexOf("/fragment/application/comment") > 0) {
+    if(url.indexOf("/fragment/application/comment") >= 0) {
       name = "评论"
     }
     return name
@@ -50,6 +50,7 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, any> 
 
   render() {
     let navList = localStorage.getItem("navList").split(",")
+    console.log('navList', navList)
     navList = _.remove(navList, (nav) => nav !== "")
     // 应对用户清除存储信息，则当前页面不展示导航栏
     if(navList.length === 1) {

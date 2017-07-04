@@ -67,7 +67,7 @@ const generateNavList = (level) => {
   for(let i = level; i < navList.length; i++) {
     navList.splice(i, 1)
   }
-  navList[level] = window.location.href
+  navList[level] = window.location.pathname + window.location.search
   localStorage.setItem("navList", navList)
 }
 const routes = (
