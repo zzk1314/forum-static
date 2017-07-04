@@ -11,18 +11,13 @@ enum NavType {
   Forum
 }
 
-// TODO 后期删除 showNotes、isFixed
-interface NavigatorBarProps {
-  isFixed: boolean;
-  showNotes?: boolean;
-}
 interface NavigatorBarStates {
   size: object;
   activeNav: number;
   hoverShowNotes: boolean;
 }
 @connect(state => state)
-export default class NavigatorBar extends React.Component<NavigatorBarProps, NavigatorBarStates> {
+export default class NavigatorBar extends React.Component<any, NavigatorBarStates> {
 
   constructor(props) {
     super(props);
@@ -81,11 +76,10 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
 
   render() {
 
-    const { isFixed, showNotes = true } = this.props
     const { activeNav, hoverShowNotes } = this.state
 
     const renderNotes = () => {
-      if(showNotes && hoverShowNotes) {
+      if(hoverShowNotes) {
         return (
           <Paper className="nav-notes" style={{ position: "absolute", top: 70, marginLeft: "-10px" }}
                  onMouseLeave={() => {
@@ -103,7 +97,7 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
     }
 
     return (
-      <div className={isFixed ? `nav-container-fixed` : `nav-container`}
+      <div className="nav-container-fixed"
            onMouseLeave={() => this.setState({ hoverShowNotes: false })}>
         <div className="navigator-bar">
           <div className="nav-logo">
@@ -129,7 +123,6 @@ export default class NavigatorBar extends React.Component<NavigatorBarProps, Nav
                 {renderNotes()}
               </div> : null
           }
-
         </div>
       </div>
     )

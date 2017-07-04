@@ -1,21 +1,24 @@
 import * as React from "react";
-import { startLoad, endLoad, alertMsg } from "../../../../redux/actions"
+import { connect } from "react-redux";
+import { startLoad, endLoad, alertMsg } from "../../../../../redux/actions"
 import { discussKnowledge, loadKnowledge, loadKnowledgeDiscussReply } from "../../async";
 import DiscussShow from "../../../components/DiscussShow";
 import Discuss from "../../../components/Discuss";
 import "./ReplyKnowledgeDiscussMessage.less";
+import { TitleBar } from "../../../commons/FragmentComponent";
 
+@connect(state => state)
 export default class ReplyKnowledgeDiscussMessage extends React.Component<any, any> {
 
   constructor() {
     super()
     this.state = {
-      question:'',
+      question: '',
       warmupPracticeId: 0,
-      commentId:0,
-      data:{},
+      commentId: 0,
+      data: {},
       showDiscuss: false,
-      showKnowledge:false,
+      showKnowledge: false,
     }
   }
 
@@ -24,13 +27,16 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props
+    const { dispatch, location } = this.props
     const { knowledgeId, commentId } = location.query
+    console.log(knowledgeId, commentId)
     dispatch(startLoad())
     loadKnowledgeDiscussReply(commentId).then(res => {
       const { code, msg } = res
       if(code === 200) {
         this.setState({ data: msg, commentId: commentId })
+      } else {
+        console.error(msg)
       }
     }).catch(e => {
       dispatch(endLoad())
@@ -118,8 +124,7 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
       <div className="replyknowledge-container">
         <div className="question">知识点:{knowledge ? knowledge.knowledge : null}</div>
         <div className="origin-question-tip" onClick={this.handleClickGoKnowledgePage.bind(this)}>点击查看知识点</div>
-        <div className="discuss-title-bar"><span
-          className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
+        <TitleBar content={this.state.data.del === 1 ? `该评论已删除` : `当前评论`}/>
         {renderDiscuss(data)}
         {showDiscuss ?
           <Discuss isReply={true} placeholder={'回复 ' + data.name + ':'}

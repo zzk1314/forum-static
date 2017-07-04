@@ -36,24 +36,32 @@ export default class Plan extends React.Component<any, PlanStates> {
 
   componentWillMount() {
     mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
-    checkIsFollow().then(res => {
-      if(res.code === 401) {
-        this.setState({ isFollow: false })
-      }
-    })
     const { dispatch } = this.props;
     dispatch(startLoad());
-    loadSelfPlans().then(res => {
-      this.setState({ isloading: false })
-      dispatch(endLoad());
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+    // checkIsFollow().then(res => {
+    //   if(res.code === 401) {
+    //     dispatch(endLoad())
+    //     this.context.router.push("/login")
+    //   } else if(res.code === 403) {
+    //     dispatch(endLoad())
+    //     this.setState({ isFollow: false })
+    //   } else {
+    //
+    //
+    //
+    //   }
+    // })
+        loadSelfPlans().then(res => {
+          this.setState({ isloading: false })
+          dispatch(endLoad())
+          const { code, msg } = res
+          if(code === 200) {
+            this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
+          }
+        }).catch(ex => {
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
   }
 
   generatePlansView(plans) {
@@ -67,7 +75,7 @@ export default class Plan extends React.Component<any, PlanStates> {
             <div
               className="plan-problem" key={index}
               onClick={() => this.context.router.push({ pathname: "/fragment/learn", query: { planId: item.planId } })}>
-              <AssetImg width={201} height={127.5} url={item.pic}/>
+              <AssetImg height={127.5} url={item.pic}/>
               <div className="plan-problem-desc">{item.name}</div>
             </div>
           );

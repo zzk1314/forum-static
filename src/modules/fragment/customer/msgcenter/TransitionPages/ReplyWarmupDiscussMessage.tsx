@@ -7,6 +7,7 @@ import DiscussShow from "../../../components/DiscussShow";
 import "./ReplyWarmupDiscussMessage.less"
 import Discuss from "../../../components/Discuss";
 import * as _ from "lodash";
+import TitleBar from "../../../commons/TitleBar/TitleBar";
 
 @connect(state => state)
 export default class ReplyWarmupDiscussMessage extends React.Component<any, any> {
@@ -130,8 +131,7 @@ export default class ReplyWarmupDiscussMessage extends React.Component<any, any>
         <div className="reply-warmup-container" onClick={() => this.cancel()}>
           <div className="question">{question}</div>
           <div className="origin-question-tip" onClick={this.goOrigin.bind(this)}>点击查看原题</div>
-          <div className="discuss-title-bar"><span
-            className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
+          <TitleBar content={this.state.data.del === 1 ? `该评论已删除` : `当前评论`}/>
           {renderDiscuss(data)}
         </div>
         {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + data.name + ':'}

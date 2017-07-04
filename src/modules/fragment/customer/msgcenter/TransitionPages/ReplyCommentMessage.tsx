@@ -1,10 +1,10 @@
 import * as React from "react";
 import { commentReply, deleteComment, loadArticleData } from "../../async";
 import DiscussShow from "../../../components/DiscussShow";
-import {truncate, isString} from "lodash";
+import { truncate, isString } from "lodash";
 import "./ReplyCommentMessage.less"
 import Discuss from "../../../components/Discuss";
-
+import TitleBar from "../../../commons/TitleBar/TitleBar";
 
 export default class ReplyCommentMessage extends React.Component<any, any> {
 
@@ -154,8 +154,7 @@ export default class ReplyCommentMessage extends React.Component<any, any> {
           <div className="page-header">{topic}</div>
           {renderWorkContent()}
           <div className="origin-question-tip" onClick={() => this.goDetail()}>点击查看原题</div>
-          <div className="discuss-title-bar"><span
-            className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
+          <TitleBar content={this.state.data.del === 1 ? `该评论已删除` : `当前评论`}/>
           {renderComments()}
         </div>
         {showDiscuss ?

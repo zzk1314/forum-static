@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { alertMsg, startLoad, endLoad } from "redux/actions";
 import { loadMessage, readMessage } from "../async";
 import { mark } from "../../../../utils/request";
-import { set } from "lodash";
+import { Snackbar } from "material-ui"
 import "./Message.less";
 
 @connect(state => state)
@@ -16,7 +16,8 @@ export default class Message extends React.Component<any, any> {
       list: [],
       pull: {},
       no_message: false,
-      end: true
+      end: true,
+      showSnackBar: false,
     }
   }
 
@@ -68,38 +69,20 @@ export default class Message extends React.Component<any, any> {
 
   open(url, id, isRead) {
     if(!isRead) {
-      // 单纯加载，不做任何处理
       readMessage(id)
     }
-    if(url.indexOf('?') === -1) {
-      this.context.router.push({
-        pathname: url,
-        state: {
-          goBackUrl: '/fragment/message'
-        }
+    if(url == "/fragment/message") {
+      this.setState({ showSnackBar: true }, () => {
+        setTimeout(() => {
+          this.setState({ showSnackBar: false })
+        }, 1000)
       })
-    } else {
-      //解析url
-      let index = url.indexOf('?')
-      let path = url.substring(0, index)
-      let query = url.substring(index + 1)
-
-      let param = {}
-      let params = query.split("&")
-      for(let i = 0; i < params.length; i++) {
-        let pos = params[i].indexOf("=");
-        if(pos == -1) continue;
-        let argName = params[i].substring(0, pos);
-        let argValue = params[i].substring(pos + 1);
-
-        set(param, argName, argValue)
-      }
-      this.context.router.push({ pathname: path, query: param, state: { goBackUrl: '/fragment/message' } })
     }
+    this.context.router.push(url)
   }
 
   render() {
-    const { list, no_message, end } = this.state
+    const { list, no_message, end, showSnackBar } = this.state
     const renderMessages = () => {
 
       return (
@@ -120,6 +103,16 @@ export default class Message extends React.Component<any, any> {
             </div>
           )
         })
+      )
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <Snackbar
+          open={showSnackBar}
+          message="请在手机上打开吧"
+          autoHideDuration={1000}
+        />
       )
     }
 
@@ -145,6 +138,7 @@ export default class Message extends React.Component<any, any> {
               </div>}
           </div>
         </div>
+        {renderOtherComponents()}
       </div>
     )
   }

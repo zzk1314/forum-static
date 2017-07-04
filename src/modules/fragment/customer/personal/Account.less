@@ -17,7 +17,6 @@
         line-height: 40px;
         font-size: 1.5em;
         color: @color_context;
-        border-bottom: 1px solid #f5f5f5;
         overflow: hidden;
         > .label {
           float: left;
@@ -25,12 +24,15 @@
         > .mobile-change-btn {
           border: 1px solid @color_strong;
           color: @color_strong;
-          width: 120px;
+          margin-top: 4px;
+          width: 100px;
+          height: 30px;
           position: absolute;
           left: 200px;
           border-radius: 5px;
           text-align: center;
           font-size: 1.1em;
+          line-height: 30px;
           cursor: pointer;
         }
         > .content {
@@ -74,7 +76,7 @@
           height: 42px;
           position: absolute !important;
           left: ~"calc(18.75% + 200px)";
-          >input {
+          > input {
             padding-left: 22px !important;
           }
         }
@@ -91,7 +93,9 @@
           height: 42px;
           position: absolute !important;
           left: ~"calc(18.75% + 200px)";
-
+          > input {
+            outline: medium !important;
+          }
           &.item-second {
             left: ~"calc(18.75% + 383px)";
           }
@@ -132,8 +136,15 @@
 
     .point-tip-container {
       padding-top: 20px;
-      line-height: 20px;
+      font-size: 1.5em;
+      line-height: 23px;
       background-color: #FFF;
+      color: @color_title;
+
+      .q {
+        font-weight: bolder;
+        line-height: 10px;
+      }
     }
 
   }

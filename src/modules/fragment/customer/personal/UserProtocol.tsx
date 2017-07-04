@@ -21,7 +21,7 @@ export default class UserProtocol extends React.Component<UserProtocolProps, Use
       <div className="user-agreement-container">
         <div className="user-agreement-page">
           <div className="feedback">
-            <div className="feedback-header" style={{fontSize:'13px'}}>
+            <div className="feedback-header" style={{fontSize:'18px'}}>
               圈外用户协议
             </div>
             <div className="feedback-container">

@@ -28,17 +28,24 @@
         height: 50px;
         display: inline-flex;
         align-items: center;
+        border-bottom: 1px solid #DDD;
 
         div {
           display: inline-block;
+          height: 45px;
+          line-height: 45px;
           margin-right: 40px;
-          font-size: 1.5em;
+          font-size: 1.8em;
           cursor: pointer;
           padding: 3px;
 
           &:hover {
             color: #55cbcb;
-            border-bottom: 2px solid #55cbcb;
+            border-bottom: 3px solid #55cbcb;
+          }
+
+          &.last-column {
+            margin-right: 0;
           }
         }
 

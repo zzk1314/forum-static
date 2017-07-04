@@ -63,7 +63,7 @@ export default class Main extends React.Component<any, any> {
     return (
       <MuiThemeProvider>
         <div className="rise-base">
-          <NavigatorBar isFixed={true}/>
+          <NavigatorBar/>
           <div className="min-width">{this.props.children}</div>
           {renderOtherComponents()}
         </div>

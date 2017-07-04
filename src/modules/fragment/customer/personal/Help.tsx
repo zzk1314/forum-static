@@ -32,11 +32,11 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
             </div>
             <div className="feedback-container">
               <div className="tip">
-                <p style={{ fontSize: '15px', fontWeight: 'bolder' }}>有疑问或建议，请给后台留言</p>
+                <p style={{ fontWeight: 'bolder' }}>有疑问或建议，请反馈给小Q</p>
                 <div className="serverCode">
-                  <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv1.png" size="60%"/>
+                  <AssetImg url="https://static.iqycamp.com/images/pc/xiaoq_qr_code.jpeg" size="35%"/>
                 </div>
-                <p style={{ fontSize: '15px', fontWeight: 'bolder' }}>常见问题</p><br/>
+                <p style={{ fontWeight: 'bolder' }}>常见问题</p><br/>
 
                 <p className="q">-如何进入小课的上／下一节？</p>
                 <p>-在屏幕下部「练习区」左右滑动即可</p><br/>

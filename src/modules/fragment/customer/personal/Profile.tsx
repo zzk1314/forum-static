@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { set, startLoad, endLoad, alertMsg } from "../../../../redux/actions"
 import { pget, ppost, mark } from "utils/request"
-import { TextField, SelectField, MenuItem } from "material-ui"
+import { TextField, SelectField, MenuItem, Snackbar } from "material-ui"
 import "./Profile.less"
 import { loadProfile, loadRegion, updateProfile } from "../async";
 import  * as _ from "lodash"
@@ -49,6 +49,10 @@ interface ProfileStates {
   // 联动列表
   cityChoose: object;
   updateable: boolean;
+  // 当前页是否加载完成
+  isLoadingDone: boolean;
+  // 展示弹窗 toast
+  showSnackBar: boolean;
 }
 @connect(state => state)
 export default class Profile extends React.Component<any, ProfileStates> {
@@ -68,12 +72,16 @@ export default class Profile extends React.Component<any, ProfileStates> {
       provinceList: [],
       cityList: [],
       cityChoose: [],
-      updateable: true
+      updateable: true,
+      isLoadingDone: false,
+      showSnackBar: false
     }
   }
 
   componentWillMount() {
     mark({ module: "打点", function: "个人中心", action: "打开我的信息页面" });
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadProfile().then(res => {
       const { code, msg } = res
       if(code === 200) {
@@ -85,6 +93,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
           city: msg.city
         })
         loadRegion().then(res => {
+          dispatch(endLoad())
           this.setState({
             provinceList: res.msg.provinceList,
             cityList: res.msg.cityList,
@@ -94,10 +103,19 @@ export default class Profile extends React.Component<any, ProfileStates> {
             if(provinceObject.length > 0) {
               parentId = provinceObject[0].id
             }
-            this.setState({ cityChoose: _.filter(res.msg.cityList, { parentId: parentId }) })
+            this.setState({ cityChoose: _.filter(res.msg.cityList, { parentId: parentId }), isLoadingDone: true })
           })
+        }).catch(e => {
+          dispatch(endLoad())
+          dispatch(alertMsg(e))
         })
+      } else {
+        dispatch(endLoad())
+        dispatch(alertMsg(msg))
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
@@ -106,7 +124,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
     this.setState({ workingYear: ev.target.textContent })
   }
 
-  // 处理职业选择类别
+  // 处理行业选择类别
   handleIndustry(ev) {
     this.setState({ industry: ev.target.textContent })
   }
@@ -133,25 +151,38 @@ export default class Profile extends React.Component<any, ProfileStates> {
 
   handleUpdateProfile() {
     const { workingLife, industry, province, city, provinceList, cityList } = this.state
+    const { dispatch } = this.props
     const job = document.getElementById("job").value
     let chooseProvince = _.filter(provinceList, { value: province })
     if(chooseProvince.length > 0) {
       let provinceId = chooseProvince[0].id
       if(_.filter(cityList, { parentId: provinceId, value: city }).length === 0) {
-        alert("请选择城市")
+        dispatch(alertMsg(null, "请选择城市"))
         return
       }
     }
     this.setState({ updateable: false })
+    dispatch(startLoad())
+    console.log("各参数：", workingLife, industry, job, province, city)
     updateProfile(workingLife, industry, job, province, city).then(res => {
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ updateable: true })
+        this.setState({ updateable: true, showSnackBar: true }, () => {
+          setTimeout(() => {
+            this.setState({ showSnackBar: false })
+          }, 1000)
+        })
+      } else {
+        dispatch(alertMsg(res.msg))
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
   render() {
-    const { workingLife, industry, job, province, city, provinceList, cityList, cityChoose, updateable } = this.state
+    const { workingLife, industry, job, province, city, provinceList, cityList, cityChoose, updateable, isLoadingDone, showSnackBar } = this.state
 
     const renderWorkingLife = () => {
       return (
@@ -176,25 +207,29 @@ export default class Profile extends React.Component<any, ProfileStates> {
     }
 
     const renderIndustry = () => {
-      <div>
-        <div className="profile-item">
-          <div className="item-name">行业</div>
-          <SelectField
-            className="item-edit"
-            hintText="请选择工作行业"
-            value={industry}
-            onChange={this.handleIndustry.bind(this)}>
-            {
-              industryList.map((item, idx) => {
-                return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
-              })
-            }
-          </SelectField>
+      return (
+        <div>
+          <div className="profile-item">
+            <div className="item-name">行业</div>
+            <SelectField
+              className="item-edit"
+              hintText="请选择工作行业"
+              value={industry}
+              onChange={this.handleIndustry.bind(this)}>
+              {
+                industryList.map((item, idx) => {
+                  return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
+                })
+              }
+            </SelectField>
+          </div>
         </div>
-      </div>
+      )
     }
 
     const renderJob = () => {
+      if(!job) return
+
       return (
         <div>
           <div className="profile-item">
@@ -241,20 +276,41 @@ export default class Profile extends React.Component<any, ProfileStates> {
       )
     }
 
+    const renderProfilePage = () => {
+      if(isLoadingDone) {
+        return (
+          <div className="profile-page">
+            <div className="profile-edit">
+              {renderWorkingLife()}
+              {renderIndustry()}
+              {renderJob()}
+              {renderRegion()}
+              <div className={`profile-button ${updateable ? "enable" : "disable"}`}
+                   onClick={this.handleUpdateProfile.bind(this)}>
+                {updateable ? "更新信息" : "更新中" }
+              </div>
+            </div>
+          </div>
+        )
+      } else {
+        return <div/>
+      }
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <Snackbar
+          open={showSnackBar}
+          message="更新个人信息成功"
+          autoHideDuration={1000}
+        />
+      )
+    }
+
     return (
       <div className="profile-container">
-        <div className="profile-page">
-          <div className="profile-edit">
-            {renderWorkingLife()}
-            {renderIndustry()}
-            {renderJob()}
-            {renderRegion()}
-          </div>
-          <div className={`profile-button ${updateable ? "enable" : "disable"}`}
-               onClick={this.handleUpdateProfile.bind(this)}>
-            {updateable ? "更新信息" : "更新中" }
-          </div>
-        </div>
+        {renderProfilePage()}
+        {renderOtherComponents()}
       </div>
     )
   }
