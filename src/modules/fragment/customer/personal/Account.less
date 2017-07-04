@@ -78,6 +78,13 @@
           left: ~"calc(18.75% + 200px)";
           > input {
             padding-left: 22px !important;
+            &::-webkit-contacts-auto-fill-button {
+              visibility: hidden;
+              display: none !important;
+              pointer-events: none;
+              position: absolute;
+              right: 0;
+            }
           }
         }
         .item-name-phone {
@@ -95,11 +102,19 @@
           left: ~"calc(18.75% + 200px)";
           > input {
             outline: medium !important;
+            &::-webkit-contacts-auto-fill-button {
+              visibility: hidden;
+              display: none !important;
+              pointer-events: none;
+              position: absolute;
+              right: 0;
+            }
           }
           &.item-second {
             left: ~"calc(18.75% + 383px)";
           }
         }
+
         .verify-code-btn {
           height: 28px;
           font-size: 1.5em;
