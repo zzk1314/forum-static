@@ -50,7 +50,6 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, any> 
 
   render() {
     let navList = localStorage.getItem("navList").split(",")
-    console.log('navList', navList)
     navList = _.remove(navList, (nav) => nav !== "")
     // 应对用户清除存储信息，则当前页面不展示导航栏
     if(navList.length === 1) {
