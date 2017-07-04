@@ -71,28 +71,43 @@ export default class Message extends React.Component<any, any> {
     const { list } = this.state
     if(!isRead) {
       readMessage(id).then(res => {
+        if(!url) return
+        let reg = new RegExp("^(http|https):");
+        if(reg.test(url)) {
+          window.location.href = url
+        } else {
+          this.context.router.push(url)
+        }
+        if(url == "/fragment/message") {
+          this.setState({ showSnackBar: true }, () => {
+            setTimeout(() => {
+              this.setState({ showSnackBar: false })
+            }, 1000)
+          })
+        }
+        list.map((item) => {
+          if(item.id === id) {
+            item.isRead = true;
+          }
+        })
+        this.setState({ list })
       })
-    }
-    if(!url) return
-    let reg = new RegExp("^(http|https):");
-    if(reg.test(url)) {
-      window.location.href = url
     } else {
-      this.context.router.push(url)
-    }
-    if(url == "/fragment/message") {
-      this.setState({ showSnackBar: true }, () => {
-        setTimeout(() => {
-          this.setState({ showSnackBar: false })
-        }, 1000)
-      })
-    }
-    list.map((item) => {
-      if(item.id === id) {
-        item.isRead = true;
+      if(!url) return
+      let reg = new RegExp("^(http|https):");
+      if(reg.test(url)) {
+        window.location.href = url
+      } else {
+        this.context.router.push(url)
       }
-    })
-    this.setState({ list })
+      if(url == "/fragment/message") {
+        this.setState({ showSnackBar: true }, () => {
+          setTimeout(() => {
+            this.setState({ showSnackBar: false })
+          }, 1000)
+        })
+      }
+    }
   }
 
   render() {
