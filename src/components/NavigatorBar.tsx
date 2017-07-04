@@ -77,6 +77,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
   render() {
 
     const { activeNav, hoverShowNotes } = this.state
+    const { fix = true } = this.props
 
     const renderNotes = () => {
       if(hoverShowNotes) {
@@ -97,7 +98,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
     }
 
     return (
-      <div className="nav-container-fixed"
+      <div className="nav-container-fixed" style={{position: fix ? "fixed" : "relative"}}
            onMouseLeave={() => this.setState({ hoverShowNotes: false })}>
         <div className="navigator-bar">
           <div className="nav-logo">
