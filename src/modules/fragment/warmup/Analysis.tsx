@@ -9,7 +9,7 @@ import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
 import { mark } from "../../../utils/request"
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent";
 
 const sequenceMap = {
   0: 'A',
@@ -52,7 +52,7 @@ export default class Analysis extends React.Component <any, any> {
   }
 
   componentWillMount(props) {
-    mark({module:"打点",function:"RISE",action:"PC打开巩固练习解析页",memo:"PC"});
+    mark({ module: "打点", function: "RISE", action: "PC打开巩固练习解析页", memo: "PC" });
     const { dispatch, location } = props || this.props
     this.setState({ currentIndex: 0 })
     const { practicePlanId, integrated } = location.query
@@ -214,10 +214,11 @@ export default class Analysis extends React.Component <any, any> {
       return (
         <div>
           <div className="intro-container">
-            { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
-              <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-              <span className="type"><span className="number">{score}</span>分</span>
-            </div> : null}
+            { practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
+              <div className="intro-index">
+                <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+                <span className="type"><span className="number">{score}</span>分</span>
+              </div> : null}
             {pic ? <div className="context-img">
               <AssetImg url={pic}/></div> : null
             }
@@ -228,7 +229,7 @@ export default class Analysis extends React.Component <any, any> {
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
             </div>
             <div className="analysis">
-              {<RISE_TitleBar content="解析"/>}
+              {<TitleBar content="解析"/>}
               <div className="context" style={{ marginTop: 10 }}>
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
@@ -249,7 +250,7 @@ export default class Analysis extends React.Component <any, any> {
           {renderClickBtn()}
           <div className="discuss-container">
             <div className="discuss">
-              <RISE_TitleBar content="问答"/>
+              <TitleBar content="问答"/>
               {renderSelfDiscuss()}
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
@@ -341,22 +342,16 @@ export default class Analysis extends React.Component <any, any> {
       }
     }
 
-    const renderOtherComponents = () => {
-      return (
-        <div>
-          <RISE_HomeIcon showHomeIcon={true}/>
-        </div>
-      )
-    }
-
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up">
             <div className="warm-up-head">
-              <RISE_BreadCrumbsProps navList={['小课', '巩固练习']}/>
-              {practice[currentIndex] ?
-                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+              <BreadCrumbs/>
+              {practice[currentIndex] && practice[currentIndex].knowledge ?
+                  <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                  <div className="page-header">综合练习</div>
+              }
             </div>
             {questionRender(practice[currentIndex] || {})}
           </div>

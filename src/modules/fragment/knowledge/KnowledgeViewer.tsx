@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { mark } from "../../../utils/request"
-
 import "./KnowledgeViewer.less";
 import {
   loadDiscuss,
@@ -12,13 +11,12 @@ import {
   loadKnowledges,
   deleteKnowledgeDiscuss
 } from "./async"
-
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import { RISE_BreadCrumbsProps, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 
 const sequenceMap = {
   0: "A",
@@ -52,7 +50,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "RISE", action: "PC打开知识点",memo:"PC"})
+    mark({ module: "打点", function: "RISE", action: "PC打开知识点", memo: "PC" })
     const { id, practicePlanId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -287,7 +285,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
               {showTip ?
                 <div className="analysis">
-                  {<RISE_TitleBar content="解析"/>}
+                  {<TitleBar content="解析"/>}
                   <div className="context">
                     正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                   </div>
@@ -388,13 +386,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         <div className="knowledge-page">
           <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
             <div className="knowledge-head">
-              <RISE_BreadCrumbsProps navList={["小课", "知识理解"]}/>
+              <BreadCrumbs/>
               <div className="page-header">{knowledge.knowledge}</div>
             </div>
             <div className="intro-container">
               {renderKnowledgeContent()}
               {renderClickBtn()}
-              {<RISE_TitleBar content="问答"/>}
+              {<TitleBar content="问答"/>}
               {renderSelfDisucss()}
               {renderDiscussContent()}
             </div>

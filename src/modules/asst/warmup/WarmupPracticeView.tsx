@@ -9,7 +9,7 @@ import Discuss from "../../fragment/components/Discuss";
 import _ from "lodash"
 import DiscussShow from "../../fragment/components/DiscussShow";
 import {scroll} from "../../../utils/helpers"
-import {RISE_TitleBar} from "../../fragment/commons/ViewComponents";
+import {TitleBar} from "../../fragment/commons/FragmentComponent";
 
 const sequenceMap = {
   0: 'A',
@@ -31,7 +31,6 @@ export default class WarmupPracticeView extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
-      integrated:false,
       placeholder:'解答同学的提问（限1000字）',
       isReply:false,
     }
@@ -47,9 +46,9 @@ export default class WarmupPracticeView extends React.Component <any, any> {
     dispatch(startLoad())
     loadWarmUpAnalysisNew(id).then(res => {
       dispatch(endLoad())
-      const {code, msg} = res
+      const {code, msg} = res;
       if (code === 200){
-        this.setState({data: msg})
+        this.setState({data: msg, knowledge:msg.knowledge})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -156,7 +155,7 @@ export default class WarmupPracticeView extends React.Component <any, any> {
   }
 
   render() {
-    const {data, selected, showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state
+    const {data, selected, showKnowledge, showDiscuss, isReply, placeholder} = this.state
     const {knowledge} = data
 
     const questionRender = (practice) => {
@@ -174,7 +173,7 @@ export default class WarmupPracticeView extends React.Component <any, any> {
                 {choiceList.map((choice, idx) => choiceRender(choice, idx))}
               </div>
               <div className="analysis">
-                <RISE_TitleBar content="解析"/>
+                <TitleBar content="解析"/>
                 <div className="context">
                   正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                 </div>
@@ -183,13 +182,15 @@ export default class WarmupPracticeView extends React.Component <any, any> {
                 </div>
                 <div className="context"
                      dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-                {integrated=='false'?
-                    <div className="knowledge-link click-key" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
+                {knowledge ?
+                    <div className="knowledge-link click-key" onClick={() =>
+                                    window.open(`/fragment/knowledge?id=${knowledge.id}&tag=${false}`)
+                                }>点击查看相关知识</div>:null}
               </div>
             </div>
             <div className="discuss-container">
               <div className="discuss">
-                <RISE_TitleBar content="问答"/>
+                <TitleBar content="问答"/>
                 {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                                       submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                                       cancel={()=>this.cancel()}/>:

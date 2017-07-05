@@ -7,7 +7,7 @@ import AssetImg from "../../../components/AssetImg";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss";
 import { scroll } from "../../../utils/helpers";
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 
 @connect(state => state)
 export default class Comment extends React.Component<any, any> {
@@ -229,14 +229,14 @@ export default class Comment extends React.Component<any, any> {
         )
       }
     }
-    const {currentIndex, id, integrated, planId, practicePlanId} = this.props.location.query
+    const { currentIndex, id, integrated, planId, practicePlanId } = this.props.location.query
 
     return (
       <div>
         <div className="application-comment">
           <div className="article">
             <div className="article-head">
-              <RISE_BreadCrumbsProps
+              <BreadCrumbs
                 navList={['小课', '应用练习', '评论']}
                 urlList={[`/fragment/application?currentIndex=${currentIndex}&id=${id}&integrated=${integrated}&planId=${planId}&practicePlanId=${practicePlanId}`]}
               />
@@ -252,7 +252,7 @@ export default class Comment extends React.Component<any, any> {
                 null
             }
           </div>
-          <RISE_TitleBar content={'当前评论'}/>
+          <TitleBar content={'当前评论'}/>
           {renderSelftDiscuss()}
           <div className="comment-body">
             {renderCommentList()}

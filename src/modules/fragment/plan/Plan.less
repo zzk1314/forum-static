@@ -3,20 +3,19 @@
 .plan-container {
   background-color: #fff;
   margin: 0 50px;
-  padding-top: 100px;
   padding-bottom: 25px;
   .plan-content {
     background-color: #fff;
     overflow: hidden;
     .plan-header {
       color: #333;
-      font-size: 2.6em;
+      font-size: 1.95em;
     }
     .plan-plans {
       margin-top: 30px;
       span {
-        color: @color_help;
-        font-size: 1.9em;
+        color: @color_context;
+        font-size: 1.8em;
       }
       .plan-problem-box {
         margin-top: 14px;
@@ -25,23 +24,24 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         .plan-problem {
-          margin-right: 25px;
-          width: 170px;
+          margin-right: ~"calc((100% - 603px) / 3)";
+          width: 201px;
           overflow: hidden;
           border-radius: 3px;
           cursor: pointer;
+
           img {
             position: relative;
-            left: -40px;
             border-radius: 3px;
+            margin-left: -70px;
             &:hover {
               top: 2px;
             }
           }
           .plan-problem-desc {
-            color: #333;
+            color: @color_title;
             padding: 4px;
-            font-size: 1.6em;
+            font-size: 1.5em;
           }
         }
       }
@@ -59,13 +59,23 @@
         background-color: #55cbcb;
         margin-right: 8px;
         vertical-align: middle;
-        margin-top: -3px;
+        margin-top: -8px;
       }
     }
     .plan-splitline {
       height: 1px;
       background-color: #f5f5f5;
       margin-top: 30px;
+    }
+
+    .qr-code {
+      text-align: center;
+      .tip-top {
+        font-size: 2em;
+      }
+      .tip-bottom {
+        font-size: 1.6em;
+      }
     }
   }
 }

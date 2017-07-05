@@ -1,13 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Challenge.less";
-import { loadChallengePractice, submitChallengePractice} from "./async";
+import { loadChallengePractice, submitChallengePractice } from "./async";
 import { ArticleViewModule } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
 import AssetImg from "../../../components/AssetImg";
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 
 @connect(state => state)
 export default class Challenge extends React.Component<any, any> {
@@ -129,7 +129,7 @@ export default class Challenge extends React.Component<any, any> {
         <div className="container">
           <div className="challenge">
             <div className="challenge-head">
-              <RISE_BreadCrumbsProps navList={['小课', '小目标']}/>
+              <BreadCrumbs/>
               <div className="page-header">{'小目标'}</div>
             </div>
             <div className="intro-container">
@@ -147,7 +147,7 @@ export default class Challenge extends React.Component<any, any> {
               </div>
             </div>
             <div ref="workContainer" className="work-container">
-              {<RISE_TitleBar content={content === null ? "提交方式" : "我的目标"}/>}
+              {<TitleBar content={content === null ? "提交方式" : "我的目标"}/>}
               {renderTip()}
               {edit ?
                 <div className="editor">
@@ -168,9 +168,9 @@ export default class Challenge extends React.Component<any, any> {
                 </div> : null}
             </div>
             {showDisable ?
-                <div className="button-footer small disabled">提交中</div> :
-                edit ?
-                    <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
+              <div className="button-footer small disabled">提交中</div> :
+              edit ?
+                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
             }
           </div>
         </div>

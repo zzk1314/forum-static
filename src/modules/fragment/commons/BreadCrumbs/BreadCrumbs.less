@@ -1,0 +1,40 @@
+@import "../../../../style/variable";
+
+.bread-crumbs {
+  font-size: @font_context;
+  letter-spacing: 1px;
+  position: absolute;
+  bottom: 12px;
+  display: inline-block;
+
+  .bread-first-item {
+    display: inline-block;
+    color: #5FC8D0;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .bread-items {
+    display: inline-block;
+    div {
+      margin-left: 4px;
+      color: #5FC8D0;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .bread-last-items {
+    display: inline-block;
+    div {
+      margin-left: 4px;
+      color: @color_title;
+      display: inline-block;
+    }
+  }
+}
