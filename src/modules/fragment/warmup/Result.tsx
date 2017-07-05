@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./Result.less";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import { RISE_BreadCrumbsProps } from "../commons/ViewComponents";
+import { BreadCrumbs } from "../commons/FragmentComponent";
 
 @connect(state => state)
 export default class Result extends React.Component <any, any> {
@@ -27,7 +27,7 @@ export default class Result extends React.Component <any, any> {
     const { series, planId } = this.props.location.query
     this.context.router.push({
       pathname: '/fragment/learn',
-      query: {series,planId}
+      query: { series, planId }
     })
   }
 
@@ -40,7 +40,7 @@ export default class Result extends React.Component <any, any> {
         <div className="container has-footer outer-wrapper">
           <div className="warm-up-result">
             <div className="warm-up-result-head">
-              <RISE_BreadCrumbsProps navList={['小课', '巩固练习']}/>
+              <BreadCrumbs/>
               <div className="page-header">{'巩固练习'}</div>
             </div>
             <div className="intro-container">
@@ -49,9 +49,12 @@ export default class Result extends React.Component <any, any> {
                 <div className="count-circle">
                   <div className="context-img">
                     <div className="answer-pic">
-                      {rightNumber===total ? <AssetImg width={300} height={210} style={{margin:'0 auto'}} url="https://static.iqycamp.com/images/answer_allright.png" />
-                      :<AssetImg style={{margin:'0 auto'}}  width={300} height={210} url="https://static.iqycamp.com/images/answer_not_allright.png" />}
-                      <div className="answer-word"><span className="answer-right">{rightNumber}</span><span className="answer-total">{'/ '}{total}</span></div>
+                      {rightNumber === total ? <AssetImg width={300} height={210} style={{ margin: '0 auto' }}
+                                                         url="https://static.iqycamp.com/images/answer_allright.png"/>
+                        : <AssetImg style={{ margin: '0 auto' }} width={300} height={210}
+                                    url="https://static.iqycamp.com/images/answer_not_allright.png"/>}
+                      <div className="answer-word"><span className="answer-right">{rightNumber}</span><span
+                        className="answer-total">{'/ '}{total}</span></div>
                     </div>
                   </div>
                 </div>

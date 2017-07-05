@@ -1,0 +1,62 @@
+@import "../../../../style/variable.less";
+
+.personal-container {
+
+  .personal-page {
+
+    .personal-header {
+      margin-top: 10px;
+      font-size: 19.75px;
+
+      &:before {
+        content: "";
+        width: 8px;
+        height: 18px;
+        border-radius: 5px;
+        display: inline-block;
+        background-color: #55cbcb;
+        margin-right: 18px;
+        vertical-align: middle;
+        margin-top: -4px;
+      }
+    }
+
+    .personal-columns {
+      margin: 22.5px 97.5px 22.5px;
+
+      .column {
+        height: 50px;
+        display: inline-flex;
+        align-items: center;
+        border-bottom: 1px solid #DDD;
+
+        div {
+          display: inline-block;
+          height: 45px;
+          line-height: 45px;
+          margin-right: 40px;
+          font-size: 1.8em;
+          cursor: pointer;
+          padding: 3px;
+
+          &.chosed {
+            color: #55cbcb;
+            border-bottom: 3px solid #55cbcb;
+          }
+
+          &:hover {
+            color: #55cbcb;
+            border-bottom: 3px solid #55cbcb;
+          }
+
+          &.last-column {
+            margin-right: 0;
+          }
+        }
+
+      }
+
+    }
+  }
+
+}

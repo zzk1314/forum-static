@@ -14,12 +14,11 @@ import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
 import { Work } from "../components/NewWork";
 import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
-import { RISE_BreadCrumbsProps, RISE_HomeIcon, RISE_TitleBar } from "../commons/ViewComponents";
+import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 import { ArticleViewModule } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 
 let timer;
-
 @connect(state => state)
 export default class Application extends React.Component<any, any> {
 
@@ -49,7 +48,7 @@ export default class Application extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "RISE", action: "PC打开应用练习页",memo:"PC"})
+    mark({ module: "打点", function: "RISE", action: "PC打开应用练习页", memo: "PC" })
     const { location, dispatch } = this.props;
     const { integrated, id, planId } = location.query;
     this.setState({ integrated });
@@ -324,7 +323,7 @@ export default class Application extends React.Component<any, any> {
         <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="application">
             <div className="application-head">
-              <RISE_BreadCrumbsProps navList={['小课', '应用练习']}/>
+              <BreadCrumbs/>
               <div className="page-header">{topic}</div>
             </div>
             <div className="intro-container">
@@ -353,7 +352,7 @@ export default class Application extends React.Component<any, any> {
               }
             </div>
             <div ref="workContainer" className="work-container">
-              {<RISE_TitleBar content={content === null ? "提交方式" : "我的作业"}/>}
+              {<TitleBar content={content === null ? "提交方式" : "我的作业"}/>}
               {renderTip()}
 
               {edit ?
@@ -384,10 +383,10 @@ export default class Application extends React.Component<any, any> {
             {!showOthers ?
               <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
             {showOthers && !isEmpty(otherHighlightList) ? <div>
-              <RISE_TitleBar content={'管理员推荐'}/>
+              <TitleBar content={'管理员推荐'}/>
               {renderList(otherHighlightList)}</div> : null}
             {showOthers && !isEmpty(otherList) ? <div>
-              <RISE_TitleBar content={'最新文章'}/>
+              <TitleBar content={'最新文章'}/>
               {renderList(otherList)}</div> : null}
             {renderEnd()}
           </div>

@@ -2,24 +2,14 @@ import * as React from "react";
 import { Route, IndexRoute } from "react-router";
 import Base from "modules/base/Base.tsx";
 import RiseBase from "modules/base/RiseBase.tsx";
-import ProblemList from "./modules/fragment/ProblemList"
 import Home from "./modules/home/Home"
 import Login from "./modules/Login"
 import ServerCode from "./modules/ServerCode"
-import Catalog from "./modules/fragment/Catalog"
-import DoChallenge from "./modules/fragment/challenge/DoChallenge"
-import DoApplication from "./modules/fragment/application/DoApplication"
-import ChallengeList from "./modules/fragment/challenge/ChallengeList"
-import ApplicationList from "./modules/fragment/application/ApplicationList"
-import ShowChallenge from "./modules/fragment/challenge/ShowChallenge"
-import ShowApplication from "./modules/fragment/application/ShowApplication"
-import ShowSubject from "./modules/fragment/subject/ShowSubject"
+import ShowApplication from "./modules/asst/application/ShowApplication"
+import ShowSubject from "./modules/asst/subject/ShowSubject"
 import Stranger from "./modules/Stranger"
 import Reject from "./modules/Reject"
 import NotFoundPage from "./modules/NotFoundPage"
-import SubjectList from "./modules/fragment/subject/SubjectList"
-import MineSubject from "./modules/fragment/subject/MineSubject"
-import WriteSubject from "./modules/fragment/subject/WriteSubject"
 import Test from "./modules/Test"
 import BackendIndex from "./modules/backend/BackendIndex"
 import BackendWelcome from "./modules/backend/Welcome"
@@ -41,25 +31,45 @@ import AsstApplicationList from "./modules/asst/application/ApplicationList"
 import AsstSubjectComment from "./modules/asst/subject/ProblemList"
 import AsstSubjectList from "./modules/asst/subject/SubjectList"
 import CommentedList from "./modules/asst/CommentedList"
-import KnowledgeView from "./modules/fragment/application/KnowledgeView"
 import SmsManager from "./modules/backend/operation/SmsManager"
 
 // pc rise 改版
 import Plan from "./modules/fragment/plan/Plan";
+import Learn from "./modules/fragment/plan/Learn";
+import Report from "./modules/fragment/plan/Report";
+import Subject from "./modules/fragment/subject/Subject";
+import Challenge from "./modules/fragment/challenge/Challenge"
 import Application from "./modules/fragment/application/Application";
 import Comment from "./modules/fragment/application/Comment";
 import WarmUp from "./modules/fragment/warmup/WarmUp";
+import WarmupResult from "./modules/fragment/warmup/Result";
+import WarmUpAnalysis from "./modules/fragment/warmup/Analysis";
+import AnalysisNew from "./modules/fragment/warmup/AnalysisNew";
 import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
-import Learn from './modules/fragment/plan/Learn';
-import Report from './modules/fragment/plan/Report';
-import WarmupResult from './modules/fragment/warmup/Result'
-import WarmUpAnalysis from "modules/fragment/warmup/Analysis";
-import AnalysisNew from "modules/fragment/warmup/AnalysisNew";
-import KnowledgeReview from "modules/fragment/knowledge/KnowledgeReview";
-import ProblemViewer from "modules/fragment/problem/ProblemViewer";
-import Subject from "modules/fragment/subject/Subject";
-import Challenge from "modules/fragment/challenge/Challenge"
+import KnowledgeReview from "./modules/fragment/knowledge/KnowledgeReview";
+import ProblemViewer from "./modules/fragment/problem/ProblemViewer";
+import Profile from "./modules/fragment/customer/personal/Profile";
+import Personal from "./modules/fragment/customer/personal/Personal";
+import Account from "./modules/fragment/customer/personal/Account";
+import Help from "./modules/fragment/customer/personal/Help";
+import Message from "./modules/fragment/customer/msgcenter/Message";
+import UserProtocol from "./modules/fragment/customer/personal/UserProtocol";
+import ReplyKnowledgeDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage";
+import ReplyCommentMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage";
+import ReplyWarmupDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage";
 
+// 导航栏
+let navList = []
+if(localStorage.getItem("navList")) {
+  navList = localStorage.getItem("navList").split(",")
+}
+const generateNavList = (level) => {
+  for(let i = level; i < navList.length; i++) {
+    navList.splice(i, 1)
+  }
+  navList[level] = window.location.pathname + window.location.search
+  localStorage.setItem("navList", navList)
+}
 const routes = (
   <Route path="/">
     <Route component={Base}>
@@ -69,21 +79,7 @@ const routes = (
       <Route path="login" component={Login}/>
       <Route path="stranger" component={Stranger}/>
       <Route path="pc/static/reject" component={Reject}/>
-      {/*<Route component={ProblemList}>*/}
-      {/*<Route path="fragment/rise" component={Catalog}/>*/}
-      {/*<Route path="fragment/challenge" component={DoChallenge}/>*/}
-      {/*<Route path="fragment/application" component={DoApplication}/>*/}
-      {/*<Route path="fragment/challenge/list" component={ChallengeList}/>*/}
-      {/*<Route path="fragment/application/list" component={ApplicationList}/>*/}
-      {/*<Route path="fragment/challenge/show" component={ShowChallenge}/>*/}
-      {/*<Route path="fragment/application/show" component={ShowApplication}/>*/}
-      {/*<Route path="fragment/subject/list" component={SubjectList}/>*/}
-      {/*<Route path="fragment/subject/show" component={ShowSubject}/>*/}
-      {/*<Route path="fragment/subject/list/mine" component={MineSubject}/>*/}
-      {/*<Route path="fragment/subject/write" component={WriteSubject}/>*/}
-      {/*<Route path="fragment/knowledge/show" component={KnowledgeView}/>*/}
       <Route path="servercode" component={ServerCode}/>
-      {/*</Route>*/}
       <Route component={BackendIndex}>
         <Route path="backend" component={BackendWelcome}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
@@ -118,20 +114,36 @@ const routes = (
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
-      <Route path="/fragment/learn" component={Learn}/>
-      <Route path="/fragment/report" component={Report}/>
-      <Route path="/fragment/main" component={Learn}/>
-      <Route path="/fragment/application" component={Application}/>
-      <Route path="/fragment/application/comment" component={Comment}/>
-      <Route path="/fragment/warmup" component={WarmUp}/>
-      <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
-      <Route path="/fragment/warmup/result" component={WarmupResult}/>
-      <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
-      <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
-      <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
-      <Route path="/fragment/problem/view" component={ProblemViewer}/>
+      <Route onEnter={() => generateNavList(0)}>
+        <Route path="/fragment/learn" component={Learn}/>
+        <Route path="/fragment/main" component={Learn}/>
+      </Route>
       <Route path="/fragment/subject" component={Subject}/>
-      <Route path="/fragment/challenge" component={Challenge}/>
+      <Route onEnter={() => generateNavList(1)}>
+        <Route path="/fragment/problem/view" component={ProblemViewer}/>
+        <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
+        <Route path="/fragment/warmup" component={WarmUp}/>
+        <Route path="/fragment/warmup/result" component={WarmupResult}/>
+        <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
+        <Route path="/fragment/application" component={Application}/>
+        <Route path="/fragment/challenge" component={Challenge}/>
+        <Route path="/fragment/report" component={Report}/>
+        <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
+      </Route>
+      <Route onEnter={() => generateNavList(2)}>
+        <Route path="/fragment/application/comment" component={Comment}/>
+      </Route>
+      <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
+      <Route component={Personal}>
+        <Route path="/fragment/customer/profile" component={Profile}/>
+        <Route path="/fragment/customer/account" component={Account}/>
+        <Route path="/fragment/customer/help" component={Help}/>
+        <Route path="/fragment/customer/userprotocol" component={UserProtocol}/>
+      </Route>
+      <Route path="/fragment/message" component={Message}/>
+      <Route path="/fragment/message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
+      <Route path="/fragment/message/comment/reply" component={ReplyCommentMessage}/>
+      <Route path="/fragment/message/warmup/reply" component={ReplyWarmupDiscussMessage}/>
     </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>

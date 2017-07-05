@@ -153,3 +153,20 @@ export const ArticleViewModule = {
   Application:2,
   Subject:3,
 }
+
+export function changeTitle(title){
+  document.title = title;
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'display: none; width: 0; height: 0;';
+  iframe.src = 'https://static.iqycamp.com/images/logo.png';
+  const listener = () => {
+    setTimeout(() => {
+      iframe.removeEventListener('load', listener);
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 0);
+    }, 0);
+  };
+  iframe.addEventListener('load', listener);
+  document.body.appendChild(iframe);
+}
