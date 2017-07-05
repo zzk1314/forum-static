@@ -37,7 +37,7 @@ export default class Analysis extends React.Component <any, any> {
       pageIndex: 1,
       integrated: false,
       isReply: false,
-      placeholder: '解答同学的提问（限300字）',
+      placeholder: '解答同学的提问（限1000字）',
     }
   }
 
@@ -132,7 +132,7 @@ export default class Analysis extends React.Component <any, any> {
   }
 
   cancel() {
-    this.setState({ placeholder: '解答同学的提问（限300字）', isReply: false, showDiscuss: false, showSelfDiscuss: false })
+    this.setState({ placeholder: '解答同学的提问（限1000字）', isReply: false, showDiscuss: false, showSelfDiscuss: false })
   }
 
   onSubmit(isSelfDiscuss = false) {
@@ -144,10 +144,6 @@ export default class Analysis extends React.Component <any, any> {
     const { id } = practice[currentIndex];
     if(content.length == 0) {
       dispatch(alertMsg('请填写评论'));
-      return false;
-    }
-    if(content.length > 300) {
-      dispatch(alertMsg('您的评论字数已超过300字'));
       return false;
     }
 
@@ -285,7 +281,7 @@ export default class Analysis extends React.Component <any, any> {
             this.state.showDiscuss && this.state.repliedId === discuss.id ?
               <Discuss
                 isReply={isReply} placeholder={placeholder}
-                submit={() => this.onSubmit()}
+                submit={() => this.onSubmit()} limit={1000}
                 onChange={(v) => this.onChange(v)}
                 cancel={() => this.cancel()}/> :
               null
@@ -335,8 +331,8 @@ export default class Analysis extends React.Component <any, any> {
         return (
           <div>
             <Discuss
-              isReply={isReply} placeholder={`解答同学的提问（限300字）`}
-              submit={() => this.onSubmit(true)}
+              isReply={isReply} placeholder={`解答同学的提问（限1000字）`}
+              submit={() => this.onSubmit(true)} limit={1000}
               onChange={(v) => this.onChange(v)}
               cancel={() => this.cancel()}
               showCancelBtn={false}

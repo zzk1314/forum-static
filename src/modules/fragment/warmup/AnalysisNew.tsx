@@ -32,9 +32,9 @@ export default class AnalysisNew extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
-      integrated: false,
-      placeholder: '解答同学的提问（限300字）',
-      isReply: false,
+      integrated:false,
+      placeholder:'解答同学的提问（限1000字）',
+      isReply:false,
     }
   }
 
@@ -120,8 +120,8 @@ export default class AnalysisNew extends React.Component <any, any> {
     this.setState({ content: value })
   }
 
-  cancel() {
-    this.setState({ placeholder: '解答同学的提问（限300字）', isReply: false, showDiscuss: false })
+  cancel(){
+    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit() {
@@ -129,10 +129,6 @@ export default class AnalysisNew extends React.Component <any, any> {
     const { warmupPracticeId, repliedId, content } = this.state;
     if(content.length == 0) {
       dispatch(alertMsg('请填写评论'));
-      return false;
-    }
-    if(content.length > 300) {
-      dispatch(alertMsg('您的评论字数已超过300字'));
       return false;
     }
 
