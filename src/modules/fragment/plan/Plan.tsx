@@ -44,7 +44,7 @@ export default class Plan extends React.Component<any, PlanStates> {
         this.context.router.push("/login")
       } else if(res.code === 403) {
         dispatch(endLoad())
-        this.setState({ isFollow: false })
+        this.setState({ isloading: false, isFollow: false })
       } else {
         loadSelfPlans().then(res => {
           this.setState({ isloading: false })
@@ -103,7 +103,6 @@ export default class Plan extends React.Component<any, PlanStates> {
     }
 
     const renderAllPlans = () => {
-      if(!isFollow) return
       return (
         <div>
           <div className="plan-header">我的小课</div>
@@ -121,11 +120,10 @@ export default class Plan extends React.Component<any, PlanStates> {
     }
 
     const renderNoPermissionTips = () => {
-      if(isFollow) return
       return (
         <div className="qr-code">
           <div className="tip-top">扫码关注</div>
-          <AssetImg url="https://static.iqycamp.com/images/serverQrCode.jpg" size={282}/>
+          <AssetImg url="https://static.iqycamp.com/images/serverQrCode.jpg?imageslim" size={282}/>
           <div className="tip-bottom">扫一扫关注 “圈外学习号”</div>
         </div>
       )
@@ -136,8 +134,11 @@ export default class Plan extends React.Component<any, PlanStates> {
         <div className="plan-content" style={{ minHeight: window.innerHeight - 50 }}>
           {!isloading ?
             <div>
-              {renderAllPlans()}
-              {renderNoPermissionTips()}
+              {
+                isFollow ?
+                  renderAllPlans() :
+                  renderNoPermissionTips()
+              }
             </div> : null}
         </div>
       </div>
