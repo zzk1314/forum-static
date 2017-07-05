@@ -1,8 +1,16 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import _ from "lodash";
-
+import { mark } from "../../../utils/request"
 import "./KnowledgeViewer.less";
-
+import {
+  loadDiscuss,
+  discussKnowledge,
+  loadKnowledge,
+  learnKnowledge,
+  loadKnowledges,
+  deleteKnowledgeDiscuss
+} from "./async"
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
