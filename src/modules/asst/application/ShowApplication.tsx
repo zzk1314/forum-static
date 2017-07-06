@@ -21,6 +21,7 @@ import CommentList from "../../../components/CommentList"
 import { imgSrc } from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
 import Confirm from "../../../components/Confirm"
+import {BreakSignal, Stop} from "../../../utils/request";
 
 const style = {
   divider: {
@@ -103,7 +104,7 @@ export default class ShowApplication extends React.Component<any, any> {
   goEdit(e) {
     // 进入修改页面
     const { data } = this.state;
-    const { location } = this.props
+    const { location } = this.props;
     const planId = _.get(location, "query.planId");
     const applicationId = _.get(location, "query.applicationId");
     const { isMine } = data
@@ -289,7 +290,7 @@ export default class ShowApplication extends React.Component<any, any> {
     const { data, commentList = [], voteCount, voteStatus, alert } = this.state;
     const {
       title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
-      role, signature, hasMore, desc, knowledgeId
+      role, signature, hasMore, desc, knowledgeId, integrated
     } = data
     const { location } = this.props;
     const applicationId = _.get(location, "query.applicationId");
@@ -382,9 +383,11 @@ export default class ShowApplication extends React.Component<any, any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{ __html: desc }}/>
             </div>
+            { integrated == 'false'?
             <div className="knowledge-tip"
-                 onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看知识点
+                 onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看相关知识
             </div>
+            :null}
           </div>
           <Divider style={style.divider}/>
           {renderEdit()}

@@ -1,11 +1,11 @@
 import {pget,ppost} from "../../../utils/request"
 
-export function loadHotPractice() {
-  return pget(`/pc/operation/hot/warmup`);
+export function loadHotPractice(page) {
+  return pget(`/pc/asst/hot/warmup`, {page:page});
 }
 
 export function loadWarmUp(warmupPracticeId) {
-  return pget(`/pc/operation/warmup/load/${warmupPracticeId}`)
+  return pget(`/pc/asst/warmup/load/${warmupPracticeId}`)
 }
 
 export function highlight(discussId){
@@ -13,7 +13,7 @@ export function highlight(discussId){
 }
 
 export function replyDiscuss(params) {
-  return ppost(`/pc/operation/reply/discuss`, params)
+  return ppost(`/pc/asst/reply/discuss`, params)
 }
 
 export function deleteWarmupDiscuss(discussId) {

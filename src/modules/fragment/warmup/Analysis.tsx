@@ -205,12 +205,12 @@ export default class Analysis extends React.Component <any, any> {
   render() {
     const {
       list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, showSelfDiscuss, repliedId, isReply, integrated, placeholder
+      showKnowledge, showDiscuss, isReply, integrated, placeholder
     } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
-      const { id, question, pic, choiceList = [], score = 0, discussList = [], knowledgeId } = practice
+      const { id, question, pic, choiceList = [], score = 0, discussList = [], knowledgeId } = practice;
       return (
         <div>
           <div className="intro-container">
@@ -250,7 +250,7 @@ export default class Analysis extends React.Component <any, any> {
           {renderClickBtn()}
           <div className="discuss-container">
             <div className="discuss">
-              {<TitleBar content="问答"/>}
+              <TitleBar content="问答"/>
               {renderSelfDiscuss()}
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
@@ -348,8 +348,10 @@ export default class Analysis extends React.Component <any, any> {
           <div className="warm-up">
             <div className="warm-up-head">
               <BreadCrumbs/>
-              {practice[currentIndex] ?
-                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+              {practice[currentIndex] && practice[currentIndex].knowledge ?
+                  <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                  <div className="page-header">综合练习</div>
+              }
             </div>
             {questionRender(practice[currentIndex] || {})}
           </div>

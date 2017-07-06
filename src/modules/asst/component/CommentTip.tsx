@@ -11,6 +11,7 @@ const style = {
         height: 60,
         textAlign: 'center',
         marginTop: -45,
+        zIndex:1000,
     }
 }
 

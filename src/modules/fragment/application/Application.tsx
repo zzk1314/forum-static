@@ -347,7 +347,7 @@ export default class Application extends React.Component<any, any> {
                 <div className="knowledge-link click-key"
                      onClick={() =>
                        window.open(`/fragment/knowledge?id=${knowledgeId}`, "_blank")
-                     }>点击查看知识点</div> :
+                     }>点击查看相关知识</div> :
                 null
               }
             </div>

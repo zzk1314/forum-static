@@ -233,8 +233,10 @@ export default class WarmUp extends React.Component<any, any> {
                 <div>
                   <div className="warm-up-head">
                     <BreadCrumbs/>
-                    {practice[currentIndex] ?
-                      <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> : null}
+                    {practice[currentIndex] && practice[currentIndex].knowledge ?
+                      <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                        <div className="page-header">综合练习</div>
+                    }
                   </div>
                   {questionRender(practice[currentIndex] || {})}
                 </div>
