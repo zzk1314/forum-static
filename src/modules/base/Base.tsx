@@ -36,8 +36,8 @@ export default class Main extends React.Component<any, any> {
     return (
       <MuiThemeProvider>
         <div className="container">
-          <NavigatorBar fix={false}/>
-          <div>
+          <NavigatorBar/>
+          <div style={{marginTop:80}}>
             {this.props.children}
           </div>
           <AlertMessage open={this.props.base.showModal}

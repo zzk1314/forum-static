@@ -79,10 +79,9 @@ export default class HotWarmupPractice extends React.Component<any,any> {
         practiceList.map((practice, index)=>{
           return (
             <div key={index}>
-              <div className="problem">{practice.problemName}</div>
+              <div className="problem">{'【'+practice.problemName+'】'}</div>
               <div className="practice" onClick={()=>{this.view(practice)}}>
-                {practice.question.length>60? decodeTextAreaString2(practice.question).substring(0, 60).concat(' ...')
-                    : decodeTextAreaString2(practice.question)}
+                {decodeTextAreaString2(practice.question)}
               </div>
               <Divider/>
             </div>
