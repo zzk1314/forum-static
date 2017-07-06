@@ -79,8 +79,9 @@ export default class HotWarmupPractice extends React.Component<any,any> {
         practiceList.map((practice, index)=>{
           return (
             <div key={index}>
+              <div className="problem">{practice.problemName}</div>
               <div className="practice" onClick={()=>{this.view(practice)}}>
-                {practice.question.length>40? decodeTextAreaString2(practice.question).substring(0, 40).concat(' ...')
+                {practice.question.length>60? decodeTextAreaString2(practice.question).substring(0, 60).concat(' ...')
                     : decodeTextAreaString2(practice.question)}
               </div>
               <Divider/>
@@ -91,7 +92,7 @@ export default class HotWarmupPractice extends React.Component<any,any> {
     }
 
     return (
-        <div className="hotPractice">
+        <div className="hot-practice">
           <Subheader>热门的巩固练习</Subheader>
           {renderPractice(practiceList)}
           {end ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :

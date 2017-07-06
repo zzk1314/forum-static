@@ -1,12 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {List, ListItem,makeSelectable} from 'material-ui/List';
-import * as _ from "lodash";
 import "./AsstIndex.less"
-import {Grid, Row, Col} from "react-flexbox-grid"
-import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {List, ListItem, makeSelectable} from 'material-ui/List';
-import VerticalBarLoading from "../../components/VerticalBarLoading"
+import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
@@ -22,20 +17,22 @@ const style = {
   },
   firstItem: {
     margin: "0px auto",
-    padding: "20px 0 25px"
   },
   item: {
-    margin: "0 auto",
-    padding: "24px 0"
+    color: "#666",
+    marginLeft:"10px",
+    fontSize:"16px",
   },
   itemActive: {
-    color: "#55cbcb"
+    color: "#55cbcb",
+    marginLeft:"10px",
+    fontSize:"16px",
   }
 }
 
 
 @connect(state => state)
-export default class Fragment extends React.Component<any,any> {
+export default class Menu extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -54,7 +51,10 @@ export default class Fragment extends React.Component<any,any> {
 
   }
 
-
+  onClick(pathname, index){
+      this.setState({index});
+      this.context.router.push({pathname});
+  }
 
   render() {
 
@@ -65,18 +65,24 @@ export default class Fragment extends React.Component<any,any> {
             <div className="listTitle">后台评论</div>
           </Subheader>
           <Divider style={style.divider}/>
-
-          <div className="catalog-area">
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/asst/application/comment'})
-              }}>评论应用练习</div>
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/asst/subject/comment'})
-              }}>评论小课分享</div>
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname:'/asst/warmup/comment'})
-              }}>评论巩固练习</div>
-          </div>
+          <ListItem
+              style={this.state.index === 1 ? style.itemActive : style.item}
+              value={1}
+              primaryText="评论应用练习"
+              onTouchTap={()=>this.onClick('/asst/application/comment', 1)}
+          />
+          <ListItem
+              style={this.state.index === 2 ? style.itemActive : style.item}
+              value={2}
+              primaryText="评论小课分享"
+              onTouchTap={()=>this.onClick('/asst/subject/comment', 2)}
+          />
+          <ListItem
+              style={this.state.index === 3 ? style.itemActive : style.item}
+              value={3}
+              primaryText="评论巩固练习"
+              onTouchTap={()=>this.onClick('/asst/warmup/comment', 3)}
+          />
         </List>
       )
     }
@@ -88,7 +94,6 @@ export default class Fragment extends React.Component<any,any> {
         </div>
         <div className="rightContent">
           {this.props.children}
-          {/*{window.ENV.openFeedBack?renderFeedBack():null}*/}
         </div>
       </div>
     )

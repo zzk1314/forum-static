@@ -318,6 +318,7 @@ router.get("/pc/asst/hot/warmup", (req, res) => {
                     "voice": null,
                     "difficulty": 1,
                     "knowledgeId": 6,
+                    "problemName": "小课标题",
                     "sceneId": 1,
                     "choiceList": [{
                         "id": 147,
@@ -343,6 +344,7 @@ router.get("/pc/asst/hot/warmup", (req, res) => {
                     "voice": null,
                     "difficulty": 1,
                     "knowledgeId": 6,
+                    "problemName": "小课标题",
                     "sceneId": 1,
                     "choiceList": [{
                         "id": 136,
@@ -361,6 +363,7 @@ router.get("/pc/asst/hot/warmup", (req, res) => {
                     "voice": null,
                     "difficulty": 1,
                     "knowledgeId": 6,
+                    "problemName": "小课标题",
                     "sceneId": 1,
                     "choiceList": [{
                         "id": 141,
