@@ -132,11 +132,11 @@ const routes = (
         <Route path="/fragment/challenge" component={Challenge}/>
         <Route path="/fragment/report" component={Report}/>
         <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
+        <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
       </Route>
       <Route onEnter={() => generateNavList(2)}>
         <Route path="/fragment/application/comment" component={Comment}/>
       </Route>
-      <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
       <Route component={Personal}>
         <Route path="/fragment/customer/profile" component={Profile}/>
         <Route path="/fragment/customer/account" component={Account}/>

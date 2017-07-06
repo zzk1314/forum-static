@@ -45,6 +45,9 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, any> 
     if(url.indexOf("/fragment/application/comment") >= 0) {
       name = "评论"
     }
+    if(url.indexOf("/fragment/knowledge/review") >= 0) {
+      name = "知识回顾"
+    }
     return name
   }
 
