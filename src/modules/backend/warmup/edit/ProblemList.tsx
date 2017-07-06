@@ -94,7 +94,7 @@ export default class ProblemList extends React.Component<any,any> {
     const {problemList=[]} = this.state
     return (
       <div className="problemContent">
-        <div className="leftList">
+        <div className="leftList" style={{position:'static'}}>
           <ProblemView chooseProblem={this.chooseProblem.bind(this)} problemList={problemList}/>
         </div>
         <div className="rightContent">
