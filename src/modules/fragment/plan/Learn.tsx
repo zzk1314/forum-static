@@ -15,6 +15,7 @@ import AssetImg from "../../../components/AssetImg"
 import SwipeableViews from "../../../components/SwipeableViews"
 import AlertMessage from "../../../components/AlertMessage"
 import "./Learn.less"
+import BreadCrumbs from "../commons/BreadCrumbs/BreadCrumbs";
 
 const typeMap = {
   1: '巩固练习',
@@ -566,6 +567,12 @@ export default class PlanMain extends React.Component <any, any> {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
 
+    const renderOtherComponents = () => {
+      let otherComponentsArr = []
+      otherComponentsArr.push(<BreadCrumbs level={0} name={`小课`} show={false}/>)
+      return otherComponentsArr
+    }
+
     return (
       <div className="rise-main outer-wrapper">
         {/*<ToolBar />*/}
@@ -597,7 +604,7 @@ export default class PlanMain extends React.Component <any, any> {
             </div>
           ),
           (
-            <div className="rise-main" style={{minHeight: window.innerHeight - 80}}>
+            <div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>
               <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
                   { this.renderSidebar(selectProblem) }
@@ -648,6 +655,7 @@ export default class PlanMain extends React.Component <any, any> {
               </div>
             </div>
           ))}
+        {renderOtherComponents()}
       </div>
     );
   }

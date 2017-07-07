@@ -40,7 +40,7 @@ export default class Result extends React.Component <any, any> {
         <div className="container has-footer outer-wrapper">
           <div className="warm-up-result">
             <div className="warm-up-result-head">
-              <BreadCrumbs/>
+              <BreadCrumbs level={1} name="知识理解"/>
               <div className="page-header">{'巩固练习'}</div>
             </div>
             <div className="intro-container">
