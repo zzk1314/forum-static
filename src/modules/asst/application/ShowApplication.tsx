@@ -290,7 +290,7 @@ export default class ShowApplication extends React.Component<any, any> {
     const { data, commentList = [], voteCount, voteStatus, alert } = this.state;
     const {
       title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
-      role, signature, hasMore, desc, knowledgeId, integrated
+      role, signature, hasMore, desc, knowledgeId
     } = data
     const { location } = this.props;
     const applicationId = _.get(location, "query.applicationId");
@@ -383,7 +383,7 @@ export default class ShowApplication extends React.Component<any, any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{ __html: desc }}/>
             </div>
-            { integrated == 'false'?
+            { knowledgeId?
             <div className="knowledge-tip"
                  onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看相关知识
             </div>
