@@ -248,7 +248,7 @@ export default class AnalysisNew extends React.Component <any, any> {
             <div className="container has-footer">
                 <div className="warm-up">
                     <div className="warm-up-head">
-                        <BreadCrumbs/>
+                        <BreadCrumbs level={1} name={`巩固练习`}/>
                         {
                             knowledge ?
                                 <div className="page-header">{knowledge.knowledge}</div> :
