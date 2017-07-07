@@ -42,8 +42,12 @@ export default class BreadCrumbs extends React.Component<BreadCrumbsProps, Bread
     const { level, uri, name } = this.state
     let navList = localStorage.getItem("navList")
     let navListArr = [];
-    if(navList != '') {
-      navListArr = JSON.parse(navList)
+    if(navList) {
+      try {
+        navListArr = JSON.parse(navList)
+      } catch (e) {
+        // pass
+      }
     }
     navListArr[level] = { uri: uri, name: name }
     this.setState({ navListBread: navListArr })
