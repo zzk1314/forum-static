@@ -170,12 +170,3 @@ export function changeTitle(title){
   iframe.addEventListener('load', listener);
   document.body.appendChild(iframe);
 }
-
-/**
- * 生成 导航-面包屑 二维数组
- */
-let navList = []
-// uri 链接，name 当前链接显示名称
-export const generateNavList = (uri, name) => {
-
-}
