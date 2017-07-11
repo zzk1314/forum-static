@@ -114,7 +114,7 @@ const routes = (
       <Route path="/fragment/warmup/result" component={WarmupResult}/>
       <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
       <Route path="/fragment/application" component={Application}/>
-      <Route path="/fragment/challenge" component={Challenge}/>
+      <Route path="" component={Challenge}/>
       <Route path="/fragment/report" component={Report}/>
       <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
       <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
