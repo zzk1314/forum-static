@@ -44,3 +44,7 @@ export function loadAllProblemsAndKnowledges() {
 export function insertWarmupPractice (param){
   return ppost(`/pc/operation/warmup/insert/practice`, param)
 }
+// 根据 practiceUid 获取小课信息
+export function loadWarmupPracticeByPracticeUid(practiceUid) {
+  return pget(`/pc/operation/warmup/load/problem/${practiceUid}`)
+}

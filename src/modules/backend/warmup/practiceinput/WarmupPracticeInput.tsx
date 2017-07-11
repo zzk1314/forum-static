@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from "material-ui";
 import ChoiceEditor from "./inputcomponents/ChoiceEditor";
-import { insertWarmupPractice, loadAllProblemsAndKnowledges } from "../async";
+import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmupPracticeByPracticeUid } from "../async";
 import * as _ from "lodash";
 import "./WarmupPracticeInput.less";
 
@@ -20,8 +20,6 @@ interface WarmupPracticeInputStates {
   sequence: number; // 顺序
   practiceUid: number; // 练习唯一 id，内容团队给出
   example: number; // 是否是例题 0-否 1-是
-  updated: number; // 是否是更新 0-否 1-是
-  // 先选择问题
   problemList: object;
   // 与问题对应的知识点
   knowledgeList: object;
@@ -42,10 +40,6 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
   constructor() {
     super()
     this.state = {
-      type: 2,
-      difficulty: 1,
-      example: 0,
-      updated: 0,
       choices: [],
       choicesCnt: 1,
       problemList: [],
@@ -63,7 +57,7 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
       if(res.code === 200) {
         this.setState({
           problems: msg.problems,
-          knowledges: msg.knowledges
+          knowledges: msg.knowledges,
         })
       }
     })
@@ -73,7 +67,7 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
     const {
       question, type, analysis, pic,
       difficulty, knowledgeId, problemId, sequence,
-      practiceUid, example, updated, problemList, knowledgeList,
+      practiceUid, example, problemList, knowledgeList,
       choices, choicesCnt, problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect
     } = this.state
@@ -89,7 +83,6 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
       sequence: parseInt(_.trim(sequence)),
       practiceUid: _.trim(practiceUid),
       example,
-      updated,
       choices: _.filter(choices, function(choice) {
         return _.trim(choice.subject) != ''
       })
@@ -106,7 +99,7 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
         dispatch(endLoad())
         if(res.code === 200) {
           this.setState({ showSnackBar: true }, () => {
-            setTimeout(() => this.setState({ showSnackBar: false }), 1000)
+            setTimeout(window.location.reload(), 2000)
           })
         } else {
           dispatch(alertMsg(res.msg))
@@ -116,6 +109,37 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
         dispatch(alertMsg(e))
       })
     }
+  }
+
+  loadDefaultWarmupPractice(practiceUid) {
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    loadWarmupPracticeByPracticeUid(_.trim(practiceUid)).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
+        console.log(msg)
+        const targetKnowledges = _.filter(this.state.knowledges, {problemId: msg.problemId})
+        this.setState({
+          question: msg.question,
+          analysis: msg.analysis,
+          problemId: msg.problemId,
+          problemSelect: msg.problemId,
+          knowledgeId: msg.knowledgeId,
+          knowledgeSelect: msg.knowledgeId,
+          knowledgesForSelect: targetKnowledges[0].knowledges,
+          sequence: msg.sequence,
+          type: msg.type,
+          difficulty: msg.difficulty,
+          example: msg.example ? 1 : 0
+        })
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
   }
 
   // 选择题答案 check
@@ -142,7 +166,7 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
     const {
       warmupPractice, question, type, analysis, pic,
       difficulty, knowledgeId, problemId, sequence,
-      practiceUid, example, updated, problemList, knowledgeList,
+      practiceUid, example, problemList, knowledgeList,
       choices, choicesCnt, problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
     } = this.state
@@ -237,6 +261,10 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
           <div className="practice-basis">
             <div className="practice-step">Step2、录入基本要点</div>
             <br/>
+            <div className="pratice-tip">根据 PracticeUid 获取当前其余数据（更改题目时需要）</div>
+            <RaisedButton
+              className="load-practice" label="加载数据" primary={true}
+              onTouchTap={this.loadDefaultWarmupPractice.bind(this, practiceUid)}/>
             <div className="basis-flex-box">
               <TextField
                 hintText="在这里输入练习唯一 id" floatingLabelText=" 练习唯一 id" value={ practiceUid }
@@ -289,29 +317,26 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
           <div className="practice-addition">
             <div className="practice-step">Step5、录入额外信息</div>
             <div className="pratice-tip">1）选择题目类型</div>
-            <RadioButtonGroup name="typeGroup" className="radio-group" defaultSelected="2"
+            <RadioButtonGroup name="typeGroup" className="radio-group"
+                              valueSelected={type}
                               onChange={(ev, value) => this.setState({ type: value })}>
-              <RadioButton value="1" label="单选"/>
-              <RadioButton value="2" label="多选"/>
+              <RadioButton value={1} label="单选"/>
+              <RadioButton value={2} label="多选"/>
             </RadioButtonGroup>
             <div className="pratice-tip">2）选择题目难易度</div>
-            <RadioButtonGroup name="typeGroup" className="radio-group" defaultSelected="1"
+            <RadioButtonGroup name="typeGroup" className="radio-group"
+                              valueSelected={difficulty}
                               onChange={(ev, value) => this.setState({ difficulty: value })}>
-              <RadioButton value="1" label="容易"/>
-              <RadioButton value="2" label="普通"/>
-              <RadioButton value="3" label="困难"/>
+              <RadioButton value={1} label="容易"/>
+              <RadioButton value={2} label="普通"/>
+              <RadioButton value={3} label="困难"/>
             </RadioButtonGroup>
             <div className="pratice-tip">3）该题是否为例题</div>
-            <RadioButtonGroup name="exampleGroup" className="radio-group" defaultSelected="0"
+            <RadioButtonGroup name="exampleGroup" className="radio-group"
+                              valueSelected={example}
                               onChange={(ev, value) => this.setState({ example: value })}>
-              <RadioButton value="0" label="否"/>
-              <RadioButton value="1" label="是"/>
-            </RadioButtonGroup>
-            <div className="pratice-tip">4）该题是否为更新（新题请选否）</div>
-            <RadioButtonGroup name="exampleGroup" className="radio-group" defaultSelected="0"
-                              onChange={(ev, value) => this.setState({ updated: value })}>
-              <RadioButton value="0" label="否"/>
-              <RadioButton value="1" label="是"/>
+              <RadioButton value={0} label="否"/>
+              <RadioButton value={1} label="是"/>
             </RadioButtonGroup>
           </div>
           <RaisedButton
