@@ -29,6 +29,7 @@ router.get("/rise/plan/load", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "msg": {
+        "reportStatus":-1,
         "id": 6925,
         "openid": null,
         "problemId": 16,

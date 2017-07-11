@@ -247,45 +247,58 @@ export default class PlanMain extends React.Component <any, any> {
     mark({ module: "打点", function: "RISE", action: "PC点击升级专业版按钮", memo: "PC" });
   }
 
-  handleClickComplete() {
-    const { dispatch, location } = this.props
-    const { planData = {} } = this.state;
-    const { planId } = location.query
-    const { status, reportStatus } = planData;
+  handleClickGoReport() {
+    const {planId} = this.props.location.query
+    this.context.router.push({
+      pathname: '/fragment/report',
+      query: {planId: planId}
+    });
+  }
 
-    if(reportStatus === 3) {
-      this.context.router.push({
-        pathname: '/fragment/report',
-        query: { planId: planId }
-      });
-    } else if(reportStatus === -1) {
-      dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
-    } else {
-      dispatch(startLoad());
-      completePlan(planId).then(res => {
-        dispatch(endLoad());
-        const { code, msg } = res;
-        if(code === 200) {
-          // 设置完成
-          if(planData.hasProblemScore) {
-            // 已经评分
-            this.handleClickConfirmComplete();
-          } else {
-            // 未评分
-            this.setState({ showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays })
-          }
+  handleClickUnComplete() {
+    const { dispatch } = this.props
+    dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+  }
+
+  handleClickUnMinStudy() {
+    const {dispatch} = this.props;
+    const { mustStudyDays} = this.state
+    dispatch(alertMsg(null, `学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`));
+  }
+
+  handleClickUnReport() {
+    const { dispatch } = this.props
+    dispatch(alertMsg(null, "糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
+  }
+
+  handleClickComplete() {
+    const {dispatch, location} = this.props
+    const {planData = {}} = this.state;
+    const {planId} = location.query
+    dispatch(startLoad());
+    completePlan(planId).then(res => {
+      dispatch(endLoad());
+      const {code, msg} = res;
+      if (code === 200) {
+        // 设置完成
+        if (planData.hasProblemScore) {
+          // 已经评分
+          this.handleClickConfirmComplete();
         } else {
-          if(code === -1) {
-            dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
-          } else {
-            dispatch(alertMsg(msg))
-          }
+          // 未评分
+          this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
         }
-      }).catch(ex => {
-        dispatch(endLoad());
-        dispatch(alertMsg(ex));
-      })
-    }
+      } else {
+        if (code === -1) {
+          dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
   }
 
   handleClickConfirmNextPlan() {
@@ -411,6 +424,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   }
 
+
   renderSection(item, idx) {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
@@ -420,6 +434,55 @@ export default class PlanMain extends React.Component <any, any> {
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
     } = planData
+
+
+    const renderBtnFooter = (item, idx) => {
+      let lastBtn = null;
+      if (item.series === totalSeries) {
+        // 最后一节，显示完成按钮
+        // 对最后一个按钮的渲染
+        if (reportStatus === 1) {
+          // 可以点击完成按钮
+          lastBtn = (
+            <div onClick={()=>this.handleClickComplete()}>完成小课</div>
+          )
+        } else if (reportStatus === 3) {
+          // 已经完成，直接打开学习报告
+          lastBtn = (
+            <div onClick={()=>this.handleClickGoReport()}>学习报告</div>
+          )
+        } else if (reportStatus === 2) {
+          // 未完成最小学习天数
+          lastBtn = (
+            <div className={` disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
+          )
+        } else if (reportStatus === -2) {
+          // 没有完成，需要先完成
+          lastBtn = (
+            <div className={` disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
+          )
+        } else if (reportStatus === -1) {
+          // 开放时间没完成，不能查看学习报告
+          lastBtn = (
+            <div className={` disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
+          )
+        } else {
+          // 默认去调用一下complete接口
+          lastBtn = (
+            <div onClick={()=>this.handleClickComplete()}>完成小课</div>
+          )
+        }
+      }
+      if(lastBtn){
+        return (
+          <div className="submit-btn-footer">
+            {lastBtn}
+          </div>
+        )
+      } else {
+        return null;
+      }
+    }
 
     return (
       <div key={idx}>
@@ -434,22 +497,7 @@ export default class PlanMain extends React.Component <any, any> {
           <div className="list">
             {this.renderPractice(item.practices)}
           </div>
-          {windowsClient ?
-            <div className="submit-btn-footer">
-              <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`}
-                   onClick={() => this.handleChangeSection(item.series - 1)}>上一节
-              </div>
-              { item.series !== totalSeries ?
-                <div className={`right`} onClick={() => this.handleChangeSection(item.series + 1)}>下一节</div> : null }
-              { item.series === totalSeries ?
-                <div className={`right ${reportStatus < 0 ? 'grey' : ''}`} onClick={() => this.handleClickComplete()}>
-                  学习报告</div> : null }
-            </div>
-            : null}
-          { item.series === totalSeries && !windowsClient ?
-            <div className={`submit-btn-footer ${reportStatus < 0 ? 'grey' : ''}`}
-                 onClick={() => this.handleClickComplete()}>
-              学习报告</div> : null}
+          { renderBtnFooter(item, idx) }
           <div className="padding-footer"/>
         </div>
       </div>
