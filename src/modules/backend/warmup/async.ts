@@ -35,3 +35,16 @@ export function saveWarmup(practice) {
 export function loadNextWarmup(problemId, prePracticeId) {
   return pget(`/pc/operation/warmup/next/${problemId}/${prePracticeId}`)
 }
+
+// 获取所有小课和对应知识点集合的列表
+export function loadAllProblemsAndKnowledges() {
+  return pget(`/pc/operation/warmup/load/knowledges`)
+}
+// 插入录入的巩固练习信息
+export function insertWarmupPractice (param){
+  return ppost(`/pc/operation/warmup/insert/practice`, param)
+}
+// 根据 practiceUid 获取小课信息
+export function loadWarmupPracticeByPracticeUid(practiceUid) {
+  return pget(`/pc/operation/warmup/load/problem/${practiceUid}`)
+}

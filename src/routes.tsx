@@ -58,6 +58,7 @@ import UserProtocol from "./modules/fragment/customer/personal/UserProtocol";
 import ReplyKnowledgeDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage";
 import ReplyCommentMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage";
 import ReplyWarmupDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage";
+import WarmupPracticeInput from "./modules/backend/warmup/practiceinput/WarmupPracticeInput";
 
 const routes = (
   <Route path="/">
@@ -80,6 +81,9 @@ const routes = (
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
           <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+        </Route>
+        <Route path="/backend/warmup/newpractice">
+          <Route path="/backend/warmup/practice/input" component={WarmupPracticeInput}/>
         </Route>
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
