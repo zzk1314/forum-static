@@ -65,24 +65,31 @@ export default class Fragment extends React.Component<any, any> {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set("menu", Menus.WARM_UP_MANAGE))
-                  this.context.router.push({pathname: '/backend/warmup/management'})
+                  this.context.router.push({ pathname: '/backend/warmup/management' })
                 }}>巩固练习管理</div> : null
             }
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
+                  this.props.dispatch(set("menu", Menus.WARM_UP_NEWPRACTICE))
+                  this.context.router.push({ pathname: '/backend/warmup/practice/input' })
+                }}>巩固练习新增</div> : null
+            }
+            {
+              window.ENV.isDevelopment ?
+                <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set("menu", Menus.APPLICATION_MANAGE))
-                  this.context.router.push({pathname: "/backend/application/problem/list"})
+                  this.context.router.push({ pathname: "/backend/application/problem/list" })
                 }}>应用练习管理</div> : null
             }
             <div className="catalog-name" onClick={() => {
               this.props.dispatch(set("menu", Menus.WARM_UP_DISCUSS))
-              this.context.router.push({pathname: '/backend/warmup'})
+              this.context.router.push({ pathname: '/backend/warmup' })
             }}>巩固练习评论
             </div>
             <div className="catalog-name" onClick={() => {
               this.props.dispatch(set("menu", Menus.APPLICATION_DISCUSS))
-              this.context.router.push({pathname: '/backend/application/problem/list'})
+              this.context.router.push({ pathname: '/backend/application/problem/list' })
             }}>应用练习评论
             </div>
           </div>
@@ -93,7 +100,7 @@ export default class Fragment extends React.Component<any, any> {
 
           <div className="catalog-area">
             <div className="catalog-name" onClick={() => {
-              this.context.router.push({pathname: '/backend/admin/config'})
+              this.context.router.push({ pathname: '/backend/admin/config' })
             }}>项目配置
             </div>
           </div>

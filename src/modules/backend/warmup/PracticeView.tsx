@@ -157,21 +157,21 @@ export default class practiceView extends React.Component <any, any> {
       )
     }
 
-    const renderElite = (priority) => {
-      if(priority === 0){
+    const renderElite = (priority, id) => {
+      if (priority === 0) {
         return (
-            <div className="function-button" onClick={() => this.highlight(id)}>
-              加精
-            </div>
+          <div className="function-button" onClick={() => this.highlight(id)}>
+            加精
+          </div>
         )
       } else {
         return (
-            <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
-              已加精
-            </div>
+          <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
+            已加精
+          </div>
         )
       }
-    }
+    };
 
     const discussRender = (discuss, idx) => {
       const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority} = discuss
@@ -184,13 +184,13 @@ export default class practiceView extends React.Component <any, any> {
               <div className="comment-time">{discussTime}</div>
               <div className="right">
                 {roleId === 8 || roleId === 9 || roleId === 10 ?
-                    <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
-                : null}
+                  <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
+                  : null}
                 <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
                   回复
                 </div>
                 {roleId === 8 || roleId === 9 || roleId === 10 ?
-                  renderElite(priority) : null}
+                  renderElite(priority, id) : null}
               </div>
             </div>
             <div className="comment-content">{comment}</div>
@@ -199,7 +199,7 @@ export default class practiceView extends React.Component <any, any> {
           </div>
 
         </div>
-      )
+      );
     }
 
     const choiceRender = (choice, idx) => {

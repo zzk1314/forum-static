@@ -14,6 +14,11 @@ router.get("/account/get", (req, res) => {
     }), Math.random() * 1500)
 });
 
+router.get("/account/check/follow", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({"msg":"ok","code":200}), Math.random() * 1500)
+});
+
 router.post("/file/image/upload/**", (req, res) => {
   setTimeout(() => {
     res.status(200).json({

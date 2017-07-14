@@ -41,7 +41,7 @@ export default class Challenge extends React.Component<any, any> {
       }
     }
     dispatch(startLoad())
-    loadChallengePractice(location.query.id).then(res => {
+    loadChallengePractice(location.query.id,location.query.planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -81,7 +81,7 @@ export default class Challenge extends React.Component<any, any> {
       const { code, msg } = res
       if(code === 200) {
         dispatch(startLoad());
-        loadChallengePractice(location.query.id).then(res => {
+        loadChallengePractice(location.query.id,location.query.planId).then(res => {
           dispatch(endLoad());
           const { code, msg } = res
           if(code === 200) {
@@ -129,7 +129,7 @@ export default class Challenge extends React.Component<any, any> {
         <div className="container">
           <div className="challenge">
             <div className="challenge-head">
-              <BreadCrumbs/>
+              <BreadCrumbs level={1} name={`小目标`}/>
               <div className="page-header">{'小目标'}</div>
             </div>
             <div className="intro-container">

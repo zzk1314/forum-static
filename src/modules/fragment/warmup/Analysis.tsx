@@ -347,7 +347,7 @@ export default class Analysis extends React.Component <any, any> {
         <div className="container has-footer">
           <div className="warm-up">
             <div className="warm-up-head">
-              <BreadCrumbs/>
+              <BreadCrumbs level={1} name={`巩固练习`}/>
               {practice[currentIndex] && practice[currentIndex].knowledge ?
                   <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
                   <div className="page-header">综合练习</div>

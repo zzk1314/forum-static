@@ -236,10 +236,7 @@ export default class Comment extends React.Component<any, any> {
         <div className="application-comment">
           <div className="article">
             <div className="article-head">
-              <BreadCrumbs
-                navList={['小课', '应用练习', '评论']}
-                urlList={[`/fragment/application?currentIndex=${currentIndex}&id=${id}&integrated=${integrated}&planId=${planId}&practicePlanId=${practicePlanId}`]}
-              />
+              <BreadCrumbs level={2} name="评论"/>
               <div className="article-header">{topic}</div>
             </div>
             <pre dangerouslySetInnerHTML={{ __html: content }} className="description"/>

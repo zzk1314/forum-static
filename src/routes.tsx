@@ -58,19 +58,8 @@ import UserProtocol from "./modules/fragment/customer/personal/UserProtocol";
 import ReplyKnowledgeDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage";
 import ReplyCommentMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage";
 import ReplyWarmupDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage";
+import WarmupPracticeInput from "./modules/backend/warmup/practiceinput/WarmupPracticeInput";
 
-// 导航栏
-let navList = []
-if(localStorage.getItem("navList")) {
-  navList = localStorage.getItem("navList").split(",")
-}
-const generateNavList = (level) => {
-  for(let i = level; i < navList.length; i++) {
-    navList.splice(i, 1)
-  }
-  navList[level] = window.location.pathname + window.location.search
-  localStorage.setItem("navList", navList)
-}
 const routes = (
   <Route path="/">
     <Route component={Base}>
@@ -92,6 +81,9 @@ const routes = (
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
           <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
+        </Route>
+        <Route path="/backend/warmup/newpractice">
+          <Route path="/backend/warmup/practice/input" component={WarmupPracticeInput}/>
         </Route>
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
@@ -117,26 +109,20 @@ const routes = (
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
-      <Route onEnter={() => generateNavList(0)}>
-        <Route path="/fragment/learn" component={Learn}/>
-        <Route path="/fragment/main" component={Learn}/>
-      </Route>
+      <Route path="/fragment/learn" component={Learn}/>
+      <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/subject" component={Subject}/>
-      <Route onEnter={() => generateNavList(1)}>
-        <Route path="/fragment/problem/view" component={ProblemViewer}/>
-        <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
-        <Route path="/fragment/warmup" component={WarmUp}/>
-        <Route path="/fragment/warmup/result" component={WarmupResult}/>
-        <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
-        <Route path="/fragment/application" component={Application}/>
-        <Route path="/fragment/challenge" component={Challenge}/>
-        <Route path="/fragment/report" component={Report}/>
-        <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
-      </Route>
-      <Route onEnter={() => generateNavList(2)}>
-        <Route path="/fragment/application/comment" component={Comment}/>
-      </Route>
+      <Route path="/fragment/problem/view" component={ProblemViewer}/>
+      <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
+      <Route path="/fragment/warmup" component={WarmUp}/>
+      <Route path="/fragment/warmup/result" component={WarmupResult}/>
+      <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
+      <Route path="/fragment/application" component={Application}/>
+      <Route path="/fragment/challenge" component={Challenge}/>
+      <Route path="/fragment/report" component={Report}/>
+      <Route path="/fragment/warmup/new/analysis" component={AnalysisNew}/>
       <Route path="/fragment/knowledge/review" component={KnowledgeReview}/>
+      <Route path="/fragment/application/comment" component={Comment}/>
       <Route component={Personal}>
         <Route path="/fragment/customer/profile" component={Profile}/>
         <Route path="/fragment/customer/account" component={Account}/>
