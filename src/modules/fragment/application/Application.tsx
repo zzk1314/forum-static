@@ -126,8 +126,7 @@ export default class Application extends React.Component<any, any> {
 
   goComment(submitId) {
     const {id, currentIndex, integrated, practicePlanId} = this.props.location.query;
-    window.open(`/fragment/application/comment?submitId=${submitId}&practicePlanId=${practicePlanId}
-    &integrated=${integrated}&id=${id}&currentIndex=${currentIndex}`, "_blank");
+    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, "_blank");
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
@@ -348,12 +347,14 @@ export default class Application extends React.Component<any, any> {
               edit ?
                 <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
             }
+            {!showOthers ?
+                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
             {showOthers && !isEmpty(otherList) ?
                 <div>
                   <TitleBar content={'同学的作业'}/>
                   {renderList(otherList)}
                 </div> :
-                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div>}
+                null}
             {renderEnd()}
           </div>
         </div>
