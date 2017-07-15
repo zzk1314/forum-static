@@ -128,10 +128,6 @@ export default class Application extends React.Component<any, any> {
     const {id, currentIndex, integrated, practicePlanId} = this.props.location.query;
     window.open(`/fragment/application/comment?submitId=${submitId}&practicePlanId=${practicePlanId}
     &integrated=${integrated}&id=${id}&currentIndex=${currentIndex}`, "_blank");
-    this.context.router.push({
-      pathname: "/fragment/application/comment",
-      query: merge({ submitId: submitId }, this.props.location.query)
-    });
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
