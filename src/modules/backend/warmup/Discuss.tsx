@@ -44,10 +44,10 @@ export default class Discuss extends React.Component<any,any> {
     const {repliedId, warmupPracticeId} = location.query;
     const {content} = this.state
     if (_.isEmpty(content)) {
-      this.showAlert("作业还没写完哦","提示");
+      this.showAlert("作业还没写完哦", "提示");
       return;
     }
-    const param = {comment:content, repliedId, warmupPracticeId}
+    const param = {comment:content, repliedId, warmupPracticeId};
     replyDiscuss(param)
       .then(res => {
       if (res.code === 200) {
@@ -61,10 +61,10 @@ export default class Discuss extends React.Component<any,any> {
           })
         }, 1000);
       } else {
-        this.showAlert(_.toString(res.msg));
+        dispatch(alertMsg(res.msg));
       }
     }).catch((err) => {
-      this.showAlert(_.toString(err));
+      dispatch(alertMsg(err));
     });
   }
 

@@ -66,10 +66,8 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
   submitWarmupPractice() {
     const {
       question, type, analysis, pic,
-      difficulty, knowledgeId, problemId, sequence,
-      practiceUid, example, problemList, knowledgeList,
-      choices, choicesCnt, problems, knowledges, knowledgesForSelect,
-      problemSelect, knowledgeSelect
+      difficulty, sequence, practiceUid, example,
+      choices, problemSelect, knowledgeSelect
     } = this.state
 
     const param = {

@@ -6,9 +6,9 @@ import {BreakSignal, Stop} from "../../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
 import Snackbar from 'material-ui/Snackbar'
+import {SelectField, MenuItem} from 'material-ui'
 import _ from "lodash"
-var $ = require('jquery');
-import {encodeTextAreaString, decodeTextAreaString, decodeTextAreaString3} from "../../../textUtils"
+import {decodeTextAreaString3} from "../../../textUtils"
 import Editor from "../../../../components/editor/Editor"
 import values = require("lodash/values");
 
@@ -42,8 +42,8 @@ export default class practiceView extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props
-    const {id} = location.query
+    const {dispatch, location} = this.props;
+    const {id} = location.query;
     loadWarmUp(id).then(res => {
       if (res.code === 200) {
         this.setState({
@@ -56,50 +56,50 @@ export default class practiceView extends React.Component <any, any> {
   }
 
   onChoiceChange(value, idx) {
-    const {data} = this.state
-    const {choiceList = []} = data
+    const {data} = this.state;
+    const {choiceList = []} = data;
     if (value !== choiceList[idx].subject) {
-      _.set(choiceList[idx], "subject", value)
-      _.set(choiceList[idx], "choiceEdit", false)
+      _.set(choiceList[idx], "subject", value);
+      _.set(choiceList[idx], "choiceEdit", false);
       this.setState({data, edit: true})
     }
   }
 
   onAnswerChange(value, idx) {
-    const {data} = this.state
-    const {choiceList = []} = data
+    const {data} = this.state;
+    const {choiceList = []} = data;
     if (value != choiceList[idx].isRight) {
-      _.set(choiceList[idx], "isRight", value === 'true')
+      _.set(choiceList[idx], "isRight", value === '√');
       this.setState({data, edit: true})
     }
   }
 
   onChoiceEdit(idx) {
-    const {data} = this.state
-    const {choiceList = []} = data
-    _.set(choiceList[idx], "choiceEdit", true)
+    const {data} = this.state;
+    const {choiceList = []} = data;
+    _.set(choiceList[idx], "choiceEdit", true);
     this.setState({data})
   }
 
   save() {
-    const {data, edit} = this.state
+    const {data, edit} = this.state;
     if (this.refs.editor_question) {
-      let editor_question_value = this.refs.editor_question.getValue()
+      let editor_question_value = this.refs.editor_question.getValue();
       if (data.question != editor_question_value) {
-        this.setState({edit: true})
-        _.set(data, "question", editor_question_value)
+        this.setState({edit: true});
+        _.set(data, "question", editor_question_value);
       }
     }
     if (this.refs.editor_analysis) {
-      let editor_analysis_value = this.refs.editor_analysis.getValue()
+      let editor_analysis_value = this.refs.editor_analysis.getValue();
       if (data.analysis != editor_analysis_value) {
-        _.set(data, "analysis", editor_analysis_value)
-        this.setState({edit: true})
+        _.set(data, "analysis", editor_analysis_value);
+        this.setState({edit: true});
       }
     }
     // 保存更新后的题目信息
     saveWarmup(data).then(res => {
-      const {code, msg} = res
+      const {code, msg} = res;
       if (code === 200) {
         this.setState({message: '保存成功', snackOpen: true, saving: false})
       } else {
@@ -112,7 +112,7 @@ export default class practiceView extends React.Component <any, any> {
   }
 
   back() {
-    const {data, edit} = this.state
+    const {data, edit} = this.state;
     if (edit) {
       saveWarmup(data).then(res => {
         this.context.router.push({
@@ -160,15 +160,18 @@ export default class practiceView extends React.Component <any, any> {
     }
 
     const choiceRender = (choice, idx) => {
-      const {id, subject, choiceEdit, isRight} = choice
+      const {id, subject, choiceEdit, isRight} = choice;
       return (
         <div key={id} className={`choice`}>
           <div className="select">
-            <select value={isRight === true ? 'true' : 'false'}
-                    onChange={(e) => this.onAnswerChange(e.currentTarget.value, idx)}>
-              <option value={'true'}>√</option>
-              <option value={'false'}>×</option>
-            </select>
+            <SelectField style={{width:'70'}}
+                floatingLabelText="选项" maxHeight={300}
+                value={isRight === true ? 'true' : 'false'}
+                onChange={(e) => this.onAnswerChange(e.target.textContent, idx)}
+            >
+              <MenuItem key={1} value={'true'} primaryText={'√'}/>
+              <MenuItem key={2} value={'false'} primaryText={'×'}/>
+            </SelectField>
           </div>
           {
             choiceEdit ?

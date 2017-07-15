@@ -69,8 +69,12 @@ export default class practiceView extends React.Component <any, any> {
     }, 1000);
   }
 
-  highlight(id) {
-    const {data} = this.state
+  onHighlight(id){
+    this.setState({highlightOpen:true, id, title:'确认是否加精？'})
+  }
+
+  highlight() {
+    const {data, id} = this.state;
     highlight(id).then(res => {
       if(res.code === 200) {
         this.showAlert('提交成功')
@@ -81,6 +85,7 @@ export default class practiceView extends React.Component <any, any> {
         }
       })
     })
+    this.setState({highlightOpen:false});
   }
 
   reply(warmupPracticeId, repliedId) {
@@ -117,7 +122,7 @@ export default class practiceView extends React.Component <any, any> {
   render() {
     const {data, roleId} = this.state
     const {id} = data
-    let actions = [
+    const actions = [
       {
         label: "确认",
         onClick: this.deleteComment.bind(this, this.state.delDiscussId)
@@ -126,6 +131,19 @@ export default class practiceView extends React.Component <any, any> {
         label: "取消",
         onClick: () => {
           this.setState({delMsgOpen: false})
+        }
+      }
+    ]
+
+    const highlightActions = [
+      {
+        label: "确认",
+        onClick: this.highlight.bind(this)
+      },
+      {
+        label: "取消",
+        onClick: () => {
+          this.setState({highlightOpen: false})
         }
       }
     ]
@@ -160,7 +178,7 @@ export default class practiceView extends React.Component <any, any> {
     const renderElite = (priority, id) => {
       if (priority === 0) {
         return (
-          <div className="function-button" onClick={() => this.highlight(id)}>
+          <div className="function-button" onClick={() => this.onHighlight(id)}>
             加精
           </div>
         )
@@ -217,6 +235,7 @@ export default class practiceView extends React.Component <any, any> {
         {questionRender(data)}
         <Avatar size={40} src="https://www.iqycamp.com/images/discuss.png" style={avatarStyle}
                 backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
+        <AlertMessage title={this.state.title} content={this.state.content} open={this.state.highlightOpen} actions={highlightActions}/>
         <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
         <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论" handleClose={() => this.setState({nodelAuthority: false})}/>
       </div>
