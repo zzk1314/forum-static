@@ -13,6 +13,7 @@ import Editor from "../../../components/editor/Editor"
 import { decodeTextAreaString3 } from "../../textUtils"
 import Snackbar from 'material-ui/Snackbar'
 import {imgSrc} from "../../../utils/imgSrc"
+import AlertMessage from "../../../components/AlertMessage";
 
 export const CommentType = {
   Challenge: 1,
@@ -39,14 +40,14 @@ export default class ApplicationList extends React.Component<any, any> {
       descriptionEditable: false,
       snackOpen: false,
       message: "",
-      saving: false
+      saving: false,
     }
   }
 
   componentWillMount() {
     const {location, dispatch, page} = this.props;
-    const {applicationId} = location.query
-    const {index} = this.state
+    const {applicationId} = location.query;
+    const {index} = this.state;
     const scrollValue = _.get(page, "scroll");
 
     loadApplication(applicationId).then(res => {
@@ -82,16 +83,16 @@ export default class ApplicationList extends React.Component<any, any> {
 
   showAlert(content, title) {
     const {dispatch} = this.props;
-    dispatch(alertMsg(title, content));
+    dispatch(alertMsg(title,content));
     setTimeout(() => {
-      dispatch(set("base.showModal", false));
+      dispatch(set("base.showModal",false));
     }, 1000);
   }
 
   loadMoreContent() {
     const {location, dispatch} = this.props;
-    const {applicationId} = location.query
-    const {index, other} = this.state
+    const {applicationId} = location.query;
+    const {index, other} = this.state;
 
     loadApplicationSubmit(applicationId, index + 1).then(res => {
       if(res.code === 200) {
@@ -112,19 +113,24 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
-  highlight(application, id) {
-    const {other} = this.state
-    highlight(application, id).then(res => {
+  onHighlight(applicationId, submitId){
+    this.setState({open:true, applicationId, submitId, title:'确认是否加精？'})
+  }
+
+  highlight() {
+    const {other, applicationId, submitId} = this.state;
+    highlight(applicationId, submitId).then(res => {
       if(res.code === 200) {
-        this.showAlert('提交成功')
+        this.showAlert('提交成功');
       }
       other.forEach((item) => {
-        if(item.id === id) {
-          _.set(item, 'priority', 1)
+        if(item.id === submitId) {
+          _.set(item, 'priority', 1);
         }
       })
-      this.setState({other})
+      this.setState({other});
     })
+    this.setState({open:false});
   }
 
   showComment(id) {
@@ -140,10 +146,10 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   comment(id) {
-    const {other, comment} = this.state
+    const {other, comment} = this.state;
     submitComment(CommentType.Application, id, comment).then(res => {
       if(res.code === 200) {
-        this.showAlert('提交成功')
+        this.showAlert('提交成功');
       }
       other.forEach((item) => {
         if(item.id === id) {
@@ -233,7 +239,7 @@ export default class ApplicationList extends React.Component<any, any> {
                   </div>
                   <div className="rightArea">
                     {priority === 0 ?
-                      <div className="function-button" onClick={() => this.highlight(applicationId, id)}>
+                      <div className="function-button" onClick={() => this.onHighlight(applicationId, id)}>
                         加精
                       </div> :
                       <div className="function-done">已加精</div> }
@@ -269,6 +275,19 @@ export default class ApplicationList extends React.Component<any, any> {
         </div>
       )
     }
+
+    const actions = [
+      {
+        label: "确认",
+        onClick: this.highlight.bind(this)
+      },
+      {
+        label: "取消",
+        onClick: () => {
+          this.setState({open: false})
+        }
+      }
+    ]
 
     return (
       <div className="applicationListContainer">
@@ -316,6 +335,7 @@ export default class ApplicationList extends React.Component<any, any> {
           open={this.state.snackOpen}
           message={this.state.message}
           autoHideDuration={2000}/>
+        <AlertMessage title={this.state.title} content={this.state.content} open={this.state.open} actions={actions}/>
       </div>
     )
   }

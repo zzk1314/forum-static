@@ -12,7 +12,6 @@ import {
 import Work from "../components/NewWork";
 import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
 import { Work } from "../components/NewWork";
-import Toast from "../../../components/Toast";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 import { ArticleViewModule } from "../../../utils/helpers"
@@ -31,8 +30,6 @@ export default class Application extends React.Component<any, any> {
       submitId: 0,
       page: 0,
       otherList: [],
-      otherHighlightList: [],
-      goBackUrl: '',
       integrated: true,
       showOthers: false,
       editorValue: '',
@@ -67,18 +64,6 @@ export default class Application extends React.Component<any, any> {
           this.autoSaveApplicationDraft();
         }
         dispatch(endLoad());
-        // 如果存在未提交的草稿，则显示提醒toast
-        if(res.msg.draft) {
-          this.setState({ showDraftToast: true }, () => {
-            setTimeout(() => {
-              let draftToast = document.getElementById("main-toast-draft");
-              draftToast.style.opacity = 0;
-            }, 1500);
-            setTimeout(() => {
-              this.setState({ showDraftToast: false });
-            }, 3000);
-          });
-        }
 
         const { content } = msg;
         if(integrated == 'false') {
@@ -140,12 +125,8 @@ export default class Application extends React.Component<any, any> {
   }
 
   goComment(submitId) {
-    const { goBackUrl } = this.state;
-    this.context.router.push({
-      pathname: "/fragment/application/comment",
-      query: merge({ submitId: submitId }, this.props.location.query),
-      state: { goBackUrl }
-    });
+    const {id, currentIndex, integrated, practicePlanId} = this.props.location.query;
+    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, "_blank");
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
@@ -159,21 +140,6 @@ export default class Application extends React.Component<any, any> {
         this.setState({ otherList: newOtherList })
       }
       vote(id);
-    }
-  }
-
-  back() {
-    const { goBackUrl } = this.state;
-    const { location } = this.props;
-    if(goBackUrl) {
-      this.context.router.push({ pathname: goBackUrl });
-    } else {
-      this.context.router.push({
-        pathname: '/rise/static/learn',
-        query: {
-          series: location.query.series
-        }
-      });
     }
   }
 
@@ -250,7 +216,7 @@ export default class Application extends React.Component<any, any> {
 
   render() {
     const {
-      data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end,
+      data, otherList, knowledge = {}, showKnowledge, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId } = data
@@ -329,7 +295,8 @@ export default class Application extends React.Component<any, any> {
             <div className="intro-container">
               <div className="context-img">
                 <AssetImg
-                  url={integrated == 'false' ? 'https://static.iqycamp.com/images/fragment/application_practice_2.png' : 'https://static.iqycamp.com/images/fragment/integrated_practice.png'}
+                  url={integrated == 'false' ? 'https://static.iqycamp.com/images/fragment/application_practice_2.png' :
+                  'https://static.iqycamp.com/images/fragment/integrated_practice.png'}
                   width="60%"/>
               </div>
               <div className="application-context">
@@ -381,27 +348,18 @@ export default class Application extends React.Component<any, any> {
                 <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
             }
             {!showOthers ?
-              <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
-            {showOthers && !isEmpty(otherHighlightList) ? <div>
-              <TitleBar content={'管理员推荐'}/>
-              {renderList(otherHighlightList)}</div> : null}
-            {showOthers && !isEmpty(otherList) ? <div>
-              <TitleBar content={'最新文章'}/>
-              {renderList(otherList)}</div> : null}
+                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
+            {showOthers && !isEmpty(otherList) ?
+                <div>
+                  <TitleBar content={'同学的作业'}/>
+                  {renderList(otherList)}
+                </div> :
+                null}
             {renderEnd()}
           </div>
         </div>
         {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={() => this.closeModal()}/> : null}
 
-        <div className="main-toast">
-          <Toast
-            show={this.state.showDraftToast}
-            id="main-toast-draft"
-          >
-            <div>上次输入的内容未提交哦</div>
-            <div>已自动保存，可以继续编辑啦</div>
-          </Toast>
-        </div>
       </div>
     )
   }

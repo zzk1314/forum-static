@@ -132,8 +132,14 @@ export default class ConfigDetail extends React.Component<any,any> {
 
   }
 
+  newAdd(){
+    this.setState({add:true}, ()=>{
+      document.body.scrollTop = document.querySelector('.add').offsetTop;
+    });
+  }
+
   render() {
-    const {data, alert, add} = this.state
+    const {data, alert, add} = this.state;
 
     const actions = [
       {
@@ -156,7 +162,7 @@ export default class ConfigDetail extends React.Component<any,any> {
                 <div className="idx">{idx}</div>
                 <div className="key">{v.key}</div>
                 <div className="value">
-                  <textarea className="edit-textarea" cols={30} rows={10} readOnly={v.edit?false:true}
+                  <textarea className="edit-textarea" cols={30} rows={10} readOnly={!v.edit}
                             onChange={(e)=>this.onChange(v.key, e.currentTarget.value,idx)} value={v.value} />
                 </div>
                 <div className="icon">
@@ -174,11 +180,11 @@ export default class ConfigDetail extends React.Component<any,any> {
 
     return (
       <div className="backendContent">
-        <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.setState({add:true})}/>
+        <img className="icon-img" src={imgSrc.configAdd} onClick={()=>this.newAdd()}/>
         {renderConfig(data)}
         <Confirm content="确定要删除这个配置吗？" open={alert} actions={actions}/>
         {add?
-        <div>
+        <div className="add">
           <div className="key">
             <textarea className="edit-textarea" cols={30} rows={10} readOnly={false}
                       onChange={(e)=>this.setState({key:e.currentTarget.value}) }/>
