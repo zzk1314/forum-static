@@ -7,7 +7,6 @@ import {addConfig, loadConfig, deleteConfig, updateConfig} from "./async"
 import {imgSrc} from "utils/imgSrc"
 import Divider from 'material-ui/Divider';
 import Confirm from '../../../components/Confirm'
-import {scroll} from '../../../utils/helpers'
 
 
 const style = {
