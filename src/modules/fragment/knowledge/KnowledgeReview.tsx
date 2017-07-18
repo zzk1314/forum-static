@@ -23,6 +23,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props;
+    const {complete , practicePlanId} = location.query;
     dispatch(startLoad())
     loadProblem(location.query.problemId).then(res => {
       const { code, msg } = res
@@ -35,6 +36,9 @@ export default class KnowledgeReview extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    if (complete == 'false') {
+      dispatch(set('completePracticePlanId', practicePlanId));
+    }
   }
 
   goKnowledgeIntro(section) {

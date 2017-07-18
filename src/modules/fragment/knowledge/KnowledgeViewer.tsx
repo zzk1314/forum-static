@@ -15,7 +15,7 @@ import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
 import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
 
 const sequenceMap = {
@@ -51,7 +51,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   componentWillMount() {
     mark({ module: "打点", function: "RISE", action: "PC打开知识点", memo: "PC" })
-    const { id, practicePlanId } = this.props.location.query
+    const { id, practicePlanId, complete } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
     if(practicePlanId) {
@@ -69,6 +69,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           dispatch(alertMsg(res.msg))
         }
       })
+      if (complete == 'false') {
+        dispatch(set('completePracticePlanId', practicePlanId));
+      }
     } else if(id) {
       loadKnowledge(id).then(res => {
         if(res.code === 200) {

@@ -47,9 +47,7 @@ export default class Report extends React.Component<any, any> {
   renderChapterScores() {
     const { planData = {} } = this.state;
     const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, checkStatus
+      chapterList
     } = planData;
     if(chapterList) {
       return chapterList.map((item, key) => {
@@ -58,7 +56,6 @@ export default class Report extends React.Component<any, any> {
           <div className={clazz} key={key}>
             <div className="info">
               <span className="name">{NumberToChinese(item.chapter)}、{item.name}</span>
-              {/*<span className="score"><span className="point number">{item.myWarmScore}</span> / <span className="number">{item.totalWarmScore}</span></span>*/}
               <div className="clear"></div>
             </div>
             <Progress progressStyle={{ width: `${this.state.width - 170}px` }} score={item.myWarmScore}
@@ -74,9 +71,7 @@ export default class Report extends React.Component<any, any> {
   renderApplicationScores() {
     const { planData = {} } = this.state;
     const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount
+      applicationTotalScore, applicationShouldCount, applicationScore, applicationCompleteCount
     } = planData;
     let renderArr = [];
 
@@ -93,19 +88,7 @@ export default class Report extends React.Component<any, any> {
       </div>
     )
 
-    let integrates = (
-      <div className="complete-item first">
-        <div className="info">
-          <span className="name">综合练习完成 <span
-            className="big-point">{integratedCompleteCount}</span> / {integratedShouldCount} 份，得分：</span>
-          <div className="clear"></div>
-        </div>
-        <Progress holderClass="article" progressStyle={{ width: `${this.state.width - 170}px` }} score={integratedScore}
-                  totalScore={integratedTotalScore}/>
-      </div>
-    );
     renderArr.push(applications);
-    renderArr.push(integrates);
     return renderArr;
 
   }
@@ -143,13 +126,6 @@ export default class Report extends React.Component<any, any> {
   }
 
   renderBtns() {
-    const { planData = {}, showConfirmModal } = this.state;
-    const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn
-    } = planData;
-    // if(showNextBtn){
     return (
       <div className="button-footer" onClick={this.goBack.bind(this)}>
         返回
@@ -161,9 +137,7 @@ export default class Report extends React.Component<any, any> {
   render() {
     const { planData = {}, showConfirmModal } = this.state;
     const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore
+      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, votedScore
     } = planData;
 
     return (
@@ -200,7 +174,7 @@ export default class Report extends React.Component<any, any> {
 
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
-              <span className="title">应用练&amp;综合练习</span>
+              <span className="title">应用练习</span>
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">

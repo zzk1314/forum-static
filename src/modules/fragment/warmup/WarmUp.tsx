@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import _ from "lodash";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./WarmUp.less";
-import { answer, getOpenStatus, loadWarmUpAnalysis, openConsolidation } from "./async";
+import { answer, getOpenStatus, loadWarmUpAnalysis } from "./async";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeModal from "../components/KnowledgeModal"
 import { BreadCrumbs } from "../commons/FragmentComponent";
@@ -51,7 +51,7 @@ export default class WarmUp extends React.Component<any, any> {
       if(code === 200) {
         const { practice } = msg;
         if(practice) {
-          let idx = findIndex(practice, (item) => {
+          let idx = _.findIndex(practice, (item) => {
             const { choiceList } = item;
             if(choiceList) {
               return choiceList.filter(choice => choice.selected).length > 0;
@@ -84,7 +84,7 @@ export default class WarmUp extends React.Component<any, any> {
     const curPractice = list.practice[currentIndex]
     let _list = selected
     if(_list.indexOf(choiceId) > -1) {
-      remove(_list, n => n === choiceId)
+      _.remove(_list, n => n === choiceId)
     } else {
       _list.push(choiceId)
     }
@@ -93,7 +93,7 @@ export default class WarmUp extends React.Component<any, any> {
 
   setChoice(cb) {
     let { list, currentIndex, selected } = this.state
-    set(list, `practice.${currentIndex}.choice`, selected)
+    _.set(list, `practice.${currentIndex}.choice`, selected)
     this.setState({ list })
     if(cb) {
       cb(list.practice)
@@ -129,7 +129,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     const { selected, practice, currentIndex, practiceCount, submitting } = this.state;
 
     // 正在提交
@@ -139,7 +139,7 @@ export default class WarmUp extends React.Component<any, any> {
       this.setState({ submitting: true })
     }
 
-    const { practicePlanId } = this.props.location.query;
+    const { practicePlanId, complete } = location.query;
     if(selected.length === 0) {
       dispatch(alertMsg(null, "你还没有选择答案哦"));
       return;
@@ -147,11 +147,14 @@ export default class WarmUp extends React.Component<any, any> {
     if(currentIndex === practiceCount - 1) {
       this.setChoice(p => {
         answer({ practice: p }, practicePlanId).then(res => {
-          const { code, msg } = res
+          const { code, msg } = res;
+          if (complete == 'false') {
+            dispatch(set('completePracticePlanId', practicePlanId));
+          }
           if(code === 200) {
             this.context.router.push({
               pathname: '/fragment/warmup/result',
-              query: merge(msg, this.props.location.query)
+              query: _.merge(msg, location.query)
             })
           } else {
             dispatch(alertMsg(null, "这组训练已经提交过答案啦"));

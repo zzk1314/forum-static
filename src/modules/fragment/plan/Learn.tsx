@@ -13,7 +13,6 @@ import DropChoice from "../../../components/DropChoice";
 import Modal from "../../../components/Modal";
 import AssetImg from "../../../components/AssetImg"
 import SwipeableViews from "../../../components/SwipeableViews"
-import AlertMessage from "../../../components/AlertMessage"
 import "./Learn.less"
 import BreadCrumbs from "../commons/BreadCrumbs/BreadCrumbs";
 
@@ -21,7 +20,7 @@ const typeMap = {
   1: '巩固练习',
   2: '巩固练习',
   11: '应用练习',
-  12: '综合练习',
+  12: '应用练习',
   21: '小目标',
   31: '知识理解',
   32: '知识回顾',
@@ -45,13 +44,8 @@ export default class PlanMain extends React.Component <any, any> {
       expired: false,
       questionList: questionList,
       showedPayTip: false,
-      nextModal: {
-        actions: [
-          { label: '我不听', onClick: () => this.handleClickConfirmComplete(true) },
-          { label: '好的', onClick: () => this.setState({ showWarningModal: false }) }
-        ],
-      },
       showEmptyPage: false,
+      _t: Math.random(),
     }
   }
 
@@ -76,7 +70,8 @@ export default class PlanMain extends React.Component <any, any> {
       let { code, msg } = res
       if(code === 200) {
         if(msg !== null) {
-          this.setState({ planData: msg, currentIndex: msg.currentSeries, selectProblem: msg.problem })
+          this.setState({ planData: msg, currentIndex: msg.currentSeries,
+            selectProblem: msg.problem, mustStudyDays:msg.mustStudyDays })
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/fragment/main' && msg.status === 3) {
             this.setState({ expired: true })
@@ -96,11 +91,6 @@ export default class PlanMain extends React.Component <any, any> {
         dispatch(alertMsg(ex))
       }
     )
-    if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
-      this.setState({ windowsClient: true })
-    } else {
-      this.setState({ windowsClient: false })
-    }
   }
 
   componentDidMount() {
@@ -169,6 +159,12 @@ export default class PlanMain extends React.Component <any, any> {
       }
       return
     }
+
+    // 是否完成
+    let complete = false;
+    if(item.status === 1){
+        complete = true;
+    }
     //已解锁状态
     if(type === 1 || type === 2) {
       let integrated = true
@@ -178,44 +174,64 @@ export default class PlanMain extends React.Component <any, any> {
       if(item.status === 1) {
         this.context ? this.context.router.push({
           pathname: '/fragment/warmup/analysis',
-          query: { practicePlanId, currentIndex, integrated, planId }
+          query: { practicePlanId, currentIndex, integrated, planId, complete }
         }) : null;
       } else {
         this.context ? this.context.router.push({
           pathname: '/fragment/warmup',
-          query: { practicePlanId, currentIndex, integrated, planId }
+          query: { practicePlanId, currentIndex, integrated, planId, complete }
         }) : null;
       }
     } else if(type === 11) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId }
+        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId, complete }
       }) : null;
     } else if(type === 12) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId }
+        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId, complete }
       }) : null;
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/fragment/challenge',
-        query: { id: item.practiceIdList[0], currentIndex, planId }
+        query: { id: item.practiceIdList[0], currentIndex, planId, practicePlanId, complete }
       }) : null;
     } else if(type === 31) {
-      this.context ? this.context.router.push({
-        pathname: '/fragment/knowledge',
-        query: { practicePlanId, currentIndex, planId }
-      }) : null;
-    } else if(type === 32) {
-      learnKnowledge(practicePlanId).then(res => {
-        const { code, msg } = res
-        if(code === 200) {
-          this.context ? this.context.router.push({
-            pathname: '/fragment/knowledge/review',
-            query: { problemId, planId }
-          }) : null;
+        if (!complete){
+            learnKnowledge(practicePlanId).then(res => {
+                const { code, msg } = res
+                if(code === 200) {
+                    this.context ? this.context.router.push({
+                            pathname: '/fragment/knowledge',
+                            query: { practicePlanId, currentIndex, planId, complete }
+                        }) : null;
+                }
+            })
+        } else {
+            this.context ? this.context.router.push({
+                    pathname: '/fragment/knowledge',
+                    query: { practicePlanId, currentIndex, planId, complete }
+                }) : null;
         }
-      })
+    } else if(type === 32) {
+      if (!complete){
+        learnKnowledge(practicePlanId).then(res => {
+            const { code, msg } = res
+            if(code === 200) {
+                this.context ? this.context.router.push({
+                        pathname: '/fragment/knowledge/review',
+                        query: { problemId, planId, practicePlanId, complete }
+                    }) : null;
+            }
+        })
+      } else {
+        this.context ? this.context.router.push({
+                pathname: '/fragment/knowledge/review',
+                query: { problemId, planId, practicePlanId, complete }
+            }) : null;
+      }
+
     }
   }
 
@@ -332,15 +348,10 @@ export default class PlanMain extends React.Component <any, any> {
     });
   }
 
-  handleClickConfirmComplete(force) {
+  handleClickConfirmComplete() {
     const { dispatch, location } = this.props;
     const { planData, mustStudyDays } = this.state
     const { planId } = location.query
-    const { doneAllIntegrated } = planData
-    if(!force && !doneAllIntegrated) {
-      this.setState({ showCompleteModal: false, showWarningModal: true })
-      return
-    }
     this.context.router.push({
       pathname: '/fragment/report',
       query: { planId: planId }
@@ -396,7 +407,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   }
 
-  renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point) {
+  renderModal(openRise, completeSeries, reportStatus, expired, point) {
     let modalList = [];
     modalList.push(
       <Modal show={false}
@@ -412,14 +423,6 @@ export default class PlanMain extends React.Component <any, any> {
         </div>
       </Modal>
     );
-    modalList.push(
-      <AlertMessage { ...this.state.nextModal }
-                    open={!!showWarningModal}
-                    key={1}
-                    handleClose={() => this.setState({ showWarningModal: false })}
-                    content="我们发现你的综合练习还没有完成，这会影响你的学习报告内容,建议先返回完成它们"
-      />
-    );
     return modalList;
 
   }
@@ -427,8 +430,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   renderSection(item, idx) {
     const {
-      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
+      planData
     } = this.state
     const { location } = this.props
     const {
@@ -507,12 +509,8 @@ export default class PlanMain extends React.Component <any, any> {
   renderSidebar() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
-    } = this.state
-    const { location } = this.props
-    const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
-    } = planData
+      selectProblem, riseMember, riseMemberTips, defeatPercent, chapterList, expired, style
+    } = this.state;
 
     if(selectProblem) {
       return (
@@ -560,6 +558,26 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   renderPractice(list = []) {
+    const {_t} = this.state;
+    const {completePracticePlanId} = this.props;
+    const completePracticeRender = (item) => {
+        if (item.status !== 1){
+            return null;
+        }
+        if(completePracticePlanId && completePracticePlanId == item.practicePlanId){
+            return (
+                <div className="practice-complete">
+                    <AssetImg url={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} size={50}/>
+                </div>
+            )
+        } else {
+            return (
+                <div className="practice-complete">
+                    <AssetImg type="complete" size={50}/>
+                </div>
+            )
+        }
+    }
     if(!list) {
       return null
     } else {
@@ -568,26 +586,27 @@ export default class PlanMain extends React.Component <any, any> {
           <div key={index} className="practice-card"
                onClick={() => this.handleClickPracticeSelected(item)}>
             <div className="header">
-              {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                <AssetImg type="warmup" size={50}/> :
-                <AssetImg type="warmup_complete" size={50}/> : null
-              }
-              {item.type === 11 ? item.status !== 1 ?
-                <AssetImg type="application" size={50}/> :
-                <AssetImg type="application_complete" size={50}/> : null
-              }
-              {item.type === 12 ? item.status !== 1 ?
-                <AssetImg type="integrated" size={50}/> :
-                <AssetImg type="integrated_complete" size={50}/> : null
-              }
-              {item.type === 21 ? item.status !== 1 ?
-                <AssetImg type="challenge" size={50}/> :
-                <AssetImg type="challenge_complete" size={50}/> : null
-              }
-              {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                <AssetImg type="knowledge" size={50}/> :
-                <AssetImg type="knowledge_complete" size={50}/> : null
-              }
+                <div className="practice-thumb">
+                    {item.type === 1 || item.type === 2 ? item.status !== 1 ?
+                            <AssetImg type="warmup" size={50}/> :
+                            <AssetImg type="warmup_complete" size={50}/> : null
+                    }
+                    {item.type === 11 || item.type === 12 ? item.status !== 1 ?
+                            <AssetImg type="application" size={50}/> :
+                            <AssetImg type="application_complete" size={50}/> : null
+                    }
+                    {item.type === 21 ? item.status !== 1 ?
+                            <AssetImg type="challenge" size={50}/> :
+                            <AssetImg type="challenge_complete" size={50}/> : null
+                    }
+                    {item.type === 31 || item.type === 32 ? item.status !== 1 ?
+                            <AssetImg type="knowledge" size={50}/> :
+                            <AssetImg type="knowledge_complete" size={50}/> : null
+                    }
+                </div>
+                {
+                    completePracticeRender(item)
+                }
             </div>
             {item.unlocked === false ?
               <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
@@ -597,7 +616,6 @@ export default class PlanMain extends React.Component <any, any> {
             </div>
             <div className="footer">
               {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-              {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
             </div>
           </div>
         )
@@ -608,7 +626,7 @@ export default class PlanMain extends React.Component <any, any> {
   render() {
     const {
       currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired, style
+      selectProblem, riseMember, riseMemberTips, defeatPercent, chapterList, expired, style
     } = this.state
     const { location } = this.props
     const {
@@ -635,7 +653,7 @@ export default class PlanMain extends React.Component <any, any> {
           />
         )}
         {/* 各种弹框 */}
-        {this.renderModal(openRise, completeSeries, reportStatus, showWarningModal, expired, point)}
+        {this.renderModal(openRise, completeSeries, reportStatus, expired, point)}
         {/* 主页面内容 */}
         {renderExist(
           showEmptyPage,
@@ -655,7 +673,7 @@ export default class PlanMain extends React.Component <any, any> {
             <div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>
               <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
-                  { this.renderSidebar(selectProblem) }
+                  { this.renderSidebar() }
                 </div>
 
                 <div className="side-bar-content">
@@ -694,7 +712,7 @@ export default class PlanMain extends React.Component <any, any> {
                                         onTransitionEnd={() => this.handleSwipeTransitionEnd()}
                                         onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
                           {renderExist(sections, sections.map((item, idx) => {
-                            return this.renderSection(item, idx, windowsClient, totalSeries)
+                            return this.renderSection(item, idx)
                           }))}
                         </SwipeableViews>
                       </div>
