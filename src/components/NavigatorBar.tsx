@@ -113,7 +113,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
                     onClick={() => this.handleClickNav(NavType.Home)}>首页
             </button>
             <button className={`nav-item ${activeNav === NavType.Rise ? 'active' : ''}`}
-                    onClick={() => this.handleClickNav(NavType.Rise)}>RISE
+                    onClick={() => this.handleClickNav(NavType.Rise)}>圈外同学
             </button>
           </div>
           {
