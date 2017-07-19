@@ -32,7 +32,8 @@ export default class KnowledgeModal extends React.Component<any, any> {
   render() {
     const { knowledge } = this.props
     const { showTip } = this.state
-    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
+    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
+        analysisAudio, meansAudio, keynoteAudio} = knowledge
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
@@ -66,6 +67,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
+                {analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
                 <div className="text">
                   <pre>{analysis}</pre>
                 </div>
@@ -77,6 +79,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                 </div>
+                {meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
                 <div className="text">
                   <pre>{means}</pre>
                 </div>
@@ -88,6 +91,7 @@ export default class KnowledgeModal extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
+                {keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
                 <div className="text">
                   <pre>{keynote}</pre>
                 </div>

@@ -141,7 +141,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/ability.png"/>
               </div>
-              <div className="text">在RISE，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：</div>
+              <div className="text">在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：</div>
               <div className="context-title-img">
                 <AssetImg width={'60%'} url={categoryPic} marginTop="25"/>
               </div>
@@ -166,7 +166,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/when_2.png"/>
               </div>
               <div className="text">随开随学，进度自控</div>
-              <div className="text">教研团队的推荐进度：每天1节，保证学习效果</div>
+              <div className="text">教研团队的推荐进度：2天学习1节，第1天：知识点学习、巩固练习，第2天：2个应用练习</div>
 
               <div className="text">
                 <div className="time-tip-content"><b>开放时长：</b>30天
@@ -182,9 +182,9 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">随时随地，多客户端</div>
-              <div className="text"><b>手机微信：</b>圈外学习号-RISE</div>
-              <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE</div>
-              <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>
+              <div className="text"><b>手机微信：</b>圈外同学-上课啦</div>
+              <div className="text"><b>网站：</b>www.iquanwai.com，点击圈外同学</div>
+              {/*<div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>*/}
             </div>
           </div>
         </div>

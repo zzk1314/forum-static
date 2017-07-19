@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./Challenge.less";
 import { loadChallengePractice, submitChallengePractice } from "./async";
 import { ArticleViewModule } from "../../../utils/helpers"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import Work from "../components/NewWork";
 import Editor from "../../../components/editor/Editor";
 import AssetImg from "../../../components/AssetImg";
@@ -70,6 +70,7 @@ export default class Challenge extends React.Component<any, any> {
   onSubmit() {
     const { dispatch, location } = this.props;
     const { data, planId } = this.state;
+    const {complete, practicePlanId} = location.query;
     const answer = this.refs.editor.getValue();
     const { submitId } = data;
     if(answer == null || answer.length === 0) {
@@ -80,6 +81,9 @@ export default class Challenge extends React.Component<any, any> {
     submitChallengePractice(planId, location.query.id, { answer }).then(res => {
       const { code, msg } = res
       if(code === 200) {
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
+        }
         dispatch(startLoad());
         loadChallengePractice(location.query.id,location.query.planId).then(res => {
           dispatch(endLoad());

@@ -89,7 +89,7 @@ export default class Plan extends React.Component<any, PlanStates> {
         return this.generatePlansView(runningPlans)
       } else {
         return (
-          <div className="plan-tip">请先去微信”圈外学习号“选择一门小课吧</div>
+          <div className="plan-tip">请先去微信”圈外同学“选择一门小课吧</div>
         )
       }
     }
@@ -124,7 +124,7 @@ export default class Plan extends React.Component<any, PlanStates> {
         <div className="qr-code">
           <div className="tip-top">扫码关注</div>
           <AssetImg url="https://static.iqycamp.com/images/serverQrCode.jpg?imageslim" size={282}/>
-          <div className="tip-bottom">扫一扫关注 “圈外学习号”</div>
+          <div className="tip-bottom">扫一扫关注 “圈外同学”</div>
         </div>
       )
     }

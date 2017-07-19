@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions"
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import "./Application.less";
 import AssetImg from "../../../components/AssetImg";
 import Editor from "../../../components/editor/Editor";
@@ -10,7 +10,7 @@ import {
   autoUpdateApplicationDraft
 } from "./async";
 import Work from "../components/NewWork";
-import { findIndex, remove, isEmpty, isBoolean, merge, set } from "lodash";
+import _ from "lodash";
 import { Work } from "../components/NewWork";
 import KnowledgeModal from  "../components/KnowledgeModal"
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
@@ -83,7 +83,7 @@ export default class Application extends React.Component<any, any> {
         dispatch(alertMsg(msg))
       }
     }).catch(ex => {
-      console.error(ex);
+      dispatch(alertMsg(ex))
     })
 
     getOpenStatus().then(res => {
@@ -132,11 +132,11 @@ export default class Application extends React.Component<any, any> {
   voted(id, voteStatus, voteCount, isMine, seq) {
     if(!voteStatus) {
       if(isMine) {
-        this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
+        this.setState({ data: _.merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
       } else {
-        let newOtherList = merge([], this.state.otherList);
-        set(newOtherList, `[${seq}].voteCount`, voteCount + 1);
-        set(newOtherList, `[${seq}].voteStatus`, 1);
+        let newOtherList = _.merge([], this.state.otherList);
+        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1);
+        _.set(newOtherList, `[${seq}].voteStatus`, 1);
         this.setState({ otherList: newOtherList })
       }
       vote(id);
@@ -148,7 +148,7 @@ export default class Application extends React.Component<any, any> {
     openApplication().then(res => {
       const { code, msg } = res;
       if(code === 200) {
-        this.setState({ openStatus: merge({}, openStatus, { openApplication: true }) })
+        this.setState({ openStatus: _.merge({}, openStatus, { openApplication: true }) })
       }
     })
   }
@@ -160,8 +160,8 @@ export default class Application extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ loading: false });
         if(res.msg && res.msg.list && res.msg.list.length !== 0) {
-          remove(res.msg.list, (item) => {
-            return findIndex(this.state.otherList, item) !== -1;
+          _.remove(res.msg.list, (item) => {
+            return _.findIndex(this.state.otherList, item) !== -1;
           })
           this.setState({
             otherList: this.state.otherList.concat(res.msg.list),
@@ -182,16 +182,19 @@ export default class Application extends React.Component<any, any> {
   onSubmit() {
     const { dispatch, location } = this.props;
     const { data, planId } = this.state;
+    const {complete, practicePlanId} = location.query;
     const answer = this.refs.editor.getValue();
-    const { submitId } = data;
     if(answer == null || answer.length === 0) {
-      dispatch(alertMsg(null, "先写内容再提交哦"))
+      dispatch(alertMsg(null, "先写内容再提交哦"));
       return;
     }
     this.setState({ showDisable: true });
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
       const { code, msg } = res;
       if(code === 200) {
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
+        }
         loadApplicationPractice(location.query.id, planId).then(res => {
           const { code, msg } = res;
           if(code === 200) {
@@ -219,7 +222,7 @@ export default class Application extends React.Component<any, any> {
       data, otherList, knowledge = {}, showKnowledge, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId } = data
+    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
 
     const renderList = (list) => {
       if(list) {
@@ -294,10 +297,9 @@ export default class Application extends React.Component<any, any> {
             </div>
             <div className="intro-container">
               <div className="context-img">
-                <AssetImg
-                  url={integrated == 'false' ? 'https://static.iqycamp.com/images/fragment/application_practice_2.png' :
-                  'https://static.iqycamp.com/images/fragment/integrated_practice.png'}
-                  width="60%"/>
+                {pic ? <AssetImg url={pic}/> :
+                    <AssetImg
+                        url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
               </div>
               <div className="application-context">
                 <div className="section1">
@@ -349,7 +351,7 @@ export default class Application extends React.Component<any, any> {
             }
             {!showOthers ?
                 <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
-            {showOthers && !isEmpty(otherList) ?
+            {showOthers && !_.isEmpty(otherList) ?
                 <div>
                   <TitleBar content={'同学的作业'}/>
                   {renderList(otherList)}
