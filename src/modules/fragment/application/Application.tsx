@@ -222,7 +222,7 @@ export default class Application extends React.Component<any, any> {
       data, otherList, knowledge = {}, showKnowledge, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId } = data
+    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
 
     const renderList = (list) => {
       if(list) {
@@ -297,9 +297,9 @@ export default class Application extends React.Component<any, any> {
             </div>
             <div className="intro-container">
               <div className="context-img">
-                <AssetImg
-                  url='https://static.iqycamp.com/images/fragment/application_practice_2.png'
-                  width="60%"/>
+                {pic ? <AssetImg url={pic}/> :
+                    <AssetImg
+                        url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
               </div>
               <div className="application-context">
                 <div className="section1">

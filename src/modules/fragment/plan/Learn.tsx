@@ -567,7 +567,7 @@ export default class PlanMain extends React.Component <any, any> {
         if(completePracticePlanId && completePracticePlanId == item.practicePlanId){
             return (
                 <div className="practice-complete">
-                    <img src={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} width={50}/>
+                    <img src={`https://static.iqycamp.com/images/complete_practice.gif?_t=${_t}`} width={50}/>
                 </div>
             )
         } else {

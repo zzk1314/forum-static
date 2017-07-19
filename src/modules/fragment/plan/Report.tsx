@@ -183,7 +183,7 @@ export default class Report extends React.Component<any, any> {
               获得 <span className="big-point">{votedScore}</span> 积分 <span className="tips">（1被赞=2积分）</span>
             </div>
           </div>
-          <div className="tips">选课需要在微信”圈外学习号“中操作哦</div>
+          <div className="tips">选课需要在微信”圈外同学“中操作哦</div>
           <div className="padding-footer" style={{ height: '80px' }}/>
         </div>
       </div>
