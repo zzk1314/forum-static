@@ -97,7 +97,7 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
         dispatch(endLoad())
         if(res.code === 200) {
           this.setState({ showSnackBar: true }, () => {
-            setTimeout(window.location.reload(), 2000)
+            this.clear();
           })
         } else {
           dispatch(alertMsg(res.msg))
@@ -158,6 +158,30 @@ export default class WarmupPracticeInput extends React.Component<any, WarmupPrac
     if(choicesCnt >= 1) {
       this.setState({ choicesCnt: choicesCnt - 1 })
     }
+  }
+
+  clear(){
+    this.setState({
+    question: '',
+    type: null,
+    analysis: '',
+    pic: null,
+    difficulty: null,
+    knowledgeId: null,
+    sceneId: 1,
+    problemId: null,
+    sequence: null,
+    practiceUid: '',
+    example: null,
+    problemList: [],
+    knowledgeList: [],
+    choices: [],
+    choicesCnt: 1,
+    knowledgesForSelect: [],
+    problemSelect: null,
+    knowledgeSelect: null,
+    showSnackBar: false,
+    })
   }
 
   render() {

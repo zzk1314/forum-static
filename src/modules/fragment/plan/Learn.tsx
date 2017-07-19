@@ -113,6 +113,7 @@ export default class PlanMain extends React.Component <any, any> {
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
     const { dispatch } = this.props;
+    dispatch(set("completePracticePlanId", undefined));
     dispatch(set("showHomeIcon", true));
   }
 
@@ -350,8 +351,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   handleClickConfirmComplete() {
     const { dispatch, location } = this.props;
-    const { planData, mustStudyDays } = this.state
-    const { planId } = location.query
+    const { planId } = location.query;
     this.context.router.push({
       pathname: '/fragment/report',
       query: { planId: planId }
@@ -490,7 +490,7 @@ export default class PlanMain extends React.Component <any, any> {
       <div key={idx}>
         <div className="plan-progress">
           <div className="intro">
-            <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
+            <div className="intro-chapter">{'第'+NumberToChinese(item.chapter)+'章'}{'、 '}{item.chapterName}</div>
             <div className="bar"/>
           </div>
           <div className="intro-section">{item.chapter + '.' + item.section}{' '}{item.name}</div>
@@ -526,7 +526,7 @@ export default class PlanMain extends React.Component <any, any> {
                   <div className="cell">
                     <div className="chapter">
                       <div>
-                        <div className="label">{NumberToChinese(item.chapterId)}、</div>
+                        <div className="label">{'第'+NumberToChinese(item.chapterId)+'章'}</div>
                         <div className="str">{item.chapter}</div>
                       </div>
                     </div>
@@ -567,7 +567,7 @@ export default class PlanMain extends React.Component <any, any> {
         if(completePracticePlanId && completePracticePlanId == item.practicePlanId){
             return (
                 <div className="practice-complete">
-                    <AssetImg url={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} size={50}/>
+                    <img src={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} width={50}/>
                 </div>
             )
         } else {
