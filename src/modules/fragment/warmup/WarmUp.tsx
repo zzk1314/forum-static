@@ -71,11 +71,11 @@ export default class WarmUp extends React.Component<any, any> {
       dispatch(alertMsg(ex));
     });
 
-    getOpenStatus().then(res => {
-      if(res.code === 200) {
-        this.setState({ openStatus: res.msg });
-      }
-    })
+    // getOpenStatus().then(res => {
+    //   if(res.code === 200) {
+    //     this.setState({ openStatus: res.msg });
+    //   }
+    // })
 
   }
 

@@ -25,7 +25,7 @@ export function loadWarmUpAnalysisNew(warmupPracticeId) {
 }
 
 export function getOpenStatus(){
-  return pget('/rise/plan/open/status');
+  return pget('/rise/open/status');
 }
 
 export function openConsolidation(){
