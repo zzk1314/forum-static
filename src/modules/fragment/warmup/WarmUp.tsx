@@ -235,7 +235,7 @@ export default class WarmUp extends React.Component<any, any> {
               <div className="has-footer" ref={'warmup'}>
                 <div>
                   <div className="warm-up-head">
-                    <BreadCrumbs level={1} name={`巩固练习`}/>
+                    <BreadCrumbs level={1} name={`选择题`}/>
                     {practice[currentIndex] && practice[currentIndex].knowledge ?
                       <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
                         <div className="page-header">综合练习</div>

@@ -17,12 +17,12 @@ import "./Learn.less"
 import BreadCrumbs from "../commons/BreadCrumbs/BreadCrumbs";
 
 const typeMap = {
-  1: '巩固练习',
-  2: '巩固练习',
-  11: '应用练习',
-  12: '应用练习',
+  1: '选择题',
+  2: '选择题',
+  11: '应用题',
+  12: '应用题',
   21: '小目标',
-  31: '知识理解',
+  31: '知识点',
   32: '知识回顾',
 }
 

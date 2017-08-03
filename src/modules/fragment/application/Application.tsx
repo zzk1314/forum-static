@@ -292,7 +292,7 @@ export default class Application extends React.Component<any, any> {
         <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="application">
             <div className="application-head">
-              <BreadCrumbs level={1} name={`应用练习`}/>
+              <BreadCrumbs level={1} name={`应用题`}/>
               <div className="page-header">{topic}</div>
             </div>
             <div className="intro-container">

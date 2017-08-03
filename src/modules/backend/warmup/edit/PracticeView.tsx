@@ -185,7 +185,7 @@ export default class practiceView extends React.Component <any, any> {
 
     return (
       <div className="warm-up-edit">
-        <Subheader>巩固练习</Subheader>
+        <Subheader>选择题</Subheader>
         {questionRender(data)}
 
         <div className="submitArea">

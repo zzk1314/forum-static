@@ -81,7 +81,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
     return (
       <div className="problem-detail">
         <div className="problem-head">
-          <BreadCrumbs level={1} name="知识理解"/>
+          <BreadCrumbs level={1} name="知识回顾"/>
           <div className="problem-header">知识回顾</div>
         </div>
         <div className="detail-header click" style={{ marginBottom: '10px', borderBottom: "none" }}

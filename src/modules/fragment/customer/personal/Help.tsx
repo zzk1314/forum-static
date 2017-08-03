@@ -42,7 +42,7 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
                 <p>-在屏幕下部「练习区」左右滑动即可</p><br/>
 
                 <p className="q">-我学完这节了，为什么还是启动不了下一节呢？</p>
-                <p>-每一节学完之后就直接能够进入下一节啦。但是需要保证上一节的「知识理解」和「巩固练习」的图标都标上了“√”哦（PS：「知识理解」务必点击“标记完成”哦）</p><br/>
+                <p>-每一节学完之后就直接能够进入下一节啦。但是需要保证上一节的「知识点」和「选择题」的图标都标上了“√”哦</p><br/>
 
                 <p className="q">-可以在电脑端完成圈外小课练习吗？</p>
                 <p>-可以登录www.iquanwai.com/community完成</p>

@@ -166,7 +166,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/when_2.png"/>
               </div>
               <div className="text">随开随学，进度自控</div>
-              <div className="text">教研团队的推荐进度：2天学习1节，第1天：知识点学习、巩固练习，第2天：2个应用练习</div>
+              <div className="text">教研团队的推荐进度：2天学习1节，第1天：知识点学习、选择题，第2天：2个应用题</div>
 
               <div className="text">
                 <div className="time-tip-content"><b>开放时长：</b>30天

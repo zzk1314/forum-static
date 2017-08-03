@@ -111,7 +111,7 @@ export default class ShowApplication extends React.Component<any, any> {
     if(isMine && planId && applicationId) {
       this.context.router.push({
         pathname: "/fragment/application",
-        query: { planId: planId, applicationId: applicationId }
+        query: { planId: planId, id: applicationId }
       })
     } else {
       console.error("返回失败，出现异常");

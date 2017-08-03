@@ -142,7 +142,7 @@ export default class ApplicationList extends React.Component<any,any> {
               <CommentTip todayComment ={todayComment} totalComment={totalComment}/>:null
           }
           <div className="titleContainer">
-            <div className="title">应用练习</div>
+            <div className="title">应用题</div>
           </div>
           <div className="list">
             {otherLoading?<VerticalBarLoading/>:

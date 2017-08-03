@@ -85,15 +85,8 @@ export default class Catalog extends React.Component<any,any> {
 
     return (
         <div className="catalog">
-          {/*<div onClick={()=>this.goSubject()} className="item-container" style={{cursor: 'pointer'}}>*/}
-            {/*<div className="title subject">小课论坛</div>*/}
-            {/*<div className="content">深度好文·遇见大咖·分享心得</div>*/}
-            {/*<div className="detail">*/}
-              {/*<div className="go">记录更多</div>*/}
-            {/*</div>*/}
-          {/*</div>*/}
           <div className="item-container">
-            <div className="title app">应用练习</div>
+            <div className="title app">应用题</div>
             <div className="app-container">
               {applicationList.map((item,seq) =>{
                     return (

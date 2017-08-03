@@ -231,7 +231,7 @@ export default class practiceView extends React.Component <any, any> {
 
     return (
       <div className="warm-up-analysis">
-        <Subheader>巩固练习</Subheader>
+        <Subheader>选择题</Subheader>
         {questionRender(data)}
         <Avatar size={40} src="https://www.iqycamp.com/images/discuss.png" style={avatarStyle}
                 backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>

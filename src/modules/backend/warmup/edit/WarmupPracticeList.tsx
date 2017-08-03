@@ -86,7 +86,7 @@ export default class WarmupPracticeList extends React.Component<any, any> {
 
     return (
       <div className="practice-view">
-        <Subheader>巩固练习</Subheader>
+        <Subheader>选择题</Subheader>
         {renderPractice(practiceList)}
       </div>
     )
