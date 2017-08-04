@@ -80,10 +80,10 @@ export default class Audio extends React.Component<any, any> {
       }, 500)
     } else {
       // 重头开始播放
-      if(this.state.currentSecond === this.state.duration){
+      if(Math.floor(this.state.currentSecond) === this.state.duration){
         this.setState({currentSecond:0})
       }
-      this.play();
+      this.play()
     }
   }
 
