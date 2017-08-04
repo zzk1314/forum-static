@@ -1,8 +1,6 @@
 import * as React from "react";
 import "./Audio.less";
-// import Slider from "react-rangeslider";
-import Slider from "react-rangeslider/lib/Rangeslider";
-
+import Slider from "react-rangeslider";
 import AssetImg from "./AssetImg";
 
 let timer;
@@ -25,46 +23,47 @@ export default class Audio extends React.Component<any, any> {
       playing: false,
       pause: false,
       loading: false,
+      start: false,
     }
   }
 
   componentWillMount() {
     if(window.navigator.userAgent.indexOf("Android") > 0) {
-      this.setState({device: Device.ANDROID})
+      this.setState({ device: Device.ANDROID })
     } else if(window.navigator.userAgent.indexOf("iPhone") > 0 || window.navigator.userAgent.indexOf("iPad") > 0) {
-      this.setState({device: Device.IPHONE})
+      this.setState({ device: Device.IPHONE })
     } else {
-      this.setState({device: Device.OTHER})
+      this.setState({ device: Device.OTHER })
     }
   }
 
-  componentDidMount(){
-    const {device} = this.state
-    // alert(window.navigator.userAgent)
-    if(device == Device.ANDROID){
-      try{
+  componentDidMount() {
+    const { device } = this.state
+    if(device == Device.ANDROID) {
+      try {
         //华为某些机型不支持https的语音
-        this.refs.sound.src = this.refs.sound.src.replace('https','http')
+        this.refs.sound.src = this.refs.sound.src.replace('https', 'http')
         this.refs.sound.load()
-      }catch (e){
+      } catch(e) {
         alert(e)
       }
+
     }
   }
 
   onEnd() {
-    this.setState({currentSecond: this.state.duration, playing: false})
+    this.setState({ currentSecond: this.state.duration, playing: false })
     clearInterval(timer)
   }
 
   start() {
     let self = this
     // 首次点击播放按钮
-    this.setState({playing: true})
+    this.setState({ playing: true, start: true })
     // 首次加载
-    if(this.state.duration === 0) {
+    if(this.state.duration === 0 && !this.state.start) {
       // 加载音频
-      this.setState({loading: true})
+      this.setState({ loading: true })
       self.refs.sound.load()
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
@@ -75,16 +74,16 @@ export default class Audio extends React.Component<any, any> {
         self.refs.sound.play()
         self.refs.sound.pause()
         if(self.refs.sound.duration) {
-          self.setState({duration: Math.floor(self.refs.sound.duration), loading: false})
+          self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false })
           self.play()
         }
       }, 500)
     } else {
-      // 暂停后重新播放
-      if(this.state.pause) {
-        this.play()
-        this.setState({pause: false})
+      // 重头开始播放
+      if(this.state.currentSecond === this.state.duration){
+        this.setState({currentSecond:0})
       }
+      this.play();
     }
   }
 
@@ -93,22 +92,22 @@ export default class Audio extends React.Component<any, any> {
     if(timer) {
       clearInterval(timer)
     }
-    this.setState({playing: true}, () => {
+    this.setState({ playing: true, pause: false }, () => {
       self.refs.sound.play()
       timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
           //设置已播放时长
-          self.setState({currentSecond: self.refs.sound.currentTime})
+          self.setState({ currentSecond: self.refs.sound.currentTime })
         } else {
-          this.setState({playing: false})
           clearInterval(timer)
+          this.setState({ playing: false })
         }
       }, 100)
     })
   }
 
   pause() {
-    this.setState({playing: false, pause: true})
+    this.setState({ playing: false, pause: true })
     clearInterval(timer)
     this.refs.sound.pause()
   }
@@ -120,7 +119,7 @@ export default class Audio extends React.Component<any, any> {
       return
     }
     clearInterval(timer)
-    this.setState({playing: true, currentSecond: value}, () => {
+    this.setState({ playing: true, currentSecond: value }, () => {
       this.refs.sound.currentTime = value
       this.play()
     })
@@ -135,7 +134,7 @@ export default class Audio extends React.Component<any, any> {
 
   //使用定制化audio组件
   renderCustomize(url) {
-    const {currentSecond, playing, duration, loading} = this.state
+    const { currentSecond, playing, duration, loading } = this.state
     return (
       <div className="audio">
         <div className="audio-container">
@@ -167,7 +166,7 @@ export default class Audio extends React.Component<any, any> {
   }
 
   render() {
-    const {url} = this.props
+    const { url } = this.props
     return (
       this.state.device === Device.ANDROID
         ? this.renderOrigin(url)
