@@ -79,14 +79,11 @@ export default class Audio extends React.Component<any, any> {
         }
       }, 500)
     } else {
-      // 暂停后重新播放
-      if(this.state.pause) {
-        this.play()
-        this.setState({ pause: false })
-      } else if(this.state.currentSecond === 0) {
-        // 重头开始播放
-        this.play();
+      // 重头开始播放
+      if(this.state.currentSecond === this.state.duration){
+        this.setState({currentSecond:0})
       }
+      this.play();
     }
   }
 
@@ -95,15 +92,15 @@ export default class Audio extends React.Component<any, any> {
     if(timer) {
       clearInterval(timer)
     }
-    this.setState({ playing: true }, () => {
+    this.setState({ playing: true, pause: false }, () => {
       self.refs.sound.play()
       timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
           //设置已播放时长
           self.setState({ currentSecond: self.refs.sound.currentTime })
         } else {
-          this.setState({ playing: false, currentSecond: 0 })
           clearInterval(timer)
+          this.setState({ playing: false })
         }
       }, 100)
     })
