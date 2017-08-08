@@ -113,10 +113,6 @@ export default class ApplicationList extends React.Component<any, any> {
     const problemId = _.get(location.query, 'problemId')
 
     window.open(`/asst/application/view?submitId=${submitId}&problemId=${problemId}&type=asst`, '_blank')
-    // this.context.router.push({
-    //   pathname: '/asst/application/view',
-    //   query: { submitId: submitId, problemId: problemId, type: 'asst' }
-    // })
   }
 
   onClickSearchWorks() {
