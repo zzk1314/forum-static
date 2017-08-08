@@ -97,6 +97,7 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(newProps) {
+    this.setState({ search: []})
     if(this.props.location.query.problemId !== newProps.location.query.problemId) {
       this.componentWillMount(newProps.location.query.problemId)
     }
@@ -119,7 +120,6 @@ export default class ApplicationList extends React.Component<any, any> {
     const { dispatch } = this.props
     let nickName = document.getElementById('nickName').value
     loadApplicationListByNickName(problemId, nickName).then(res => {
-      console.log(res)
       if(res.code === 200) {
         this.setState({ search: res.msg })
       } else {
