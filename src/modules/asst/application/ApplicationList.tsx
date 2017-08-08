@@ -97,8 +97,11 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({ search: []})
-    if(this.props.location.query.problemId !== newProps.location.query.problemId) {
+    const { problemId } = newProps.location.query
+    if(this.props.location.query.problemId === problemId) {
+      return
+    } else {
+      this.setState({ search: [] })
       this.componentWillMount(newProps.location.query.problemId)
     }
   }
@@ -109,10 +112,7 @@ export default class ApplicationList extends React.Component<any, any> {
     dispatch(set('page.scroll', { x: pageXOffset, y: pageYOffset }))
     const problemId = _.get(location.query, 'problemId')
 
-    this.context.router.push({
-      pathname: '/asst/application/view',
-      query: { submitId: submitId, problemId: problemId, type: 'asst' }
-    })
+    window.open(`/asst/application/view?submitId=${submitId}&problemId=${problemId}&type=asst`, '_blank')
   }
 
   onClickSearchWorks() {
@@ -168,8 +168,8 @@ export default class ApplicationList extends React.Component<any, any> {
             {otherLoading ? <VerticalBarLoading/> :
               <div>
                 <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
-                  <TextField hintText='在这儿输入昵称...' id='nickName'/><br/>
-                  <RaisedButton label="点击查询" onClick={this.onClickSearchWorks.bind(this)}/>
+                  <TextField hintText="输入用户昵称" id='nickName'/><br/>
+                  <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
                 </div>
                 <Divider style={style.mgDivider}/>{renderSubmits()}
               </div>
