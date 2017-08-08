@@ -168,8 +168,8 @@ export default class ApplicationList extends React.Component<any, any> {
             {otherLoading ? <VerticalBarLoading/> :
               <div>
                 <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
-                  <TextField hintText='在这儿输入昵称...' id='nickName'/><br/>
-                  <RaisedButton label="点击查询" onClick={this.onClickSearchWorks.bind(this)}/>
+                  <TextField hintText="输入用户昵称" id='nickName'/><br/>
+                  <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
                 </div>
                 <Divider style={style.mgDivider}/>{renderSubmits()}
               </div>
