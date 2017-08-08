@@ -125,7 +125,7 @@ export default class ApplicationList extends React.Component<any, any> {
       } else {
         dispatch(alertMsg(res.msg))
       }
-    }).catch(e => dispatch(alertMsg(res.msg)))
+    }).catch(e => dispatch(alertMsg(e)))
   }
 
   render() {
