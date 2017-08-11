@@ -4,9 +4,9 @@ import "./WarmUp.less";
 import { loadWarmUpAnalysis, loadWarmUpDiscuss, discuss, deleteComment } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeModal from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
+import SubDiscussShow from "../components/SubDiscussShow";
 import _ from "lodash"
 import { mark } from "../../../utils/request"
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent";
@@ -29,7 +29,6 @@ export default class Analysis extends React.Component <any, any> {
       list: [],
       currentIndex: 0,
       practiceCount: 0,
-      showKnowledge: false,
       showDiscuss: false,
       showSelfDiscuss: false,
       repliedId: 0,
@@ -91,15 +90,11 @@ export default class Analysis extends React.Component <any, any> {
     })
   }
 
-  closeModal() {
-    this.setState({ showKnowledge: false })
-  }
-
   closeDiscussModal() {
     const { dispatch } = this.props
     let { list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[currentIndex]
+    const { id } = practice[ currentIndex ]
 
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad())
@@ -141,7 +136,7 @@ export default class Analysis extends React.Component <any, any> {
     // 针对回复框类型，选择评论类型，是否回复
     const repliedId = isSelfDiscuss ? 0 : this.state.repliedId;
     const { practice = [] } = list;
-    const { id } = practice[currentIndex];
+    const { id } = practice[ currentIndex ];
     if(content.length == 0) {
       dispatch(alertMsg('请填写评论'));
       return false;
@@ -173,7 +168,7 @@ export default class Analysis extends React.Component <any, any> {
     deleteComment(discussId).then(res => {
       let { list, currentIndex } = this.state
       const { practice = [] } = list
-      const { id } = practice[currentIndex]
+      const { id } = practice[ currentIndex ]
 
       loadWarmUpDiscuss(id, 1).then(res => {
         dispatch(endLoad())
@@ -204,8 +199,7 @@ export default class Analysis extends React.Component <any, any> {
 
   render() {
     const {
-      list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, isReply, integrated, placeholder
+      list, currentIndex, selected, practiceCount, showDiscuss, isReply, integrated, placeholder
     } = this.state
     const { practice = [] } = list
 
@@ -220,7 +214,7 @@ export default class Analysis extends React.Component <any, any> {
                 <span className="type"><span className="number">{score}</span>分</span>
               </div> : null}
             {pic ? <div className="context-img">
-              <AssetImg url={pic}/></div> : null
+                <AssetImg url={pic}/></div> : null
             }
             <div className="question">
               <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -271,19 +265,47 @@ export default class Analysis extends React.Component <any, any> {
       )
     }
 
-    const discussRender = (discuss, idx) => {
+    const discussRender = (comment, idx) => {
+      const { warmupPracticeDiscussList } = comment
       return (
         <div key={idx}>
           <DiscussShow
-            key={idx} discuss={discuss} reply={() => this.reply(discuss)}
-            onDelete={this.onDelete.bind(this, discuss.id)}/>
+            key={idx} discuss={comment} reply={() => this.reply(comment)}
+            onDelete={this.onDelete.bind(this, comment.id)}/>
           {
-            this.state.showDiscuss && this.state.repliedId === discuss.id ?
+            this.state.showDiscuss && this.state.repliedId === comment.id ?
               <Discuss
                 isReply={isReply} placeholder={placeholder}
                 submit={() => this.onSubmit()} limit={1000}
                 onChange={(v) => this.onChange(v)}
                 cancel={() => this.cancel()}/> :
+              null
+          }
+          {!_.isEmpty(warmupPracticeDiscussList) ?
+            <div>
+              <div className="discuss-triangle"></div>
+              {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
+              <div className="discuss-padding"></div>
+            </div>
+            : null}
+        </div>
+      )
+    }
+
+    const subDiscussRender = (discuss, idx) => {
+      return (
+        <div key={idx}>
+          <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
+                          onDelete={this.onDelete.bind(this, discuss.id)}/>
+          {
+            this.state.showDiscuss && this.state.repliedId === discuss.id ?
+              <div className="sub-discuss-reply">
+                <Discuss
+                  isReply={isReply} placeholder={placeholder}
+                  submit={() => this.onSubmit()} limit={1000}
+                  onChange={(v) => this.onChange(v)}
+                  cancel={() => this.cancel()}/>
+              </div>  :
               null
           }
         </div>
@@ -296,7 +318,7 @@ export default class Analysis extends React.Component <any, any> {
         <div key={id}
              className={`hover-cursor choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
+            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[ idx ]}
           </span>
           <span className={`text`}>{subject}</span>
         </div>
@@ -304,11 +326,11 @@ export default class Analysis extends React.Component <any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected ? sequenceMap[idx] + ' ' : '')
+      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const renderClickBtn = () => {
@@ -348,17 +370,15 @@ export default class Analysis extends React.Component <any, any> {
           <div className="warm-up">
             <div className="warm-up-head">
               <BreadCrumbs level={1} name={`选择题`}/>
-              {practice[currentIndex] && practice[currentIndex].knowledge ?
-                  <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-                  <div className="page-header">综合练习</div>
+              {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
+                <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
+                <div className="page-header">综合练习</div>
               }
             </div>
-            {questionRender(practice[currentIndex] || {})}
+            {questionRender(practice[ currentIndex ] || {})}
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {showKnowledge ?
-          <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
       </div>
     )
   }

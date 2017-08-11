@@ -120,150 +120,504 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 });
 
 router.get("/rise/practice/warmup/analysis/*", (req, res) => {
-	setTimeout(() =>
-		res.status(200).json({
-			"code": 200,
-			"msg": {
-				"practice": [
-					{
-						"id": 1, //题目id
-						"question": "题干", //问题题干
-						"analysis": "balbal", //问题分析
-						"voice": "http://someurl", //语音分析链接
-						"type": 1, //1-单选题，2-多选题
-						"Difficulty": 1, //1-简单，2-普通，3-困难
-						"choiceList": [
-							{
-								"id": 1,
-								"questionId": 1, //问题id
-								"subject": "选项1", //选项题干
-								"sequence": 1, //选项顺序
-								"isRight": false,  //是否是正确选项
-								"selected": false //用户是否选择
-							},
-							{
-								"id": 2,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": true,
-								"selected": true
-							},
-							{
-								"id": 3,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": true,
-								"selected": false
-							},
-							{
-								"id": 4,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": false,
-								"selected": true
-							}
-						],
-                        "knowledge": {
-                            "id": 5,
-                            "knowledge": "逻辑顺序",
-                            "step": null,
-                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
-                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
-                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
-                            "pic": null,
-                            "audio": null,
-                            "appear": null
-                        },
-                        "discussList": [
-                          {
-                            "id":2,
-                            "repliedId": 1,
-                            "comment":"回复回复",
-                            "repliedName": "风之伤",
-                            "repliedComment": "评论评论评论",
-                              "isMine":true,
-                            "warmupPracticeId": 49,
-                            "role":3,
-                            "repliedDel":0,
-                            "name":"Diane",
-                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                            "discussTime":"10:30",
-                            "priority":1,
-                          },
-
-                          {
-                            "id":1,
-                            "repliedId": null,
-                            "comment":"评论评论评论",
-                            "repliedName": null,
-                            "repliedComment": null,
-                            "warmupPracticeId": 49,
-                            "name":"风之伤",
-                            "role":8,
-                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                            "discussTime":"10:38"
-                          }
-                        ],
-					},
-					{
-						"id": 2, //题目id
-						"question": "题干", //问题题干
-						"analysis": "balbal", //问题分析
-						"voice": "http://someurl", //语音分析链接
-						"type": 1, //1-单选题，2-多选题
-						"Difficulty": 1, //1-简单，2-普通，3-困难
-						"choiceList": [
-							{
-								"id": 1,
-								"questionId": 1, //问题id
-								"subject": "选项1", //选项题干
-								"sequence": 1, //选项顺序
-								"isRight": false,  //是否是正确选项
-								"selected": false //用户是否选择
-							},
-							{
-								"id": 2,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": true,
-								"selected": true
-							},
-							{
-								"id": 3,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": true,
-								"selected": false
-							},
-							{
-								"id": 4,
-								"questionId": 1,
-								"subject": "选项2",
-								"sequence": 2,
-								"isRight": false,
-								"selected": true
-							}
-						],
-                        "knowledge": {
-                            "id": 5,
-                            "knowledge": "逻辑顺序",
-                            "step": null,
-                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
-                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
-                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
-                            "pic": null,
-                            "audio": null,
-                            "appear": null
-                        }
-					}
-				]
-			}
-		}), Math.random() * 1500)
+  setTimeout(() =>
+    res.status(200).json(
+      {
+        "msg": {
+          "practice": [
+            {
+              "id": 177,
+              "question": "Airbnb是“住”的共享经济，旅行者可以住在房东家里，体验“一晚当地人的生活”。如今，其估值已达到300亿美元。但最初，它只是由两个付不起房租的年轻人创办，也不被投资人看好，他们质问：谁愿意让陌生人住进自己的家里呢？Airbnb上的房东将自己家的空置房间出租体现了SCAMPER中的哪种思维？",
+              "type": 1,
+              "analysis": "Put to other uses 家里的空房间除了空置还可以用作他用吗？Airbnb给出了另一个答案：将房子租给陌生人另外，Substitute 以当地居民家里代替酒店，为旅行者提供了其他选择，这是Airbnb公司的视角，而非“Airbnb房东”的视角",
+              "pic": null,
+              "difficulty": 2,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 1,
+              "example": false,
+              "practiceUid": "TT003C002C002X01001",
+              "score": 30,
+              "choiceList": [
+                {
+                  "id": 525,
+                  "questionId": 177,
+                  "subject": "Substitute替代",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": true
+                },
+                {
+                  "id": 526,
+                  "questionId": 177,
+                  "subject": "Combine合并",
+                  "sequence": 2,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 527,
+                  "questionId": 177,
+                  "subject": "Adapt适应",
+                  "sequence": 3,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 529,
+                  "questionId": 177,
+                  "subject": "Put to other uses改作他用",
+                  "sequence": 4,
+                  "isRight": true,
+                  "selected": true
+                }
+              ],
+              "discussList": [
+                {
+                  "id": 2870,
+                  "comment": "111",
+                  "priority": 0,
+                  "del": 0,
+                  "name": "三十文",
+                  "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+                  "discussTime": "2017-06-06",
+                  "role": 9,
+                  "signature": null,
+                  "isMine": false,
+                  "warmupPracticeId": 177,
+                  "originDiscussId": 2870,
+                  "addTime": 1496678400000,
+                  "priorityComment": 1,
+                  "warmupPracticeDiscussList": [
+                    {
+                      "id": 2871,
+                      "repliedId": 2870,
+                      "comment": "111",
+                      "openid": null,
+                      "profileId": null,
+                      "addTime": 1496678400000,
+                      "priority": 1,
+                      "repliedOpenid": null,
+                      "repliedProfileId": null,
+                      "repliedComment": "111",
+                      "del": 0,
+                      "repliedDel": 0,
+                      "repliedName": "三十文",
+                      "name": "三十文",
+                      "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+                      "discussTime": "2017-06-06",
+                      "role": 9,
+                      "signature": null,
+                      "isMine": false,
+                      "referenceId": null,
+                      "warmupPracticeId": 177,
+                      "originDiscussId": 2870
+                    },
+                    {
+                      "id": 2872,
+                      "repliedId": 2871,
+                      "comment": "111",
+                      "openid": null,
+                      "profileId": null,
+                      "addTime": 1496678400000,
+                      "priority": 0,
+                      "repliedOpenid": null,
+                      "repliedProfileId": null,
+                      "repliedComment": "111",
+                      "del": 0,
+                      "repliedDel": 0,
+                      "repliedName": "三十文",
+                      "name": "三十文",
+                      "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+                      "discussTime": "2017-06-06",
+                      "role": 9,
+                      "signature": null,
+                      "isMine": false,
+                      "referenceId": null,
+                      "warmupPracticeId": 177,
+                      "originDiscussId": 2870
+                    }
+                  ]
+                },
+                {
+                  "id": 2869,
+                  "comment": "测试测试",
+                  "priority": 0,
+                  "del": 0,
+                  "name": "三十文",
+                  "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+                  "discussTime": "2017-06-06",
+                  "role": 9,
+                  "signature": null,
+                  "isMine": false,
+                  "warmupPracticeId": 177,
+                  "originDiscussId": 2869,
+                  "addTime": 1496678400000,
+                  "priorityComment": 0,
+                  "warmupPracticeDiscussList": []
+                }
+              ],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            },
+            {
+              "id": 178,
+              "question": "“直播＋电商”的新型网络购物模式越来越火热。博主在直播平台上售卖商品，并可以实时展示试用、互动答疑。这种模式运用了SCAMPER中的以下哪些思维？",
+              "type": 2,
+              "analysis": "Combine 将直播和电商相结合Adapt 除了传统的静态形式，网络购物同样可以适应于动态直播场景",
+              "pic": null,
+              "difficulty": 2,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 2,
+              "example": false,
+              "practiceUid": "TT003C002C002X01002",
+              "score": 30,
+              "choiceList": [
+                {
+                  "id": 532,
+                  "questionId": 178,
+                  "subject": "Substitute替代",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 533,
+                  "questionId": 178,
+                  "subject": "Combine合并",
+                  "sequence": 2,
+                  "isRight": true,
+                  "selected": false
+                },
+                {
+                  "id": 534,
+                  "questionId": 178,
+                  "subject": "Adapt适应",
+                  "sequence": 3,
+                  "isRight": true,
+                  "selected": true
+                },
+                {
+                  "id": 535,
+                  "questionId": 178,
+                  "subject": "Modify改变",
+                  "sequence": 4,
+                  "isRight": false,
+                  "selected": false
+                }
+              ],
+              "discussList": [],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            },
+            {
+              "id": 179,
+              "question": "万达商业地产在全国首创了招商和地产开发相结合的“资源包”模式。招商在前，建设在后。上述模式利用了SCAMPER中的哪些思维？",
+              "type": 2,
+              "analysis": "Combine“资源包”将招商和地产开发相结合Reverse颠覆传统模式，将建设和招商顺序调换",
+              "pic": null,
+              "difficulty": 2,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 3,
+              "example": false,
+              "practiceUid": "TT003C002C004X01003",
+              "score": 30,
+              "choiceList": [
+                {
+                  "id": 539,
+                  "questionId": 179,
+                  "subject": "Substitute替代",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": true
+                },
+                {
+                  "id": 540,
+                  "questionId": 179,
+                  "subject": "Combine合并",
+                  "sequence": 2,
+                  "isRight": true,
+                  "selected": false
+                },
+                {
+                  "id": 544,
+                  "questionId": 179,
+                  "subject": "Eliminate消除",
+                  "sequence": 3,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 545,
+                  "questionId": 179,
+                  "subject": "Reverse反向",
+                  "sequence": 4,
+                  "isRight": true,
+                  "selected": false
+                }
+              ],
+              "discussList": [],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            },
+            {
+              "id": 180,
+              "question": "巴菲特最推崇的十本书之一——《穷查理宝典》中有这样一段话：如果要明白人生如何得到幸福，查理首先是研究人生如何才能变得痛苦；要研究企业如何做强做大，查理首先研究企业是如何衰败的；大部分人更关心如何在股市投资上成功，查理最关心的是为什么在股市投资上大部分人都失败了。他的这种思考方法来源于下面这句农夫谚语中所蕴含的哲理：我只想知道将来我会死在什么地方，这样我就不去那儿了。这段话蕴含了SCAMPER中的哪种智慧？",
+              "type": 1,
+              "analysis": "Reverse想做成什么，不是直接看成功案例。先看失败的案例，从中吸取总结教训，然后避免",
+              "pic": null,
+              "difficulty": 1,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 4,
+              "example": false,
+              "practiceUid": "TT003C002B004X01004",
+              "score": 20,
+              "choiceList": [
+                {
+                  "id": 546,
+                  "questionId": 180,
+                  "subject": "Substitute替代",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 547,
+                  "questionId": 180,
+                  "subject": "Adapt适应",
+                  "sequence": 2,
+                  "isRight": false,
+                  "selected": true
+                },
+                {
+                  "id": 548,
+                  "questionId": 180,
+                  "subject": "Reverse逆向",
+                  "sequence": 3,
+                  "isRight": true,
+                  "selected": false
+                }
+              ],
+              "discussList": [],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            },
+            {
+              "id": 181,
+              "question": "冬日里，一杯暖暖的奶茶可以使人快速温暖。你有没有想过，奶茶这种饮品利用了SCAMPER中的哪一种思维呢？",
+              "type": 1,
+              "analysis": "Combine 将牛奶和茶相结合，香浓的奶茶就诞生了",
+              "pic": null,
+              "difficulty": 2,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 5,
+              "example": false,
+              "practiceUid": "TT003C002A001X01005",
+              "score": 30,
+              "choiceList": [
+                {
+                  "id": 549,
+                  "questionId": 181,
+                  "subject": "Reverse逆向",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": true
+                },
+                {
+                  "id": 550,
+                  "questionId": 181,
+                  "subject": "Combine合并",
+                  "sequence": 2,
+                  "isRight": true,
+                  "selected": false
+                },
+                {
+                  "id": 551,
+                  "questionId": 181,
+                  "subject": "Eliminate消除",
+                  "sequence": 3,
+                  "isRight": false,
+                  "selected": false
+                }
+              ],
+              "discussList": [],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            },
+            {
+              "id": 183,
+              "question": "平时我们使用圆轴形胶带中总是为找不到头而浪费不少时间，一家公司设计了齿轮轴形的胶带，使用后只要把胶带架在两齿之间，就能很方便找到头。齿轮轴形的胶带体现了SCAMPER中的哪种思维？",
+              "type": 1,
+              "analysis": "Modify 改变产品形状",
+              "pic": null,
+              "difficulty": 2,
+              "knowledgeId": 15,
+              "sceneId": 1,
+              "del": false,
+              "problemId": 3,
+              "sequence": 6,
+              "example": false,
+              "practiceUid": "TT003C002F006X01006",
+              "score": 30,
+              "choiceList": [
+                {
+                  "id": 559,
+                  "questionId": 183,
+                  "subject": "Substitute替代",
+                  "sequence": 1,
+                  "isRight": false,
+                  "selected": true
+                },
+                {
+                  "id": 560,
+                  "questionId": 183,
+                  "subject": "Combine合并",
+                  "sequence": 2,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 561,
+                  "questionId": 183,
+                  "subject": "Adapt适应",
+                  "sequence": 3,
+                  "isRight": false,
+                  "selected": false
+                },
+                {
+                  "id": 562,
+                  "questionId": 183,
+                  "subject": "Modify修改",
+                  "sequence": 4,
+                  "isRight": true,
+                  "selected": false
+                }
+              ],
+              "discussList": [],
+              "choice": null,
+              "knowledge": {
+                "id": 15,
+                "knowledge": "用SCAMPER结构化头脑风暴",
+                "step": "结构化思考",
+                "analysis": "SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。",
+                "means": "在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n",
+                "keynote": "SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n",
+                "analysisPic": null,
+                "meansPic": null,
+                "keynotePic": null,
+                "pic": null,
+                "analysisAudio": null,
+                "meansAudio": null,
+                "keynoteAudio": null,
+                "audio": "https://www.iqycamp.com/audio/rise_k15.m4a",
+                "appear": null,
+                "example": null
+              }
+            }
+          ]
+        },
+        "code": 200
+      }
+    ), Math.random() * 1500)
 });
 
 router.post("/rise/practice/warmup/answer/*", (req, res) => {
@@ -350,35 +704,92 @@ router.post("/rise/practice/warmup/discuss", (req, res) => {
 router.get("/rise/practice/warmup/load/discuss/*/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
-      "code": 200,
       "msg": [
         {
-          "id":2,
-          "repliedId": 1,
-          "comment":"新增的评论",
-          "repliedName": "风之伤",
-          "repliedComment": "评论评论评论",
-          "repliedDel":0,
-          "warmupPracticeId": 49,
-          "name":"Diane",
-          "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-          "discussTime":"10:30",
-            "isMine":true,
+          "id": 2870,
+          "comment": "111",
+          "priority": 0,
+          "del": 0,
+          "name": "三十文",
+          "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+          "discussTime": "2017-06-06",
+          "role": 9,
+          "signature": null,
+          "isMine": false,
+          "warmupPracticeId": 177,
+          "originDiscussId": 2870,
+          "addTime": 1496678400000,
+          "priorityComment": 1,
+          "warmupPracticeDiscussList": [
+            {
+              "id": 2871,
+              "repliedId": 2870,
+              "comment": "111",
+              "openid": "o5h6ywkpuvFd5Qd53TG1xJh8B1HU",
+              "profileId": 30,
+              "addTime": 1496678400000,
+              "priority": 1,
+              "repliedOpenid": "o5h6ywkpuvFd5Qd53TG1xJh8B1HU",
+              "repliedProfileId": 30,
+              "repliedComment": "111",
+              "del": 0,
+              "repliedDel": 0,
+              "repliedName": "三十文",
+              "name": "三十文",
+              "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+              "discussTime": "2017-06-06",
+              "role": 9,
+              "signature": null,
+              "isMine": false,
+              "referenceId": null,
+              "warmupPracticeId": 177,
+              "originDiscussId": 2870
+            },
+            {
+              "id": 2872,
+              "repliedId": 2871,
+              "comment": "111",
+              "openid": "o5h6ywkpuvFd5Qd53TG1xJh8B1HU",
+              "profileId": 30,
+              "addTime": 1496678400000,
+              "priority": 0,
+              "repliedOpenid": "o5h6ywkpuvFd5Qd53TG1xJh8B1HU",
+              "repliedProfileId": 30,
+              "repliedComment": "111",
+              "del": 0,
+              "repliedDel": 0,
+              "repliedName": "三十文",
+              "name": "三十文",
+              "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+              "discussTime": "2017-06-06",
+              "role": 9,
+              "signature": null,
+              "isMine": false,
+              "referenceId": null,
+              "warmupPracticeId": 177,
+              "originDiscussId": 2870
+            }
+          ]
         },
-
         {
-          "id":1,
-          "repliedId": null,
-          "comment":"评论评论评论",
-          "repliedName": null,
-          "repliedComment": null,
-          "repliedDel":null,
-          "warmupPracticeId": 49,
-          "name":"风之伤",
-          "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-          "discussTime":"10:38"
+          "id": 2869,
+          "comment": "测试测试",
+          "priority": 0,
+          "del": 0,
+          "name": "三十文",
+          "avatar": "https://wx.qlogo.cn/mmopen/ibLButGMnqJM3VKwgXu3qeibBJWv8CNw4kNNia0EfnibB87iaWokNAG4p6sZuljsnNpxWg7RqkFibFxw6KKSibtSKQib0KK4ypmU5nrH/0",
+          "discussTime": "2017-06-06",
+          "role": 9,
+          "signature": null,
+          "isMine": false,
+          "warmupPracticeId": 177,
+          "originDiscussId": 2869,
+          "addTime": 1496678400000,
+          "priorityComment": 0,
+          "warmupPracticeDiscussList": []
         }
-      ]
+      ],
+      "code": 200
     }), Math.random() * 1500)
 });
 
