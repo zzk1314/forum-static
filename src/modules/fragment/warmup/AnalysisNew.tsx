@@ -6,9 +6,9 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import _ from "lodash"
 import DiscussShow from "../components/DiscussShow";
+import SubDiscussShow from "../components/SubDiscussShow";
 import { scroll } from "../../../utils/helpers"
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
-import KnowledgeModal from "../components/KnowledgeModal";
 
 const sequenceMap = {
     0: 'A',
@@ -26,7 +26,6 @@ export default class AnalysisNew extends React.Component <any, any> {
         super()
         this.state = {
             data: {},
-            showKnowledge: false,
             showDiscuss: false,
             repliedId: 0,
             warmupPracticeId: 0,
@@ -54,10 +53,6 @@ export default class AnalysisNew extends React.Component <any, any> {
             dispatch(endLoad())
             dispatch(alertMsg(ex))
         })
-    }
-
-    closeModal() {
-        this.setState({ showKnowledge: false })
     }
 
     closeDiscussModal() {
@@ -161,7 +156,7 @@ export default class AnalysisNew extends React.Component <any, any> {
     }
 
     render() {
-        const { data, selected, showKnowledge, showDiscuss } = this.state
+        const { data, selected, showDiscuss } = this.state
         const { knowledge } = data
 
         const questionRender = (practice) => {
@@ -217,12 +212,32 @@ export default class AnalysisNew extends React.Component <any, any> {
             )
         }
 
-        const discussRender = (discuss, idx) => {
-            return (
-                <DiscussShow discuss={discuss} reply={() => this.reply(discuss)}
-                             onDelete={this.onDelete.bind(this, discuss.id)}/>
-            )
-        }
+      const discussRender = (comment, idx) => {
+        const { warmupPracticeDiscussList } = comment
+        return (
+          <div key={idx}>
+            <DiscussShow
+              key={idx} discuss={comment} reply={() => this.reply(comment)}
+              onDelete={this.onDelete.bind(this, comment.id)}/>
+            {!_.isEmpty(warmupPracticeDiscussList) ?
+              <div>
+                <div className="discuss-triangle"></div>
+                {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
+                <div className="discuss-padding"></div>
+              </div>
+              : null}
+          </div>
+        )
+      }
+
+      const subDiscussRender = (discuss, idx) => {
+        return (
+          <div key={idx}>
+            <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
+                            onDelete={this.onDelete.bind(this, discuss.id)}/>
+          </div>
+        )
+      }
 
         const choiceRender = (choice, idx) => {
             const { id, subject } = choice
@@ -258,10 +273,6 @@ export default class AnalysisNew extends React.Component <any, any> {
                     {questionRender(data)}
                     {showDiscuss ? <div className="padding-comment-dialog"/> : null}
                 </div>
-                {
-                    showKnowledge ?
-                        <KnowledgeModal knowledge={knowledge}/> : null
-                }
             </div>
         )
     }

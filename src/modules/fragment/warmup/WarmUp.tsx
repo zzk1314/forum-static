@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./WarmUp.less";
-import { answer, getOpenStatus, loadWarmUpAnalysis } from "./async";
+import { answer, loadWarmUpAnalysis } from "./async";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeModal from "../components/KnowledgeModal"
 import { BreadCrumbs } from "../commons/FragmentComponent";
 import { mark } from "../../../utils/request";
 
@@ -71,17 +70,10 @@ export default class WarmUp extends React.Component<any, any> {
       dispatch(alertMsg(ex));
     });
 
-    // getOpenStatus().then(res => {
-    //   if(res.code === 200) {
-    //     this.setState({ openStatus: res.msg });
-    //   }
-    // })
-
   }
 
   onChoiceSelected(choiceId) {
     const { list, currentIndex, selected } = this.state
-    const curPractice = list.practice[currentIndex]
     let _list = selected
     if(_list.indexOf(choiceId) > -1) {
       _.remove(_list, n => n === choiceId)
@@ -104,7 +96,7 @@ export default class WarmUp extends React.Component<any, any> {
     const { currentIndex, list } = this.state
     if(currentIndex > 0) {
       this.setChoice()
-      const selected = list.practice[`${currentIndex - 1}`].choice
+      const selected = list.practice[ `${currentIndex - 1}` ].choice
       this.setState({ currentIndex: currentIndex - 1, selected })
     }
     this.refs.warmup.scrollTop = 0
@@ -119,7 +111,7 @@ export default class WarmUp extends React.Component<any, any> {
     }
     if(currentIndex < practiceCount - 1) {
       this.setChoice();
-      let selected = list.practice[`${currentIndex + 1}`].choice;
+      let selected = list.practice[ `${currentIndex + 1}` ].choice;
       if(!selected) {
         selected = []
       }
@@ -148,7 +140,7 @@ export default class WarmUp extends React.Component<any, any> {
       this.setChoice(p => {
         answer({ practice: p }, practicePlanId).then(res => {
           const { code, msg } = res;
-          if (complete == 'false') {
+          if(complete == 'false') {
             dispatch(set('completePracticePlanId', practicePlanId));
           }
           if(code === 200) {
@@ -185,7 +177,7 @@ export default class WarmUp extends React.Component<any, any> {
             </div> :
             null}
           {pic ? <div className="context-img">
-            <AssetImg url={pic} width="80%" height="80%"/></div> : null
+              <AssetImg url={pic} width="80%" height="80%"/></div> : null
           }
           <div className="question">
             <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -208,7 +200,7 @@ export default class WarmUp extends React.Component<any, any> {
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(id)}>
-          <span className="index">{sequenceMap[idx]}</span>
+          <span className="index">{sequenceMap[ idx ]}</span>
           <span className="text">{subject}</span>
         </div>
       )
@@ -229,24 +221,21 @@ export default class WarmUp extends React.Component<any, any> {
     return (
       <div className="container">
         <div className="warm-up">
-          {showKnowledge ?
-            <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
-            <div style={{ height: "100%" }}>
-              <div className="has-footer" ref={'warmup'}>
-                <div>
-                  <div className="warm-up-head">
-                    <BreadCrumbs level={1} name={`选择题`}/>
-                    {practice[currentIndex] && practice[currentIndex].knowledge ?
-                      <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-                        <div className="page-header">综合练习</div>
-                    }
-                  </div>
-                  {questionRender(practice[currentIndex] || {})}
+          <div style={{ height: "100%" }}>
+            <div className="has-footer" ref={'warmup'}>
+              <div>
+                <div className="warm-up-head">
+                  <BreadCrumbs level={1} name={`选择题`}/>
+                  {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
+                    <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
+                    <div className="page-header">综合练习</div>
+                  }
                 </div>
+                {questionRender(practice[ currentIndex ] || {})}
               </div>
-              {renderClickBtn()}
             </div>
-          }
+            {renderClickBtn()}
+          </div>
         </div>
       </div>
     )
