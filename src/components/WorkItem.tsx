@@ -24,7 +24,14 @@ export default class WorkItem extends React.Component<any,any> {
 
   componentWillMount(){
     const {request} = this.props
+
     this.setState({request})
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.request !== this.props.request){
+      this.setState({request:newProps.request});
+    }
   }
 
   click(submitId){
@@ -92,6 +99,7 @@ export default class WorkItem extends React.Component<any,any> {
       },
 
     ]
+
 
     return (
       <div className="workItemContainer">
