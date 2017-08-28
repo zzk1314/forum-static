@@ -175,7 +175,7 @@ export default class ConfigDetail extends React.Component<any,any> {
       return (
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-            <TableRow hoverable={true}>
+            <TableRow>
               <TableHeaderColumn style={{width:10}}>序号</TableHeaderColumn>
               <TableHeaderColumn style={{width:120}}>Key</TableHeaderColumn>
               <TableHeaderColumn style={{width:300}}>Value</TableHeaderColumn>
@@ -187,7 +187,7 @@ export default class ConfigDetail extends React.Component<any,any> {
             {configList.map((v, idx) => {
                 return (
                   v.display === true ?
-                    <TableRow key={idx} hoverable={true}>
+                    <TableRow key={idx}>
                       <TableRowColumn style={{width:10}}>{idx + 1}</TableRowColumn>
                       <TableRowColumn style={{width:120}}>
                         {v.key}
@@ -215,7 +215,11 @@ export default class ConfigDetail extends React.Component<any,any> {
 
     return (
       <div className="backend-config">
-        <AssetImg url={imgSrc.configAdd} onClick={()=>this.setState({add:true})} marginLeft={20}/>
+        <RaisedButton
+          label="添加配置"
+          primary={true}
+          onClick={() => this.setState({ add: true })}
+        />
         {renderConfig(data)}
         <Confirm content="确定要删除这个配置吗？" open={alert} actions={actions}/>
         {add ?
