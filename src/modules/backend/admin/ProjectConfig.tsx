@@ -84,10 +84,10 @@ export default class ProjectConfig extends React.Component<any,any> {
 
     return (
       <div className="backendContent">
-        <div className="leftList">
+        <div className="leftList" style={{width:100}}>
           {renderMenu()}
         </div>
-        <div className="rightContent">
+        <div className="rightContent" style={{width:window.innerWidth-345}}>
           {this.props.children}
           {/*{window.ENV.openFeedBack?renderFeedBack():null}*/}
         </div>

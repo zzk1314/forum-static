@@ -23,7 +23,7 @@ export default class AssetImg extends React.Component<any, any> {
   }
 
   render() {
-    const { size, type, width, height, marginTop, style, marginRight } = this.props
+    const { size, type, width, height, marginTop, style, marginRight, onClick, marginLeft, marginBottom } = this.props
     let {url} = this.props
     //来自七牛云的图片，自动添加瘦身参数
     if(url){
@@ -37,10 +37,14 @@ export default class AssetImg extends React.Component<any, any> {
       height: this.sizeCheck(size || height),
       marginTop: this.sizeCheck(marginTop),
       marginRight: this.sizeCheck(marginRight),
+      marginBottom: this.sizeCheck(marginBottom),
+      marginLeft: this.sizeCheck(marginLeft),
     }
 
     return (
-      <img className={`${loading?'loading':''}`} src={type ? require(`./../../assets/img/${type}.png`) : url} onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
+      <img className={`${loading?'loading':''}`} src={type ? require(`./../../assets/img/${type}.png`) : url}
+           onClick={()=>onClick()}
+           onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
     )
   }
 }
