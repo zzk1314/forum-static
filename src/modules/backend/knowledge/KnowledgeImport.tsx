@@ -41,7 +41,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       knowledge: {},
 
       snackShow: false,
-      snackMessage: "",
+      snackMessage: '',
 
       targetChapter: 1,
       targetSection: 1
@@ -59,7 +59,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     return JSON.stringify(this.state) !== JSON.stringify(nextState)
   }
 
-  loadPreData(){
+  loadPreData() {
     // 加载当前操作小课名称
     loadEditableProblem().then(res => {
       const { code, msg } = res
@@ -112,7 +112,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     let maxChapter = this.calculateMaxChapter()
     addNewChapter(maxChapter + 1).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: "添加章节成功" })
+        this.setState({ snackShow: true, snackMessage: '添加章节成功' })
         this.loadPreData()
       } else {
         alert(res.msg)
@@ -129,7 +129,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     console.log(chapterMaxSection, targetChapter)
     addNewSection(targetChapter, chapterMaxSection + 1).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: "添加小节成功" })
+        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
         this.loadPreData()
       } else {
         alert(res.msg)
@@ -185,6 +185,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     return currentChapterMaxSection
   }
 
+  closeSnackShow() {
+    this.setState({ snackShow: false })
+  }
+
   render() {
     const { problemId, problemName, schedules, knowledge, snackShow, snackMessage } = this.state
 
@@ -197,18 +201,21 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       })
       chapterList = _.uniq(chapterList)
       return (
-        <SelectField
-          value={targetChapter}
-          onChange={(e, idx, value) => this.setState({ targetChapter: value })}
-        >
-          {
-            chapterList.map((chapter, idx) => {
-              return (
-                <MenuItem key={idx} value={chapter} primaryText={chapter}/>
-              )
-            })
-          }
-        </SelectField>
+        <div>
+          <h1>章节</h1>
+          <SelectField
+            value={targetChapter}
+            onChange={(e, idx, value) => this.setState({ targetChapter: value })}
+          >
+            {
+              chapterList.map((chapter, idx) => {
+                return (
+                  <MenuItem key={idx} value={chapter} primaryText={chapter}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
       )
     }
 
@@ -220,75 +227,82 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
         }
       })
       return (
-        <SelectField
-          value={targetSection}
-          onChange={(e, idx, value) => this.setState({ targetSection: value })}
-        >
-          {
-            sectionList.map((section, idx) => {
-              return (
-                <MenuItem key={idx} value={section} primaryText={section}/>
-              )
-            })
-          }
-        </SelectField>
+        <div>
+          <h1>小节</h1>
+          <SelectField
+            value={targetSection}
+            onChange={(e, idx, value) => this.setState({ targetSection: value })}
+          >
+            {
+              sectionList.map((section, idx) => {
+                return (
+                  <MenuItem key={idx} value={section} primaryText={section}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
       )
     }
 
     return (
       <div className="knowledge-import-container">
-        <h1>小课名称： {problemName}</h1>
-        {renderChapterSelector()}&nbsp;&nbsp;&nbsp;&nbsp;
-        {renderSectionSelector()}
-        <br/>
-        <RaisedButton
-          label="新增章节" primary={true}
-          onClick={() => this.handleClickAddNewChapter()}
-        />&nbsp;&nbsp;
-        <RaisedButton
-          label="新增小节" primary={true}
-          onClick={() => this.handleClickAddNewSection()}
-        />&nbsp;&nbsp;
-        <RaisedButton
-          label="加载数据" primary={true}
-          onClick={() => this.handleLoadKnowledgeDetail()}
-        /><br/><br/>
-        <FlatButton label="一、知识点" fullWidth={true}/><br/>
-        <TextField
-          hintText="知识点"
-          value={targetKnowledge}
-          onChange={(e, v) => this.setState({ targetKnowledge: v })}
-        /><br/>
-        <FlatButton label="二、步骤" fullWidth={true}/><br/>
-        <TextField
-          hintText="步骤"
-          value={targetStep}
-          onChange={(e, v) => this.setState({ targetStep: v })}
-        /><br/>
-        <FlatButton label="三、作用" fullWidth={true}/><br/>
-        <Editor
-          id="analysis" ref="analysis"
-          value={decodeTextAreaString3(targetAnalysis)}
-        />
-        <FlatButton label="四、方法" fullWidth={true}/><br/>
-        <Editor
-          id="means" ref="means"
-          value={decodeTextAreaString3(targetMeans)}
-        />
-        <FlatButton label="五、要点" fullWidth={true}/><br/>
-        <Editor
-          id="keynote" ref="keynote"
-          value={decodeTextAreaString3(targetKeynote)}
-        /><br/>
-        <RaisedButton
-          label="更新数据" primary={true}
-          onClick={() => this.handleClickUpdateKnowledge()}
-        /><br/>
-        <Snackbar
-          open={snackShow}
-          message={snackMessage}
-          autoHideDuration={4000}
-        />
+        <div style={{ padding: 50 }}>
+          <h1>小课名称： {problemName}</h1>
+          {renderChapterSelector()}
+          <br/>
+          {renderSectionSelector()}
+          <br/>
+          <RaisedButton
+            label="新增章节" primary={true}
+            onClick={() => this.handleClickAddNewChapter()}
+          />&nbsp;&nbsp;
+          <RaisedButton
+            label="新增小节" primary={true}
+            onClick={() => this.handleClickAddNewSection()}
+          />&nbsp;&nbsp;
+          <RaisedButton
+            label="加载知识点" primary={true}
+            onClick={() => this.handleLoadKnowledgeDetail()}
+          /><br/><br/>
+          <FlatButton label="一、知识点" fullWidth={true}/><br/>
+          <TextField
+            hintText="知识点"
+            value={targetKnowledge}
+            onChange={(e, v) => this.setState({ targetKnowledge: v })}
+          /><br/>
+          <FlatButton label="二、步骤" fullWidth={true}/><br/>
+          <TextField
+            hintText="步骤"
+            value={targetStep}
+            onChange={(e, v) => this.setState({ targetStep: v })}
+          /><br/>
+          <FlatButton label="三、作用" fullWidth={true}/><br/>
+          <Editor
+            id="analysis" ref="analysis"
+            value={decodeTextAreaString3(targetAnalysis)}
+          />
+          <FlatButton label="四、方法" fullWidth={true}/><br/>
+          <Editor
+            id="means" ref="means"
+            value={decodeTextAreaString3(targetMeans)}
+          />
+          <FlatButton label="五、要点" fullWidth={true}/><br/>
+          <Editor
+            id="keynote" ref="keynote"
+            value={decodeTextAreaString3(targetKeynote)}
+          /><br/>
+          <RaisedButton
+            label="更新数据" primary={true}
+            onClick={() => this.handleClickUpdateKnowledge()}
+          /><br/>
+          <Snackbar
+            open={snackShow}
+            message={snackMessage}
+            autoHideDuration={2000}
+            onRequestClose={() => this.closeSnackShow()}
+          />
+        </div>
       </div>
     )
   }
