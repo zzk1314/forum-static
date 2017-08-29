@@ -18,6 +18,7 @@ export function decodeTextAreaString2(str) {
 }
 
 export function decodeTextAreaString3(str) {
+  if(!str) return
   let reg = new RegExp("<br/><br/>", "g")
   str = str.replace(reg, "</p><p>")
   str = "<p>".concat(str).concat("</p>")

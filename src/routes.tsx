@@ -59,6 +59,7 @@ import ReplyKnowledgeDiscussMessage from "./modules/fragment/customer/msgcenter/
 import ReplyCommentMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage";
 import ReplyWarmupDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage";
 import WarmupPracticeInput from "./modules/backend/warmup/practiceinput/WarmupPracticeInput";
+import KnowledgeImport from './modules/backend/knowledge/KnowledgeImport'
 
 const routes = (
   <Route path="/">
@@ -89,6 +90,7 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
+        <Route path="/backend/knowledge/input" component={KnowledgeImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
       <Route component={AsstIndex}>
