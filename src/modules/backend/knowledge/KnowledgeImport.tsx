@@ -86,12 +86,14 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
         knowledgeId = schedule.knowledgeId
       }
     })
-    console.log(knowledgeId)
     loadKnowledgeDetail(knowledgeId).then(res => {
       const { code, msg } = res
-      console.log(res)
       if(code === 200) {
         this.setState({
+          // snackBar
+          snackShow: true,
+          snackMessage: "加载数据成功",
+
           knowledge: msg,
           targetKnowledge: msg.knowledge,
           targetStep: msg.step,
@@ -112,8 +114,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     let maxChapter = this.calculateMaxChapter()
     addNewChapter(maxChapter + 1).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加章节成功' })
         this.loadPreData()
+        this.setState({ snackShow: true, snackMessage: '添加章节成功' })
       } else {
         alert(res.msg)
       }
@@ -126,11 +128,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   handleClickAddNewSection() {
     const { targetChapter } = this.state
     let chapterMaxSection = this.calculateChapterMaxSection()
-    console.log(chapterMaxSection, targetChapter)
     addNewSection(targetChapter, chapterMaxSection + 1).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
         this.loadPreData()
+        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
       } else {
         alert(res.msg)
       }
@@ -150,9 +151,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     }
 
     updateKnowledge(param).then(res => {
-      console.log('更新结果', res)
       if(res.code === 200) {
-        alert('更新成功')
+        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
       } else {
         alert(res.msg)
       }
