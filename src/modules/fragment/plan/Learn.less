@@ -3,6 +3,7 @@
 .rise-main {
   margin-bottom: -30px;
   margin-top: -20px;
+  min-height: 600px;
 
   .trial-tip {
     background: url('https://static.iqycamp.com/images/riseMemberUpButtonV2.png?imageslim') no-repeat center center/100% 100%;
@@ -24,7 +25,9 @@
     flex-direction: row;
     .side-bar {
       width: 300px;
-      overflow: auto;
+      min-height: 600px;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: inline-block;
       position: relative;
       &::-webkit-scrollbar {
@@ -41,6 +44,52 @@
     }
     > .side-bar-content {
       flex-grow: 1;
+      .header-img {
+        position: relative;
+        background-color: #CCEAEB;
+        height: 175px;
+        > .problem-describe {
+          position: absolute;
+          right: -6em;
+          top: 0;
+          color: #FFF;
+          background-color: #55cbcb;
+          border-radius: 1px;
+          padding: 5px;
+          font-size: @font_help;
+          cursor: pointer;
+        }
+        > .back-img {
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          top: ~"calc(50% - 75px)";
+          left: ~"calc(50% - 75px)";
+          background-size: 100% 100% !important;
+        }
+        > .section-title {
+          position: absolute;
+          width: 100%;
+          text-align: center;
+          font-size: @font_title;
+          color: #fff;
+          line-height: @font_title;
+          margin-top: 12%;
+        }
+        > .section {
+          position: absolute;
+          bottom: 0;
+          left: 15px;
+          font-size: @font_help;
+          line-height: @font_help;
+          margin-bottom: 10px;
+          color: #fef0c1;
+        }
+        img {
+          display: block;
+        }
+        overflow: hidden;
+      }
     }
   }
 
@@ -93,6 +142,7 @@
       }
     }
     .practice-card {
+      position: relative;
       height: 75px;
       width: 45%;
       margin-left: 3.3%;
@@ -111,14 +161,34 @@
         margin: 0 5px 0 10px;
         > .practice-thumb {
           position: absolute;
+          z-index: 1;
+          > div {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-size: 50px 50px !important;
+            z-index: 2;
+          }
+          .bottom-platform {
+            z-index: 1 !important;
+          }
+          .warmup {
+            background: url("https://static.iqycamp.com/images/fragment/category_warmup_1.png?imageslim");
+          }
+          .application {
+            background: url("https://static.iqycamp.com/images/fragment/category_application_1.png?imageslim");
+          }
+          .challenge {
+            background: url("https://static.iqycamp.com/images/fragment/category_challenge_1.png?imageslim");
+          }
+          .knowledge {
+            background: url("https://static.iqycamp.com/images/fragment/category_knowledge_1.png?imageslim");
+          }
         }
         > .practice-complete {
+          z-index: 2;
           position: absolute;
         }
-        img {
-          display: block;
-        }
-        z-index: 1;
       }
       > .locked {
         top: 12px;
@@ -220,7 +290,7 @@
         }
         .chapter {
           font-size: @font_context;
-          line-height: @font_context;
+          line-height: 60px;
           height: 60px;
         }
         .section {
@@ -230,47 +300,6 @@
           &.open {
             background-color: #7FD8F0;
           }
-        }
-      }
-    }
-  }
-
-  .plan-guide {
-    position: relative;
-    width: 100%;
-    .section-title {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      .plan-section-title {
-        font-size: @font_title;
-        color: @color_title;
-        line-height: @font_title;
-      }
-      .problem-describe {
-        position: absolute;
-        right: -6em;
-        top: 0;
-        color: #FFF;
-        background-color: #55cbcb;
-        border-radius: 1px;
-        padding: 5px;
-        font-size: @font_help;
-        cursor: pointer;
-      }
-    }
-
-    .section-info {
-      position: absolute;
-      bottom: 15px;
-      left: 20px;
-      .section {
-        color: @color_title;
-        font-size: @font_help;
-        line-height: @font_help;
-        margin-bottom: 5px;
-        > label {
-          color: @color_help;
         }
       }
     }
@@ -405,13 +434,4 @@
     border-radius: 5px;
   }
 
-}
-
-.header-img {
-  position: relative;
-  background-color: #CCEAEB;
-  img {
-    display: block;
-  }
-  overflow: hidden;
 }

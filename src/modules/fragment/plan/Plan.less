@@ -30,6 +30,66 @@
           border-radius: 3px;
           cursor: pointer;
 
+
+          .problem-item {
+            height: 128px;
+            position: relative;
+            .problem-item-backcolor {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              background-size: 100% 100% !important;
+              &.catalog1 {
+                background: -webkit-gradient(linear, 0 top, 0 bottom, from(#71d2aa), to(#4aa680)) !important;
+              }
+              &.catalog2 {
+                background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e8cb5e), to(#ea9f00)) !important;
+              }
+              &.catalog3 {
+                background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e7a674), to(#e96a06)) !important;
+              }
+              &.catalog4 {
+                background: -webkit-gradient(linear, 0 top, 0 bottom, from(#6bd2ea), to(#05789c)) !important;
+              }
+              &.catalog5 {
+                background: -webkit-gradient(linear, 0 top, 0 bottom, from(#a0b5eb), to(#376cd5)) !important;
+              }
+            }
+            .problem-item-backimg {
+              width: 60px;
+              height: 60px;
+              left: ~"calc(50% - 30px)";
+              top: ~"calc(50% - 30px)";
+              position: absolute;
+              background-size: 100% 100% !important;
+              &.catalog1 {
+                background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
+              }
+              &.catalog2 {
+                background: url("https://static.iqycamp.com/images/fragment/back_img_yellow_1.png?imageslim");
+              }
+              &.catalog3 {
+                background: url("https://static.iqycamp.com/images/fragment/back_img_orange_1.png?imageslim");
+              }
+              &.catalog4 {
+                background: url("https://static.iqycamp.com/images/fragment/back_img_blue_1.png?imageslim");
+              }
+              &.catalog5 {
+                background: url("https://static.iqycamp.com/images/fragment/back_img_purple_1.png?imageslim");
+              }
+            }
+            .problem-item-subCatalog {
+              width: 100%;
+              color: #fff;
+              position: absolute;
+              text-align: center;
+              font-size: @font_title;
+              line-height: @font_title;
+              margin-top: 18%;
+              opacity: 0.8;
+            }
+          }
+
           img {
             position: relative;
             border-radius: 3px;

@@ -290,7 +290,7 @@ export default class Application extends React.Component<any, any> {
     return (
       <div>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="application">
+          <div className="application-container">
             <div className="application-head">
               <BreadCrumbs level={1} name={`应用题`}/>
               <div className="page-header">{topic}</div>
