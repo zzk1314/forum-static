@@ -89,7 +89,6 @@ export default class ProjectConfig extends React.Component<any,any> {
         </div>
         <div className="rightContent" style={{width:window.innerWidth-345}}>
           {this.props.children}
-          {/*{window.ENV.openFeedBack?renderFeedBack():null}*/}
         </div>
       </div>
     )
