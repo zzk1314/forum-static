@@ -54,7 +54,7 @@ export default class Main extends React.Component<any, any> {
             handleClose={() => this.closeBaseAlert()}
             actions={actions}
           />
-          {window.ENV.openFeedBack ? renderFeedBack() : null}
+          {renderFeedBack()}
           {renderExist(isPending(this.props, 'base.loading'), <Loading/>)}
         </div>
       )
