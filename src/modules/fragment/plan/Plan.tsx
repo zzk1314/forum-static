@@ -4,7 +4,6 @@ import { set, alertMsg, startLoad, endLoad } from 'redux/actions'
 import { checkIsFollow, loadSelfPlans } from './async'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
-import { ModuleHeader } from '../commons/FragmentComponent'
 
 import './Plan.less'
 

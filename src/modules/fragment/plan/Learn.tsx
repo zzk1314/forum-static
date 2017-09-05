@@ -546,9 +546,10 @@ export default class PlanMain extends React.Component <any, any> {
           <div ref="sideContent" className="side-content">
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter" style={{ marginLeft: 15 }}
+                <div className="chapter description"
                      onClick={() => this.handleClickProblemReview(planData.problem.id)}>
-                  小课介绍
+                  <div/>
+                  <span>小课介绍</span>
                 </div>
               </div>
             </div>
