@@ -75,27 +75,8 @@ export default class PlanMain extends React.Component <any, any> {
             selectProblem: msg.problem, mustStudyDays: msg.mustStudyDays
           })
 
-          const tempCatalogId = msg.problem.catalogId
-          console.log('tempCatalogId', tempCatalogId)
-          switch(tempCatalogId) {
-            case 1:
-              require('./LearnLessCategory/Green.less')
-              break
-            case 2:
-              require('./LearnLessCategory/Yellow.less')
-              break
-            case 3:
-              require('./LearnLessCategory/Orange.less')
-              break
-            case 4:
-              require('./LearnLessCategory/Blue.less')
-              break
-            case 5:
-              require('./LearnLessCategory/Purple.less')
-              break
-            default:
-              break
-          }
+          // 区分加载样式表
+          this.handleLoadStyleSheet(msg.problem.catalogId)
 
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/fragment/main' && msg.status === 3) {
@@ -139,6 +120,39 @@ export default class PlanMain extends React.Component <any, any> {
     const { dispatch } = this.props
     dispatch(set('completePracticePlanId', undefined))
     dispatch(set('showHomeIcon', true))
+  }
+
+  handleLoadStyleSheet(catalogId) {
+    console.log(catalogId)
+    // 区分加载样式表
+    let node = document.getElementById('rise-main-container')
+    if(node) {
+      const tempCatalogId = catalogId
+      switch(tempCatalogId) {
+        case 1:
+          node.classList.add('rise-main-container-green')
+          require('./LearnLessCategory/Green.less')
+          break
+        case 2:
+          node.classList.add('rise-main-container-yellow')
+          require('./LearnLessCategory/Yellow.less')
+          break
+        case 3:
+          node.classList.add('rise-main-container-orange')
+          require('./LearnLessCategory/Orange.less')
+          break
+        case 4:
+          node.classList.add('rise-main-container-blue')
+          require('./LearnLessCategory/Blue.less')
+          break
+        case 5:
+          node.classList.add('rise-main-container-purple')
+          require('./LearnLessCategory/Purple.less')
+          break
+        default:
+          break
+      }
+    }
   }
 
   resize() {
@@ -664,7 +678,7 @@ export default class PlanMain extends React.Component <any, any> {
     }
 
     return (
-      <div className="rise-main outer-wrapper">
+      <div className="rise-main outer-wrapper" id="rise-main-container">
         {/*<ToolBar />*/}
         {/* 打分 */}
         {renderExist(showScoreModal,
@@ -693,8 +707,7 @@ export default class PlanMain extends React.Component <any, any> {
               <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
             </div>
           ),
-          (
-            <div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>
+          (<div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>
               <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
                 <div className="side-bar">
                   { this.renderSidebar() }
@@ -726,8 +739,7 @@ export default class PlanMain extends React.Component <any, any> {
                     ))}
                 </div>
               </div>
-            </div>
-          ))}
+            </div>))}
         {renderOtherComponents()}
       </div>
     )

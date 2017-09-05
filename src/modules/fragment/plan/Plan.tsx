@@ -82,11 +82,10 @@ export default class Plan extends React.Component<any, PlanStates> {
             <div
               className="plan-problem" key={index}
               onClick={() => this.context.router.push({ pathname: '/fragment/learn', query: { planId: plan.planId } })}>
-              {/*<AssetImg height={127.5} url={problem.pic}/>*/}
               <div className="problem-item">
                 <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                 <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
-                <div className="problem-item-subCatalog">{plan.problem.subCatalog}</div>
+                <div className="problem-item-subCatalog">{plan.problem.abbreviation}</div>
               </div>
               <div className="plan-problem-desc">{plan.name}</div>
             </div>
