@@ -38,14 +38,15 @@ export default class Plan extends React.Component<any, PlanStates> {
     mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
     const { dispatch } = this.props;
     dispatch(startLoad());
-    checkIsFollow().then(res => {
-      if(res.code === 401) {
-        dispatch(endLoad())
-        this.context.router.push("/login")
-      } else if(res.code === 403) {
-        dispatch(endLoad())
-        this.setState({ isloading: false, isFollow: false })
-      } else {
+    // TODO 取消注释
+    // checkIsFollow().then(res => {
+    //   if(res.code === 401) {
+    //     dispatch(endLoad())
+    //     this.context.router.push("/login")
+    //   } else if(res.code === 403) {
+    //     dispatch(endLoad())
+    //     this.setState({ isloading: false, isFollow: false })
+    //   } else {
         loadSelfPlans().then(res => {
           this.setState({ isloading: false })
           dispatch(endLoad())
@@ -57,8 +58,8 @@ export default class Plan extends React.Component<any, PlanStates> {
           dispatch(endLoad())
           dispatch(alertMsg(ex))
         })
-      }
-    })
+    //   }
+    // })
   }
 
   generatePlansView(plans) {
