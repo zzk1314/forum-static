@@ -4,6 +4,7 @@ import { set, alertMsg, startLoad, endLoad } from 'redux/actions'
 import { checkIsFollow, loadSelfPlans } from './async'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
+import { ModuleHeader } from '../commons/FragmentComponent'
 
 import './Plan.less'
 
@@ -34,40 +35,29 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: 'RISE', action: 'PC打开计划列表页', memo: 'PC' })
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    // checkIsFollow().then(res => {
-    //   if(res.code === 401) {
-    //     dispatch(endLoad())
-    //     this.context.router.push("/login")
-    //   } else if(res.code === 403) {
-    //     dispatch(endLoad())
-    //     this.setState({ isloading: false, isFollow: false })
-    //   } else {
-    //     loadSelfPlans().then(res => {
-    //       this.setState({ isloading: false })
-    //       dispatch(endLoad())
-    //       const { code, msg } = res
-    //       if(code === 200) {
-    //         this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
-    //       }
-    //     }).catch(ex => {
-    //       dispatch(endLoad())
-    //       dispatch(alertMsg(ex))
-    //     })
-    //   }
-    // })
-    loadSelfPlans().then(res => {
-      this.setState({ isloading: false })
-      dispatch(endLoad())
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
+    mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    checkIsFollow().then(res => {
+      if(res.code === 401) {
+        dispatch(endLoad())
+        this.context.router.push("/login")
+      } else if(res.code === 403) {
+        dispatch(endLoad())
+        this.setState({ isloading: false, isFollow: false })
+      } else {
+        loadSelfPlans().then(res => {
+          this.setState({ isloading: false })
+          dispatch(endLoad())
+          const { code, msg } = res
+          if(code === 200) {
+            this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
+          }
+        }).catch(ex => {
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
       }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
     })
   }
 

@@ -99,7 +99,6 @@ export default class ProblemList extends React.Component<any,any> {
         </div>
         <div className="rightContent">
           {this.props.children}
-          {/*{window.ENV.openFeedBack?renderFeedBack():null}*/}
         </div>
       </div>
     )

@@ -65,8 +65,7 @@ export default class ShowChallenge extends React.Component<any, any> {
     const submitId = _.get(location, "query.submitId", -1);
     if(!_.isEqual(submitId, -1)) {
       // 获取成功
-      loadSubject(submitId)
-      .then((res) => {
+      loadSubject(submitId).then((res) => {
         if(res.code === 200) {
           this.setState({
             data: res.msg,
@@ -86,8 +85,7 @@ export default class ShowChallenge extends React.Component<any, any> {
           dispatch(alertMsg(err + ""));
         }
       })
-      loadComments(CommentType.Subject, submitId, this.state.page)
-      .then(res => {
+      loadComments(CommentType.Subject, submitId, this.state.page).then(res => {
         if(res.code === 200) {
           const { list, count } = res.msg;
           if(list.length < count) {
@@ -160,8 +158,7 @@ export default class ShowChallenge extends React.Component<any, any> {
         // 点赞
         status = 1;
       }
-      vote(submitId, status, VoteType.Subject)
-      .then(res => {
+      vote(submitId, status, VoteType.Subject).then(res => {
         if(_.isEqual(res.code, 200)) {
           // 成功
           if(_.isEqual(voteStatus, 1)) {
@@ -208,8 +205,7 @@ export default class ShowChallenge extends React.Component<any, any> {
     if(_.isNumber(page) && _.isNumber(submitId)) {
       const oldList = _.get(this.state, "commentList");
       if(hasMore) {
-        loadComments(CommentType.Subject, submitId, page)
-        .then(res => {
+        loadComments(CommentType.Subject, submitId, page).then(res => {
           if(res.code === 200) {
             const { list, count } = res.msg;
             list.forEach(item => oldList.push(item));
@@ -431,13 +427,13 @@ export default class ShowChallenge extends React.Component<any, any> {
           <CommentList comments={commentList} onDelete={onDelete} reply={reply}
                        isShowCommentReplyBox={this.state.isShowCommentReplyBox}/>
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>展开查看更多评论</div> : null}
-          {window.ENV.openComment ? <div className="commentSubmit">
+          <div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧" onChange={(e) => {
               this.setState({ comment: e.target.value })
             }}
                       onClick={() => this.setState({ isShowCommentReplyBox: false })}/>
             <div className="commentBtn" onClick={() => this.clickSubmitComment()}>评论</div>
-          </div> : null}
+          </div>
         </div>
         <Snackbar
           contentStyle={{ textAlign: "center" }}

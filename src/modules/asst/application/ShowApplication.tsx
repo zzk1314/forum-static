@@ -21,7 +21,7 @@ import CommentList from "../../../components/CommentList"
 import { imgSrc } from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
 import Confirm from "../../../components/Confirm"
-import {BreakSignal, Stop} from "../../../utils/request";
+import { BreakSignal, Stop } from "../../../utils/request";
 
 const style = {
   divider: {
@@ -63,8 +63,7 @@ export default class ShowApplication extends React.Component<any, any> {
     const submitId = _.get(location, "query.submitId", -1);
     if(!_.isEqual(submitId, -1)) {
       // 获取成功
-      loadApplicationSubmit(submitId)
-      .then((res) => {
+      loadApplicationSubmit(submitId).then((res) => {
         if(res.code === 200) {
           this.setState({
             data: res.msg,
@@ -85,8 +84,7 @@ export default class ShowApplication extends React.Component<any, any> {
         }
       })
 
-      loadComments(CommentType.Application, submitId, this.state.page)
-      .then(res => {
+      loadComments(CommentType.Application, submitId, this.state.page).then(res => {
         if(res.code === 200) {
           const { list, count } = res.msg;
           if(list.length < count) {
@@ -136,8 +134,7 @@ export default class ShowApplication extends React.Component<any, any> {
         // 点赞
         status = 1;
       }
-      vote(submitId, status, VoteType.Application)
-      .then(res => {
+      vote(submitId, status, VoteType.Application).then(res => {
         if(_.isEqual(res.code, 200)) {
           // 成功
           if(_.isEqual(voteStatus, 1)) {
@@ -181,8 +178,7 @@ export default class ShowApplication extends React.Component<any, any> {
     if(_.isNumber(page) && _.isNumber(submitId)) {
       const oldList = _.get(this.state, "commentList");
       if(hasMore) {
-        loadComments(CommentType.Application, submitId, page)
-        .then(res => {
+        loadComments(CommentType.Application, submitId, page).then(res => {
           if(res.code === 200) {
             const { list, count } = res.msg;
             list.forEach(item => oldList.push(item));
@@ -370,9 +366,9 @@ export default class ShowApplication extends React.Component<any, any> {
     }
     return (
       <div className="showContainer">
-        <div className="backContainer">
-          <span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
-        </div>
+        {/*<div className="backContainer">*/}
+          {/*<span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>*/}
+        {/*</div>*/}
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
           <div className="title">
@@ -383,11 +379,11 @@ export default class ShowApplication extends React.Component<any, any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{ __html: desc }}/>
             </div>
-            { knowledgeId?
-            <div className="knowledge-tip"
-                 onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看相关知识
-            </div>
-            :null}
+            { knowledgeId ?
+              <div className="knowledge-tip"
+                   onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看相关知识
+              </div>
+              : null}
           </div>
           <Divider style={style.divider}/>
           {renderEdit()}
@@ -456,14 +452,14 @@ export default class ShowApplication extends React.Component<any, any> {
           <CommentList comments={commentList} onDelete={onDelete} reply={reply}
                        isShowCommentReplyBox={this.state.isShowCommentReplyBox}/>
           {hasMore ? <div onClick={() => this.loadMoreContent()} className="more">展开查看更多评论</div> : null}
-          {window.ENV.openComment ? <div className="commentSubmit">
+          <div className="commentSubmit">
             <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
                       onChange={(e) => {
                         this.setState({ comment: e.target.value })
                       }}
                       onClick={() => this.setState({ isShowCommentReplyBox: false })}/>
             <div className="commentBtn" onClick={() => this.clickSubmitComment()}>评论</div>
-          </div> : null}
+          </div>
         </div>
         <Snackbar
           contentStyle={{ textAlign: "center" }}

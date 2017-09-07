@@ -69,7 +69,6 @@ export default class Editor extends React.Component {
     return bb.getBlob(mimeString);
   };
 
-
   componentDidMount() {
     let editor = new Simditor({
       textarea: $(`#${this.props.id ? this.props.id : "editor"}`),
@@ -142,7 +141,7 @@ export default class Editor extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.defaultValue && !this.props.defaultValue) {
+    if(nextProps.defaultValue && nextProps.defaultValue !== this.props.defaultValue) {
       this.state.editor.setValue(nextProps.defaultValue)
     }
   }
