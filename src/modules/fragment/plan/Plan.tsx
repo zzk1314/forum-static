@@ -1,12 +1,12 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { set, alertMsg, startLoad, endLoad } from "redux/actions";
-import { checkIsFollow, loadSelfPlans } from "./async";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { set, alertMsg, startLoad, endLoad } from 'redux/actions'
+import { checkIsFollow, loadSelfPlans } from './async'
 import { mark } from '../../../utils/request'
-import AssetImg from "../../../components/AssetImg";
-import { ModuleHeader } from "../commons/FragmentComponent"
+import AssetImg from '../../../components/AssetImg'
+import { ModuleHeader } from '../commons/FragmentComponent'
 
-import "./Plan.less";
+import './Plan.less'
 
 interface PlanStates {
   // 进行中计划
@@ -21,13 +21,13 @@ interface PlanStates {
 export default class Plan extends React.Component<any, PlanStates> {
 
   constructor() {
-    super();
+    super()
     this.state = {
       runningPlans: [],
       donePlans: [],
       isloading: true,
       isFollow: true
-    };
+    }
   }
 
   static contextTypes = {
@@ -35,18 +35,17 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
-    const { dispatch } = this.props;
-    dispatch(startLoad());
-    // TODO 取消注释
-    // checkIsFollow().then(res => {
-    //   if(res.code === 401) {
-    //     dispatch(endLoad())
-    //     this.context.router.push("/login")
-    //   } else if(res.code === 403) {
-    //     dispatch(endLoad())
-    //     this.setState({ isloading: false, isFollow: false })
-    //   } else {
+    mark({ module: '打点', function: 'RISE', action: 'PC打开计划列表页', memo: 'PC' })
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    checkIsFollow().then(res => {
+      if(res.code === 401) {
+        dispatch(endLoad())
+        this.context.router.push('/login')
+      } else if(res.code === 403) {
+        dispatch(endLoad())
+        this.setState({ isloading: false, isFollow: false })
+      } else {
         loadSelfPlans().then(res => {
           this.setState({ isloading: false })
           dispatch(endLoad())
@@ -58,8 +57,8 @@ export default class Plan extends React.Component<any, PlanStates> {
           dispatch(endLoad())
           dispatch(alertMsg(ex))
         })
-    //   }
-    // })
+      }
+    })
   }
 
   generatePlansView(plans) {
@@ -72,14 +71,14 @@ export default class Plan extends React.Component<any, PlanStates> {
           return (
             <div
               className="plan-problem" key={index}
-              onClick={() => this.context.router.push({ pathname: "/fragment/learn", query: { planId: item.planId } })}>
+              onClick={() => this.context.router.push({ pathname: '/fragment/learn', query: { planId: item.planId } })}>
               <AssetImg height={127.5} url={item.pic}/>
               <div className="plan-problem-desc">{item.name}</div>
             </div>
-          );
+          )
         })}
       </div>
-    );
+    )
   }
 
   render() {
@@ -143,7 +142,7 @@ export default class Plan extends React.Component<any, PlanStates> {
             </div> : null}
         </div>
       </div>
-    );
+    )
   }
 }
 
