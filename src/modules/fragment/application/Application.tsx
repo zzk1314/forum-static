@@ -113,6 +113,7 @@ export default class Application extends React.Component<any, any> {
 
   componentWillUnmount() {
     clearInterval(timer)
+    clearInterval(localStorageTimer)
   }
 
   clearStorage() {
