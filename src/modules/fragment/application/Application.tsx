@@ -58,16 +58,25 @@ export default class Application extends React.Component<any, any> {
         dispatch(endLoad())
 
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
         // 对草稿数据进行处理
         if(storageDraft && id == storageDraft.id) {
-          this.setState({
-            edit: true,
-            editorValue: draft,
-            isSynchronized: false
-          }, () => {
-            autoSaveApplicationDraft(planId, id, storageDraft.content)
-          })
+          if(res.msg.overrideLocalStorage) {
+            // 查看是否覆盖本地 localStorage
+            this.setState({
+              edit: !msg.isSynchronized,
+              editorValue: msg.isSynchronized ? msg.content : msg.draft,
+              isSynchronized: msg.isSynchronized
+            })
+          } else {
+            let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
+            this.setState({
+              edit: true,
+              editorValue: draft,
+              isSynchronized: false
+            }, () => {
+              autoSaveApplicationDraft(planId, id, storageDraft.content)
+            })
+          }
         } else {
           this.setState({
             edit: !msg.isSynchronized,
