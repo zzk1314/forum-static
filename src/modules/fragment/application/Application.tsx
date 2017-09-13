@@ -91,10 +91,6 @@ export default class Application extends React.Component<any, any> {
     clearInterval(timer)
   }
 
-  clearStorage() {
-    window.localStorage.removeItem(APPLICATION_AUTO_SAVING)
-  }
-
   // 定时保存方法
   autoSaveApplicationDraftTimer() {
     clearInterval(timer)
@@ -103,11 +99,7 @@ export default class Application extends React.Component<any, any> {
       const applicationId = this.props.location.query.id
       const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
-        autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
-          if(res.code === 200) {
-            this.clearStorage()
-          }
-        })
+        autoSaveApplicationDraft(planId, applicationId, draft)
       }
     }, 10000)
   }
@@ -186,7 +178,6 @@ export default class Application extends React.Component<any, any> {
     }
     this.setState({ showDisable: true })
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
-      this.clearStorage()
       const { code, msg } = res
       if(code === 200) {
         if(complete == 'false') {
