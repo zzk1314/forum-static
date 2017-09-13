@@ -18,7 +18,6 @@ import { ArticleViewModule } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 
 let timer
-const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
 @connect(state => state)
 export default class Application extends React.Component<any, any> {
