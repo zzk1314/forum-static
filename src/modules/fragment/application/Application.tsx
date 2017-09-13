@@ -18,8 +18,6 @@ import { ArticleViewModule } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 
 let timer
-let localStorageTimer
-const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
 @connect(state => state)
 export default class Application extends React.Component<any, any> {
@@ -37,9 +35,7 @@ export default class Application extends React.Component<any, any> {
       showOthers: false,
       editorValue: '',
       edit: true,
-      draftId: -1,
-      draft: '',
-      showDraftToast: false
+      draft: ''
     }
   }
 
@@ -56,37 +52,10 @@ export default class Application extends React.Component<any, any> {
       const { code, msg } = res
       if(code === 200) {
         dispatch(endLoad())
-
-        let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        // 对草稿数据进行处理
-        if(storageDraft && id == storageDraft.id) {
-          if(res.msg.overrideLocalStorage) {
-            // 查看是否覆盖本地 localStorage
-            this.setState({
-              edit: !msg.isSynchronized,
-              editorValue: msg.isSynchronized ? msg.content : msg.draft,
-              isSynchronized: msg.isSynchronized
-            })
-          } else {
-            let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
-            this.setState({
-              edit: true,
-              editorValue: draft,
-              isSynchronized: false
-            }, () => {
-              autoSaveApplicationDraft(planId, id, storageDraft.content)
-            })
-          }
-        } else {
-          this.setState({
-            edit: !msg.isSynchronized,
-            editorValue: msg.isSynchronized ? msg.content : msg.draft,
-            isSynchronized: msg.isSynchronized
-          })
-        }
-
-        // 更新其余数据
         this.setState({
+          edit: !msg.isSynchronized,
+          editorValue: msg.isSynchronized ? msg.content : msg.draft,
+          isSynchronized: msg.isSynchronized,
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
@@ -113,16 +82,13 @@ export default class Application extends React.Component<any, any> {
   componentDidUpdate() {
     if(this.state.edit) {
       this.autoSaveApplicationDraftTimer()
-      this.autoSaveLocalStorageTimer()
     } else {
       clearInterval(timer)
-      clearInterval(localStorageTimer)
     }
   }
 
   componentWillUnmount() {
     clearInterval(timer)
-    clearInterval(localStorageTimer)
   }
 
   clearStorage() {
@@ -144,27 +110,6 @@ export default class Application extends React.Component<any, any> {
         })
       }
     }, 10000)
-  }
-
-  autoSaveLocalStorageTimer() {
-    clearInterval(localStorageTimer)
-    localStorageTimer = setInterval(() => {
-      let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-      if(storageDraft) {
-        if(this.props.location.query.id === storageDraft.id) {
-          window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-            id: this.props.location.query.id,
-            content: this.refs.editor.getValue()
-          }))
-        } else {
-          this.clearStorage()
-        }
-      } else {
-        window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-          id: this.props.location.query.id, content: this.refs.editor.getValue()
-        }))
-      }
-    }, 1000)
   }
 
   onEdit() {
@@ -367,8 +312,7 @@ export default class Application extends React.Component<any, any> {
                      onClick={() =>
                        window.open(`/fragment/knowledge?id=${knowledgeId}`, '_blank')
                      }>点击查看相关知识</div> :
-                null
-              }
+                null}
             </div>
             <div ref="workContainer" className="work-container">
               {<TitleBar content={content === null ? '提交方式' : '我的作业'}/>}
