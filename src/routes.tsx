@@ -1,64 +1,67 @@
-import * as React from "react";
-import { Route, IndexRoute } from "react-router";
-import Base from "modules/base/Base.tsx";
-import RiseBase from "modules/base/RiseBase.tsx";
-import Home from "./modules/home/Home"
-import Login from "./modules/Login"
-import ServerCode from "./modules/ServerCode"
-import ShowApplication from "./modules/asst/application/ShowApplication"
-import ShowSubject from "./modules/asst/subject/ShowSubject"
-import Stranger from "./modules/Stranger"
-import Reject from "./modules/Reject"
-import NotFoundPage from "./modules/NotFoundPage"
-import Test from "./modules/Test"
-import BackendIndex from "./modules/backend/BackendIndex"
-import BackendWelcome from "./modules/backend/Welcome"
-import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
-import PracticeView from "./modules/backend/warmup/PracticeView"
-import Discuss from "./modules/backend/warmup/Discuss"
-import ApplicationProblemList from "./modules/backend/application/ProblemList"
-import CatalogView from "./modules/backend/application/Catalog"
-import ApplicationView from "./modules/backend/application/ApplicationList"
-import ProjectConfig from "./modules/backend/admin/ProjectConfig"
-import ConfigDetail from "./modules/backend/admin/ConfigDetail"
-import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
-import WarmupPracticeList from "./modules/backend/warmup/edit/WarmupPracticeList"
-import PracticeEditView from "./modules/backend/warmup/edit/PracticeView"
-import AsstIndex from "./modules/asst/AsstIndex"
-import AsstWelcome from "./modules/asst/Welcome"
-import AsstApplicationComment from "./modules/asst/application/ProblemList"
-import AsstApplicationList from "./modules/asst/application/ApplicationList"
-import AsstSubjectComment from "./modules/asst/subject/ProblemList"
-import AsstSubjectList from "./modules/asst/subject/SubjectList"
-import CommentedList from "./modules/asst/CommentedList"
-import WarmupPracticeView from "./modules/asst/warmup/WarmupPracticeView"
-import SmsManager from "./modules/backend/operation/SmsManager"
+import * as React from 'react'
+import { Route, IndexRoute } from 'react-router'
+import Base from 'modules/base/Base.tsx'
+import RiseBase from 'modules/base/RiseBase.tsx'
+import Home from './modules/home/Home'
+import Login from './modules/Login'
+import ServerCode from './modules/ServerCode'
+import ShowApplication from './modules/asst/application/ShowApplication'
+import ShowSubject from './modules/asst/subject/ShowSubject'
+import Stranger from './modules/Stranger'
+import Reject from './modules/Reject'
+import NotFoundPage from './modules/NotFoundPage'
+import Test from './modules/Test'
+import BackendIndex from './modules/backend/BackendIndex'
+import BackendWelcome from './modules/backend/Welcome'
+import HotWarmupPractice from './modules/backend/warmup/HotWarmupPractice'
+import PracticeView from './modules/backend/warmup/PracticeView'
+import Discuss from './modules/backend/warmup/Discuss'
+import ApplicationProblemList from './modules/backend/application/ProblemList'
+import CatalogView from './modules/backend/application/Catalog'
+import ApplicationView from './modules/backend/application/ApplicationList'
+import ProjectConfig from './modules/backend/admin/ProjectConfig'
+import ConfigDetail from './modules/backend/admin/ConfigDetail'
+import WarmupProblemList from './modules/backend/warmup/edit/ProblemList'
+import WarmupPracticeList from './modules/backend/warmup/edit/WarmupPracticeList'
+import PracticeEditView from './modules/backend/warmup/edit/PracticeView'
+import AsstIndex from './modules/asst/AsstIndex'
+import AsstWelcome from './modules/asst/Welcome'
+import AsstApplicationComment from './modules/asst/application/ProblemList'
+import AsstApplicationList from './modules/asst/application/ApplicationList'
+import AsstSubjectComment from './modules/asst/subject/ProblemList'
+import AsstSubjectList from './modules/asst/subject/SubjectList'
+import CommentedList from './modules/asst/CommentedList'
+import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
+import SmsManager from './modules/backend/operation/SmsManager'
 
 // pc rise 改版
-import Plan from "./modules/fragment/plan/Plan";
-import Learn from "./modules/fragment/plan/Learn";
-import Report from "./modules/fragment/plan/Report";
-import Subject from "./modules/fragment/subject/Subject";
-import Challenge from "./modules/fragment/challenge/Challenge"
-import Application from "./modules/fragment/application/Application";
-import Comment from "./modules/fragment/application/Comment";
-import WarmUp from "./modules/fragment/warmup/WarmUp";
-import WarmupResult from "./modules/fragment/warmup/Result";
-import WarmUpAnalysis from "./modules/fragment/warmup/Analysis";
-import AnalysisNew from "./modules/fragment/warmup/AnalysisNew";
-import KnowledgeViewer from "./modules/fragment/knowledge/KnowledgeViewer";
-import KnowledgeReview from "./modules/fragment/knowledge/KnowledgeReview";
-import ProblemViewer from "./modules/fragment/problem/ProblemViewer";
-import Profile from "./modules/fragment/customer/personal/Profile";
-import Personal from "./modules/fragment/customer/personal/Personal";
-import Account from "./modules/fragment/customer/personal/Account";
-import Help from "./modules/fragment/customer/personal/Help";
-import Message from "./modules/fragment/customer/msgcenter/Message";
-import UserProtocol from "./modules/fragment/customer/personal/UserProtocol";
-import ReplyKnowledgeDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage";
-import ReplyCommentMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage";
-import ReplyWarmupDiscussMessage from "./modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage";
-import WarmupPracticeInput from "./modules/backend/warmup/practiceinput/WarmupPracticeInput";
+import Plan from './modules/fragment/plan/Plan'
+import Learn from './modules/fragment/plan/Learn'
+import Report from './modules/fragment/plan/Report'
+import Subject from './modules/fragment/subject/Subject'
+import Challenge from './modules/fragment/challenge/Challenge'
+import Application from './modules/fragment/application/Application'
+import Comment from './modules/fragment/application/Comment'
+import WarmUp from './modules/fragment/warmup/WarmUp'
+import WarmupResult from './modules/fragment/warmup/Result'
+import WarmUpAnalysis from './modules/fragment/warmup/Analysis'
+import AnalysisNew from './modules/fragment/warmup/AnalysisNew'
+import KnowledgeViewer from './modules/fragment/knowledge/KnowledgeViewer'
+import KnowledgeReview from './modules/fragment/knowledge/KnowledgeReview'
+import ProblemViewer from './modules/fragment/problem/ProblemViewer'
+import Profile from './modules/fragment/customer/personal/Profile'
+import Personal from './modules/fragment/customer/personal/Personal'
+import Account from './modules/fragment/customer/personal/Account'
+import Help from './modules/fragment/customer/personal/Help'
+import Message from './modules/fragment/customer/msgcenter/Message'
+import UserProtocol from './modules/fragment/customer/personal/UserProtocol'
+import ReplyKnowledgeDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage'
+import ReplyCommentMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage'
+import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage'
+import WarmupPracticeInput from './modules/backend/warmup/practiceinput/WarmupPracticeInput'
+import CampUserView from './modules/camp/CampUserView'
+import ProfileModal from './modules/camp/components/ProfileModal'
+import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 
 const routes = (
   <Route path="/">
@@ -89,6 +92,11 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
+
+        <Route path="/backend/camp/add" component={ProfileModal}/>
+        <Route path="/backend/camp/group" component={CampUserUnGroup}/>
+        <Route path="/backend/camp/info" component={CampUserView}/>
+
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
       <Route component={AsstIndex}>
