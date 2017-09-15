@@ -35,6 +35,7 @@ import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
 import SmsManager from './modules/backend/operation/SmsManager'
 
 // pc rise 改版
+
 import Plan from './modules/fragment/plan/Plan'
 import Learn from './modules/fragment/plan/Learn'
 import Report from './modules/fragment/plan/Report'
@@ -59,6 +60,7 @@ import ReplyKnowledgeDiscussMessage from './modules/fragment/customer/msgcenter/
 import ReplyCommentMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage'
 import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage'
 import WarmupPracticeInput from './modules/backend/warmup/practiceinput/WarmupPracticeInput'
+import KnowledgeImport from './modules/backend/knowledge/KnowledgeImport'
 import CampUserView from './modules/camp/CampUserView'
 import ProfileModal from './modules/camp/components/ProfileModal'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
@@ -92,11 +94,10 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
-
         <Route path="/backend/camp/add" component={ProfileModal}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
-
+        <Route path="/backend/knowledge/input" component={KnowledgeImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
       <Route component={AsstIndex}>
