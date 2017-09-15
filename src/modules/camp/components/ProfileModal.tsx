@@ -33,13 +33,24 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
       active: -1,
       tips: ''
     }
+    this.getInnerState = this.getInnerState.bind(this)
   }
 
   getInnerState() {
     return this.state
   }
 
-  setProfileDataToState(props) {
+  componentWillMount() {
+    this.setPropsToState(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+      this.setPropsToState(nextProps)
+    }
+  }
+
+  setPropsToState(props) {
     const { profile } = props
     this.setState({
       riseClassMemberId: profile.riseClassMemberId,
@@ -51,16 +62,6 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
       memberId: profile.memberId,
       active: profile.active
     })
-  }
-
-  componentWillMount() {
-    this.setProfileDataToState(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
-      this.setProfileDataToState(nextProps)
-    }
   }
 
   render() {

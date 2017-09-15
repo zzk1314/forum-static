@@ -33,13 +33,11 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
   constructor() {
     super()
     this.state = {
-      selected: [1],
-
+      selected: [],
       openProfileData: {}
     }
   }
 
-  // 外部组件调用
   getInnerState() {
     return this.state
   }
@@ -87,9 +85,9 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
       showRowHover = true,
       fixedHeader = true,
       selectable = true,
-      multiSelectable = false,
+      multiSelectable = true,
       enableSelectAll = false,
-      showCheckboxes = false,
+      showCheckboxes = true,
       deselectOnClickaway = false
     } = this.state
 

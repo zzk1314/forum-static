@@ -1,14 +1,14 @@
 import { pget, ppost } from '../../utils/request'
 
 export function loadMonthlyCampByClassName(className) {
-  return pget(`/camp/load?className=${className}`)
+  return pget(`/backend/camp/load?className=${className}`)
 }
 
 export function loadMonthlyCampUnGroup() {
-  return pget(`/camp/load/ungroup`)
+  return pget(`/backend/camp/load/ungroup`)
 }
 
 export function modifyMonthlyCamp(param) {
-  return ppost(`/camp/modify`, param)
+  return ppost(`/backend/camp/modify`, param)
 }
 
