@@ -23,13 +23,6 @@ export default class CampUserView extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
-    // loadMonthlyCampByClassName('0801').then(res => {
-    //   console.log(res)
-    //   this.setState({ data: res.msg })
-    // })
-  }
-
   loadClassData(func) {
     const { className } = this.state
     loadMonthlyCampByClassName(className).then(res => {
@@ -104,11 +97,11 @@ export default class CampUserView extends React.Component<any, any> {
         <RaisedButton
           label="点击查询"
           style={{ height: 30, marginLeft: 20 }}
-          onClick={() => this.loadClassData()}/> <br/>
-        <RaisedButton
-          label="批量分组"
-          style={{ height: 30, marginTop: 20 }}
-          onClick={this.batchHandle.bind(this)}/>
+          onClick={() => this.loadClassData()}/><br/>
+        {/*<RaisedButton*/}
+          {/*label="批量分组"*/}
+          {/*style={{ height: 30, marginTop: 20 }}*/}
+          {/*onClick={this.batchHandle.bind(this)}/>*/}
         <Tabs style={{ marginTop: 30 }} initialSelectedIndex={activeTab}>
           {
             data.map((item, index) => (
