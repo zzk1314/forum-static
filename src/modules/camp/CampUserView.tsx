@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { DataTable } from './components/DataTable'
-import { Tabs, Tab, TextField, RaisedButton, Dialog, FlatButton } from 'material-ui'
+import { Tabs, Tab, TextField, RaisedButton } from 'material-ui'
 import { loadMonthlyCampByClassName } from './async'
 
 export default class CampUserView extends React.Component<any, any> {
@@ -17,36 +17,15 @@ export default class CampUserView extends React.Component<any, any> {
       ],
       className: '',
       activeTab: 0,
-      activeTabSelected: [],
-      openBatchDialog: false,
-      batchGroupId: ''
+      activeTabSelected: []
     }
   }
 
-  loadClassData(func) {
+  loadClassData() {
     const { className } = this.state
     loadMonthlyCampByClassName(className).then(res => {
-      this.setState({ data: res.msg }, () => {
-        func ? func() : null
-      })
+      this.setState({ data: res.msg })
     })
-  }
-
-  batchHandle() {
-    let tableSelected = this.refs[`table${this.state.activeTab}`].getInnerState()
-    this.setState({
-      activeTabSelected: tableSelected.selected,
-      openBatchDialog: true
-    })
-  }
-
-  handleDialogClose() {
-    this.setState({ openBatchDialog: false })
-  }
-
-  handleDialogSubmit() {
-    // 提交
-    this.loadClassData(() => this.setState({ openBatchDialog: false }))
   }
 
   render() {
@@ -54,37 +33,8 @@ export default class CampUserView extends React.Component<any, any> {
       data,
       meta,
       className,
-      activeTab,
-      openBatchDialog,
-      batchGroupId
+      activeTab
     } = this.state
-
-    const renderOtherComponents = () => {
-      const actions = [
-        <FlatButton
-          label="取消"
-          primary={true}
-          onClick={() => this.handleDialogClose()}/>,
-        <FlatButton
-          label="提交"
-          primary={true}
-          onClick={() => this.handleDialogSubmit()}/>
-      ]
-
-      return (
-        <Dialog
-          title="批量分组"
-          actions={actions}
-          modal={false}
-          open={openBatchDialog}
-          onRequestClose={() => this.handleDialogClose()}>
-          <TextField
-            hintText="输入准备批量转义的小组号"
-            value={batchGroupId}
-            onChange={(e, v) => this.setState({ batchGroupId: v })}/>
-        </Dialog>
-      )
-    }
 
     return (
       <div className="camp-view-container" style={{ padding: '20px 40px' }}>
@@ -98,10 +48,6 @@ export default class CampUserView extends React.Component<any, any> {
           label="点击查询"
           style={{ height: 30, marginLeft: 20 }}
           onClick={() => this.loadClassData()}/><br/>
-        {/*<RaisedButton*/}
-          {/*label="批量分组"*/}
-          {/*style={{ height: 30, marginTop: 20 }}*/}
-          {/*onClick={this.batchHandle.bind(this)}/>*/}
         <Tabs style={{ marginTop: 30 }} initialSelectedIndex={activeTab}>
           {
             data.map((item, index) => (
@@ -112,7 +58,6 @@ export default class CampUserView extends React.Component<any, any> {
             ))
           }
         </Tabs>
-        {renderOtherComponents()}
       </div>
     )
   }

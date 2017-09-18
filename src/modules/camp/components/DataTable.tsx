@@ -18,9 +18,10 @@ interface DataTableProps {
 }
 interface DataTableState {
   openProfileModal: boolean,
+
+  selected: any,
   openProfileData: object,
 
-  selected: boolean,
   showRowHover: boolean, // 鼠标悬浮样式
   fixedHeader: boolean, // 固定表格头
   selectable: boolean, // 是否可选择
