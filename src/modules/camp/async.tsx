@@ -13,5 +13,5 @@ export function modifyMonthlyCamp(param) {
 }
 
 export function batchModifyMonthlyCampGroupId(riseMemberIds, groupId) {
-  return ppost(`/backend/camp/modify/batch/${groupId}`, riseMemberIds)
+  return ppost(`/backend/camp/modify/batch?groupId=${groupId}`, riseMemberIds)
 }
