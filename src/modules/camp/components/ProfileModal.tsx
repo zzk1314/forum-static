@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './ProfileModal.less'
 import { TextField, Toggle, RaisedButton } from 'material-ui'
+import _ from 'lodash'
 
 interface ProfileModalProps {
   open: boolean,
@@ -94,7 +95,7 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
           <div className="group">
             <span>小组</span>
             <ModalTextField
-              onChange={(e, v) => this.setState({ groupId: v })}
+              onChange={(e, v) => this.setState({ groupId: _.trim(v) })}
               value={groupId}/>
           </div>
           <div className="memberid">
@@ -111,7 +112,7 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
         <div className="operate-note">
           <span className="header">操作备注</span>
           <ModalTextField
-            onChange={(e, v) => this.setState({ tips: v })}
+            onChange={(e, v) => this.setState({ tips: _.trim(v) })}
             value={tips}/>
         </div>
         {
