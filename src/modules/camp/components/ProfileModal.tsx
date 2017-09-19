@@ -61,7 +61,7 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
       className: profile.className,
       groupId: profile.groupId,
       memberId: profile.memberId,
-      active: profile.active
+      active: !profile.active ? 0 : 1
     })
   }
 
@@ -90,7 +90,7 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
           <span className="header">训练营信息</span>
           <div className="classname">
             <span>班级</span>
-            <ModalTextField value={className}/>
+            <ModalTextField value={className} onChange={(e, v) => this.setState({ className: v })}/>
           </div>
           <div className="group">
             <span>小组</span>
@@ -100,7 +100,9 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
           </div>
           <div className="memberid">
             <span>学号</span>
-            <ModalTextField value={memberId}/>
+            <ModalTextField
+              hintText="自动生成，勿填"
+              value={memberId}/>
           </div>
           <div className="active">
             <span>学习中</span>
@@ -129,13 +131,15 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
 
 interface ModalTextFieldProps {
   onChange?: any,
-  value: any
+  value: any,
+  hintText?: string
 }
 class ModalTextField extends React.Component<ModalTextFieldProps, any> {
   render() {
-    const { onChange, value } = this.props
+    const { onChange, value, hintText } = this.props
     return (
       <TextField
+        hintText={hintText}
         onChange={onChange}
         value={value}
         fullWidth={true}

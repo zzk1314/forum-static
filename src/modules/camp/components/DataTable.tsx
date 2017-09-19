@@ -10,11 +10,13 @@ import {
   Dialog
 } from 'material-ui/Table'
 import { ProfileModal } from './ProfileModal'
-import { modifyMonthlyCamp } from '../async'
+import { modifyAddMonthlyCamp, modifyMonthlyCamp } from '../async'
 
 interface DataTableProps {
   data: any,
-  meta: any
+  meta: any,
+  // 用户信息 submit 方法
+  submitFunc: any
 }
 interface DataTableState {
   openProfileModal: boolean,
@@ -63,16 +65,18 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
   handleSubmitModal() {
     const { data } = this.props
     let innerState = this.refs.profile.getInnerState()
-    modifyMonthlyCamp(innerState).then(res => {
+    // riseClassMemberId 是否有值作区分
+    let submitFunc = innerState.riseClassMemberId ? modifyMonthlyCamp : modifyAddMonthlyCamp
+    submitFunc(innerState).then(res => {
       if(res.code === 200) {
         // 更新 data 数据
         data.map((item, index) => {
-          if(item.riseClassMemberId === res.msg.riseClassMemberId) {
+          if(item.riseId === res.msg.riseId) {
             data[index] = res.msg
           }
         })
         this.setState({
-          openProfileModal: false
+          openProfileModal: false,
         })
       }
     })
