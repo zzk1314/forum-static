@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { DataTable } from './components/DataTable'
 import { RaisedButton, FlatButton, Dialog, TextField } from 'material-ui'
-import { batchModifyMonthlyCampGroupId, loadUnGroupMonthlyCamp } from './async'
+import { batchModifyMonthlyCampGroupId, loadUnGroupMonthlyCamp, modifyMonthlyCamp } from './async'
 import _ from 'lodash'
 
 export default class CampUserUnGroup extends React.Component {
@@ -98,7 +98,7 @@ export default class CampUserUnGroup extends React.Component {
     }
 
     return (
-      <div className="camp-view-container" style={{ padding: '20px 40px' }}>
+      <div style={{ padding: '20px 40px' }}>
         <h1>待分组人员查看</h1><br/>
         <RaisedButton
           label="批量分组"

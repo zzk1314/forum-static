@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { DataTable } from './components/DataTable'
 import { Tabs, Tab, TextField, RaisedButton } from 'material-ui'
-import { loadMonthlyCampByClassName } from './async'
+import { loadMonthlyCampByClassName, modifyMonthlyCamp } from './async'
 
 export default class CampUserView extends React.Component<any, any> {
   constructor() {
@@ -53,7 +53,10 @@ export default class CampUserView extends React.Component<any, any> {
             data.map((item, index) => (
               <Tab label={item.groupId} key={index} value={index}
                    onActive={(e) => this.setState({ activeTab: e.props.value })}>
-                <DataTable ref={`table${index}`} data={item.monthlyCampDtos} meta={meta}/>
+                <DataTable
+                  ref={`table${index}`}
+                  data={item.monthlyCampDtos}
+                  meta={meta}/>
               </Tab>
             ))
           }
