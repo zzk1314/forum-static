@@ -22,7 +22,6 @@ export default class CampUserAdd extends React.Component {
 
   loadProfilesByNickName() {
     loadProfileByNickName(this.state.nickName).then(res => {
-      console.log(res)
       if(res.code === 200) {
         this.setState({ data: res.msg })
       }
@@ -31,7 +30,6 @@ export default class CampUserAdd extends React.Component {
 
   loadProfileByRiseId() {
     loadProfileByRiseId(this.state.riseId).then(res => {
-      console.log(res)
       if(res.code === 200) {
         this.setState({ data: res.msg })
       }
