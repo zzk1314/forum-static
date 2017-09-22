@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider'
 import { BreakSignal, Stop } from '../../../utils/request'
 import VerticalBarLoading from '../../../components/VerticalBarLoading'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import { loadApplicationList, commentCount, loadApplicationListByNickName } from  '../async'
+import { loadApplicationList, commentCount, loadApplicationListByNickName, loadApplicationListByMemberId } from  '../async'
 import CommentTip from '../component/CommentTip'
 import { TextField, RaisedButton } from 'material-ui'
 
@@ -119,13 +119,26 @@ export default class ApplicationList extends React.Component<any, any> {
     const { problemId } = this.props.location.query
     const { dispatch } = this.props
     let nickName = document.getElementById('nickName').value
-    loadApplicationListByNickName(problemId, nickName).then(res => {
-      if(res.code === 200) {
-        this.setState({ search: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e => dispatch(alertMsg(e)))
+    let memberId = document.getElementById('memberId').value
+    if(nickName && !memberId) {
+      loadApplicationListByNickName(problemId, nickName).then(res => {
+        if(res.code === 200) {
+          this.setState({ search: res.msg })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => dispatch(alertMsg(e)))
+    } else if(!nickName && memberId) {
+      loadApplicationListByMemberId(problemId, memberId).then(res => {
+        if(res.code === 200) {
+          this.setState({ search: res.msg })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      })
+    } else {
+      dispatch(alertMsg("昵称和学号同时只能输入一个"))
+    }
   }
 
   render() {
@@ -169,6 +182,7 @@ export default class ApplicationList extends React.Component<any, any> {
               <div>
                 <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
                   <TextField hintText="输入用户昵称" id='nickName'/><br/>
+                  <TextField hintText="输入用户学号" id='memberId'/><br/>
                   <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
                 </div>
                 <Divider style={style.mgDivider}/>{renderSubmits()}
