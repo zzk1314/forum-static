@@ -21,9 +21,9 @@ import CatalogView from './modules/backend/application/Catalog'
 import ApplicationView from './modules/backend/application/ApplicationList'
 import ProjectConfig from './modules/backend/admin/ProjectConfig'
 import ConfigDetail from './modules/backend/admin/ConfigDetail'
-import WarmupProblemList from './modules/backend/warmup/edit/ProblemList'
-import WarmupPracticeList from './modules/backend/warmup/edit/WarmupPracticeList'
-import PracticeEditView from './modules/backend/warmup/edit/PracticeView'
+import WarmupProblemList from './modules/backend/import/warmup/edit/ProblemList'
+import WarmupPracticeList from './modules/backend/import/warmup/edit/WarmupPracticeList'
+import PracticeEditView from './modules/backend/import/warmup/edit/PracticeView'
 import AsstIndex from './modules/asst/AsstIndex'
 import AsstWelcome from './modules/asst/Welcome'
 import AsstApplicationComment from './modules/asst/application/ProblemList'
@@ -59,8 +59,9 @@ import UserProtocol from './modules/fragment/customer/personal/UserProtocol'
 import ReplyKnowledgeDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage'
 import ReplyCommentMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage'
 import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage'
-import WarmupPracticeInput from './modules/backend/warmup/practiceinput/WarmupPracticeInput'
-import KnowledgeImport from './modules/backend/knowledge/KnowledgeImport'
+import WarmupPracticeInput from './modules/backend/import/warmup/practiceinput/WarmupPracticeImport'
+import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
+import ProblemImport from './modules/backend/import/problem/ProblemImport'
 import CampUserView from './modules/camp/CampUserView'
 import ProfileModal from './modules/camp/components/ProfileModal'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
@@ -98,6 +99,7 @@ const routes = (
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/knowledge/input" component={KnowledgeImport}/>
+        <Route path="/backend/problem/input" component={ProblemImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
       <Route component={AsstIndex}>

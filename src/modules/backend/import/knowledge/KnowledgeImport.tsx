@@ -2,8 +2,8 @@ import * as React from 'react'
 import _ from 'lodash'
 import { addNewChapter, addNewSection, loadEditableProblem, loadKnowledgeDetail, updateKnowledge } from './async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
-import Editor from '../../../components/editor/Editor'
-import { decodeTextAreaString3 } from '../../textUtils'
+import Editor from '../../../../components/editor/Editor'
+import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 
 interface KnowledgeImportState {
   // 后台返回数据

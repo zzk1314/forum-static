@@ -6,7 +6,7 @@ import {set, alertMsg} from "../../../redux/actions"
 import {BreakSignal, Stop} from "../../../utils/request"
 import "./Catalog.less"
 import Divider from 'material-ui/Divider';
-import {removeHtmlTags} from "../../textUtils"
+import {removeHtmlTags} from "../../../utils/textUtils"
 
 @connect(state => state)
 export default class Catalog extends React.Component<any,any> {

@@ -1,15 +1,15 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PracticeView.less";
-import {loadNextWarmup, saveWarmup, loadWarmUp} from "../async"
-import {BreakSignal, Stop} from "../../../../utils/request"
-import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
+import {saveWarmup, loadWarmUp} from "../async"
+import {BreakSignal, Stop} from "utils/request"
+import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import Subheader from 'material-ui/Subheader'
 import Snackbar from 'material-ui/Snackbar'
 import {SelectField, MenuItem} from 'material-ui'
 import _ from "lodash"
-import {decodeTextAreaString3} from "../../../textUtils"
-import Editor from "../../../../components/editor/Editor"
+import {decodeTextAreaString3} from "utils/textUtils"
+import Editor from "../../../../../components/editor/Editor"
 import values = require("lodash/values");
 
 const sequenceMap = {

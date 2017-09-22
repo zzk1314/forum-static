@@ -10,7 +10,7 @@ import "./ApplicationList.less"
 import { loadApplicationSubmit, highlight, loadApplication, submitComment, saveApplicationPractice } from  "./async"
 import { Menus } from "../../../utils/Invariables"
 import Editor from "../../../components/editor/Editor"
-import { decodeTextAreaString3 } from "../../textUtils"
+import { decodeTextAreaString3 } from "../../../utils/textUtils"
 import Snackbar from 'material-ui/Snackbar'
 import {imgSrc} from "../../../utils/imgSrc"
 import AlertMessage from "../../../components/AlertMessage";
