@@ -62,7 +62,6 @@ import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/Tra
 import WarmupPracticeInput from './modules/backend/warmup/practiceinput/WarmupPracticeInput'
 import KnowledgeImport from './modules/backend/knowledge/KnowledgeImport'
 import CampUserView from './modules/camp/CampUserView'
-import ProfileModal from './modules/camp/components/ProfileModal'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
 
