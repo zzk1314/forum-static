@@ -137,7 +137,7 @@ export default class ApplicationList extends React.Component<any, any> {
         }
       })
     } else {
-      dispatch(alertMsg("昵称和学号同时只能输入一个"))
+      dispatch(alertMsg("昵称和训练营学号同时只能输入一个"))
     }
   }
 
@@ -182,7 +182,7 @@ export default class ApplicationList extends React.Component<any, any> {
               <div>
                 <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
                   <TextField hintText="输入用户昵称" id='nickName'/><br/>
-                  <TextField hintText="输入用户学号" id='memberId'/><br/>
+                  <TextField hintText="输入用户训练营学号" id='memberId'/><br/>
                   <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
                 </div>
                 <Divider style={style.mgDivider}/>{renderSubmits()}
