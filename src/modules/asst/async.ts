@@ -10,7 +10,11 @@ export function loadApplicationList(problemId) {
 
 export function loadApplicationListByNickName(problemId, nickName) {
   nickName = encodeURI(nickName)
-  return pget(`/pc/asst/application/${problemId}/${nickName}`)
+  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}`)
+}
+
+export function loadApplicationListByMemberId(problemId, memberId) {
+  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
 }
 
 export function loadSubjectArticleList(problemId) {

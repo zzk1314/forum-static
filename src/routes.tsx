@@ -63,8 +63,8 @@ import WarmupPracticeInput from './modules/backend/import/warmup/practiceinput/W
 import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
 import ProblemImport from './modules/backend/import/problem/ProblemImport'
 import CampUserView from './modules/camp/CampUserView'
-import ProfileModal from './modules/camp/components/ProfileModal'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
+import CampUserAdd from './modules/camp/CampUserAdd'
 
 const routes = (
   <Route path="/">
@@ -95,7 +95,7 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
-        <Route path="/backend/camp/add" component={ProfileModal}/>
+        <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/knowledge/input" component={KnowledgeImport}/>
