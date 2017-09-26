@@ -123,7 +123,6 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleLoadStyleSheet(catalogId) {
-    console.log(catalogId)
     // 区分加载样式表
     let node = document.getElementById('rise-main-container')
     if(node) {
