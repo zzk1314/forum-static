@@ -4,6 +4,7 @@
 /*!
  * 基于Simditor v2.3.6
  */
+console.log(this,window);
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set

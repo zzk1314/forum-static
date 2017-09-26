@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {  } from  "./async"
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { loadSurveyConfigs,updateSurveyConfig } from  "./async"
 
 @connect(state=>state)
 export class SurveyConfig extends React.Component<any,any> {
@@ -11,7 +12,14 @@ export class SurveyConfig extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    const {dispatch} = this.props;
+    dispatch(startLoad());
+    loadSurveyConfigs().then(res=>{
 
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
   }
 
   render() {
