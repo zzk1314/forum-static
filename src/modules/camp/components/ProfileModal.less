@@ -1,13 +1,13 @@
 .profile-modal {
   position: fixed;
-  z-index: 200;
+  z-index: 201;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
   margin: 20px auto;
   padding: 20px 40px;
-  background-color: paleturquoise;
+  background-color: #FFFFFF;
   .main-info {
     .absolute-inline-child-div();
     position: relative;
@@ -58,6 +58,14 @@
       .header();
     }
   }
+}
+
+.mask {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  left: 0;
 }
 
 .absolute-inline-child-div() {

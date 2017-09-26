@@ -106,7 +106,7 @@ export default class Fragment extends React.Component<any, any> {
           </div>
 
           <Subheader style={style.listTitle}>
-            <div className="listTitle">小课训练营</div>
+            <div className="listTitle">运营功能</div>
           </Subheader>
           <Divider style={style.divider}/>
           <div className="catalog-area">
@@ -121,6 +121,14 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>
               学员详情
+            </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>
+              自动回复
+            </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/message/subscribe' })}}>
+              关注回复
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './ProfileModal.less'
-import { TextField, Toggle, RaisedButton } from 'material-ui'
+import { TextField, Toggle, RaisedButton, Dialog } from 'material-ui'
 import _ from 'lodash'
 
 interface ProfileModalProps {
@@ -71,59 +71,62 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
     const { headImgUrl, nickname, riseId, className, groupId, memberId, active, tips } = this.state
 
     return (
-      <div className="profile-modal" style={{ maxHeight: window.innerHeight }}>
-        <div className="main-info">
-          <span className="header">主要信息</span>
-          <div className="headimage">
-            <img src={headImgUrl}/>
+      <div>
+        <div className="profile-modal" style={{ maxHeight: window.innerHeight }}>
+          <div className="main-info">
+            <span className="header">主要信息</span>
+            <div className="headimage">
+              <img src={headImgUrl}/>
+            </div>
+            <div className="nickname">
+              <span>昵称</span>
+              <ModalTextField value={nickname}/>
+            </div>
+            <div className="riseid">
+              <span>RiseId</span>
+              <ModalTextField value={riseId}/>
+            </div>
           </div>
-          <div className="nickname">
-            <span>昵称</span>
-            <ModalTextField value={nickname}/>
+          <div className="camp-info">
+            <span className="header">训练营信息</span>
+            <div className="classname">
+              <span>班级</span>
+              <ModalTextField value={className} onChange={(e, v) => this.setState({ className: v })}/>
+            </div>
+            <div className="group">
+              <span>小组</span>
+              <ModalTextField
+                onChange={(e, v) => this.setState({ groupId: _.trim(v) })}
+                value={groupId}/>
+            </div>
+            <div className="memberid">
+              <span>学号</span>
+              <ModalTextField
+                hintText="自动生成，勿填"
+                value={memberId}/>
+            </div>
+            <div className="active">
+              <span>学习中</span>
+              <Toggle
+                toggled={active === 1 } style={{ top: 20 }}
+                onToggle={(e, v) => this.setState({ active: v ? 1 : 0 })}/>
+            </div>
           </div>
-          <div className="riseid">
-            <span>RiseId</span>
-            <ModalTextField value={riseId}/>
-          </div>
-        </div>
-        <div className="camp-info">
-          <span className="header">训练营信息</span>
-          <div className="classname">
-            <span>班级</span>
-            <ModalTextField value={className} onChange={(e, v) => this.setState({ className: v })}/>
-          </div>
-          <div className="group">
-            <span>小组</span>
+          <div className="operate-note">
+            <span className="header">操作备注</span>
             <ModalTextField
-              onChange={(e, v) => this.setState({ groupId: _.trim(v) })}
-              value={groupId}/>
+              onChange={(e, v) => this.setState({ tips: _.trim(v) })}
+              value={tips}/>
           </div>
-          <div className="memberid">
-            <span>学号</span>
-            <ModalTextField
-              hintText="自动生成，勿填"
-              value={memberId}/>
-          </div>
-          <div className="active">
-            <span>学习中</span>
-            <Toggle
-              toggled={active === 1 } style={{ top: 20 }}
-              onToggle={(e, v) => this.setState({ active: v ? 1 : 0 })}/>
-          </div>
+          {
+            actions.map((action, index) => (
+              <RaisedButton
+                key={index} label={action.label}
+                onClick={action.onClick} style={{ marginRight: 40 }}/>
+            ))
+          }
         </div>
-        <div className="operate-note">
-          <span className="header">操作备注</span>
-          <ModalTextField
-            onChange={(e, v) => this.setState({ tips: _.trim(v) })}
-            value={tips}/>
-        </div>
-        {
-          actions.map((action, index) => (
-            <RaisedButton
-              key={index} label={action.label}
-              onClick={action.onClick} style={{ marginRight: 40 }}/>
-          ))
-        }
+        <div className="mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
       </div>
     )
   }
