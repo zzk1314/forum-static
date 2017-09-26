@@ -91,8 +91,7 @@ export default class SubscribeMessage extends React.Component<any, SubscribeMess
               value={message}
               hintText="回复内容"
               floatingLabelText="回复内容"
-              multiLine={true}
-              fullWidth={true}
+              multiLine={true} fullWidth={true} rowsMax={6}
               onChange={(e, v) => this.setState({ message: v })}
             />
             <Toggle toggled={del === 0} label="使用中"

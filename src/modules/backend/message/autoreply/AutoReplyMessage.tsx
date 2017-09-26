@@ -29,7 +29,8 @@ export default class AutoReplyMessage extends React.Component<any, AutoReplyMess
       data: [],
       meta: [
         { tag: 'message', alias: '回复内容' },
-        { tag: 'keyword', alias: '关键词' }
+        { tag: 'keyword', alias: '关键词' },
+        { tag: 'isDefault', alias: '是否默认'}
       ]
     }
     this.handleAdd = this.handleAdd.bind(this)
@@ -168,7 +169,7 @@ export default class AutoReplyMessage extends React.Component<any, AutoReplyMess
               value={message}
               hintText="详细内容"
               floatingLabelText="详细内容"
-              fullWidth={true} multiLine={true}
+              fullWidth={true} multiLine={true} rowsMax={6}
               onChange={(e, v) => this.setState({ message: v })}
             /><br/>
             <Toggle toggled={exact} label="是否精准匹配"
@@ -208,7 +209,7 @@ export default class AutoReplyMessage extends React.Component<any, AutoReplyMess
     }
 
     return (
-      <div style={{ padding: '20px 40px'}}>
+      <div style={{ padding: '20px 40px' }}>
         <RaisedButton
           label="新增自动回复"
           onClick={() => this.handleClickAdd()}/>
