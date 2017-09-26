@@ -66,6 +66,8 @@ import ProblemChange from './modules/backend/import/problem/Main'
 import CampUserView from './modules/camp/CampUserView'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
+import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
+import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
 
 const routes = (
   <Route path="/">
@@ -99,6 +101,8 @@ const routes = (
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
+        <Route path="/backend/message/reply" component={AutoReplyMessage}/>
+        <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
