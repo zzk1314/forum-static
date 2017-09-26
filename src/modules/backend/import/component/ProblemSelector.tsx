@@ -32,6 +32,14 @@ export class ProblemSelector extends React.Component<any,any> {
     return targetProblem.id
   }
 
+  onSelect(value){
+    this.setState({ targetProblem: value})
+    const {select} = this.props
+    if(select){
+      select(value.id)
+    }
+  }
+
   render() {
     const { data, targetProblem } = this.state
 
@@ -40,7 +48,7 @@ export class ProblemSelector extends React.Component<any,any> {
         <SelectField
           value={targetProblem}
           floatingLabelText="选择小课"
-          onChange={(e, idx, value) => this.setState({ targetProblem: value})}
+          onChange={(e, idx, value) => this.onSelect(value)}
         >
           {
             data.map((problem, idx) => {

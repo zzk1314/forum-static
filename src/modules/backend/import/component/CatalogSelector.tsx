@@ -26,11 +26,24 @@ export class CatalogSelector extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    const { subCatalogId, catalogId } = this.props
     loadProblemCatalog().then(res => {
       if(res.code === 200) {
         this.setState({ data: res.msg })
       }
     })
+  }
+
+  componentWillReceiveProps(props) {
+    if(props.subCatalogId !== this.props.subCatalogId) {
+      const subCatalog = _.find(this.state.data.subCatalogs, (subCatalog) => subCatalog.id === props.subCatalogId)
+      this.setState({ targetSubCatalog: subCatalog })
+    }
+
+    if(props.catalogId !== this.props.catalogId) {
+      const catalog = _.find(this.state.data.catalogs, (catalog) => catalog.id === props.catalogId)
+      this.setState({ targetCatalog: catalog })
+    }
   }
 
   render() {

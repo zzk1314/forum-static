@@ -1,9 +1,11 @@
 import * as React from 'react'
 import _ from 'lodash'
-import { addNewChapter, addNewSection, loadEditableProblem, loadKnowledgeDetail, updateKnowledge } from './async'
+import { addNewChapter, addNewSection, loadKnowledgeDetail, updateKnowledge } from './async'
+import { loadProblem } from '../problem/async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
 import { decodeTextAreaString3 } from '../../../../utils/textUtils'
+import { ProblemSelector } from '../component/ProblemSelector'
 
 interface KnowledgeImportState {
   // 后台返回数据
@@ -51,17 +53,13 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   componentWillMount() {
   }
 
-  componentDidMount() {
-    this.loadPreData()
-  }
-
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return JSON.stringify(this.state) !== JSON.stringify(nextState)
   }
 
-  loadPreData() {
+  onSelect(id) {
     // 加载当前操作小课名称
-    loadEditableProblem().then(res => {
+    loadProblem(id).then(res => {
       const { code, msg } = res
       if(code === 200) {
         this.setState({
@@ -248,7 +246,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     return (
       <div className="knowledge-import-container">
         <div style={{ padding: 50 }}>
-          <h1>小课名称： {problemName}</h1>
+          <h1>小课名称： {problemName}</h1><br/>
+          <ProblemSelector select={(id)=>this.onSelect(id)}></ProblemSelector>
           {renderChapterSelector()}
           <br/>
           {renderSectionSelector()}

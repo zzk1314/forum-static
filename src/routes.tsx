@@ -59,9 +59,10 @@ import UserProtocol from './modules/fragment/customer/personal/UserProtocol'
 import ReplyKnowledgeDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage'
 import ReplyCommentMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage'
 import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage'
-import WarmupPracticeInput from './modules/backend/import/warmup/practiceinput/WarmupPracticeImport'
+import WarmupPracticeImport from './modules/backend/import/warmup/practiceinput/WarmupPracticeImport'
 import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
 import ProblemImport from './modules/backend/import/problem/ProblemImport'
+import ProblemChange from './modules/backend/import/problem/Main'
 import CampUserView from './modules/camp/CampUserView'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
@@ -89,7 +90,7 @@ const routes = (
           <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
         </Route>
         <Route path="/backend/warmup/newpractice">
-          <Route path="/backend/warmup/practice/input" component={WarmupPracticeInput}/>
+          <Route path="/backend/warmup/practice/import" component={WarmupPracticeImport}/>
         </Route>
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
@@ -98,8 +99,8 @@ const routes = (
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
-        <Route path="/backend/knowledge/input" component={KnowledgeImport}/>
-        <Route path="/backend/problem/input" component={ProblemImport}/>
+        <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
+        <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
       </Route>
       <Route component={AsstIndex}>
