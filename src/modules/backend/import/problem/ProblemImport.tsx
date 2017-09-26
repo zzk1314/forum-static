@@ -11,15 +11,7 @@ import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 
 interface ProblemImportState {
   // 后台返回数据
-  problemId: string,
-  problemName: string,
-  schedules: [ {
-    section: number,
-    knowledgeId: number,
-    chapter: number,
-    series: number
-  } ],
-  knowledge: {},
+  data: object,
 
   // SnackBar
   snackShow: boolean,
@@ -38,8 +30,6 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       snackMessage: '',
       add: false,
       select: false,
-      targetChapter: 1,
-      targetSection: 1
     }
   }
 
@@ -148,10 +138,11 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
             value={decodeTextAreaString3(why)}
           />
           <FlatButton label="六、适用人群"/><br/>
-          <Editor
-            id="who" ref="who"
-            value={decodeTextAreaString3(who)}
-          />
+          <TextField
+            onChange={(e, v) => this.setState({ who: v })}
+            value={who}
+            multiLine={true}
+          /><br/>
           <FlatButton label="七、知识体系"/><br/>
           <Editor
             id="how" ref="how"
