@@ -45,14 +45,6 @@ export function loadSubject(submitId) {
   return pget(`/pc/fragment/subject/${submitId}`)
 }
 
-export function loadProblems() {
-  return pget('/pc/fragment/problem/list')
-}
-
-export function loadCurProblemId() {
-  return pget('/pc/fragment/problem/curId')
-}
-
 export function loadRiseWorkList(problemId) {
   return pget(`/pc/fragment/homework/${problemId}`)
 }

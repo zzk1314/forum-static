@@ -88,7 +88,7 @@ export default class Menu extends React.Component<any,any> {
     }
 
     return (
-      <div className="backendContent">
+      <div className="asstContent">
         <div className="leftList">
           {renderMenu()}
         </div>

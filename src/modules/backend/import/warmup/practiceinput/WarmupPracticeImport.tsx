@@ -5,9 +5,9 @@ import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, Tex
 import ChoiceEditor from "./inputcomponents/ChoiceEditor";
 import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmupPracticeByPracticeUid } from "../async";
 import * as _ from "lodash";
-import "./WarmupPracticeInput.less";
+import "./WarmupPracticeImport.less";
 
-interface WarmupPracticeInputStates {
+interface WarmupPracticeImportState {
   // 巩固练习训练对象
   question: string; // 题干
   type: number; // 题型 1-单选 2-多选
@@ -35,7 +35,7 @@ interface WarmupPracticeInputStates {
   showSnackBar: boolean; // 提交成功提示消息
 }
 @connect(state => state)
-export default class WarmupPracticeInput extends React.Component<any, WarmupPracticeInputStates> {
+export default class WarmupPracticeImport extends React.Component<any, WarmupPracticeImportState> {
 
   constructor() {
     super()
