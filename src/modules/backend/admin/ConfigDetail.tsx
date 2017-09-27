@@ -257,7 +257,7 @@ export default class ConfigDetail extends React.Component<any,any> {
             <div className="config-dialog">
               <div className="dialog-block">
                 <div className="label">Key</div>
-                <textarea className="edit-textarea" cols={30} rows={10} readOnly={false} value={this.state.key}
+                <textarea className="edit-textarea" cols={30} rows={10} readOnly={true} value={this.state.key}
                           onChange={(e)=>this.setState({key:e.currentTarget.value}) }/>
               </div>
               <div className="dialog-block">
