@@ -8,11 +8,14 @@ import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { CatalogSelector } from '../component/CatalogSelector'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { AudioModal } from '../component/AudioModal'
 
 interface ProblemImportState {
   // 后台返回数据
   data: object,
-
+  add: boolean,
+  select: boolean,
+  problemAudio:boolean,
   // SnackBar
   snackShow: boolean,
   snackMessage: string,
@@ -30,6 +33,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       snackMessage: '',
       add: false,
       select: false,
+      problemAudio:false,
     }
   }
 
@@ -41,11 +45,10 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
   }
 
   handleClickUpdateProblem() {
-    const { problem, length, abbreviation } = this.state
+    const { problem, length, abbreviation, audioId, who } = this.state
     const { dispatch } = this.props
     const why = this.refs.why.getValue()
     const how = this.refs.how.getValue()
-    const who = this.refs.who.getValue()
     const { catalogId, subCatalogId } = this.refs.catalog.getValue()
     let param = { problem, length, abbreviation, why, how, who, catalogId, subCatalogId }
     if(_.isEmpty(problem) || _.isEmpty(length) || _.isEmpty(abbreviation) ||
@@ -54,9 +57,9 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       return
     }
 
-    saveProblem({ problem, length, abbreviation, why, how, who, catalogId, subCatalogId }).then(res => {
+    saveProblem({ problem, length, abbreviation, why, how, who, catalogId, subCatalogId, audioId }).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加小课成功' })
+        this.setState({ snackShow: true, snackMessage: '添加小课成功', add:false, select:true })
       } else {
         this.setState({ snackShow: true, snackMessage: '添加小课失败' })
       }
@@ -74,8 +77,8 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
   }
 
   render() {
-    const { data, snackShow, snackMessage, add, select } = this.state
-    const { id, problem, length, catalogId, subCatalogId, who, why, how, abbreviation } = data
+    const { data, snackShow, snackMessage, add, select, problemAudio } = this.state
+    const { id, problem, length, catalogId, subCatalogId, who, why, how, abbreviation, audioId } = data
 
     const renderSelect = () => {
       return (
@@ -107,6 +110,13 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
         )
       }
     }
+
+    const renderProblemAudio = ()=>{
+        return (
+          <AudioModal ref="problemAudio" prefix="problem" audioId={audioId} upload={(id)=>this.setState({audioId:id})}
+                      close={()=>this.setState({problemAudio:false})}></AudioModal>
+        )
+    }
     return (
       <div className="problem-import-container">
         <div style={{ padding: 50 }}>
@@ -116,30 +126,36 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
             select ? renderAddName() : renderSelect()
           }
           <br/>
-          <FlatButton label="二、小课长度"/><br/>
+          <FlatButton label="二、小课语音"/><br/>
+          {problemAudio? renderProblemAudio() : <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({problemAudio:true})}
+            />}
+          <br/>
+          <FlatButton label="三、小课长度"/><br/>
           <TextField
             value={length}
             onChange={(e, v) => this.setState({ length: v })}
           /><br/>
-          <FlatButton label="三、小课缩略名称"/><br/>
+          <FlatButton label="四、小课缩略名称"/><br/>
           <TextField
             value={abbreviation}
             onChange={(e, v) => this.setState({ abbreviation: v })}
           /><br/>
-          <FlatButton label="四、小课类别"/><br/>
+          <FlatButton label="五、小课类别"/><br/>
           <CatalogSelector catalogId={catalogId} subCatalogId={subCatalogId} ref="catalog"></CatalogSelector><br/>
-          <FlatButton label="五、课程介绍"/><br/>
+          <FlatButton label="六、课程介绍"/><br/>
           <Editor
             id="why" ref="why"
             value={decodeTextAreaString3(why)}
           />
-          <FlatButton label="六、适用人群"/><br/>
+          <FlatButton label="七、适用人群"/><br/>
           <TextField
             onChange={(e, v) => this.setState({ who: v })}
             value={who}
             multiLine={true}
           /><br/>
-          <FlatButton label="七、知识体系"/><br/>
+          <FlatButton label="八、知识体系"/><br/>
           <Editor
             id="how" ref="how"
             value={decodeTextAreaString3(how)}

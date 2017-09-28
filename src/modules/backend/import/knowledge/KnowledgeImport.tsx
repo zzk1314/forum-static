@@ -9,6 +9,7 @@ import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { KnowledgeSelector } from '../component/KnowledgeSelector'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { AudioModal } from '../component/AudioModal'
 
 interface KnowledgeImportState {
   // 后台返回数据
@@ -21,7 +22,10 @@ interface KnowledgeImportState {
     series: number
   } ],
   knowledge: {},
-
+  knowledgeAudio:boolean,
+  analysisAudio:boolean,
+  meansAudio:boolean,
+  keynoteAudio:boolean,
   // SnackBar
   snackShow: boolean,
   snackMessage: string,
@@ -52,7 +56,15 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       snackMessage: '',
 
       targetChapter: 1,
-      targetSection: 1
+      targetSection: 1,
+      knowledgeAudio:false,
+      analysisAudio:false,
+      meansAudio:false,
+      keynoteAudio:false,
+      audioId:0,
+      analysisAudioId: 0,
+      keynoteAudioId: 0,
+      meansAudioId: 0,
     }
   }
 
@@ -115,7 +127,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   handleClickUpdateKnowledge() {
-    const { problemId, knowledge, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
+    const { problemId, knowledge, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,
+    analysisAudioId, keynoteAudioId, meansAudioId, audioId, targetChapter, targetSection} = this.state
     const { dispatch } = this.props
 
     const analysis = this.refs.analysis.getValue()
@@ -126,16 +139,16 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       id = knowledge.id
     }
 
-    let param = { analysis, means, keynote, knowledge: targetKnowledge, step: targetStep, id }
-    if(_.isEmpty(analysis) || _.isEmpty(means) || _.isEmpty(keynote) ||
-      _.isEmpty(targetKnowledge) || _.isEmpty(targetStep) ) {
+    let param = { analysis, means, keynote, knowledge: targetKnowledge, step: targetStep, chapter:targetChapter,
+      section:targetSection, id, analysisAudioId, keynoteAudioId, meansAudioId, audioId }
+    if(_.isEmpty(targetKnowledge) || _.isEmpty(targetStep)) {
       dispatch(alertMsg('请将所有信息填写完毕'))
       return
     }
 
     updateKnowledge(problemId, param).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加知识点成功' })
+        this.setState({ snackShow: true, snackMessage: '添加知识点成功', add:false, select:true })
       }else {
         dispatch(alertMsg(res.msg))
       }
@@ -149,7 +162,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   render() {
-    const { problemId, problemName, schedules, knowledge, snackShow, snackMessage, select, add,
+    const { problemId, problemName, schedules, knowledge, snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
       targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
 
     const renderSelect = () => {
@@ -168,13 +181,20 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       )
     }
 
+    const renderAudio = (prefix, upload, close)=>{
+      return (
+        <AudioModal ref="problemAudio" prefix={prefix} upload={(id)=>upload(id)}
+                    close={()=>close()}></AudioModal>
+      )
+    }
+
     const renderAddName = () => {
       if(add) {
         return (
-          <TextField
-            value={targetKnowledge}
-            onChange={(e, v) => this.setState({ targetKnowledge: v })}
-          />
+            <TextField
+              value={targetKnowledge}
+              onChange={(e, v) => this.setState({ targetKnowledge: v })}
+            />
         )
       } else {
         return (
@@ -242,6 +262,14 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           <br/>
           {renderSectionSelector()}
           <br/>
+          <FlatButton label="知识点语音"/><br/>
+          {knowledgeAudio? renderAudio('rise_kn', (id)=>this.setState({audioId:id}),
+              ()=>this.setState({knowledgeAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({knowledgeAudio:true})}
+            />}
+          <br/>
           <FlatButton label="二、步骤" /><br/>
           <TextField
             hintText="步骤"
@@ -253,16 +281,40 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
             id="analysis" ref="analysis"
             value={decodeTextAreaString3(targetAnalysis)}
           />
+          <FlatButton label="作用语音"/><br/>
+          {analysisAudio? renderAudio('rise_a', (id)=>this.setState({analysisAudioId:id}),
+              ()=>this.setState({analysisAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({analysisAudio:true})}
+            />}
+          <br/>
           <FlatButton label="四、方法" /><br/>
           <Editor
             id="means" ref="means"
             value={decodeTextAreaString3(targetMeans)}
           />
+          <FlatButton label="方法语音"/><br/>
+          {meansAudio? renderAudio('rise_m', (id)=>this.setState({meansAudioId:id}),
+              ()=>this.setState({meansAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({meansAudio:true})}
+            />}
+          <br/>
           <FlatButton label="五、要点" /><br/>
           <Editor
             id="keynote" ref="keynote"
             value={decodeTextAreaString3(targetKeynote)}
           /><br/>
+          <FlatButton label="要点语音"/><br/>
+          {keynoteAudio? renderAudio('rise_k', (id)=>this.setState({keynoteAudioId:id}),
+              ()=>this.setState({keynoteAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({keynoteAudio:true})}
+            />}
+          <br/><br/><br/>
           <RaisedButton
             label="更新数据" primary={true}
             onClick={() => this.handleClickUpdateKnowledge()}
