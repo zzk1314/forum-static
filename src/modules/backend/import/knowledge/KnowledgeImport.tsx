@@ -1,11 +1,15 @@
 import * as React from 'react'
+import { connect } from "react-redux"
+import { loadKnowledgeDetail, updateKnowledge } from './async'
 import _ from 'lodash'
-import { addNewChapter, addNewSection, loadKnowledgeDetail, updateKnowledge } from './async'
 import { loadProblem } from '../problem/async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
 import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
+import { KnowledgeSelector } from '../component/KnowledgeSelector'
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { AudioModal } from '../component/AudioModal'
 
 interface KnowledgeImportState {
   // 后台返回数据
@@ -18,7 +22,10 @@ interface KnowledgeImportState {
     series: number
   } ],
   knowledge: {},
-
+  knowledgeAudio:boolean,
+  analysisAudio:boolean,
+  meansAudio:boolean,
+  keynoteAudio:boolean,
   // SnackBar
   snackShow: boolean,
   snackMessage: string,
@@ -33,6 +40,8 @@ interface KnowledgeImportState {
   targetMeans: string,
   targetKeynote: string
 }
+
+@connect(state => state)
 export default class KnowledgeImport extends React.Component<any, KnowledgeImportState> {
 
   constructor() {
@@ -41,12 +50,21 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     this.state = {
       schedules: [],
       knowledge: {},
-
+      select: false,
+      add: false,
       snackShow: false,
       snackMessage: '',
 
       targetChapter: 1,
-      targetSection: 1
+      targetSection: 1,
+      knowledgeAudio:false,
+      analysisAudio:false,
+      meansAudio:false,
+      keynoteAudio:false,
+      audioId:0,
+      analysisAudioId: 0,
+      keynoteAudioId: 0,
+      meansAudioId: 0,
     }
   }
 
@@ -58,6 +76,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   onSelect(id) {
+    const { dispatch } = this.props
     // 加载当前操作小课名称
     loadProblem(id).then(res => {
       const { code, msg } = res
@@ -68,22 +87,20 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           schedules: msg.schedules
         })
       } else {
-        alert(msg)
+        dispatch(alertMsg(msg))
       }
+    }).catch(e=>{
+      dispatch(alertMsg(e))
     })
   }
 
   /**
    * 获取知识点详细信息
    */
-  handleLoadKnowledgeDetail() {
+  handleLoadKnowledgeDetail(knowledgeId) {
     const { schedules, targetChapter, targetSection } = this.state
-    let knowledgeId = null
-    schedules.map((schedule) => {
-      if(schedule.chapter === targetChapter && schedule.section === targetSection) {
-        knowledgeId = schedule.knowledgeId
-      }
-    })
+    const { dispatch } = this.props
+
     loadKnowledgeDetail(knowledgeId).then(res => {
       const { code, msg } = res
       if(code === 200) {
@@ -93,6 +110,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           snackMessage: "加载数据成功",
 
           knowledge: msg,
+          targetChapter: msg.chapter,
+          targetSection: msg.section,
           targetKnowledge: msg.knowledge,
           targetStep: msg.step,
           targetAnalysis: msg.analysis,
@@ -100,87 +119,42 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           targetKeynote: msg.keynote
         })
       } else {
-        alert(res.msg)
+        dispatch(alertMsg(msg))
       }
-    })
-  }
-
-  /**
-   * 新增 chapter
-   */
-  handleClickAddNewChapter() {
-    let maxChapter = this.calculateMaxChapter()
-    addNewChapter(maxChapter + 1).then(res => {
-      if(res.code === 200) {
-        this.loadPreData()
-        this.setState({ snackShow: true, snackMessage: '添加章节成功' })
-      } else {
-        alert(res.msg)
-      }
-    })
-  }
-
-  /**
-   * 新增 section，需要提前知道在哪个 chapter 上新增
-   */
-  handleClickAddNewSection() {
-    const { targetChapter } = this.state
-    let chapterMaxSection = this.calculateChapterMaxSection()
-    addNewSection(targetChapter, chapterMaxSection + 1).then(res => {
-      if(res.code === 200) {
-        this.loadPreData()
-        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
-      } else {
-        alert(res.msg)
-      }
+    }).catch(e=>{
+      dispatch(alertMsg(e))
     })
   }
 
   handleClickUpdateKnowledge() {
-    const { knowledge, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
+    const { problemId, knowledge, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,
+    analysisAudioId, keynoteAudioId, meansAudioId, audioId, targetChapter, targetSection} = this.state
+    const { dispatch } = this.props
 
-    const param = {
-      id: knowledge.id,
-      knowledge: targetKnowledge,
-      step: targetStep,
-      analysis: this.refs.analysis.getValue(),
-      means: this.refs.means.getValue(),
-      keynote: this.refs.keynote.getValue()
+    const analysis = this.refs.analysis.getValue()
+    const means = this.refs.means.getValue()
+    const keynote = this.refs.keynote.getValue()
+    let id = 0
+    if(knowledge.id){
+      id = knowledge.id
     }
 
-    updateKnowledge(param).then(res => {
+    let param = { analysis, means, keynote, knowledge: targetKnowledge, step: targetStep, chapter:targetChapter,
+      section:targetSection, id, analysisAudioId, keynoteAudioId, meansAudioId, audioId }
+    if(_.isEmpty(targetKnowledge) || _.isEmpty(targetStep)) {
+      dispatch(alertMsg('请将所有信息填写完毕'))
+      return
+    }
+
+    updateKnowledge(problemId, param).then(res => {
       if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加小节成功' })
-      } else {
-        alert(res.msg)
+        this.setState({ snackShow: true, snackMessage: '添加知识点成功', add:false, select:true })
+      }else {
+        dispatch(alertMsg(res.msg))
       }
+    }).catch(e=>{
+      dispatch(alertMsg(e))
     })
-  }
-
-  /**
-   * 计算当前最大的 Chapter
-   */
-  calculateMaxChapter() {
-    const { schedules } = this.state
-    let currentMaxChapter = 0
-    schedules.map((schedule) => {
-      currentMaxChapter = schedule.chapter > currentMaxChapter ? schedule.chapter : currentMaxChapter
-    })
-    return currentMaxChapter
-  }
-
-  /**
-   * 计算当前 Chapter 下的最大 Section
-   */
-  calculateChapterMaxSection() {
-    const { schedules, targetChapter } = this.state
-    let currentChapterMaxSection = 0
-    schedules.filter((schedule) => {
-      if(schedule.chapter === targetChapter) {
-        currentChapterMaxSection = schedule.section > currentChapterMaxSection ? schedule.section : currentChapterMaxSection
-      }
-    })
-    return currentChapterMaxSection
   }
 
   closeSnackShow() {
@@ -188,21 +162,55 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   render() {
-    const { problemId, problemName, schedules, knowledge, snackShow, snackMessage } = this.state
+    const { problemId, problemName, schedules, knowledge, snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
+      targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
 
-    const { targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
-
-    const renderChapterSelector = () => {
-      let chapterList = []
-      schedules.map((schedule) => {
-        chapterList.push(schedule.chapter)
-      })
-      chapterList = _.uniq(chapterList)
+    const renderSelect = () => {
       return (
         <div>
-          <h1>章节</h1>
+          <RaisedButton
+            label="添加知识点" primary={true}
+            style={{marginRight:50}}
+            onClick={() => this.setState({add:true, select:true})}
+          />
+          <RaisedButton
+            label="更新知识点" primary={true}
+            onClick={() => this.setState({add:false, select:true})}
+          />
+        </div>
+      )
+    }
+
+    const renderAudio = (prefix, upload, close)=>{
+      return (
+        <AudioModal ref="problemAudio" prefix={prefix} upload={(id)=>upload(id)}
+                    close={()=>close()}></AudioModal>
+      )
+    }
+
+    const renderAddName = () => {
+      if(add) {
+        return (
+            <TextField
+              value={targetKnowledge}
+              onChange={(e, v) => this.setState({ targetKnowledge: v })}
+            />
+        )
+      } else {
+        return (
+          <KnowledgeSelector problemId={problemId} select={(id)=>this.handleLoadKnowledgeDetail(id)}></KnowledgeSelector>
+        )
+      }
+    }
+
+    const renderChapterSelector = () => {
+      let chapterList = [1,2,3,4,5,6,7,8,9]
+      return (
+        <div>
+          <FlatButton label="章节" /><br/>
           <SelectField
             value={targetChapter}
+            disabled={!add}
             onChange={(e, idx, value) => this.setState({ targetChapter: value })}
           >
             {
@@ -218,17 +226,13 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     }
 
     const renderSectionSelector = () => {
-      let sectionList = []
-      schedules.map((schedule) => {
-        if(schedule.chapter === targetChapter) {
-          sectionList.push(schedule.section)
-        }
-      })
+      let sectionList = [1,2,3,4,5,6,7,8,9]
       return (
         <div>
-          <h1>小节</h1>
+          <FlatButton label="小节" /><br/>
           <SelectField
             value={targetSection}
+            disabled={!add}
             onChange={(e, idx, value) => this.setState({ targetSection: value })}
           >
             {
@@ -246,51 +250,71 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     return (
       <div className="knowledge-import-container">
         <div style={{ padding: 50 }}>
-          <h1>小课名称： {problemName}</h1><br/>
+          <FlatButton label="小课" /><br/>
           <ProblemSelector select={(id)=>this.onSelect(id)}></ProblemSelector>
+          <br/>
+          <FlatButton label="一、知识点" /><br/>
+          {
+            select ? renderAddName() : renderSelect()
+          }
+          <br/>
           {renderChapterSelector()}
           <br/>
           {renderSectionSelector()}
           <br/>
-          <RaisedButton
-            label="新增章节" primary={true}
-            onClick={() => this.handleClickAddNewChapter()}
-          />&nbsp;&nbsp;
-          <RaisedButton
-            label="新增小节" primary={true}
-            onClick={() => this.handleClickAddNewSection()}
-          />&nbsp;&nbsp;
-          <RaisedButton
-            label="加载知识点" primary={true}
-            onClick={() => this.handleLoadKnowledgeDetail()}
-          /><br/><br/>
-          <FlatButton label="一、知识点" fullWidth={true}/><br/>
-          <TextField
-            hintText="知识点"
-            value={targetKnowledge}
-            onChange={(e, v) => this.setState({ targetKnowledge: v })}
-          /><br/>
-          <FlatButton label="二、步骤" fullWidth={true}/><br/>
+          <FlatButton label="知识点语音"/><br/>
+          {knowledgeAudio? renderAudio('rise_kn', (id)=>this.setState({audioId:id}),
+              ()=>this.setState({knowledgeAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({knowledgeAudio:true})}
+            />}
+          <br/>
+          <FlatButton label="二、步骤" /><br/>
           <TextField
             hintText="步骤"
             value={targetStep}
             onChange={(e, v) => this.setState({ targetStep: v })}
           /><br/>
-          <FlatButton label="三、作用" fullWidth={true}/><br/>
+          <FlatButton label="三、作用" /><br/>
           <Editor
             id="analysis" ref="analysis"
             value={decodeTextAreaString3(targetAnalysis)}
           />
-          <FlatButton label="四、方法" fullWidth={true}/><br/>
+          <FlatButton label="作用语音"/><br/>
+          {analysisAudio? renderAudio('rise_a', (id)=>this.setState({analysisAudioId:id}),
+              ()=>this.setState({analysisAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({analysisAudio:true})}
+            />}
+          <br/>
+          <FlatButton label="四、方法" /><br/>
           <Editor
             id="means" ref="means"
             value={decodeTextAreaString3(targetMeans)}
           />
-          <FlatButton label="五、要点" fullWidth={true}/><br/>
+          <FlatButton label="方法语音"/><br/>
+          {meansAudio? renderAudio('rise_m', (id)=>this.setState({meansAudioId:id}),
+              ()=>this.setState({meansAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({meansAudio:true})}
+            />}
+          <br/>
+          <FlatButton label="五、要点" /><br/>
           <Editor
             id="keynote" ref="keynote"
             value={decodeTextAreaString3(targetKeynote)}
           /><br/>
+          <FlatButton label="要点语音"/><br/>
+          {keynoteAudio? renderAudio('rise_k', (id)=>this.setState({keynoteAudioId:id}),
+              ()=>this.setState({keynoteAudio:false})) :
+            <RaisedButton
+              label="上传语音" primary={true}
+              onClick={() => this.setState({keynoteAudio:true})}
+            />}
+          <br/><br/><br/>
           <RaisedButton
             label="更新数据" primary={true}
             onClick={() => this.handleClickUpdateKnowledge()}

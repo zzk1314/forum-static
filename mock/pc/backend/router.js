@@ -691,4 +691,28 @@ router.get("/pc/operation/problem/catalog/load", (req, res) => {
   }, Math.random() * 1500);
 });
 
+router.get("/pc/operation/knowledge/simple/*", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json(
+      {"msg":[{"id":44,"knowledge":"澄清问题的理解偏差"},{"id":45,"knowledge":"澄清背后的隐藏偏差"},{"id":46,"knowledge":"用5个为什么找原因"},{"id":47,"knowledge":"用矩阵确定关键-可行"}],"code":200}
+    );
+  }, Math.random() * 1500);
+});
+
+router.get("/pc/operation/knowledge/get/*", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json(
+      {"msg":{"id":15,"knowledge":"用SCAMPER结构化头脑风暴","step":"结构化思考","analysis":"SCAMPER（由七个英文单词或短语的首字母构成）是一种用于头脑风暴的问题清单，它为普通的头脑风暴提供了更为结构化的指导。通常适用于改进某个产品或服务的情景。","means":"在改进产品或服务时，用以下七个问题一一发问，拓展思路：\nSubstitute（代替）：成分、材料、人员是否有可替代方案，乃至对旧产品、旧服务可以进行替代吗？\nCombine（合并）：资源、品类、功能等是否存在合并的可能？\nAdapt（适应）：产品或服务能适应哪些其他场景？\nModify（修改）：产品的颜色、形状等特征可以作何修改？\nPut to other uses（作为他用）：产品或服务还有哪些新用途吗？\nEliminate（简化）：产品或服务可以做哪些简化？\nReverse（rearrange）（反向、重新安排）：产品或服务可以怎样逆向操作、重新安排？\n","keynote":"SCAMPER问题清单可以使你打开思路、拓展想法，但并非每个问题的答案都适合需要\n","analysisPic":null,"meansPic":null,"keynotePic":null,"pic":null,"audio":null,"analysisAudio":null,"meansAudio":null,"keynoteAudio":null,"appear":null,"chapter":2,"section":1},"code":200}
+    );
+  }, Math.random() * 1500);
+});
+
+router.get("/pc/operation/knowledge/update/knowledge/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": "ok"
+    }), Math.random() * 1500)
+});
+
 module.exports = router;

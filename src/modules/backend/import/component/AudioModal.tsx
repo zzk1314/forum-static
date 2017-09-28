@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { RaisedButton, TextField, Snackbar } from 'material-ui'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { ppost } from '../../utils/request'
-import './AudioModal.less'
-import Editor from '../editor/Editor'
+import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
+import Editor from '../../../../components/editor/Editor'
 import { connect } from 'react-redux'
+import Dialog from 'material-ui/Dialog'
+import { uploadAudioFile, updateAudioDB, loadAudio } from "./async"
 
 interface AudioModalProps {
+  prefix: string,
+  close: object,
 }
 interface AudioModalState {
 }
@@ -15,10 +17,25 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      showSnackBar: false,
+      snackMessage: '',
+      data: {},
+    }
   }
 
-  getInnerState() {
+  componentWillMount() {
+    const { audioId } = this.props
+    if(audioId) {
+      loadAudio(audioId).then(res => {
+        if(res.code === 200) {
+          this.setState({ data: res.msg, name:res.msg.name })
+        }
+      })
+    }
+  }
+
+  getValue() {
     return this.state
   }
 
@@ -26,16 +43,17 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
     const { dispatch } = this.props
     const { name } = this.state
 
-    const { prefix = 'iquanwai' } = this.props.location.query
+    const { prefix = 'iquanwai', close, audioId, upload } = this.props
 
     let words = this.refs.editor.getValue()
 
     let node = document.getElementById('file').files
     if(node.length === 0) {
-      dispatch(alertMsg('请上传音频'))
+      this.setState({ showSnackBar: true, snackMessage: '请上传音频' })
+      return
     }
     let formData = new FormData()
-    formData.append('file', node[0])
+    formData.append('file', node[ 0 ])
 
     dispatch(startLoad())
     uploadAudioFile(formData, prefix).then(res => {
@@ -43,16 +61,22 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
         updateAudioDB(name, res.msg, words).then(res2 => {
           dispatch(endLoad())
           if(res2.code === 200) {
+            if(upload){
+              upload(res2.msg)
+            }
+            if(close) {
+              close()
+            }
             this.setState({ showSnackBar: true })
           } else {
-            dispatch(alertMsg(res2.msg))
+            this.setState({ showSnackBar: true, snackMessage: res2.msg })
           }
-        }).catch(e => dispatch(alertMsg(e)))
+        }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
       } else {
         dispatch(endLoad())
-        dispatch(alertMsg(res.msg))
+        this.setState({ showSnackBar: true, snackMessage: res.msg })
       }
-    }).catch(e => dispatch(alertMsg(e)))
+    }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
   }
 
   handleRequestClose() {
@@ -60,20 +84,25 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
   }
 
   render() {
-    const { name, showSnackBar = false } = this.state
+    const { name, data, showSnackBar = false, snackMessage } = this.state
+    const { words } = data
 
     const renderOtherComponents = () => {
       return (
         <Snackbar
           open={showSnackBar}
-          message="插入音频数据成功"
+          message={snackMessage}
           autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}/>
       )
     }
 
     return (
-      <div>
+      <Dialog open={true}
+              title="上传语音"
+              style={{top:-50}}
+              autoScrollBodyContent={true}
+              modal={false}>
         <div className="audio-component">
           <div className="audio-name">
             <TextField
@@ -84,30 +113,24 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
           <div>
             <Editor
               ref="editor"
+              value={words}
               placeholder="输入文字版"/>
           </div>
           <RaisedButton fullWidth={true} style={{ marginTop: 10 }}>
             <input type="file" id="file" label=""/>
           </RaisedButton>
           <RaisedButton
-            fullWidth={true} primary={true}
-            label="提交" style={{ marginTop: 20 }}
+            primary={true}
+            label="提交" style={{ marginTop: 20, marginRight: 50 }}
             onClick={() => this.handleSubmit()}/>
+          <RaisedButton
+            primary={false}
+            label="取消" style={{ marginTop: 20 }}
+            onClick={() => this.props.close()}/>
         </div>
         {renderOtherComponents()}
-      </div>
+      </Dialog>
     )
   }
 }
 
-function uploadAudioFile(file, prefix) {
-  return ppost(`/pc/upload/audio/ftp?prefix=${prefix}`, file)
-}
-
-function updateAudioDB(name, ftpFileName, words) {
-  return ppost(`/pc/upload/audio/db`, {
-    name: name,
-    ftpFileName: ftpFileName,
-    words: words
-  })
-}

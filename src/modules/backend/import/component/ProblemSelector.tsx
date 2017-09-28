@@ -1,6 +1,4 @@
 import * as React from "react";
-import './ProblemSelector.less'
-import _ from "lodash"
 import { SelectField, MenuItem } from 'material-ui'
 import { loadSimpleProblems } from "../problem/async"
 

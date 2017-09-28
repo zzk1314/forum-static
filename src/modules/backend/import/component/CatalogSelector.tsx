@@ -1,5 +1,4 @@
 import * as React from "react";
-import './CatalogSelector.less'
 import _ from "lodash"
 import { SelectField, MenuItem } from 'material-ui'
 import { loadProblemCatalog } from "../problem/async"
