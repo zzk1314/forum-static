@@ -43,7 +43,6 @@ export class KnowledgeSelector extends React.Component<any,any> {
 
   onSelect(value){
     this.setState({ targetKnowledge: value})
-    console.log(value)
     const {select} = this.props
     if(select){
       select(value.id)
