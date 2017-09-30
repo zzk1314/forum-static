@@ -17,14 +17,15 @@ const industryList = [
   { id: "7", value: "银行/证券/保险" },
   { id: "8", value: "机械/重工" },
   { id: "9", value: "房地产" },
-  { id: "10", value: "学术/科研/院校" },
+  { id: "10", value: "教育/学术/科研/院校" },
   { id: "11", value: "医药/医疗设备" },
   { id: "12", value: "通信/电子" },
   { id: "13", value: "计算机硬件/半导体" },
   { id: "14", value: "能源/化工" },
   { id: "15", value: "物流" },
   { id: "16", value: "政府/公共事业/非营利" },
-  { id: "17", value: "其他" }
+  { id: "17", value: "学生" },
+  { id: "18", value: "其他" }
 ];
 
 const workingLifeList = [
