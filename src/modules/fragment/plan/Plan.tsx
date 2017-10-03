@@ -61,6 +61,19 @@ export default class Plan extends React.Component<any, PlanStates> {
     })
   }
 
+  handleClickPlan(plan) {
+    const { learnable, startDate } = plan
+    const { dispatch } = this.props
+    if(learnable) {
+      this.context.router.push({
+        pathname: '/fragment/learn',
+        query: { planId: plan.planId }
+      })
+    } else {
+      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+    }
+  }
+
   generatePlansView(plans) {
     if(!plans) {
       return
@@ -71,7 +84,7 @@ export default class Plan extends React.Component<any, PlanStates> {
           return (
             <div
               className="plan-problem" key={index}
-              onClick={() => this.context.router.push({ pathname: '/fragment/learn', query: { planId: plan.planId } })}>
+              onClick={() => this.handleClickPlan(plan)}>
               <div className="problem-item">
                 <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                 <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
@@ -86,8 +99,7 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   render() {
-    const { runningPlans, donePlans, isloading, isFollow } = this.state
-
+    const { runningPlans = [], donePlans = [], isloading, isFollow } = this.state
     const renderRunningPlans = () => {
       if(runningPlans.length > 0) {
         return this.generatePlansView(runningPlans)

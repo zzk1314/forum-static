@@ -61,5 +61,5 @@ export function checkIsFollow() {
 }
 
 export function loadSelfPlans() {
-  return pget("/rise/customer/pc/plans")
+  return pget("/rise/plan/list")
 }
