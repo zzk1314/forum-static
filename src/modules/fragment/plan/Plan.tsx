@@ -12,7 +12,7 @@ interface PlanStates {
   // 进行中计划
   runningPlans: object;
   // 已完成计划
-  donePlans: object;
+  completedPlans: object;
   // 是否正在获取数据
   isloading: boolean;
   isFollow: boolean;
@@ -24,7 +24,7 @@ export default class Plan extends React.Component<any, PlanStates> {
     super()
     this.state = {
       runningPlans: [],
-      donePlans: [],
+      completedPlans: [],
       isloading: true,
       isFollow: true
     }
@@ -51,7 +51,7 @@ export default class Plan extends React.Component<any, PlanStates> {
           dispatch(endLoad())
           const { code, msg } = res
           if(code === 200) {
-            this.setState({ runningPlans: msg.runningPlans, donePlans: msg.donePlans })
+            this.setState({ runningPlans: msg.runningPlans, completedPlans: msg.completedPlans })
           }
         }).catch(ex => {
           dispatch(endLoad())
@@ -59,6 +59,19 @@ export default class Plan extends React.Component<any, PlanStates> {
         })
       }
     })
+  }
+
+  handleClickPlan(plan) {
+    const { learnable, startDate } = plan
+    const { dispatch } = this.props
+    if(learnable) {
+      this.context.router.push({
+        pathname: '/fragment/learn',
+        query: { planId: plan.planId }
+      })
+    } else {
+      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+    }
   }
 
   generatePlansView(plans) {
@@ -71,7 +84,7 @@ export default class Plan extends React.Component<any, PlanStates> {
           return (
             <div
               className="plan-problem" key={index}
-              onClick={() => this.context.router.push({ pathname: '/fragment/learn', query: { planId: plan.planId } })}>
+              onClick={() => this.handleClickPlan(plan)}>
               <div className="problem-item">
                 <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                 <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
@@ -86,8 +99,7 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   render() {
-    const { runningPlans, donePlans, isloading, isFollow } = this.state
-
+    const { runningPlans = [], completedPlans = [], isloading, isFollow } = this.state
     const renderRunningPlans = () => {
       if(runningPlans.length > 0) {
         return this.generatePlansView(runningPlans)
@@ -98,9 +110,9 @@ export default class Plan extends React.Component<any, PlanStates> {
       }
     }
 
-    const renderDonePlans = () => {
-      if(donePlans.length > 0) {
-        return this.generatePlansView(donePlans)
+    const renderCompletePlans = () => {
+      if(completedPlans.length > 0) {
+        return this.generatePlansView(completedPlans)
       } else {
         return <div className="plan-tip">暂时没有已完成的小课</div>
       }
@@ -117,7 +129,7 @@ export default class Plan extends React.Component<any, PlanStates> {
           <div className="plan-splitline"/>
           <div className="plan-plans">
             <span>已完成</span>
-            {renderDonePlans()}
+            {renderCompletePlans()}
           </div>
         </div>
       )
