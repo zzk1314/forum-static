@@ -68,6 +68,7 @@ import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
 import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
+import BusinessSchoolApplication from "./modules/backend/operation/BusinessSchoolApplication"
 
 const routes = (
   <Route path="/">
@@ -106,6 +107,7 @@ const routes = (
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/sms/manager" component={SmsManager}/>
+        <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>

@@ -48,6 +48,7 @@
     "react-flexbox-grid": "^0.10.2",
     "react-lite": "^0.15.16",
     "react-motion": "^0.4.5",
+    "react-paginate": "^4.4.4",
     "react-rangeslider": "1.0.9",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
