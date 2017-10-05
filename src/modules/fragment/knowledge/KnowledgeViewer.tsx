@@ -242,7 +242,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               </div>
               {analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
               <div className="text">
-                <pre>{analysis}</pre>
+                <pre dangerouslySetInnerHTML={{ __html: analysis }} />
               </div>
               { analysisPic ?
                 <div className="context-img">
@@ -258,7 +258,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               </div>
               {meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
               <div className="text">
-                <pre>{means}</pre>
+                <pre dangerouslySetInnerHTML={{ __html: means }} />
               </div>
               { meansPic ?
                 <div className="context-img">
@@ -274,7 +274,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               </div>
               {keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
               <div className="text">
-                <pre>{keynote}</pre>
+                <pre dangerouslySetInnerHTML={{ __html: keynote }} />
               </div>
               { keynotePic ? <div className="context-img"><AssetImg width={'60%'} url={keynotePic}/></div> : null }
             </div> :
@@ -285,7 +285,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
               </div>
               <div className="question">
-                <div className="context" dangerouslySetInnerHTML={{ __html: example.question }}/>
+                <pre dangerouslySetInnerHTML={{ __html: example.question }}/>
               </div>
               <div className="choice-list">
                 {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
@@ -297,7 +297,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context">
                     正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                   </div>
-                  <div className="context" dangerouslySetInnerHTML={{ __html: example.analysis }}/>
+                  <pre dangerouslySetInnerHTML={{ __html: example.analysis }}/>
                 </div> :
                 <div className="analysis">
                   <div className="analysis-tip click-key" onClick={() => this.setState({ showTip: true })}>点击查看解析
