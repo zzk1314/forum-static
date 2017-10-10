@@ -7,12 +7,10 @@ import Editor from '../../../components/editor/Editor'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft
 } from './async'
 import Work from '../components/NewWork'
 import _ from 'lodash'
 import { Work } from '../components/NewWork'
-import KnowledgeModal from  '../components/KnowledgeModal'
 import { BreadCrumbs, TitleBar } from '../commons/FragmentComponent'
 import { ArticleViewModule } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
@@ -27,7 +25,6 @@ export default class Application extends React.Component<any, any> {
     this.state = {
       data: {},
       knowledge: {},
-      showKnowledge: false,
       submitId: 0,
       page: 0,
       otherList: [],
@@ -106,10 +103,6 @@ export default class Application extends React.Component<any, any> {
 
   onEdit() {
     this.setState({ edit: true })
-  }
-
-  closeModal() {
-    this.setState({ showKnowledge: false })
   }
 
   goComment(submitId) {
@@ -207,7 +200,7 @@ export default class Application extends React.Component<any, any> {
 
   render() {
     const {
-      data, otherList, knowledge = {}, showKnowledge, end,
+      data, otherList, knowledge = {}, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
@@ -344,7 +337,6 @@ export default class Application extends React.Component<any, any> {
             {renderEnd()}
           </div>
         </div>
-        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={() => this.closeModal()}/> : null}
       </div>
     )
   }
