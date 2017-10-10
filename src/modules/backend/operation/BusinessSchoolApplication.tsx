@@ -219,11 +219,11 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
               onClick={() => this.handleClickRejectApplication(editData,comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
-              label="忽略" secondary={true}
+              label="私信" secondary={true}
               onClick={() => this.handleClickIgnoreApplication(editData,comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
-              label="关闭" secondary={true}
+              label="取消" secondary={true}
               onClick={() => this.handleClickClose()}/>
             {
               showCouponChoose ?
