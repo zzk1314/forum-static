@@ -13,7 +13,7 @@ const cellStyle = {
   paddingRight: 0,
 }
 @connect(state => state)
-export default class BusinessSchoolApplication extends React.Component<any,any> {
+export default class BusinessSchoolApplication extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -155,9 +155,9 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
     const renderDialogItem = (label, value, br) => {
       return (
         <div className="bs-dialog-row">
-          <span className="bs-dialog-label">{label}：</span>{br ?<br/>: null}
+          <span className="bs-dialog-label">{label}：</span>{br ? <br/> : null}
           <span className="bs-dialog-value">{value}</span>
-          <Divider />
+          <Divider/>
         </div>
       )
     }
@@ -167,7 +167,7 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
-            <div className="bs-dialog-header" style={{marginTop:'0px'}}>
+            <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               申请者信息：
             </div>
             {renderDialogItem("昵称", editData.nickname)}
@@ -208,7 +208,7 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
               value={comment}
               onChange={(e, v) => this.setState({ comment: v })}
               rowsMax={4}
-            /><br />
+            /><br/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="通过" secondary={true}
@@ -216,11 +216,11 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="拒绝" secondary={true}
-              onClick={() => this.handleClickRejectApplication(editData,comment)}/>
+              onClick={() => this.handleClickRejectApplication(editData, comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="私信" secondary={true}
-              onClick={() => this.handleClickIgnoreApplication(editData,comment)}/>
+              onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="取消" secondary={true}
@@ -231,19 +231,21 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
                   <SelectField
                     floatingLabelText="请选择优惠券"
                     value={coupon}
-                    onChange={(event, index, value)=>this.handleChangeCoupon(event, index, value)}
+                    onChange={(event, index, value) => this.handleChangeCoupon(event, index, value)}
                   >
                     <MenuItem value={0} primaryText="无"/>
                     <MenuItem value={100} primaryText="100"/>
                     <MenuItem value={200} primaryText="200"/>
                     <MenuItem value={300} primaryText="300"/>
                     <MenuItem value={500} primaryText="500"/>
+                    <MenuItem value={1340} primaryText="1340"/>
+                    <MenuItem value={2680} primaryText="2680"/>
                   </SelectField>
                   <RaisedButton
                     style={{ marginLeft: 30 }}
                     label="确定" primary={true}
-                    onClick={() => this.handleClickApprove(editData,coupon,comment)}/>
-                </div>: null
+                    onClick={() => this.handleClickApprove(editData, coupon, comment)}/>
+                </div> : <div className="bs-dialog-coupon"/>
             }
           </div>
         </Dialog>
@@ -252,8 +254,8 @@ export default class BusinessSchoolApplication extends React.Component<any,any> 
     return (
       <div className="bs-container">
         {renderDialog()}
-        <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item)=>this.openDialog(item)}
-                      page={this.state.tablePage} handlePageClick={(page)=>this.handlePageClick(page)} opsName="审核"/>
+        <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item) => this.openDialog(item)}
+                      page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)} opsName="审核"/>
       </div>
     )
   }
