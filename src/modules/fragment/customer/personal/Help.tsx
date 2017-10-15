@@ -55,12 +55,15 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
                 <p className="q">-课程的老师是谁啊？</p>
                 <p>-圈外的小课多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
 
-                <p className="q">-之前报名的是专业版，现在我想升级成精英版，可以吗？</p>
-                <p>-可以的，补差价即可。差价=（升级时专业版或精英版的价格）－（您购买的价格）<br/>请微信添加圈外助手小Q完成付款（ID：quanwaizhushou）</p>
+                <p className="q">还想了解更多【商学院】的使用问题？戳链接直达：</p>
+                <p><a style={{ color: '#666' }} href="https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/">
+                  {'https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/'}</a>
+                </p>
                 <br/>
-                <p className="q">啊哦～还想了解更多关于【圈外同学】使用的问题？戳链接直达吧——</p>
-                <p><a style={{ color: '#666' }}
-                      href="https://shimo.im/doc/lRPFODOw4CY7eHfv/">{'https://shimo.im/doc/lRPFODOw4CY7eHfv/'}</a></p>
+                <p className="q">还想了解更多【训练营】的使用问题？戳链接直达：</p>
+                <p><a style={{ color: '#666' }} href="https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/">
+                  {'https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/'}</a>
+                </p>
                 <br/>
               </div>
             </div>
