@@ -6,8 +6,7 @@ import AssetImg from '../../../components/AssetImg'
 import Editor from '../../../components/editor/Editor'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft
+  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft
 } from './async'
 import Work from '../components/NewWork'
 import _ from 'lodash'
