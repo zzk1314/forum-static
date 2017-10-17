@@ -5,7 +5,6 @@ import _ from 'lodash'
 import { loadProblem } from '../problem/async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
-import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { KnowledgeSelector } from '../component/KnowledgeSelector'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
@@ -116,7 +115,11 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           targetStep: msg.step,
           targetAnalysis: msg.analysis,
           targetMeans: msg.means,
-          targetKeynote: msg.keynote
+          targetKeynote: msg.keynote,
+          audioId: msg.audioId,
+          analysisAudioId:msg.analysisAudioId,
+          meansAudioId:msg.meansAudioId,
+          keynoteAudioId:msg.keynoteAudioId,
         })
       } else {
         dispatch(alertMsg(msg))
@@ -163,7 +166,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
 
   render() {
     const { problemId, problemName, schedules, knowledge, snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
-      targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote } = this.state
+      targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,
+      audioId, analysisAudioId, keynoteAudioId, meansAudioId } = this.state
 
     const renderSelect = () => {
       return (
@@ -181,9 +185,9 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
       )
     }
 
-    const renderAudio = (prefix, upload, close)=>{
+    const renderAudio = (prefix, audioId, upload, close)=>{
       return (
-        <AudioModal ref="problemAudio" prefix={prefix} upload={(id)=>upload(id)}
+        <AudioModal ref="problemAudio" prefix={prefix} upload={(id)=>upload(id)} audioId={audioId}
                     close={()=>close()}></AudioModal>
       )
     }
@@ -263,7 +267,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           {renderSectionSelector()}
           <br/>
           <FlatButton label="知识点语音"/><br/>
-          {knowledgeAudio? renderAudio('rise_kn', (id)=>this.setState({audioId:id}),
+          {knowledgeAudio? renderAudio('rise_kn', audioId, (id)=>this.setState({audioId:id}),
               ()=>this.setState({knowledgeAudio:false})) :
             <RaisedButton
               label="上传语音" primary={true}
@@ -279,10 +283,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           <FlatButton label="三、作用" /><br/>
           <Editor
             id="analysis" ref="analysis"
-            value={decodeTextAreaString3(targetAnalysis)}
+            value={targetAnalysis}
           />
           <FlatButton label="作用语音"/><br/>
-          {analysisAudio? renderAudio('rise_a', (id)=>this.setState({analysisAudioId:id}),
+          {analysisAudio? renderAudio('rise_a', analysisAudioId, (id)=>this.setState({analysisAudioId:id}),
               ()=>this.setState({analysisAudio:false})) :
             <RaisedButton
               label="上传语音" primary={true}
@@ -292,10 +296,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           <FlatButton label="四、方法" /><br/>
           <Editor
             id="means" ref="means"
-            value={decodeTextAreaString3(targetMeans)}
+            value={targetMeans}
           />
           <FlatButton label="方法语音"/><br/>
-          {meansAudio? renderAudio('rise_m', (id)=>this.setState({meansAudioId:id}),
+          {meansAudio? renderAudio('rise_m', meansAudioId, (id)=>this.setState({meansAudioId:id}),
               ()=>this.setState({meansAudio:false})) :
             <RaisedButton
               label="上传语音" primary={true}
@@ -305,10 +309,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           <FlatButton label="五、要点" /><br/>
           <Editor
             id="keynote" ref="keynote"
-            value={decodeTextAreaString3(targetKeynote)}
+            value={targetKeynote}
           /><br/>
           <FlatButton label="要点语音"/><br/>
-          {keynoteAudio? renderAudio('rise_k', (id)=>this.setState({keynoteAudioId:id}),
+          {keynoteAudio? renderAudio('rise_k', keynoteAudioId, (id)=>this.setState({keynoteAudioId:id}),
               ()=>this.setState({keynoteAudio:false})) :
             <RaisedButton
               label="上传语音" primary={true}
