@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import './Editor.less'
+import * as _ from 'lodash';
 var $ = require('jquery')
 var Simditor = require('./simditor')
 
@@ -85,6 +86,10 @@ export default class Editor extends React.Component {
       defaultImage: this.props.defaultImage || 'https://static.iqycamp.com/images/imgLoading.png?imageslim' //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
     })
 
+    editor.on('valuechanged', (e) => {
+      // draft != submit
+      this.handleValueChanged();
+    })
     editor.on('pasting', (e, $content) => {
       // 图片处理
       let images = $content.find('img')
@@ -157,6 +162,15 @@ export default class Editor extends React.Component {
 
   getValue() {
     return this.state.editor.getValue()
+  }
+
+  handleValueChanged() {
+    if(this.state.editor) {
+      //自动保存
+      if(_.isFunction(this.props.onChange)) {
+        this.props.onChange(this.getValue());
+      }
+    }
   }
 
   render() {
