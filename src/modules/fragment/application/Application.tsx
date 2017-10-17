@@ -7,6 +7,7 @@ import Editor from '../../../components/editor/Editor'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft,
+  autoUpdateApplicationDraft
 } from './async'
 import Work from '../components/NewWork'
 import _ from 'lodash'
@@ -32,7 +33,8 @@ export default class Application extends React.Component<any, any> {
       showOthers: false,
       editorValue: '',
       edit: true,
-      draft: ''
+      draft: '',
+      autoPushDraftFlag: null,
     }
   }
 
@@ -56,7 +58,8 @@ export default class Application extends React.Component<any, any> {
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
-          applicationScore: res.msg.applicationScore
+          applicationScore: res.msg.applicationScore,
+          autoPushDraftFlag: false,
         })
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -96,7 +99,10 @@ export default class Application extends React.Component<any, any> {
       const applicationId = this.props.location.query.id
       const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
-        autoSaveApplicationDraft(planId, applicationId, draft)
+        if(this.state.autoPushDraftFlag) {
+          autoSaveApplicationDraft(planId, applicationId, draft)
+          this.setState({ autoPushDraftFlag: false });
+        }
       }
     }, 10000)
   }
@@ -317,6 +323,7 @@ export default class Application extends React.Component<any, any> {
                     }}
                     defaultValue={this.state.editorValue}
                     value={this.state.editorValue}
+                    onChange={()=>this.setState({autoPushDraftFlag:true})}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
