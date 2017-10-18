@@ -295,3 +295,43 @@ body {
     display: block;
   }
 }
+
+.writeDiscuss {
+  position: fixed;
+  height:55px;
+  width:55px;
+  left:15px;
+  bottom: 68px;
+}
+
+ul.pagination {
+  display: flex;
+  width:80%;
+  list-style-type: none;
+  min-width:400px;
+  li {
+    text-align: center;
+    flex:1;
+    cursor: pointer;
+    margin:0 20px;
+    padding:5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;;
+    background:#55ccff;
+    &.previous,&.next {
+      background:#a0b5eb;
+      &.disabled {
+        background:#999999;
+      }
+    }
+    &.active {
+      background:#66CBCB;
+    }
+    a {
+      display: inline-block;
+      width:100%;
+      height:100%;
+    }
+  }
+}

@@ -4,7 +4,6 @@ import _ from 'lodash'
 import { loadProblem, saveProblem } from './async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
-import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { CatalogSelector } from '../component/CatalogSelector'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
@@ -12,7 +11,6 @@ import { AudioModal } from '../component/AudioModal'
 
 interface ProblemImportState {
   // 后台返回数据
-  data: object,
   add: boolean,
   select: boolean,
   problemAudio:boolean,
@@ -29,7 +27,6 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
     super()
     // 设置初始值
     this.state = {
-      data: {},
       snackShow: false,
       snackMessage: '',
       add: false,
@@ -52,7 +49,8 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
     const how = this.refs.how.getValue()
     const { catalogId, subCatalogId } = this.refs.catalog.getValue()
     let param = { problem, length, abbreviation, why, how, who, catalogId, subCatalogId }
-    if(_.isEmpty(problem) || _.isEmpty(length) || _.isEmpty(abbreviation) ||
+
+    if(_.isEmpty(problem) || !length || _.isEmpty(abbreviation) ||
       _.isEmpty(why) || _.isEmpty(how) || _.isEmpty(who) || !catalogId || !subCatalogId) {
       dispatch(alertMsg('请将所有信息填写完毕'))
       return
@@ -73,13 +71,13 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
 
   onSelect(id) {
     loadProblem(id).then(res => {
-      this.setState({ data: res.msg })
+      this.setState(res.msg)
     })
   }
 
   render() {
-    const { data, snackShow, snackMessage, add, select, problemAudio } = this.state
-    const { id, problem, length, catalogId, subCatalogId, who, why, how, abbreviation, audioId } = data
+    const { id, problem, length, catalogId, subCatalogId, who, why, how, abbreviation,
+      audioId, snackShow, snackMessage, add, select, problemAudio } = this.state
 
     const renderSelect = () => {
       return (
@@ -148,7 +146,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
           <FlatButton label="六、课程介绍"/><br/>
           <Editor
             id="why" ref="why"
-            value={decodeTextAreaString3(why)}
+            value={why}
           />
           <FlatButton label="七、适用人群"/><br/>
           <TextField
@@ -159,7 +157,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
           <FlatButton label="八、知识体系"/><br/>
           <Editor
             id="how" ref="how"
-            value={decodeTextAreaString3(how)}
+            value={how}
           /><br/>
           <RaisedButton
             label="更新数据" primary={true}
