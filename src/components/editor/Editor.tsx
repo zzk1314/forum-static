@@ -162,9 +162,7 @@ export default class Editor extends React.Component {
   render() {
     return (
       <textarea id={this.props.id ? this.props.id : 'editor'}
-                placeholder={this.props.placeholder}
-                autoFocus>
-      </textarea>
+                placeholder={this.props.placeholder}/>
     )
   }
 }
