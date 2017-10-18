@@ -19,10 +19,18 @@ router.get("/account/check/follow", (req, res) => {
     res.status(200).json({"msg":"ok","code":200}), Math.random() * 1500)
 });
 
-router.post("/file/image/upload/**", (req, res) => {
+router.post("/pc/upload/audio/ftp", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
-      msg:{picUrl:"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4UicyBgqKRVJttibsFibo0UqPwPDw2IWXae7OFWhODmGp90A1Gy8kCmbxrMdc995HqiaJkWe9HLozbicicr4VyK6lGPmqC1Xbke9cqQ/0",},
+      msg:"https://www.iqycamp.com/audio/a.m4a",
+      code:200
+    })}, Math.random() * 5000)
+});
+
+router.post("/pc/upload/audio/db", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({
+      msg:"ok",
       code:200
     })}, Math.random() * 5000)
 });

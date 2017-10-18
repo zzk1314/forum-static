@@ -4,7 +4,6 @@ import _ from 'lodash'
 import { loadProblem, saveProblem } from './async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
-import { decodeTextAreaString3 } from '../../../../utils/textUtils'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { CatalogSelector } from '../component/CatalogSelector'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"

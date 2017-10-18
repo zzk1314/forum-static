@@ -21,6 +21,7 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
       showSnackBar: false,
       snackMessage: '',
       data: {},
+      loading: false,
     }
   }
 
@@ -55,11 +56,11 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
     let formData = new FormData()
     formData.append('file', node[ 0 ])
 
-    dispatch(startLoad())
+    this.setState({loading:true})
     uploadAudioFile(formData, prefix).then(res => {
       if(res.code === 200) {
         updateAudioDB(name, res.msg, words).then(res2 => {
-          dispatch(endLoad())
+          this.setState({loading:false})
           if(res2.code === 200) {
             if(upload){
               upload(res2.msg)
@@ -73,7 +74,6 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
           }
         }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
       } else {
-        dispatch(endLoad())
         this.setState({ showSnackBar: true, snackMessage: res.msg })
       }
     }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
@@ -84,7 +84,7 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
   }
 
   render() {
-    const { name, data, showSnackBar = false, snackMessage } = this.state
+    const { name, data, showSnackBar = false, snackMessage, loading } = this.state
     const { words } = data
 
     const renderOtherComponents = () => {
@@ -119,10 +119,14 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
           <RaisedButton fullWidth={true} style={{ marginTop: 10 }}>
             <input type="file" id="file" label=""/>
           </RaisedButton>
+          { loading ?
+          <RaisedButton
+              primary={true} disabled={true}
+              label="提交中" style={{ marginTop: 20, marginRight: 50 }} /> :
           <RaisedButton
             primary={true}
             label="提交" style={{ marginTop: 20, marginRight: 50 }}
-            onClick={() => this.handleSubmit()}/>
+            onClick={() => this.handleSubmit()}/> }
           <RaisedButton
             primary={false}
             label="取消" style={{ marginTop: 20 }}
