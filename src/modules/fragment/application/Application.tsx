@@ -1,32 +1,30 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
-import "./Application.less";
-import AssetImg from "../../../components/AssetImg";
-import Editor from "../../../components/editor/Editor";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
+import './Application.less'
+import AssetImg from '../../../components/AssetImg'
+import Editor from '../../../components/editor/Editor'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft
-} from "./async";
-import Work from "../components/NewWork";
-import _ from "lodash";
-import { Work } from "../components/NewWork";
-import KnowledgeModal from  "../components/KnowledgeModal"
-import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
-import { ArticleViewModule } from "../../../utils/helpers"
-import { mark } from "../../../utils/request"
+  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft
+} from './async'
+import Work from '../components/NewWork'
+import _ from 'lodash'
+import { Work } from '../components/NewWork'
+import { BreadCrumbs, TitleBar } from '../commons/FragmentComponent'
+import { ArticleViewModule } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
 
-let timer;
+let timer
+
 @connect(state => state)
 export default class Application extends React.Component<any, any> {
 
   constructor() {
-    super();
+    super()
     this.state = {
       data: {},
       knowledge: {},
-      showKnowledge: false,
       submitId: 0,
       page: 0,
       otherList: [],
@@ -34,10 +32,9 @@ export default class Application extends React.Component<any, any> {
       showOthers: false,
       editorValue: '',
       edit: true,
-      draftId: -1,
       draft: '',
-      showDraftToast: false
-    };
+      autoPushDraftFlag: null,
+    }
   }
 
   static contextTypes = {
@@ -45,30 +42,27 @@ export default class Application extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "RISE", action: "PC打开应用练习页", memo: "PC" })
-    const { location, dispatch } = this.props;
-    const { integrated, id, planId } = location.query;
-    this.setState({ integrated });
+    mark({ module: '打点', function: 'RISE', action: 'PC打开应用练习页', memo: 'PC' })
+    const { location, dispatch } = this.props
+    const { integrated, id, planId } = location.query
+    this.setState({ integrated })
     loadApplicationPractice(id, planId).then(res => {
-      const { code, msg } = res;
+      const { code, msg } = res
       if(code === 200) {
-        if(res.msg.draftId) {
-          this.setState({ draftId: res.msg.draftId })
-        }
+        dispatch(endLoad())
         this.setState({
-          data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
-          editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
+          edit: !msg.isSynchronized,
+          editorValue: msg.isSynchronized ? msg.content : msg.draft,
+          isSynchronized: msg.isSynchronized,
+          data: msg,
+          submitId: msg.submitId,
+          planId: msg.planId,
+          applicationScore: res.msg.applicationScore,
+          autoPushDraftFlag: false,
         })
-        const isSubmitted = res.msg.content != null;
-        if(!isSubmitted) {
-          this.autoSaveApplicationDraft();
-        }
-        dispatch(endLoad());
-
-        const { content } = msg;
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
-            const { code, msg } = res;
+            const { code, msg } = res
             if(code === 200) {
               this.setState({ knowledge: msg })
             } else {
@@ -76,21 +70,20 @@ export default class Application extends React.Component<any, any> {
             }
           })
         }
-        if(content !== null) {
-          this.setState({ edit: false })
-        }
       } else {
         dispatch(alertMsg(msg))
       }
     }).catch(ex => {
       dispatch(alertMsg(ex))
     })
+  }
 
-    // getOpenStatus().then(res => {
-    //   if(res.code === 200) {
-    //     this.setState({ openStatus: res.msg });
-    //   }
-    // })
+  componentDidUpdate() {
+    if(this.state.edit) {
+      this.autoSaveApplicationDraftTimer()
+    } else {
+      clearInterval(timer)
+    }
   }
 
   componentWillUnmount() {
@@ -98,55 +91,48 @@ export default class Application extends React.Component<any, any> {
   }
 
   // 定时保存方法
-  autoSaveApplicationDraft() {
+  autoSaveApplicationDraftTimer() {
+    clearInterval(timer)
     timer = setInterval(() => {
-      const draft = this.refs.editor.getValue();
+      const planId = this.state.planId
+      const applicationId = this.props.location.query.id
+      const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
-        if(this.state.draftId == -1) {
-          const planId = this.state.planId;
-          const applicationId = this.props.location.query.id;
-          autoSaveApplicationDraft(planId, applicationId).then(res => {
-            this.setState({ draftId: res.msg });
-            autoUpdateApplicationDraft(res.msg, { draft })
-          })
-        } else {
-          autoUpdateApplicationDraft(this.state.draftId, { draft })
+        if(this.state.autoPushDraftFlag) {
+          autoSaveApplicationDraft(planId, applicationId, draft)
+          this.setState({ autoPushDraftFlag: false });
         }
       }
     }, 10000)
   }
 
   onEdit() {
-    this.setState({ edit: true });
-  }
-
-  closeModal() {
-    this.setState({ showKnowledge: false });
+    this.setState({ edit: true })
   }
 
   goComment(submitId) {
-    const {id, currentIndex, integrated, practicePlanId} = this.props.location.query;
-    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, "_blank");
+    const { id, currentIndex, integrated, practicePlanId } = this.props.location.query
+    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, '_blank')
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
     if(!voteStatus) {
       if(isMine) {
-        this.setState({ data: _.merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
+        this.setState({ data: _.merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) })
       } else {
-        let newOtherList = _.merge([], this.state.otherList);
-        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1);
-        _.set(newOtherList, `[${seq}].voteStatus`, 1);
+        let newOtherList = _.merge([], this.state.otherList)
+        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
+        _.set(newOtherList, `[${seq}].voteStatus`, 1)
         this.setState({ otherList: newOtherList })
       }
-      vote(id);
+      vote(id)
     }
   }
 
   tutorialEnd() {
-    const { openStatus } = this.state;
+    const { openStatus } = this.state
     openApplication().then(res => {
-      const { code, msg } = res;
+      const { code, msg } = res
       if(code === 200) {
         this.setState({ openStatus: _.merge({}, openStatus, { openApplication: true }) })
       }
@@ -154,49 +140,49 @@ export default class Application extends React.Component<any, any> {
   }
 
   others() {
-    const { location, dispatch } = this.props;
-    this.setState({ showOthers: true, loading: true });
+    const { location, dispatch } = this.props
+    this.setState({ showOthers: true, loading: true })
     loadOtherList(location.query.id, this.state.page + 1).then(res => {
       if(res.code === 200) {
-        this.setState({ loading: false });
+        this.setState({ loading: false })
         if(res.msg && res.msg.list && res.msg.list.length !== 0) {
           _.remove(res.msg.list, (item) => {
-            return _.findIndex(this.state.otherList, item) !== -1;
+            return _.findIndex(this.state.otherList, item) !== -1
           })
           this.setState({
             otherList: this.state.otherList.concat(res.msg.list),
             page: this.state.page + 1,
-            end: res.msg.end,
-          });
+            end: res.msg.end
+          })
         } else {
-          this.setState({ end: res.msg.end });
+          this.setState({ end: res.msg.end })
         }
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(alertMsg(ex));
-    });
+      dispatch(alertMsg(ex))
+    })
   }
 
   onSubmit() {
-    const { dispatch, location } = this.props;
-    const { data, planId } = this.state;
-    const {complete, practicePlanId} = location.query;
-    const answer = this.refs.editor.getValue();
+    const { dispatch, location } = this.props
+    const { data, planId } = this.state
+    const { complete, practicePlanId } = location.query
+    const answer = this.refs.editor.getValue()
     if(answer == null || answer.length === 0) {
-      dispatch(alertMsg(null, "先写内容再提交哦"));
-      return;
+      dispatch(alertMsg(null, '先写内容再提交哦'))
+      return
     }
-    this.setState({ showDisable: true });
+    this.setState({ showDisable: true })
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
-      const { code, msg } = res;
+      const { code, msg } = res
       if(code === 200) {
-        if (complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId));
+        if(complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId))
         }
         loadApplicationPractice(location.query.id, planId).then(res => {
-          const { code, msg } = res;
+          const { code, msg } = res
           if(code === 200) {
             this.setState({
               data: msg,
@@ -206,20 +192,20 @@ export default class Application extends React.Component<any, any> {
               editorValue: msg.content
             })
           }
-          clearInterval(timer);
-        });
+          clearInterval(timer)
+        })
         this.setState({ showDisable: false })
       }
     })
   }
 
   loadMore() {
-    this.others();
+    this.others()
   }
 
   render() {
     const {
-      data, otherList, knowledge = {}, showKnowledge, end,
+      data, otherList, knowledge = {}, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
@@ -251,6 +237,7 @@ export default class Application extends React.Component<any, any> {
         return (
           <div>
             <Work
+              {...data}
               onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
               onEdit={() => this.onEdit()}
               headImage={window.ENV.headImage}
@@ -258,7 +245,6 @@ export default class Application extends React.Component<any, any> {
               type={CommentType.Application}
               articleModule={ArticleViewModule.Application}
               goComment={() => this.goComment(submitId)}
-              {...data}
             />
           </div>
         )
@@ -277,7 +263,7 @@ export default class Application extends React.Component<any, any> {
         if(!end) {
           return (
             <div onClick={() => this.loadMore()} className="show-more click-key"
-                 style={{ borderTop: "1px solid #efefef" }}>点击加载更多消息</div>
+                 style={{ borderTop: '1px solid #efefef' }}>点击加载更多消息</div>
           )
         } else {
           return (
@@ -290,7 +276,7 @@ export default class Application extends React.Component<any, any> {
     return (
       <div>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="application">
+          <div className="application-container">
             <div className="application-head">
               <BreadCrumbs level={1} name={`应用题`}/>
               <div className="page-header">{topic}</div>
@@ -298,8 +284,7 @@ export default class Application extends React.Component<any, any> {
             <div className="intro-container">
               <div className="context-img">
                 {pic ? <AssetImg url={pic}/> :
-                    <AssetImg
-                        url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
+                  <AssetImg url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
               </div>
               <div className="application-context">
                 <div className="section1">
@@ -309,21 +294,18 @@ export default class Application extends React.Component<any, any> {
                 <div className="application-title">
                   <AssetImg type="app" size={15}/><span>今日应用</span>
                 </div>
-                <div className="section2" dangerouslySetInnerHTML={{ __html: description }}>
-                </div>
+                <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
               </div>
               {integrated == 'false' ?
                 <div className="knowledge-link click-key"
                      onClick={() =>
-                       window.open(`/fragment/knowledge?id=${knowledgeId}`, "_blank")
+                       window.open(`/fragment/knowledge?id=${knowledgeId}`, '_blank')
                      }>点击查看相关知识</div> :
-                null
-              }
+                null}
             </div>
             <div ref="workContainer" className="work-container">
-              {<TitleBar content={content === null ? "提交方式" : "我的作业"}/>}
+              {<TitleBar content={content === null ? '提交方式' : '我的作业'}/>}
               {renderTip()}
-
               {edit ?
                 <div className="editor">
                   <Editor
@@ -340,6 +322,7 @@ export default class Application extends React.Component<any, any> {
                     }}
                     defaultValue={this.state.editorValue}
                     value={this.state.editorValue}
+                    onChange={()=>this.setState({autoPushDraftFlag:true})}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
@@ -350,18 +333,16 @@ export default class Application extends React.Component<any, any> {
                 <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
             }
             {!showOthers ?
-                <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
+              <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
             {showOthers && !_.isEmpty(otherList) ?
-                <div>
-                  <TitleBar content={'同学的作业'}/>
-                  {renderList(otherList)}
-                </div> :
-                null}
+              <div>
+                <TitleBar content={'同学的作业'}/>
+                {renderList(otherList)}
+              </div> :
+              null}
             {renderEnd()}
           </div>
         </div>
-        {showKnowledge ? <KnowledgeModal knowledge={knowledge} closeModal={() => this.closeModal()}/> : null}
-
       </div>
     )
   }

@@ -29,14 +29,13 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
   componentWillMount() {
     const { dispatch, location } = this.props
     const { knowledgeId, commentId } = location.query
-    console.log(knowledgeId, commentId)
     dispatch(startLoad())
     loadKnowledgeDiscussReply(commentId).then(res => {
       const { code, msg } = res
       if(code === 200) {
         this.setState({ data: msg, commentId: commentId })
       } else {
-        console.error(msg)
+        dispatch(alertMsg(msg))
       }
     }).catch(e => {
       dispatch(endLoad())

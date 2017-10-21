@@ -131,7 +131,7 @@ export default class Challenge extends React.Component<any, any> {
     return (
       <div>
         <div className="container">
-          <div className="challenge">
+          <div className="challenge-container">
             <div className="challenge-head">
               <BreadCrumbs level={1} name={`小目标`}/>
               <div className="page-header">{'小目标'}</div>

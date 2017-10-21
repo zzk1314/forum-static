@@ -28,7 +28,6 @@ export default class ReplyCommentMessage extends React.Component<any, any> {
     const { moduleId, commentId } = location.query
     loadArticleData(moduleId, commentId).then(res => {
       const { code, msg } = res
-      console.log(res)
       if(code === 200) {
         this.setState({
           data: msg,

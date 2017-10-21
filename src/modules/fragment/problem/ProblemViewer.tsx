@@ -88,7 +88,7 @@ export default class ProblemViewer extends React.Component<any, any> {
   render() {
     const { data, showTip } = this.state;
     const { show } = this.props.location.query
-    const { authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic } = data;
+    const { authorPic, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic } = data;
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -121,20 +121,20 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <Audio url={audio}/>
               </div> : null }
               <div style={{ marginTop: 30 }}>
-                <pre>{why}</pre>
+                <pre dangerouslySetInnerHTML={{ __html: why }} />
               </div>
 
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/how_2.png"/>
               </div>
-              <pre>{how}</pre>
+              <pre dangerouslySetInnerHTML={{ __html: how }} />
               <div className="context-title-img">
                 <AssetImg width={'60%'} style={{ marginTop: 25 }} url={descPic}/>
               </div>
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              {what ? <pre>{what}</pre> : null}
+              {what ? <pre dangerouslySetInnerHTML={{ __html: what }} /> : null}
               <div
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
 
@@ -158,8 +158,8 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/author_desc.png"/>
               </div>
-              <div className="text">
-                {authorDesc}
+              <div className="author">
+                <AssetImg width={'50%'} url={authorPic}/>
               </div>
 
               <div className="context-title-img">

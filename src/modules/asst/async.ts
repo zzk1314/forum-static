@@ -10,7 +10,11 @@ export function loadApplicationList(problemId) {
 
 export function loadApplicationListByNickName(problemId, nickName) {
   nickName = encodeURI(nickName)
-  return pget(`/pc/asst/application/${problemId}/${nickName}`)
+  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}`)
+}
+
+export function loadApplicationListByMemberId(problemId, memberId) {
+  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
 }
 
 export function loadSubjectArticleList(problemId) {
@@ -39,14 +43,6 @@ export function loadApplicationSubmit(submitId) {
 
 export function loadSubject(submitId) {
   return pget(`/pc/fragment/subject/${submitId}`)
-}
-
-export function loadProblems() {
-  return pget('/pc/fragment/problem/list')
-}
-
-export function loadCurProblemId() {
-  return pget('/pc/fragment/problem/curId')
 }
 
 export function loadRiseWorkList(problemId) {

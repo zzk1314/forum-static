@@ -4,7 +4,6 @@ import "./WarmupPracticeView.less";
 import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "../../fragment/warmup/async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../../fragment/components/KnowledgeModal";
 import Discuss from "../../fragment/components/Discuss";
 import _ from "lodash"
 import DiscussShow from "../../fragment/components/DiscussShow";
@@ -27,7 +26,6 @@ export default class WarmupPracticeView extends React.Component <any, any> {
     super()
     this.state = {
       data: {},
-      showKnowledge: false,
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
@@ -57,10 +55,6 @@ export default class WarmupPracticeView extends React.Component <any, any> {
     })
   }
 
-
-  closeModal() {
-    this.setState({showKnowledge: false})
-  }
 
   closeDiscussModal() {
     const {dispatch} = this.props;
@@ -146,7 +140,7 @@ export default class WarmupPracticeView extends React.Component <any, any> {
   }
 
   render() {
-    const {data, selected, showKnowledge, showDiscuss, isReply, placeholder} = this.state
+    const {data, selected, showDiscuss, isReply, placeholder} = this.state
     const {knowledge} = data;
 
     const questionRender = (practice) => {
@@ -254,8 +248,6 @@ export default class WarmupPracticeView extends React.Component <any, any> {
 
             </div>
           </div>
-
-          {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
         </div>
     )

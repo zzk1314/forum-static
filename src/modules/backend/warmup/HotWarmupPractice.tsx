@@ -6,7 +6,7 @@ import {loadHotPractice} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {decodeTextAreaString2} from "../../textUtils"
+import {decodeTextAreaString2} from "../../../utils/textUtils"
 
 
 @connect(state => state)
