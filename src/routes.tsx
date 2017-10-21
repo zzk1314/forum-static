@@ -1,37 +1,5 @@
 import * as React from "react";
 import { Route, IndexRoute } from "react-router";
-import Base from "modules/base/Base.tsx";
-import RiseBase from "modules/base/RiseBase.tsx";
-import Home from "./modules/home/Home"
-import Login from "./modules/Login"
-import ServerCode from "./modules/ServerCode"
-import ShowApplication from "./modules/asst/application/ShowApplication"
-import ShowSubject from "./modules/asst/subject/ShowSubject"
-import Stranger from "./modules/Stranger"
-import Reject from "./modules/Reject"
-import NotFoundPage from "./modules/NotFoundPage"
-import Test from "./modules/Test"
-import BackendIndex from "./modules/backend/BackendIndex"
-import BackendWelcome from "./modules/backend/Welcome"
-import HotWarmupPractice from "./modules/backend/warmup/HotWarmupPractice"
-import PracticeView from "./modules/backend/warmup/PracticeView"
-import Discuss from "./modules/backend/warmup/Discuss"
-import ApplicationProblemList from "./modules/backend/application/ProblemList"
-import CatalogView from "./modules/backend/application/Catalog"
-import ApplicationView from "./modules/backend/application/ApplicationList"
-import ProjectConfig from "./modules/backend/admin/ProjectConfig"
-import ConfigDetail from "./modules/backend/admin/ConfigDetail"
-import WarmupProblemList from "./modules/backend/warmup/edit/ProblemList"
-import WarmupPracticeList from "./modules/backend/warmup/edit/WarmupPracticeList"
-import PracticeEditView from "./modules/backend/warmup/edit/PracticeView"
-import AsstIndex from "./modules/asst/AsstIndex"
-import AsstWelcome from "./modules/asst/Welcome"
-import AsstApplicationComment from "./modules/asst/application/ProblemList"
-import AsstApplicationList from "./modules/asst/application/ApplicationList"
-import AsstSubjectComment from "./modules/asst/subject/ProblemList"
-import AsstSubjectList from "./modules/asst/subject/SubjectList"
-import CommentedList from "./modules/asst/CommentedList"
-import WarmupPracticeView from "./modules/asst/warmup/WarmupPracticeView"
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Base from 'modules/base/Base.tsx'
@@ -66,7 +34,6 @@ import AsstSubjectComment from './modules/asst/subject/ProblemList'
 import AsstSubjectList from './modules/asst/subject/SubjectList'
 import CommentedList from './modules/asst/CommentedList'
 import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
-import SmsManager from './modules/backend/operation/SmsManager'
 
 // pc rise 改版
 
@@ -96,13 +63,13 @@ import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/Tra
 import WarmupPracticeImport from './modules/backend/import/warmup/practiceinput/WarmupPracticeImport'
 import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
 import ProblemImport from './modules/backend/import/problem/ProblemImport'
-import ProblemChange from './modules/backend/import/problem/Main'
 import CampUserView from './modules/camp/CampUserView'
 import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
 import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
 import BusinessSchoolApplication from "./modules/backend/operation/BusinessSchoolApplication"
+import SurveyConfig from './modules/backend/operation/SurveyConfig'
 
 const routes = (
   <Route path="/">
@@ -140,8 +107,8 @@ const routes = (
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
         <Route path="/backend/problem/import" component={ProblemImport}/>
-        <Route path="/backend/sms/manager" component={SmsManager}/>
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
+        <Route path="/backend/survey/config" component={SurveyConfig}/>
 
       </Route>
       <Route component={AsstIndex}>

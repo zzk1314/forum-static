@@ -1,11 +1,11 @@
 import { pget, ppost } from "../../../utils/request"
 
-export function loadSurveyConfigs(){
-  return pget('/rise/operation/survey/config/list');
+export function loadSurveyConfigs() {
+  return pget('/pc/operation/survey/config/list');
 }
 
-export function updateSurveyConfig(){
-  return ppost('/rise/operation/survey/config',{id:id,activity:activity,name:name,realHref:realHref})
+export function updateSurveyConfig(survey) {
+  return ppost('/pc/operation/survey/config', survey)
 }
 
 export function loadBusinessApplicationList(page) {
