@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { DataTable } from './components/DataTable'
 import { RaisedButton, FlatButton, Dialog, TextField } from 'material-ui'
-import { batchModifyMonthlyCampGroupId, loadUnGroupMonthlyCamp, modifyMonthlyCamp } from './async'
+import { batchModifyMonthlyCampGroupId, loadUnGroupMonthlyCamp } from './async'
 import _ from 'lodash'
 
 export default class CampUserUnGroup extends React.Component {
@@ -9,6 +9,7 @@ export default class CampUserUnGroup extends React.Component {
     super()
     this.state = {
       data: [],
+      page: {},
       meta: [
         { tag: 'nickName', alias: '昵称' },
         { tag: 'classNameStr', alias: '班级' },
@@ -23,8 +24,8 @@ export default class CampUserUnGroup extends React.Component {
   }
 
   componentWillMount() {
-    loadUnGroupMonthlyCamp().then(res => {
-      this.setState({ data: res.msg })
+    loadUnGroupMonthlyCamp(1).then(res => {
+      this.setState({ data: res.msg.monthlyCampDtoList, page: res.msg.page })
     })
   }
 
@@ -52,8 +53,8 @@ export default class CampUserUnGroup extends React.Component {
     } else {
       batchModifyMonthlyCampGroupId(selectedValue, batchGroupId).then(res => {
         if(res.code === 200) {
-          loadUnGroupMonthlyCamp().then(res => {
-            this.setState({ data: res.msg, openBatchDialog: false })
+          loadUnGroupMonthlyCamp(1).then(res => {
+            this.setState({ data: res.msg.monthlyCampDtoList, page: res.msg.page, openBatchDialog: false })
           })
         } else {
           alert('数据分组出错，请及时练习管理员')
@@ -65,6 +66,7 @@ export default class CampUserUnGroup extends React.Component {
   render() {
     const {
       data,
+      page,
       meta,
       openBatchDialog,
       batchGroupId
@@ -97,6 +99,12 @@ export default class CampUserUnGroup extends React.Component {
       )
     }
 
+    const handlePageClick = (selected) => {
+      loadUnGroupMonthlyCamp(selected).then(res => {
+        this.setState({ data: res.msg.monthlyCampDtoList, page: res.msg.page })
+      })
+    }
+
     return (
       <div style={{ padding: '20px 40px' }}>
         <h1>待分组人员查看</h1><br/>
@@ -104,7 +112,11 @@ export default class CampUserUnGroup extends React.Component {
           label="批量分组"
           style={{ height: 30, marginTop: 20 }}
           onClick={this.batchHandle.bind(this)}/>
-        <DataTable ref="table" data={data} meta={meta}/>
+        <DataTable ref="table"
+                   data={data}
+                   meta={meta}
+                   page={page}
+                   handlePageClick={handlePageClick}/>
         {renderOtherComponents()}
       </div>
     )
