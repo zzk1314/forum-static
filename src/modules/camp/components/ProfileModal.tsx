@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './ProfileModal.less'
-import { TextField, Toggle, RaisedButton, Dialog } from 'material-ui'
+import { TextField, Toggle, RaisedButton, FlatButton } from 'material-ui'
 import _ from 'lodash'
 
 interface ProfileModalProps {
@@ -102,6 +102,7 @@ export class ProfileModal extends React.Component<ProfileModalProps, ProfileModa
             <div className="memberid">
               <span>学号</span>
               <ModalTextField
+                disabled={true}
                 hintText="自动生成，勿填"
                 value={memberId}/>
             </div>
