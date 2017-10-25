@@ -11,12 +11,8 @@ import {
   Dialog
 } from 'material-ui/Table'
 import isBoolean = require('lodash/isBoolean')
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from 'react-paginate'
 
-// data: []
-// meta: [
-//  {tag: '', alias: ''}
-// ]
 interface TableProps {
   data: any,
   meta: any,
@@ -62,7 +58,7 @@ export class MessageTable extends React.Component<TableProps, TableState> {
 
   handlePageClick(data) {
     if(this.props.handlePageClick) {
-      this.props.handlePageClick(data.selected + 1);
+      this.props.handlePageClick(data.selected + 1)
     }
   };
 
@@ -84,23 +80,22 @@ export class MessageTable extends React.Component<TableProps, TableState> {
           <TableFooter>
             <TableRow>
               <TableRowColumn>
-                <ReactPaginate previousLabel={"previous"}
-                               nextLabel={"next"}
+                <ReactPaginate previousLabel={'previous'}
+                               nextLabel={'next'}
                                pageCount={this.props.page.pageCount}
                                marginPagesDisplayed={1}
                                pageRangeDisplayed={5}
                                onPageChange={(data) => this.handlePageClick(data)}
-                               containerClassName={"pagination"}
-                               subContainerClassName={"pages pagination"}
-                               activeClassName={"active"}/>
+                               containerClassName={'pagination'}
+                               subContainerClassName={'pages pagination'}
+                               activeClassName={'active'}/>
               </TableRowColumn>
             </TableRow>
           </TableFooter>
         )
       } else {
-        return null;
+        return null
       }
-
     }
 
     if(meta.length == 0 || data.length == 0) {
@@ -144,9 +139,9 @@ export class MessageTable extends React.Component<TableProps, TableState> {
                     meta.map((metaItem, index) => (
                       <TableRowColumn key={index} style={metaItem.style}>
                         {
-                          dataItem[ metaItem.tag ] == '0' || dataItem[ metaItem.tag ] == '1' ?
-                            dataItem[ metaItem.tag ] == '0' ? '否' : '是' :
-                            dataItem[ metaItem.tag ]
+                          dataItem[metaItem.tag] == '0' || dataItem[metaItem.tag] == '1' ?
+                            dataItem[metaItem.tag] == '0' ? '否' : '是' :
+                            dataItem[metaItem.tag]
                         }
                       </TableRowColumn>
                     ))

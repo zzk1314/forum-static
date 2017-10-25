@@ -6,17 +6,21 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn,
+  TableFooter,
   FlatButton,
   Dialog
 } from 'material-ui/Table'
 import { ProfileModal } from './ProfileModal'
 import { modifyAddMonthlyCamp, modifyMonthlyCamp } from '../async'
+import ReactPaginate from 'react-paginate'
 
 interface DataTableProps {
   data: any,
   meta: any,
   // 用户信息 submit 方法
-  submitFunc: any
+  submitFunc?: any,
+  page?: any,
+  handlePageClick?: any
 }
 interface DataTableState {
   openProfileModal: boolean,
@@ -63,7 +67,7 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
   }
 
   handleSubmitModal() {
-    const { data } = this.props
+    const { data = [] } = this.props
     let innerState = this.refs.profile.getInnerState()
     // riseClassMemberId 是否有值作区分
     let submitFunc = innerState.riseClassMemberId ? modifyMonthlyCamp : modifyAddMonthlyCamp
@@ -76,14 +80,20 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
           }
         })
         this.setState({
-          openProfileModal: false,
+          openProfileModal: false
         })
       }
     })
   }
 
+  hanleClickPageSelected(pageSelected) {
+    if(this.props.handlePageClick) {
+      this.props.handlePageClick(pageSelected.selected + 1)
+    }
+  }
+
   render() {
-    const { data = [], meta = [] } = this.props
+    const { data = [], page, meta = [] } = this.props
     const {
       openProfileModal = false,
       openProfileData,
@@ -91,7 +101,7 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
       fixedHeader = true,
       selectable = true,
       multiSelectable = true,
-      enableSelectAll = false,
+      enableSelectAll = true,
       showCheckboxes = true,
       deselectOnClickaway = false
     } = this.state
@@ -156,21 +166,40 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
             showRowHover={showRowHover}
             displayRowCheckbox={showCheckboxes}>
             {
-              data.map((dataItem, index) => (
-                <TableRow key={index} selected={this.isSelected(index)}>
-                  <TableHeaderColumn>{index + 1}</TableHeaderColumn>
-                  {
-                    meta.map((metaItem, index) => (
-                      <TableRowColumn key={index}>{dataItem[metaItem.tag]}</TableRowColumn>
-                    ))
-                  }
-                  <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
-                    <span onClick={this.handleEditProfile.bind(this, dataItem)}>编辑</span>
-                  </TableRowColumn>
-                </TableRow>
-              ))
+              data.length > 0 ?
+                data.map((dataItem, index) => (
+                  <TableRow key={index} selected={this.isSelected(index)}>
+                    <TableHeaderColumn>{index + 1}</TableHeaderColumn>
+                    {
+                      meta.map((metaItem, index) => (
+                        <TableRowColumn key={index}>{dataItem[metaItem.tag]}</TableRowColumn>
+                      ))
+                    }
+                    <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
+                      <span onClick={this.handleEditProfile.bind(this, dataItem)}>编辑</span>
+                    </TableRowColumn>
+                  </TableRow>
+                )) : null
             }
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableRowColumn>
+                {
+                  page ?
+                    <ReactPaginate previousLabel={'上一页'}
+                                   nextLabel={'下一页'}
+                                   pageCount={page.pageCount}
+                                   pageRangeDisplayed={5}
+                                   marginPagesDisplayed={1}
+                                   onPageChange={(pageSelected) => this.hanleClickPageSelected(pageSelected)}
+                                   containerClassName={'pagination'}
+                                   subContainerClassName={'pages pagination'}
+                                   activeClassName={'active'}/> : null
+                }
+              </TableRowColumn>
+            </TableRow>
+          </TableFooter>
         </Table>
         {renderProfileDetail()}
       </div>

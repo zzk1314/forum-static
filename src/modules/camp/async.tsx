@@ -4,16 +4,20 @@ export function loadMonthlyCampByClassName(className) {
   return pget(`/backend/camp/load?className=${className}`)
 }
 
-export function loadUnGroupMonthlyCamp() {
-  return pget(`/backend/camp/load/ungroup`)
+export function loadUnGroupMonthlyCamp(pageSelected) {
+  return pget(`/backend/camp/load/ungroup?page=${pageSelected}`)
 }
 
 export function loadProfileByNickName(nickName) {
-  return pget(`/backend/camp/load/profile?nickName=${nickName}`)
+  return pget(`/backend/camp/load/profile/nickName?nickName=${nickName}`)
 }
 
 export function loadProfileByRiseId(riseId) {
-  return pget(`/backend/camp/load/profile?riseId=${riseId}`)
+  return pget(`/backend/camp/load/profile/riseId?riseId=${riseId}`)
+}
+
+export function loadProfileByMemberId(memberId) {
+  return pget(`/backend/camp/load/profile/memberId?memberId=${memberId}`)
 }
 
 export function modifyMonthlyCamp(param) {

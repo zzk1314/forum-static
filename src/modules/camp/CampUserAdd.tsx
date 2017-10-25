@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TextField, RaisedButton } from 'material-ui'
 import { DataTable } from './components/DataTable'
-import { loadProfileByNickName, loadProfileByRiseId } from './async'
+import { loadProfileByMemberId, loadProfileByNickName, loadProfileByRiseId } from './async'
 
 export default class CampUserAdd extends React.Component {
   constructor() {
@@ -16,7 +16,8 @@ export default class CampUserAdd extends React.Component {
         { tag: 'activeStr', alias: '学习状态' }
       ],
       nickName: '',
-      riseId: ''
+      riseId: '',
+      memberId: ''
     }
   }
 
@@ -36,20 +37,30 @@ export default class CampUserAdd extends React.Component {
     })
   }
 
+  loadProfileByMemberId() {
+    console.log(this.state.memberId)
+    loadProfileByMemberId(this.state.memberId).then(res => {
+      if(res.code === 200) {
+        this.setState({ data: res.msg })
+      }
+    })
+  }
+
   render() {
     const {
       data,
       meta,
       nickName,
-      riseId
+      riseId,
+      memberId
     } = this.state
 
     return (
       <div style={{ padding: '20px 40px' }}>
         <h1>用户查找，输入用户昵称或者 RISEID</h1>
         <TextField
-          style={{ height: 50 }}
-          hintText="输入用户昵称，如：天线宝宝"
+          style={{ height: 50, width: 200 }}
+          hintText="如：天线宝宝"
           value={nickName}
           onChange={(e, v) => this.setState({ nickName: v })}/>
         <RaisedButton
@@ -57,14 +68,24 @@ export default class CampUserAdd extends React.Component {
           style={{ height: 30, marginLeft: 20 }}
           onClick={() => this.loadProfilesByNickName()}/>
         <TextField
-          style={{ height: 50, marginLeft: 50 }}
+          style={{ height: 50, width: 200, marginLeft: 50 }}
           hintText="输入用户RISEID"
           value={riseId}
           onChange={(e, v) => this.setState({ riseId: v })}/>
         <RaisedButton
           label="RISEID查询"
           style={{ height: 30, marginLeft: 20 }}
-          onClick={() => this.loadProfileByRiseId()}/><br/>
+          onClick={() => this.loadProfileByRiseId()}/>
+        <TextField
+          style={{ height: 50, width: 200, marginLeft: 50 }}
+          hintText="输入用户学号"
+          value={memberId}
+          onChange={(e, v) => this.setState({ memberId: v })}/>
+        <RaisedButton
+          label="学号查询"
+          style={{ height: 30, marginLeft: 20 }}
+          onClick={() => this.loadProfileByMemberId()}/>
+        <br/>
         <DataTable ref="table" data={data} meta={meta}/>
       </div>
     )
