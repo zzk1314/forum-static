@@ -131,9 +131,13 @@ export default class Fragment extends React.Component<any, any> {
               关注回复
             </div>
             <div className="catalog-name"
-                        onClick={() => {this.context.router.push({ pathname: '/backend/business/school/application' })}}>
-            商学院申请审批
-          </div>
+                 onClick={() => {this.context.router.push({ pathname: '/backend/business/school/application' })}}>
+              商学院申请审批
+            </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/survey/config' })}}>
+              问卷链接设置
+            </div>
           </div>
 
           <Subheader style={style.listTitle}>
@@ -155,7 +159,7 @@ export default class Fragment extends React.Component<any, any> {
         <div className="leftList">
           {renderMenu()}
         </div>
-        <div className="rightContent" style={{minHeight: window.innerHeight - 80}}>
+        <div className="rightContent" style={{ minHeight: window.innerHeight - 80 }}>
           {this.props.children}
         </div>
       </div>

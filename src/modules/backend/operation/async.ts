@@ -1,7 +1,11 @@
 import { pget, ppost } from "../../../utils/request"
 
-export function sendMessage(phone, content) {
-  return ppost("/operation/send/message", { content: content, phone: phone })
+export function loadSurveyConfigs() {
+  return pget('/pc/operation/survey/config/list');
+}
+
+export function updateSurveyConfig(survey) {
+  return ppost('/pc/operation/survey/config', survey)
 }
 
 export function loadBusinessApplicationList(page) {

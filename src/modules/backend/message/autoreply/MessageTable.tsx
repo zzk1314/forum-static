@@ -16,11 +16,14 @@ import ReactPaginate from 'react-paginate'
 interface TableProps {
   data: any,
   meta: any,
-  editFunc: any,
+  editFunc?: any,
   page?: any,
   handlePageClick?: any,
   opsName?: any,
+  hideSeq?: boolean,
+  opsButtons?: any,
 }
+
 interface TableState {
   selected: any,
   showRowHover: boolean, // 鼠标悬浮样式
@@ -31,6 +34,7 @@ interface TableState {
   showCheckboxes: boolean, // 显示选择看
   deselectOnClickaway: boolean, // 点击其他区域，取消选择
 }
+
 export class MessageTable extends React.Component<TableProps, TableState> {
 
   constructor() {
@@ -59,7 +63,7 @@ export class MessageTable extends React.Component<TableProps, TableState> {
   };
 
   render() {
-    const { data = [], meta = [], editFunc = {}, page, opsName = '编辑' } = this.props
+    const { data = [], meta = [], editFunc = {}, page, opsName = "编辑", opsButtons } = this.props
     const {
       showRowHover = true,
       fixedHeader = true,
@@ -143,7 +147,10 @@ export class MessageTable extends React.Component<TableProps, TableState> {
                     ))
                   }
                   <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
-                    <span onClick={() => editFunc(dataItem)}>{opsName}</span>
+                    {opsButtons ? opsButtons.map((opsBtn, opsBtnKey) => {
+                      return <span style={{ margin: '0 10px' }} key={opsBtnKey}
+                                   onClick={() => opsBtn.editFunc(dataItem)}>{opsBtn.opsName}</span>
+                    }) : <span onClick={() => editFunc(dataItem)}>{opsName}</span>}
                   </TableRowColumn>
                 </TableRow>
               ))
