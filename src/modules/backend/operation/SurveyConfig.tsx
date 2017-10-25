@@ -53,6 +53,10 @@ export default class SurveyConfig extends React.Component<any, any> {
     })
   }
 
+  handleClickShowAdd() {
+    this.setState({ updateDataInfo: {}, openDialog: true })
+  }
+
   handleUpdate() {
     const { updateDataInfo } = this.state;
     const { dispatch } = this.props;
@@ -70,8 +74,9 @@ export default class SurveyConfig extends React.Component<any, any> {
     updateSurveyConfig(updateDataInfo).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        dispatch(alertMsg(res.msg));
         this.setState({ openDialog: false, updateDataInfo: undefined }, () => this.reloadPage());
+      } else {
+        dispatch(alertMsg(res.msg));
       }
     }).catch(ex => {
       dispatch(endLoad());
@@ -87,10 +92,14 @@ export default class SurveyConfig extends React.Component<any, any> {
         <div className="survey-config-tips">
           问卷设置前提：请在问卷星，为问卷设置"数据推送API"，其值为: https://www.iquanwai.com/pc/survey/wjx/submit
         </div>
+        <RaisedButton
+          style={{ marginLeft: 30, marginTop: 30 }}
+          label="新增" primary={true}
+          onClick={() => this.handleClickShowAdd()}
+        />
         <div className="data-area">
           <MessageTable data={this.state.data} meta={this.state.meta} opsButtons={[
             { editFunc: (dataInfo) => this.handleClickShowUpdate(dataInfo), opsName: '修改' },
-            { editFunc: (dataInfo) => {console.log('click delete', dataInfo)}, opsName: '删除' }
           ]} opsName="修改"/>
         </div>
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
@@ -121,6 +130,7 @@ export default class SurveyConfig extends React.Component<any, any> {
             value={updateDataInfo.realHref}
             hintText="问卷星链接"
             floatingLabelText="问卷星链接"
+            onChange={(e, v) => this.setState({ updateDataInfo: _.merge({}, updateDataInfo, { realHref: v }) })}
             multiLine={true} fullWidth={true} rowsMax={1}
           />
           <TextField
