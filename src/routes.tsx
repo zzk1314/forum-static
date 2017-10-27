@@ -23,6 +23,7 @@ import CatalogView from './modules/backend/application/Catalog'
 import ApplicationView from './modules/backend/application/ApplicationList'
 import ProjectConfig from './modules/backend/admin/ProjectConfig'
 import ConfigDetail from './modules/backend/admin/ConfigDetail'
+import Refund from './modules/backend/admin/Refund'
 import WarmupProblemList from './modules/backend/import/warmup/edit/ProblemList'
 import WarmupPracticeList from './modules/backend/import/warmup/edit/WarmupPracticeList'
 import PracticeEditView from './modules/backend/import/warmup/edit/PracticeView'
@@ -86,6 +87,7 @@ const routes = (
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
+        <Route path="/backend/admin/refund" component={Refund}/>
         <Route path="backend/warmup" component={HotWarmupPractice}/>
         <Route path="backend/warmup/view" component={PracticeView}/>
         <Route path="backend/warmup/discuss" component={Discuss}/>

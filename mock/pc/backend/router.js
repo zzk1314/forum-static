@@ -224,6 +224,14 @@ router.get("/pc/operation/homework/*", (req, res) => {
     }, Math.random() * 1500);
 });
 
+router.post("/pc/admin/refund", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({
+      "msg": "ok",
+      "code": 200
+    });
+  }, Math.random() * 1500);
+});
 
 router.get("/pc/admin/config/*", (req, res) => {
     setTimeout(() => {

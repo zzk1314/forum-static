@@ -149,6 +149,10 @@ export default class Fragment extends React.Component<any, any> {
               this.context.router.push({ pathname: '/backend/admin/config' })
             }}>项目配置
             </div>
+            <div className="catalog-name" onClick={() => {
+              this.context.router.push({ pathname: '/backend/admin/refund' })
+            }}>退款
+            </div>
           </div>
         </List>
       )
