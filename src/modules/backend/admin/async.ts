@@ -15,3 +15,7 @@ export function deleteConfig(param) {
 export function updateConfig(param) {
   return ppost(`/pc/admin/config/update`, param)
 }
+
+export function refund(param) {
+  return ppost(`/pc/admin/refund`, param)
+}
