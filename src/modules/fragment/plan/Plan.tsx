@@ -25,6 +25,7 @@ export default class Plan extends React.Component<any, PlanStates> {
     this.state = {
       runningPlans: [],
       completedPlans: [],
+      auditions: [],
       isloading: true,
       isFollow: true
     }
@@ -51,7 +52,9 @@ export default class Plan extends React.Component<any, PlanStates> {
           dispatch(endLoad())
           const { code, msg } = res
           if(code === 200) {
-            this.setState({ runningPlans: msg.runningPlans, completedPlans: msg.completedPlans })
+            this.setState({
+              runningPlans: msg.runningPlans, completedPlans: msg.completedPlans, auditions: msg.auditions
+            })
           }
         }).catch(ex => {
           dispatch(endLoad())
@@ -99,7 +102,11 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   render() {
-    const { runningPlans = [], completedPlans = [], isloading, isFollow } = this.state
+    const { runningPlans = [], completedPlans = [], isloading, isFollow, auditions = [] } = this.state
+    const renderAuditionPlans = () => {
+      return this.generatePlansView(auditions)
+    }
+
     const renderRunningPlans = () => {
       if(runningPlans.length > 0) {
         return this.generatePlansView(runningPlans)
@@ -122,6 +129,12 @@ export default class Plan extends React.Component<any, PlanStates> {
       return (
         <div>
           <div className="plan-header">我的小课</div>
+          { _.isEmpty(auditions) ? null :
+            <div className="plan-plans">
+              <span>试听课</span>
+              {renderAuditionPlans()}
+            </div>
+          }
           <div className="plan-plans">
             <span>进行中</span>
             {renderRunningPlans()}
