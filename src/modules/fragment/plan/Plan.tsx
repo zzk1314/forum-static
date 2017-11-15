@@ -4,7 +4,7 @@ import { set, alertMsg, startLoad, endLoad } from 'redux/actions'
 import { checkIsFollow, loadSelfPlans } from './async'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
-import { ModuleHeader } from '../commons/FragmentComponent'
+import _ from "lodash"
 
 import './Plan.less'
 
@@ -103,6 +103,8 @@ export default class Plan extends React.Component<any, PlanStates> {
 
   render() {
     const { runningPlans = [], completedPlans = [], isloading, isFollow, auditions = [] } = this.state
+
+    console.log(auditions)
     const renderAuditionPlans = () => {
       return this.generatePlansView(auditions)
     }

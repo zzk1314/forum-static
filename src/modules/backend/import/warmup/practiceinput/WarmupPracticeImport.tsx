@@ -116,7 +116,6 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        console.log(msg)
         const targetKnowledges = _.filter(this.state.knowledges, {problemId: msg.problemId})
         this.setState({
           question: msg.question,

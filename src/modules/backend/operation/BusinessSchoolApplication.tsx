@@ -54,7 +54,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   openDialog(data) {
-    console.log(data);
     this.setState({
       openDialog: true,
       editData: data

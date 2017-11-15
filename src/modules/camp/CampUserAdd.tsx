@@ -38,7 +38,6 @@ export default class CampUserAdd extends React.Component {
   }
 
   loadProfileByMemberId() {
-    console.log(this.state.memberId)
     loadProfileByMemberId(this.state.memberId).then(res => {
       if(res.code === 200) {
         this.setState({ data: res.msg })

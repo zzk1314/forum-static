@@ -41,7 +41,6 @@ export default class SurveyConfig extends React.Component<any, any> {
     loadSurveyConfigs().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        console.log(res.msg);
         this.setState({ data: res.msg });
 
       } else {
