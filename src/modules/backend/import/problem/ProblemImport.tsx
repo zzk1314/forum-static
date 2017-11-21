@@ -43,12 +43,12 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
   }
 
   handleClickUpdateProblem() {
-    const { problem, length, abbreviation, audioId, who } = this.state
+    const { id, problem, length, abbreviation, audioId, who } = this.state
     const { dispatch } = this.props
     const why = this.refs.why.getValue()
     const how = this.refs.how.getValue()
     const { catalogId, subCatalogId } = this.refs.catalog.getValue()
-    let param = { problem, length, abbreviation, why, how, who, catalogId, subCatalogId }
+    let param = { id, problem, length, abbreviation, why, how, who, catalogId, subCatalogId ,audioId}
 
     if(_.isEmpty(problem) || !length || _.isEmpty(abbreviation) ||
       _.isEmpty(why) || _.isEmpty(how) || _.isEmpty(who) || !catalogId || !subCatalogId) {
@@ -56,7 +56,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       return
     }
 
-    saveProblem({ problem, length, abbreviation, why, how, who, catalogId, subCatalogId, audioId }).then(res => {
+    saveProblem(param ).then(res => {
       if(res.code === 200) {
         this.setState({ snackShow: true, snackMessage: '添加小课成功', add:false, select:true })
       } else {
