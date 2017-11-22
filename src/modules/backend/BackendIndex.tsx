@@ -75,6 +75,12 @@ export default class Fragment extends React.Component<any, any> {
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
+                  this.context.router.push({ pathname: '/backend/application/import' })
+                }}>应用题导入</div> : null
+            }
+            {
+              window.ENV.isDevelopment ?
+                <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_MANAGE))
                   this.context.router.push({ pathname: '/backend/warmup/management' })
                 }}>巩固练习管理</div> : null
