@@ -19,7 +19,7 @@ interface ApplicationImportState {
   problemId: number;//专题id
   pic: string;//应用题图片
   practiceUid: string;//练习唯一id
-
+  updated:number;
   problems: object;//返回所有小课列表
   knowledges: object;//返回所有知识点列表
   knowledgesForSelect: object; // 根据小课列表筛选出的 Knowledge 集合
@@ -67,6 +67,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       description,
       difficulty,
       sceneId: 1,
+      updated:2,
       sequence: _.trim(sequence),
       problemId: problemSelect,
       pic: _.trim(pic),
