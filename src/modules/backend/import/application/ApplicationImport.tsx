@@ -7,11 +7,12 @@ import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, Tex
 import { insertApplicationPractice, loadAllProblemsAndKnowledges } from './async'
 
 import './ApplicationImport.less'
+import Editor from '../../../../components/editor/Editor'
 
 interface ApplicationImportState {
   //应用题对象
   topic: string;//任务标题
-  description: string;//题干
+  description: string;//描述
   difficulty: number;//难易度（1-容易，2-普通，3-困难）
   knowledgeId: number;//知识点id
   sceneId: number;//场景id
@@ -19,7 +20,7 @@ interface ApplicationImportState {
   problemId: number;//专题id
   pic: string;//应用题图片
   practiceUid: string;//练习唯一id
-  updated:number;
+  updated: number;
   problems: object;//返回所有小课列表
   knowledges: object;//返回所有知识点列表
   knowledgesForSelect: object; // 根据小课列表筛选出的 Knowledge 集合
@@ -40,7 +41,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       knowledges: [],
       knowledgesForSelect: [],
       showSnackBar: false,
-      difficulty:-1
+      difficulty: -1
     }
   }
 
@@ -60,14 +61,14 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
    * 应用题提交
    **/
   submitApplication() {
-    const { topic, description, difficulty, sequence, problemId, pic, practiceUid, knowledgeSelect, problemSelect } = this.state
-
+    const { topic, difficulty, sequence, problemId, pic, practiceUid, knowledgeSelect, problemSelect } = this.state
+    let description = this.refs.description.getValue()
     const param = {
       topic: _.trim(topic),
       description,
       difficulty,
       sceneId: 1,
-      updated:2,
+      updated: 2,
       sequence: _.trim(sequence),
       problemId: problemSelect,
       pic: _.trim(pic),
@@ -84,6 +85,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       insertApplicationPractice(param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
+          this.refs.description.setValue('')
           this.setState({ showSnackBar: true }, () => {
             this.clear()
             setTimeout(() => {
@@ -108,21 +110,20 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       sequence: '',
       topic: '',
       pic: '',
-      description: '',
       difficulty: -1,
-      knowledgesForSelect: []
+      knowledgesForSelect: [],
     })
   }
 
   disableSnackBar() {
-    this.setState( {
-      showSnackBar:false
+    this.setState({
+      showSnackBar: false
     })
   }
 
   render() {
     const {
-      topic, description, difficulty,
+      topic, difficulty, description,
       sequence, pic, practiceUid,
       problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
@@ -230,20 +231,10 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
                 this.setState({ topic: value })
               }}
             />
-            <TextField
-              className="block-item" fullWidth={true} value={pic}
-              hintText="在这里输入图片链接地址" floatingLabelText="图片 URL（pic），非必填"
-              onChange={(ev, value) => {
-                this.setState({ pic: value })
-              }}
-            />
-            <TextField
-              className="block-item" fullWidth={true} hintText="在这里输入题干"
-              floatingLabelText="题干（description）" multiLine={true} value={description}
-              onChange={(ev, value) => {
-                this.setState({ description: value })
-              }}
-            />
+            <div className="application-description">题干（description）</div>
+
+            <Editor ref="description"
+                    value={description} placeholder="在这里输入题干"/>
 
             <div className="application-addition">
               <div className="application-step">Step4、录入额外信息</div>
