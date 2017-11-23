@@ -71,6 +71,7 @@ import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessa
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
 import BusinessSchoolApplication from "./modules/backend/operation/BusinessSchoolApplication"
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
+import ApplicationImport from './modules/backend/import/application/ApplicationImport'
 
 const routes = (
   <Route path="/">
@@ -111,7 +112,7 @@ const routes = (
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
-
+        <Route path="/backend/application/import" component={ApplicationImport}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>
