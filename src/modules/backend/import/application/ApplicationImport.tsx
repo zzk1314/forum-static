@@ -192,18 +192,18 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     }
 
     return (
-      <div className="practice-input-container">
-        <div className="practice-input-page">
-          <div className="practice-header">应用题导入页面</div>
-          <div className="practice-init">
-            <div className="practice-step">Step1、选择所在小课及知识点</div>
+      <div className="application-input-container">
+        <div className="application-input-page">
+          <div className="application-header">应用题导入页面</div>
+          <div className="application-init">
+            <div className="application-step">Step1、选择所在小课及知识点</div>
             <div className="selecte-field">
               {renderProblemSelect()}
               {renderKnowledgeSelect()}
             </div>
           </div>
-          <div className="practice-basis">
-            <div className="practice-step">Step2、录入基本要点</div>
+          <div className="application-basis">
+            <div className="application-step">Step2、录入基本要点</div>
             <br/>
             <div className="basis-flex-box">
               <TextField
@@ -221,8 +221,8 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
             </div>
           </div>
 
-          <div className="practice-main">
-            <div className="practice-step">Step3、录入主体详情</div>
+          <div className="application-main">
+            <div className="application-step">Step3、录入主体详情</div>
             <TextField
               className="block-item" fullWidth={true} hintText="在这里输入任务标题"
               multiLine={true} value={topic} floatingLabelText="任务标题（topic）"
@@ -245,9 +245,9 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
               }}
             />
 
-            <div className="practice-addition">
-              <div className="practice-step">Step4、录入额外信息</div>
-              <div className="pratice-tip">选择题目难易度</div>
+            <div className="application-addition">
+              <div className="application-step">Step4、录入额外信息</div>
+              <div className="application-tip">选择题目难易度</div>
               <RadioButtonGroup name="typeGroup" className="radio-group"
                                 valueSelected={difficulty}
                                 onChange={(ev, value) => this.setState({ difficulty: value })}>
