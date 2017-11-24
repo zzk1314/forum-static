@@ -1,0 +1,65 @@
+@import "../../../style/variable";
+
+.certificate-container {
+  height: 100%;
+  .certificate {
+    transform-origin: 0 0 0;
+    -webkit-transform-origin: 0 0 0;
+    &.excellent {
+      background: url('https://static.iqycamp.com/images/certificate_bg.jpg?imageslim');
+    }
+    &.ordinary {
+      background: url('https://static.iqycamp.com/images/certificate_normal_bg.jpg?imageslim');
+    }
+    > .certificate-description {
+      position: absolute;
+      top: 130px;
+      color: #fff;
+      width: 100%;
+      text-align: center;
+      > .description-text1 {
+        font-size: 20px;
+      }
+      > .description-text2 {
+        font-size: 32px;
+      }
+    }
+    > .certificate-name {
+      width: 100%;
+      position: absolute;
+      top: 326px;
+      color: @color_title;
+      text-align: center;
+      font-size: 72px;
+    }
+    > .name {
+      width: 100%;
+      position: absolute;
+      top: 486px;
+      color: @color_title;
+      text-align: center;
+      font-size: 50px;
+    }
+    > .cong {
+      width: ~"calc(100% - 164px)";
+      position: absolute;
+      color: @color_title;
+      font-size: 32px;
+      top: 577px;
+      margin: 0 82px;
+      text-align: center;
+    }
+    > .certificate-number {
+      width: 100%;
+      position: absolute;
+      top: 1264px;
+      color: #b6902f;
+      text-align: center;
+      font-size: 20px;
+      &.ordinary {
+        top: 1244px;
+      }
+    }
+  }
+}
+

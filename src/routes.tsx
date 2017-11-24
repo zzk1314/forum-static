@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Route, IndexRoute } from "react-router";
+import * as React from 'react'
+import { Route, IndexRoute } from 'react-router'
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Base from 'modules/base/Base.tsx'
@@ -69,7 +69,7 @@ import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
 import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
-import BusinessSchoolApplication from "./modules/backend/operation/BusinessSchoolApplication"
+import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoolApplication'
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 
 const routes = (
@@ -101,6 +101,7 @@ const routes = (
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
           <Route path="/backend/application/list" component={ApplicationView}/>
+          <Route path="/backend/certificate" component={ApplicationView}/>
         </Route>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>

@@ -12,7 +12,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:8080/ npm start",
     "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start"
-
   },
   "repository": {
     "type": "git",
@@ -35,6 +34,7 @@
     "@types/redux-thunk": "^2.1.28",
     "axios": "^0.15.2",
     "classnames": "^2.2.5",
+    "dom-to-image": "^2.6.0",
     "fbjs": "^0.8.3",
     "flexboxgrid": "^6.3.1",
     "lodash": "^4.14.1",
