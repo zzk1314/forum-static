@@ -173,6 +173,10 @@ export default class Editor extends React.Component {
     }
   }
 
+  setValue(value){
+    this.state.editor.setValue(value)
+  }
+
   render() {
     return (
       <textarea id={this.props.id ? this.props.id : 'editor'}

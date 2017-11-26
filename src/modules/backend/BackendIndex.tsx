@@ -75,6 +75,13 @@ export default class Fragment extends React.Component<any, any> {
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
+                  this.props.dispatch(set('menu', Menus.WARM_UP_NEWPRACTICE))
+                  this.context.router.push({ pathname: '/backend/warmup/practice/import' })
+                }}>巩固练习新增</div> : null
+            }
+            {
+              window.ENV.isDevelopment ?
+                <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_MANAGE))
                   this.context.router.push({ pathname: '/backend/warmup/management' })
                 }}>巩固练习管理</div> : null
@@ -82,9 +89,8 @@ export default class Fragment extends React.Component<any, any> {
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
-                  this.props.dispatch(set('menu', Menus.WARM_UP_NEWPRACTICE))
-                  this.context.router.push({ pathname: '/backend/warmup/practice/import' })
-                }}>巩固练习新增</div> : null
+                  this.context.router.push({ pathname: '/backend/application/import' })
+                }}>应用练习导入</div> : null
             }
             {
               window.ENV.isDevelopment ?
