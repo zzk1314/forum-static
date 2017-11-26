@@ -22,11 +22,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'nickname', alias: '昵称', style: cellStyle },
         { tag: 'isDuplicate', alias: '是否重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
+        { tag: 'reward', alias: '优秀学员' },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
-        { tag: 'coupon', alias: '优惠券', style: cellStyle },
-        { tag: 'checkTime', alias: '审核时间', style: cellStyle },
-        { tag: 'deal', alias: '已处理', style: cellStyle },
+        // { tag: 'coupon', alias: '优惠券', style: cellStyle },
+        // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
+        // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
       ],
       data: [],
@@ -43,6 +44,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     loadBusinessApplicationList(1).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
+        console.log(res.msg.data);
         this.setState({ applications: res.msg.data, tablePage: res.msg.page });
       } else {
         dispatch(alertMsg(res.smg));
@@ -151,10 +153,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   render() {
-    const renderDialogItem = (label, value, br) => {
+    const renderDialogItem = (label, value, br, key) => {
       return (
-        <div className="bs-dialog-row">
-          <span className="bs-dialog-label">{label}：</span>{br ? <br/> : null}
+        <div className="bs-dialog-row" key={key}>
+          <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
           <span className="bs-dialog-value">{value}</span>
           <Divider/>
         </div>
@@ -162,39 +164,27 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
     const renderDialog = () => {
       const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
-
+      console.log(editData);
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               申请者信息：
             </div>
-            {renderDialogItem("昵称", editData.nickname)}
-            {renderDialogItem("OpenId", editData.openid)}
-            {renderDialogItem("当前会员状态", editData.memberType)}
-            {renderDialogItem("付费状态", editData.finalPayStatus)}
-            {renderDialogItem("申请时会员类型", editData.originMemberTypeName)}
-            {renderDialogItem("是否助教", editData.isAsst)}
-            {renderDialogItem("是否重复申请", editData.isDuplicate)}
-            {renderDialogItem("最终付费状态", editData.finalPayStatus)}
+            {renderDialogItem("昵称：", editData.nickname)}
+            {renderDialogItem("OpenId：", editData.openid)}
+            {renderDialogItem("当前会员状态：", editData.memberType)}
+            {renderDialogItem("付费状态：", editData.finalPayStatus)}
+            {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
+            {renderDialogItem("是否助教：", editData.isAsst)}
+            {renderDialogItem("是否重复申请：", editData.isDuplicate)}
+            {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
               问卷信息：
             </div>
-            {renderDialogItem("1.请选择您目前从事的行业", editData.q1Answer, true)}
-            {renderDialogItem("2.请选择您目前从事的职业", editData.q2Answer, true)}
-            {renderDialogItem("3.请选择您的职位层级", editData.q3Answer, true)}
-            {renderDialogItem("4.请选择您目前所在公司的企业性质", editData.q4Answer, true)}
-            {renderDialogItem("5.请填写您的工作年限", editData.q5Answer, true)}
-            {renderDialogItem("6.请选择您的最高学历", editData.q6Answer, true)}
-            {renderDialogItem("7.请选择您的最高学历院校", editData.q7Answer, true)}
-            {renderDialogItem("8.海外高校名称", editData.q8Answer, true)}
-            {renderDialogItem("9.请选择你所在的国内城市", editData.q9Answer, true)}
-            {renderDialogItem("10.请填写你所在的海外国家和城市", editData.q10Answer, true)}
-            {renderDialogItem("11.请描述您加入圈外商学院的成长目标", editData.q11Answer, true)}
-            {renderDialogItem("12.您是否要申请奖学金", editData.q12Answer, true)}
-            {renderDialogItem("13.请填写您的奖学金申请词", editData.q13Answer, true)}
-            {renderDialogItem("14.请输入您的手机号码", editData.q14Answer, true)}
-            {renderDialogItem("15.您的微信号", editData.q15Answer, true)}
+            {editData.questionList ? editData.questionList.map(item => {
+              return renderDialogItem(item.question, item.answer, true, item.id)
+            }) : null}
             <div className="bs-dialog-header">
               审批：
             </div>
