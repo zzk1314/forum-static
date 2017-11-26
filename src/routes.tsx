@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Base from 'modules/base/Base.tsx'
 import RiseBase from 'modules/base/RiseBase.tsx'
-import Home from './modules/home/Home'
+// import Home from './modules/home/Home'
 import Login from './modules/Login'
 import ServerCode from './modules/ServerCode'
 import ShowApplication from './modules/asst/application/ShowApplication'
@@ -77,8 +77,8 @@ import ApplicationEdit from './modules/backend/import/application/edit/Applicati
 const routes = (
   <Route path="/">
     <Route component={Base}>
-      <IndexRoute component={Home}/>
-      <Route path="home" component={Home}/>
+      {/*<IndexRoute component={Home}/>*/}
+      {/*<Route path="home" component={Home}/>*/}
       <Route path="test" component={Test}/>
       <Route path="login" component={Login}/>
       <Route path="stranger" component={Stranger}/>
