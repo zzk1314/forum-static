@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Route, IndexRoute } from "react-router";
+import * as React from 'react'
+import { Route, IndexRoute } from 'react-router'
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Base from 'modules/base/Base.tsx'
@@ -69,9 +69,10 @@ import CampUserUnGroup from './modules/camp/CampUserUnGroup'
 import CampUserAdd from './modules/camp/CampUserAdd'
 import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
-import BusinessSchoolApplication from "./modules/backend/operation/BusinessSchoolApplication"
+import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoolApplication'
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/import/application/ApplicationImport'
+import CampIdentityModify from './modules/camp/CampIdentityModify'
 import ApplicationEdit from './modules/backend/import/application/edit/ApplicationEdit'
 
 const routes = (
@@ -107,6 +108,8 @@ const routes = (
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
+        <Route path="/backend/camp/identity" component={CampIdentityModify}/>
+
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
