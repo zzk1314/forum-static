@@ -2,6 +2,7 @@
   width: 100%;
   margin: 9px auto;
   overflow: hidden;
+  position: relative;
   .leftList {
     float: left;
     width: 180px;
@@ -81,12 +82,13 @@
     }
   }
   .rightContent {
-    float: right;
-    width: ~"calc(100% - 184px)";
+    position: absolute;
+    width: ~"calc(100vw - 200px)";
+    left: 185px;
+    top: 0;
+    bottom: 0;
     min-height: 600px;
     background-color: #FFF;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
     overflow-y: scroll;
     > .feed-back {

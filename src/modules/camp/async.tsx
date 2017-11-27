@@ -31,3 +31,7 @@ export function batchModifyMonthlyCampGroupId(riseMemberIds, groupId) {
 export function modifyAddMonthlyCamp(param) {
   return ppost(`/backend/camp/modify/add`, param)
 }
+
+export function addCertificate(param) {
+  return ppost(`/backend/camp/add/certificate`, param)
+}
