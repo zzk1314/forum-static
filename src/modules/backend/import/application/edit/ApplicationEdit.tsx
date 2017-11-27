@@ -9,6 +9,9 @@ import {loadAllKnowledges, loadAllProblemsAndKnowledges, loadApplication, update
 import './ApplicationEdit.less'
 import Editor from '../../../../../components/editor/Editor'
 
+/**
+ * 废弃代码，已不用
+ */
 interface ApplicationEditState {
   //应用题对象
   topic: string;//任务标题
@@ -45,8 +48,12 @@ export default class ApplicationEdit extends React.Component<any, ApplicationEdi
     }
   }
 
-  componentWillMount() {
-    if(this.props.location.query.applicationId){
+  componentWillMount(nextProps) {
+
+    const { location } = nextProps || this.props;
+
+
+    if(location.query.applicationId){
       loadAllProblemsAndKnowledges().then(res => {
         const { code, msg } = res
         if(res.code === 200) {
@@ -66,7 +73,7 @@ export default class ApplicationEdit extends React.Component<any, ApplicationEdi
         }
       })
 
-      loadApplication(this.props.location.query.applicationId).then(res => {
+      loadApplication(location.query.applicationId).then(res => {
         const {code,msg} = res
         if(res.code===200){
           this.setState  ({

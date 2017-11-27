@@ -56,7 +56,7 @@ export default class WarmupPracticeList extends React.Component<any, any> {
 
   view(practice) {
     this.context.router.push({
-      pathname: '/backend/warmup/practice/edit',
+      pathname: '/backend/warmup/practice/import',
       query: {id: practice.id, problemId: practice.problemId}
     })
   }

@@ -1,11 +1,14 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from "material-ui";
-import ChoiceEditor from "./inputcomponents/ChoiceEditor";
-import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmupPracticeByPracticeUid } from "../async";
-import * as _ from "lodash";
-import "./WarmupPracticeImport.less";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
+import ChoiceEditor from './inputcomponents/ChoiceEditor'
+import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmUp, loadWarmupPracticeByPracticeUid, saveWarmup } from '../async'
+import * as _ from 'lodash'
+import './WarmupPracticeImport.less'
+import { decodeTextAreaString3 } from '../../../../../utils/textUtils'
+import Editor from '../../../../../components/editor/Editor'
+import { loadAllKnowledges } from '../../application/async'
 
 interface WarmupPracticeImportState {
   // 巩固练习训练对象
@@ -26,7 +29,7 @@ interface WarmupPracticeImportState {
   // 巩固练习的选择对象
   choices: object;
   choicesCnt: number;
-
+  choiceList: object;
   problems: object; // 返回所有小课列表
   knowledges: object; // 返回所有知识点列表
   knowledgesForSelect: object; // 根据小课列表筛选出的 Knowledge 集合
@@ -34,6 +37,7 @@ interface WarmupPracticeImportState {
   knowledgeSelect: number; //选择 知识点
   showSnackBar: boolean; // 提交成功提示消息
 }
+
 @connect(state => state)
 export default class WarmupPracticeImport extends React.Component<any, WarmupPracticeImportState> {
 
@@ -47,95 +51,189 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       problems: [],
       knowledges: [],
       knowledgesForSelect: [],
-      showSnackBar: false
+      showSnackBar: false,
+      choiceList: []
     }
   }
 
-  componentWillMount() {
-    loadAllProblemsAndKnowledges().then(res => {
-      const { code, msg } = res
-      if(res.code === 200) {
-        this.setState({
-          problems: msg.problems,
-          knowledges: msg.knowledges,
-        })
-      }
-    })
+
+
+  componentWillMount(nextProps) {
+    const { location } = nextProps || this.props;
+
+    if(location.query.id) {
+      const { id } = location.query
+      loadWarmUp(id).then(res => {
+        const { msg } = res
+        if(res.code == 200) {
+          this.setState({
+            id: id,
+            problemSelect: msg.problemId,
+            practiceUid: msg.practiceUid,
+            sequence: msg.sequence,
+            question: msg.question,
+            analysis: msg.analysis,
+            difficulty: msg.difficulty,
+            knowledgeSelect: msg.knowledgeId,
+            type: msg.type,
+            example: msg.example ? 1 : 0,
+            choicesCnt: msg.choicesCnt,
+            choiceList: msg.choiceList
+          })
+        }
+      })
+
+      loadAllKnowledges().then(res => {
+        const { code, msg } = res
+        if(res.code == 200) {
+          this.setState({
+            knowledgesForSelect: msg
+          })
+        }
+      })
+
+      loadAllProblemsAndKnowledges().then(res => {
+        const { code, msg } = res
+        if(res.code === 200) {
+          this.setState({
+            problems: msg.problems
+          })
+        }
+      })
+    } else {
+      this.clear()
+      loadAllProblemsAndKnowledges().then(res => {
+        const { code, msg } = res
+        if(res.code === 200) {
+          this.setState({
+            problems: msg.problems,
+            knowledges: msg.knowledges
+          })
+        }
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.location.query.id !== nextProps.location.query.id){
+      this.componentWillMount(nextProps);
+    }
   }
 
   submitWarmupPractice() {
     const {
-      question, type, analysis, pic,
+      id,
+      question, type, analysis, choiceList,
       difficulty, sequence, practiceUid, example,
       choices, problemSelect, knowledgeSelect
     } = this.state
 
-    const param = {
-      question: _.trim(question),
-      type,
-      analysis: _.trim(analysis),
-      pic: _.trim(pic),
-      difficulty,
-      knowledgeId: knowledgeSelect,
-      problemId: problemSelect,
-      sequence: parseInt(_.trim(sequence)),
-      practiceUid: _.trim(practiceUid),
-      example,
-      choices: _.filter(choices, function(choice) {
-        return _.trim(choice.subject) != ''
-      })
+    const { dispatch } = this.props
+    if(this.props.location.query.id) {
+      let question, analysis
+      if(this.refs.question) {
+        question = this.refs.question.getValue()
+      }
+      else {
+        question = this.state.question
+      }
+      if(this.refs.analysis) {
+        analysis = this.refs.analysis.getValue()
+      }
+      else {
+        analysis = this.state.analysis
+      }
+
+      const param = {
+        id,
+        question: question,
+        analysis: analysis,
+        edit: true,
+        type,
+        difficulty,
+        knowledgeId: knowledgeSelect,
+        problemId: problemSelect,
+        sequence: parseInt(_.trim(sequence)),
+        practiceUid: _.trim(practiceUid),
+        example,
+        choiceList,
+        choices: _.filter(choices, function(choice) {
+          return _.trim(choice.subject) != ''
+        })
+
+      }
+      if(param.question == '' || param.analysis == '' || param.practiceUid == '') {
+        dispatch(alertMsg('数据必输项未填写完成，请重试'))
+      } else if(!param.sequence) {
+        dispatch(alertMsg('数据格式异常，请重试'))
+      } else {
+        dispatch(startLoad())
+        saveWarmup(param).then(res => {
+          dispatch(endLoad())
+          if(res.code === 200) {
+            this.setState({ showSnackBar: true }, () => {
+              setTimeout(() => {
+                this.disableSnackBar()
+              }, 1000)
+            })
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        }).catch(e => {
+          dispatch(endLoad())
+          dispatch(alertMsg(e))
+        })
+      }
+    }
+    else {
+      const param = {
+        question: this.refs.question.getValue(),
+        type,
+        analysis: this.refs.analysis.getValue(),
+        pic: null,
+        difficulty,
+        knowledgeId: knowledgeSelect,
+        problemId: problemSelect,
+        sequence: parseInt(_.trim(sequence)),
+        practiceUid: _.trim(practiceUid),
+        example,
+        choiceList,
+        choices: _.filter(choices, function(choice) {
+          return _.trim(choice.subject) != ''
+        })
+      }
+      if(param.question == '' || param.analysis == '' || param.practiceUid == '' || param.choices.length == 0 || type == undefined || difficulty == undefined || example == undefined) {
+        dispatch(alertMsg('数据必输项未填写完成，请重试'))
+      } else if(!param.sequence) {
+        dispatch(alertMsg('数据格式异常，请重试'))
+      } else {
+        dispatch(startLoad())
+        insertWarmupPractice(param).then(res => {
+          dispatch(endLoad())
+          if(res.code === 200) {
+            this.setState({ showSnackBar: true }, () => {
+              this.refs.question.setValue('')
+              this.refs.analysis.setValue('')
+              this.clear()
+              setTimeout(() => {
+                this.disableSnackBar()
+              }, 1000)
+            })
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        }).catch(e => {
+          dispatch(endLoad())
+          dispatch(alertMsg(e))
+        })
+      }
     }
 
-    const { dispatch } = this.props
-    if(param.question == "" || param.analysis == "" || param.practiceUid == "" || param.choices.length == 0) {
-      dispatch(alertMsg("数据必输项未填写完成，请重试"))
-    } else if(!param.sequence) {
-      dispatch(alertMsg('数据格式异常，请重试'))
-    } else {
-      dispatch(startLoad())
-      insertWarmupPractice(param).then(res => {
-        dispatch(endLoad())
-        if(res.code === 200) {
-          this.setState({ showSnackBar: true }, () => {
-            this.clear();
-          })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      }).catch(e => {
-        dispatch(endLoad())
-        dispatch(alertMsg(e))
-      })
-    }
   }
 
-  loadDefaultWarmupPractice(practiceUid) {
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    loadWarmupPracticeByPracticeUid(_.trim(practiceUid)).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if(code === 200) {
-        const targetKnowledges = _.filter(this.state.knowledges, {problemId: msg.problemId})
-        this.setState({
-          question: msg.question,
-          analysis: msg.analysis,
-          problemId: msg.problemId,
-          problemSelect: msg.problemId,
-          knowledgeId: msg.knowledgeId,
-          knowledgeSelect: msg.knowledgeId,
-          knowledgesForSelect: targetKnowledges[0].knowledges,
-          sequence: msg.sequence,
-          type: msg.type,
-          difficulty: msg.difficulty,
-          example: msg.example ? 1 : 0
-        })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(e => {
-      dispatch(endLoad())
-      dispatch(alertMsg(e))
+  disableSnackBar() {
+    this.setState({
+      showSnackBar: false
     })
   }
 
@@ -159,48 +257,79 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     }
   }
 
-  clear(){
+  onAnswerChange(value, idx) {
+    const { choiceList = [] } = this.state
+    if(value != choiceList[idx].isRight) {
+      _.set(choiceList[idx], 'isRight', value === '√')
+      this.setState({ choiceList, edit: true })
+    }
+  }
+
+  onChoiceEdit(idx) {
+    const { choiceList = [] } = this.state
+    _.set(choiceList[idx], 'choiceEdit', true)
+    this.setState({ choiceList })
+  }
+
+  onChoiceChange(value, idx) {
+    const { choiceList = [] } = this.state
+    if(value !== choiceList[idx].subject) {
+      _.set(choiceList[idx], 'subject', value)
+      _.set(choiceList[idx], 'choiceEdit', false)
+      this.setState({ choiceList, edit: true })
+    }
+  }
+
+  clear() {
     this.setState({
-    question: '',
-    type: null,
-    analysis: '',
-    pic: null,
-    difficulty: null,
-    knowledgeId: null,
-    sceneId: 1,
-    problemId: null,
-    sequence: null,
-    practiceUid: '',
-    example: null,
-    problemList: [],
-    knowledgeList: [],
-    choices: [],
-    choicesCnt: 1,
-    knowledgesForSelect: [],
-    problemSelect: null,
-    knowledgeSelect: null,
-    showSnackBar: false,
+      type: null,
+      pic: null,
+      difficulty: null,
+      knowledgeId: null,
+      sceneId: 1,
+      problemId: null,
+      sequence: '',
+      practiceUid: '',
+      example: null,
+      problemList: [],
+      knowledgeList: [],
+      choices: [],
+      choicesCnt: 1,
+      choiceList: [],
+      knowledgesForSelect: [],
+      problemSelect: null,
+      knowledgeSelect: null,
+      question: '',
+      analysis: ''
     })
+    if(this.refs.question){
+      this.refs.question.setValue('')
+    }
+    if(this.refs.analysis){
+      this.refs.analysis.setValue('')
+    }
   }
 
   render() {
+    let isUpdate = this.props.location.query.id ? true : false
     const {
-      warmupPractice, question, type, analysis, pic,
-      difficulty, knowledgeId, problemId, sequence,
-      practiceUid, example, problemList, knowledgeList,
+      question, type, analysis, choiceList,
+      difficulty, sequence,
+      practiceUid, example,
       choices, choicesCnt, problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
     } = this.state
+
 
     const renderProblemSelect = () => {
       return (
         <SelectField
           floatingLabelText="小课选择" maxHeight={300}
-          value={problemSelect}
+          value={problemSelect} disabled={isUpdate}
           onChange={(ev, value) => {
             let targetValue = ev.target.textContent
-            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf("、")))
-            const targetKnowledges = _.filter(knowledges, { problemId: targetNum });
+            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf('、')))
+            const targetKnowledges = _.filter(knowledges, { problemId: targetNum })
             let knowledgesForSelect = []
             if(targetKnowledges.length > 0) {
               knowledgesForSelect = targetKnowledges[0].knowledges
@@ -214,7 +343,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           {
             problems.map((item, idx) => {
               return (
-                <MenuItem key={idx} value={item.id} primaryText={item.id + "、" + item.problem}/>
+                <MenuItem key={idx} value={item.id} primaryText={item.id + '、' + item.problem}/>
               )
             })
           }
@@ -226,10 +355,10 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       return (
         <SelectField
           floatingLabelText="知识点选择" maxHeight={400}
-          value={knowledgeSelect}
+          value={knowledgeSelect} disabled={isUpdate}
           onChange={(ev, value) => {
             let targetValue = ev.target.textContent
-            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf("、")))
+            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf('、')))
             this.setState({
               knowledgeSelect: targetNum
             })
@@ -237,7 +366,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           {
             knowledgesForSelect.map((item, idx) => {
               return (
-                <MenuItem value={item.id} primaryText={item.id + "、" + item.knowledge} key={idx}/>
+                <MenuItem value={item.id} primaryText={item.id + '、' + item.knowledge} key={idx}/>
               )
             })
           }
@@ -245,6 +374,63 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       )
     }
 
+    /**
+     * 加载主体信息
+     **/
+    const renderMainInfo = () => {
+      return (
+
+        <div className="intro-container">
+          <div className="question">
+            <div className="question-title">【题干】</div>
+            <Editor
+              id="question" ref="question"
+              value={question}
+            />
+
+          </div>
+          <div className="analysis">
+            <div className="analysis-title">【解析】</div>
+            <Editor
+              id="analysis" ref="analysis"
+              value={analysis}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    const renderUpdateChoices = () => {
+      return (
+        <div className="choice-list">
+          {choiceList.map((choice, idx) => choiceRender(choice, idx))}
+        </div>
+      )
+    }
+
+    const choiceRender = (choice, idx) => {
+      const { id, subject, choiceEdit, isRight } = choice
+      return (
+        <div key={id} className={`choice`}>
+          <div className="select">
+            <SelectField style={{ width: '70' }}
+                         floatingLabelText="选项" maxHeight={300}
+                         value={isRight === true ? 'true' : 'false'}
+                         onChange={(e) => this.onAnswerChange(e.target.textContent, idx)}
+            >
+              <MenuItem key={1} value={'true'} primaryText={'√'}/>
+              <MenuItem key={2} value={'false'} primaryText={'×'}/>
+            </SelectField>
+          </div>
+          {
+            choiceEdit ?
+              <input type="text" className="text"
+                     onBlur={(e) => this.onChoiceChange(e.currentTarget.value, idx)} defaultValue={subject}/>
+              : <div className="text" onClick={() => this.onChoiceEdit(idx)}>{subject}</div>
+          }
+        </div>
+      )
+    }
     const renderChoices = () => {
       let choices = []
       for(let i = 0; i < this.state.choicesCnt; i++) {
@@ -256,6 +442,19 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
         )
       }
       return choices
+    }
+
+    const showChoiceBtn = () => {
+      return (
+        <div>
+          <RaisedButton className="main-btn" label="增加选项" primary={true}
+                        onTouchTap={() => {
+                          this.setState({ choicesCnt: this.state.choicesCnt + 1 })
+                        }}/>
+          <RaisedButton className="main-btn" label="删除选项" primary={true}
+                        onTouchTap={this.handleClickRemoveChoice.bind(this)}/>
+        </div>
+      )
     }
 
     const renderOtherComponents = () => {
@@ -271,7 +470,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     return (
       <div className="practice-input-container">
         <div className="practice-input-page">
-          <div className="practice-header">巩固练习录入页面</div>
+          <div className="practice-header">巩固练习录入（更新）页面</div>
           <div className="practice-init">
             <div className="practice-step">Step1、选择所在小课及知识点</div>
             <div className="selecte-field">
@@ -282,19 +481,15 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           <div className="practice-basis">
             <div className="practice-step">Step2、录入基本要点</div>
             <br/>
-            <div className="pratice-tip">根据 PracticeUid 获取当前其余数据（更改题目时需要）</div>
-            <RaisedButton
-              className="load-practice" label="加载数据" primary={true}
-              onTouchTap={this.loadDefaultWarmupPractice.bind(this, practiceUid)}/>
             <div className="basis-flex-box">
               <TextField
-                hintText="在这里输入练习唯一 id" floatingLabelText=" 练习唯一 id" value={ practiceUid }
+                hintText="在这里输入练习唯一 id" floatingLabelText=" 练习唯一 id" value={practiceUid} disabled={isUpdate}
                 onChange={(ev, value) => {
                   this.setState({ practiceUid: value })
                 }}
               />
               <TextField
-                hintText="在这里输入题目顺序" floatingLabelText="题目顺序" value={ sequence }
+                hintText="在这里输入题目顺序" floatingLabelText="题目顺序" value={sequence} disabled={isUpdate}
                 onChange={(ev, value) => {
                   this.setState({ sequence: value })
                 }}
@@ -303,36 +498,13 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           </div>
           <div className="practice-main">
             <div className="practice-step">Step3、录入主体详情</div>
-            <TextField
-              className="block-item" fullWidth={true} hintText="在这里输入巩固练习的题干"
-              multiLine={true} value={question} floatingLabelText="题干（question）"
-              onChange={(ev, value) => {
-                this.setState({ question: value })
-              }}
-            />
-            <TextField
-              className="block-item" fullWidth={true} value={ pic }
-              hintText="在这里输入图片链接地址" floatingLabelText="图片 URL（pic），非必填"
-              onChange={(ev, value) => {
-                this.setState({ pic: value })
-              }}
-            />
-            <TextField
-              className="block-item" fullWidth={true} hintText="在这里输入巩固练习的解析"
-              floatingLabelText="解析（analysis）" multiLine={true} value={analysis}
-              onChange={(ev, value) => {
-                this.setState({ analysis: value })
-              }}
-            />
+            {renderMainInfo()}
             <div className="practice-choice ">
-              <div className="practice-step">Step4、添加巩固练习选项（若该选项为正确选项，勾选左侧按钮）</div>
-              {renderChoices()}
-              <RaisedButton className="main-btn" label="增加选项" primary={true}
-                            onTouchTap={() => {
-                              this.setState({ choicesCnt: this.state.choicesCnt + 1 })
-                            }}/>
-              <RaisedButton className="main-btn" label="删除选项" primary={true}
-                            onTouchTap={this.handleClickRemoveChoice.bind(this)}/>
+              {isUpdate ? <div className="practice-step">Step4、巩固练习选项</div> :
+                <div className="practice-step">Step4、添加巩固练习选项（若该选项为正确选项，勾选左侧按钮）</div>}
+              {isUpdate ? renderUpdateChoices() : renderChoices()}
+
+              {isUpdate ? null : showChoiceBtn()}
             </div>
           </div>
           <div className="practice-addition">
