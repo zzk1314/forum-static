@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Base from 'modules/base/Base.tsx'
 import RiseBase from 'modules/base/RiseBase.tsx'
-import Home from './modules/home/Home'
+// import Home from './modules/home/Home'
 import Login from './modules/Login'
 import ServerCode from './modules/ServerCode'
 import ShowApplication from './modules/asst/application/ShowApplication'
@@ -73,12 +73,13 @@ import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoo
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/import/application/ApplicationImport'
 import CampIdentityModify from './modules/camp/CampIdentityModify'
+import ApplicationEdit from './modules/backend/import/application/edit/ApplicationEdit'
 
 const routes = (
   <Route path="/">
     <Route component={Base}>
-      <IndexRoute component={Home}/>
-      <Route path="home" component={Home}/>
+      {/*<IndexRoute component={Home}/>*/}
+      {/*<Route path="home" component={Home}/>*/}
       <Route path="test" component={Test}/>
       <Route path="login" component={Login}/>
       <Route path="stranger" component={Stranger}/>
@@ -116,6 +117,7 @@ const routes = (
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
+        <Route path="/backend/application/edit" component={ApplicationEdit}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>

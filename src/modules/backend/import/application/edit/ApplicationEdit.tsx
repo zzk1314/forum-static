@@ -4,12 +4,12 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import * as _ from 'lodash'
 
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
-import { insertApplicationPractice, loadAllProblemsAndKnowledges, loadApplication } from './async'
+import {loadAllKnowledges, loadAllProblemsAndKnowledges, loadApplication, updateApplicationPractice } from '../async'
 
-import './ApplicationImport.less'
-import Editor from '../../../../components/editor/Editor'
+import './ApplicationEdit.less'
+import Editor from '../../../../../components/editor/Editor'
 
-interface ApplicationImportState {
+interface ApplicationEditState {
   //应用题对象
   topic: string;//任务标题
   description: string;//描述
@@ -26,7 +26,6 @@ interface ApplicationImportState {
   knowledgesForSelect: object; // 根据小课列表筛选出的 Knowledge 集合
   problemSelect: number; // 选择 problem
   knowledgeSelect: number; //选择 知识点
-  sequenceSelect;
   showSnackBar: boolean; // 提交成功提示消息
 }
 
@@ -34,7 +33,7 @@ interface ApplicationImportState {
  * 应用题导入
  */
 @connect(state => state)
-export default class ApplicationImport extends React.Component<any, ApplicationImportState> {
+export default class ApplicationEdit extends React.Component<any, ApplicationEditState> {
   constructor() {
     super()
     this.state = {
@@ -47,22 +46,48 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
   }
 
   componentWillMount() {
-    loadAllProblemsAndKnowledges().then(res => {
-      const { code, msg } = res
-      if(res.code === 200) {
-        this.setState({
-          problems: msg.problems,
-          knowledges: msg.knowledges
-        })
-      }
-    })
+    if(this.props.location.query.applicationId){
+      loadAllProblemsAndKnowledges().then(res => {
+        const { code, msg } = res
+        if(res.code === 200) {
+          this.setState({
+            problems: msg.problems,
+            knowledges: msg.knowledges
+          })
+        }
+      })
+
+      loadAllKnowledges().then(res=>{
+        const{code,msg} = res
+        if(res.code==200){
+          this.setState({
+            knowledgesForSelect:msg
+          })
+        }
+      })
+
+      loadApplication(this.props.location.query.applicationId).then(res => {
+        const {code,msg} = res
+        if(res.code===200){
+          this.setState  ({
+            problemSelect:msg.problemId,
+            knowledgeSelect:msg.knowledgeId,
+            practiceUid:msg.practiceUid,
+            sequence:msg.sequence,
+            topic:msg.topic,
+            description:msg.description,
+            difficulty:msg.difficulty
+          })
+        }
+      })
+    }
   }
 
   /**
    * 应用题提交
    **/
-  submitApplication() {
-    const { topic, difficulty, sequenceSelect, problemId, pic, practiceUid, knowledgeSelect, problemSelect } = this.state
+  updateApplication() {
+    const { topic, difficulty, sequence, problemId, pic, practiceUid, knowledgeSelect, problemSelect } = this.state
     let description = this.refs.description.getValue()
     const param = {
       topic: _.trim(topic),
@@ -70,7 +95,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       difficulty,
       sceneId: 1,
       updated: 2,
-      sequence: sequenceSelect,
+      sequence: _.trim(sequence),
       problemId: problemSelect,
       pic: _.trim(pic),
       practiceUid: _.trim(practiceUid),
@@ -83,12 +108,10 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       dispatch(alertMsg('数据格式异常，请重试'))
     } else {
       dispatch(startLoad())
-      insertApplicationPractice(param).then(res => {
+      updateApplicationPractice(this.props.location.query.applicationId,topic,description,difficulty).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-          this.refs.description.setValue('')
           this.setState({ showSnackBar: true }, () => {
-            this.clear()
             setTimeout(() => {
               this.disableSnackBar()
             }, 1000)
@@ -103,20 +126,6 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     }
   }
 
-  clear() {
-    this.setState({
-      sequenceSelect:null,
-      problemSelect: null,
-      knowledgeSelect: null,
-      practiceUid: '',
-      sequence: '',
-      topic: '',
-      pic: '',
-      difficulty: -1,
-      knowledgesForSelect: [],
-    })
-  }
-
   disableSnackBar() {
     this.setState({
       showSnackBar: false
@@ -126,7 +135,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
   render() {
     const {
       topic, difficulty, description,
-      sequenceSelect, pic, practiceUid,
+      sequence, pic, practiceUid,
       problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
     } = this.state
@@ -134,21 +143,8 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     const renderProblemSelect = () => {
       return (
         <SelectField
-          floatingLabelText="小课选择" maxHeight={300}
+          floatingLabelText="小课内容" maxHeight={300}  disabled={true}
           value={problemSelect}
-          onChange={(ev, value) => {
-            let targetValue = ev.target.textContent
-            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf('、')))
-            const targetKnowledges = _.filter(knowledges, { problemId: targetNum })
-            let knowledgesForSelect = []
-            if(targetKnowledges.length > 0) {
-              knowledgesForSelect = targetKnowledges[0].knowledges
-            }
-            this.setState({
-              problemSelect: targetNum,
-              knowledgesForSelect: knowledgesForSelect
-            })
-          }}
         >
           {
             problems.map((item, idx) => {
@@ -164,44 +160,22 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     const renderKnowledgeSelect = () => {
       return (
         <SelectField
-          floatingLabelText="知识点选择" maxHeight={400}
+          floatingLabelText="知识点内容" maxHeight={400}  disabled={true}
           value={knowledgeSelect}
-          onChange={(ev, value) => {
-            let targetValue = ev.target.textContent
-            const targetNum = parseInt(targetValue.slice(0, targetValue.indexOf('、')))
-            this.setState({
-              knowledgeSelect: targetNum
-            })
-          }}>
+         >
           {
             knowledgesForSelect.map((item, idx) => {
               return (
-                <MenuItem value={item.id} primaryText={item.id + '、' + item.knowledge} key={idx}/>
+                <MenuItem key={idx} value={item.id} primaryText={item.id + '、' + item.knowledge}/>
               )
             })
           }
+
+
         </SelectField>
       )
     }
 
-    const renderChooseSequence = () => {
-      return (
-        <SelectField
-          floatingLabelText="顺序选择" maxHeight={300}
-          value={sequenceSelect}
-          onChange={(ev, value) => {
-            let targetValue = ev.target.textContent
-            const targetNum = parseInt(targetValue)
-            this.setState({
-              sequenceSelect: targetNum,
-            })
-          }}
-        >
-        <MenuItem key={1} value={1} primaryText={1}/>
-        <MenuItem key={2} value={2} primaryText={2}/>
-        </SelectField>
-      )
-    }
 
     const renderOtherComponents = () => {
       return (
@@ -214,33 +188,32 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     }
 
     return (
-      <div className="application-input-container">
-        <div className="application-input-page">
-          <div className="application-header">应用题导入页面</div>
-          <div className="application-init">
-            <div className="application-step">Step1、选择所在小课及知识点</div>
+      <div className="application-edit-input-container">
+        <div className="application-edit-input-page">
+          <div className="application-edit-header">应用题更新页面</div>
+          <div className="application-edit-init">
+            <div className="application-edit-step">Step1、所在小课及知识点</div>
             <div className="selecte-field">
               {renderProblemSelect()}
               {renderKnowledgeSelect()}
             </div>
           </div>
-          <div className="application-basis">
-            <div className="application-step">Step2、录入基本要点</div>
+          <div className="application-edit-basis">
+            <div className="application-edit-step">Step2、录入基本要点</div>
             <br/>
+
             <div className="basis-flex-box">
               <TextField
-                hintText="在这里输入练习唯一 id(practiceUid)" floatingLabelText=" 练习唯一 id(practiceUid)" value={practiceUid}
-                onChange={(ev, value) => {
-                  this.setState({ practiceUid: value })
-                }}
+                floatingLabelText=" 练习唯一 id(practiceUid)" value={practiceUid} readOnly="readonly"
               />
-              {renderChooseSequence()}
+              <TextField
+               floatingLabelText="题目顺序" value={sequence} readOnly="readonly"
+              />
             </div>
-
           </div>
 
-          <div className="application-main">
-            <div className="application-step">Step3、录入主体详情</div>
+          <div className="application-edit-main">
+            <div className="application-edit-step">Step3、录入主体详情</div>
             <TextField
               className="block-item" fullWidth={true} hintText="在这里输入任务标题"
               multiLine={true} value={topic} floatingLabelText="任务标题（topic）"
@@ -248,14 +221,14 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
                 this.setState({ topic: value })
               }}
             />
-            <div className="application-description">题干（description）</div>
+            <div className="application-edit-description">题干（description）</div>
 
             <Editor ref="description"
                     value={description} placeholder="在这里输入题干"/>
 
-            <div className="application-addition">
-              <div className="application-step">Step4、录入额外信息</div>
-              <div className="application-tip">选择题目难易度</div>
+            <div className="application-edit-addition">
+              <div className="application-edit-step">Step4、录入额外信息</div>
+              <div className="application-edit-tip">选择题目难易度</div>
               <RadioButtonGroup name="typeGroup" className="radio-group"
                                 valueSelected={difficulty}
                                 onChange={(ev, value) => this.setState({ difficulty: value })}>
@@ -267,7 +240,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
           </div>
 
           <RaisedButton className="submit-btn" primary={true} label="提交题目"
-                        onTouchTap={this.submitApplication.bind(this)}/>
+                        onTouchTap={this.updateApplication.bind(this)}/>
         </div>
         {renderOtherComponents()}
       </div>

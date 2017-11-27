@@ -40,7 +40,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
     switch(navId) {
       case NavType.Home: {
         this.setState({ activeNav: NavType.Home }, () => {
-          this.context.router.push({ pathname: '/home' })
+          window.location.href ='/home'
         })
         break;
       }
