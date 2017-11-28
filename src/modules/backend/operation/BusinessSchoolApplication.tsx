@@ -44,7 +44,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     loadBusinessApplicationList(1).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        console.log(res.msg.data);
         this.setState({ applications: res.msg.data, tablePage: res.msg.page });
       } else {
         dispatch(alertMsg(res.smg));
@@ -164,7 +163,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
     const renderDialog = () => {
       const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
-      console.log(editData);
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
