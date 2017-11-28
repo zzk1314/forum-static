@@ -67,7 +67,7 @@ export default class Catalog extends React.Component<any,any> {
   // 根据redux设置的menu值，实行不同情况的跳转
   goApp(workId){
     this.context.router.push({
-      pathname:"/backend/application/edit",
+      pathname:"/backend/application/import",
       query:{
         applicationId:workId,
       }

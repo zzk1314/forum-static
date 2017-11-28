@@ -103,7 +103,6 @@ const routes = (
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/practice/import" component={WarmupPracticeImport}/>
-          <Route path="/backend/warmup/practice/edit" component={WarmupPracticeEdit}/>
         </Route>
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
@@ -121,7 +120,6 @@ const routes = (
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
-        <Route path="/backend/application/edit" component={ApplicationEdit}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="asst" component={AsstWelcome}/>

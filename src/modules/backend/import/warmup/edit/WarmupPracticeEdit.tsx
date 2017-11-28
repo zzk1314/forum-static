@@ -11,6 +11,9 @@ import Editor from '../../../../../components/editor/Editor'
 import { decodeTextAreaString3 } from '../../../../../utils/textUtils'
 import { saveWarmup } from '../../../warmup/async'
 
+/**
+ * 废弃代码，已不用
+ */
 interface WarmupPracticeEditState {
   // 巩固练习训练对象
   id:number;
