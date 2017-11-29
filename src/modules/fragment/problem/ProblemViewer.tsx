@@ -128,9 +128,9 @@ export default class ProblemViewer extends React.Component<any, any> {
                 {/*<AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/how_2.png"/>*/}
               {/*</div>*/}
               {/*<pre dangerouslySetInnerHTML={{ __html: how }} />*/}
-              <div className="context-title-img">
-                <AssetImg width={'60%'} style={{ marginTop: 25 }} url={descPic}/>
-              </div>
+              {/*<div className="context-title-img">*/}
+                {/*<AssetImg width={'60%'} style={{ marginTop: 25 }} url={descPic}/>*/}
+              {/*</div>*/}
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
