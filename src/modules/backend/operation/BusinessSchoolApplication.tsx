@@ -20,9 +20,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'isDuplicate', alias: '是否重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
+        { tag: 'isDuplicate', alias: '重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
+        {tag: 'isBlack',alias:'黑名单'},
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
@@ -156,7 +157,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return (
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
-          <span className="bs-dialog-value">{value}</span>
+          {
+            value == '是' ? <span className="bs-dialog-true-value">{value}</span> :<span className="bs-dialog-value">{value}</span>
+          }
           <Divider/>
         </div>
       )
@@ -176,6 +179,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
             {renderDialogItem("是否重复申请：", editData.isDuplicate)}
+            {renderDialogItem("是否黑名单用户：",editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
               问卷信息：
