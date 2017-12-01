@@ -157,9 +157,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return (
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
-          {
-            value == '是' ? <span className="bs-dialog-true-value">{value}</span> :<span className="bs-dialog-value">{value}</span>
-          }
+
+          <span className={`${(value == '是' && label == '是否黑名单用户：')? "bs-dialog-true-value":"bs-dialog-value"}`}>
+            {value}
+          </span>
+
           <Divider/>
         </div>
       )
