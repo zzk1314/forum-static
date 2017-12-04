@@ -48,35 +48,86 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
 
     let words = this.refs.editor.getValue()
 
+
+    // let node = document.getElementById('file').files
+    // if(node.length === 0) {
+    //   this.setState({ showSnackBar: true, snackMessage: '请上传音频' })
+    //   return
+    // }
     let node = document.getElementById('file').files
-    if(node.length === 0) {
-      this.setState({ showSnackBar: true, snackMessage: '请上传音频' })
-      return
+    if(audioId == 0){
+      if(node.length == 0){
+        this.setState({showSnackBar:true,snackMessage:'请上传音频'})
+        return
+      }
     }
+
     let formData = new FormData()
     formData.append('file', node[ 0 ])
 
     this.setState({loading:true})
-    uploadAudioFile(formData, prefix).then(res => {
-      if(res.code === 200) {
-        updateAudioDB(name, res.msg, words).then(res2 => {
-          this.setState({loading:false})
-          if(res2.code === 200) {
-            if(upload){
-              upload(res2.msg)
-            }
-            if(close) {
-              close()
-            }
-            this.setState({ showSnackBar: true })
-          } else {
-            this.setState({ showSnackBar: true, snackMessage: res2.msg })
+
+    //在更新的时候如果没有传音频文件则不需要进行上传
+    if(node.length == 0){
+      updateAudioDB(name,'', words,audioId).then(res2 => {
+        this.setState({loading:false})
+        if(res2.code === 200) {
+          if(upload){
+            upload(res2.msg)
           }
-        }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
-      } else {
-        this.setState({ showSnackBar: true, snackMessage: res.msg })
-      }
-    }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
+          if(close) {
+            close()
+          }
+          this.setState({ showSnackBar: true })
+        } else {
+          this.setState({ showSnackBar: true, snackMessage: res2.msg })
+        }
+      }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
+    }
+    else{
+      uploadAudioFile(formData, prefix).then(res => {
+        if(res.code === 200) {
+          updateAudioDB(name, res.msg, words,audioId).then(res2 => {
+            this.setState({loading:false})
+            if(res2.code === 200) {
+              if(upload){
+                upload(res2.msg)
+              }
+              if(close) {
+                close()
+              }
+              this.setState({ showSnackBar: true })
+            } else {
+              this.setState({ showSnackBar: true, snackMessage: res2.msg })
+            }
+          }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
+        } else {
+          this.setState({ showSnackBar: true, snackMessage: res.msg })
+        }
+      }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
+    }
+
+
+    // uploadAudioFile(formData, prefix).then(res => {
+    //   if(res.code === 200) {
+    //     updateAudioDB(name, res.msg, words).then(res2 => {
+    //       this.setState({loading:false})
+    //       if(res2.code === 200) {
+    //         if(upload){
+    //           upload(res2.msg)
+    //         }
+    //         if(close) {
+    //           close()
+    //         }
+    //         this.setState({ showSnackBar: true })
+    //       } else {
+    //         this.setState({ showSnackBar: true, snackMessage: res2.msg })
+    //       }
+    //     }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
+    //   } else {
+    //     this.setState({ showSnackBar: true, snackMessage: res.msg })
+    //   }
+    // }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
   }
 
   handleRequestClose() {

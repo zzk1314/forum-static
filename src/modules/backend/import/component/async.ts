@@ -9,7 +9,8 @@ export function updateAudioDB(name, ftpFileName, words, audioId) {
   return ppost(`/pc/upload/audio/db`, {
     name: name,
     ftpFileName: ftpFileName,
-    words: words
+    words: words,
+    audioId:audioId
   })
 }
 
