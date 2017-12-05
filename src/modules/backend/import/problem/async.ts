@@ -16,12 +16,3 @@ export function loadProblemCatalog() {
 export function saveProblem(param) {
   return ppost(`/pc/operation/problem/save`, param)
 }
-
-/**
- * 添加小课的时候需要往ProblemSchedule中添加一条复习记录
- * @param param
- * @returns {any}
- */
-// export function addProblemAndReviewSchedule(param){
-//   return ppost('/pc/operation/problem/schedule/save',param)
-// }

@@ -48,12 +48,6 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
 
     let words = this.refs.editor.getValue()
 
-
-    // let node = document.getElementById('file').files
-    // if(node.length === 0) {
-    //   this.setState({ showSnackBar: true, snackMessage: '请上传音频' })
-    //   return
-    // }
     let node = document.getElementById('file').files
     if(audioId == 0){
       if(node.length == 0){
@@ -106,28 +100,6 @@ export class AudioModal extends React.Component<AudioModalProps, AudioModalState
         }
       }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
     }
-
-
-    // uploadAudioFile(formData, prefix).then(res => {
-    //   if(res.code === 200) {
-    //     updateAudioDB(name, res.msg, words).then(res2 => {
-    //       this.setState({loading:false})
-    //       if(res2.code === 200) {
-    //         if(upload){
-    //           upload(res2.msg)
-    //         }
-    //         if(close) {
-    //           close()
-    //         }
-    //         this.setState({ showSnackBar: true })
-    //       } else {
-    //         this.setState({ showSnackBar: true, snackMessage: res2.msg })
-    //       }
-    //     }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
-    //   } else {
-    //     this.setState({ showSnackBar: true, snackMessage: res.msg })
-    //   }
-    // }).catch(e => this.setState({ showSnackBar: true, snackMessage: e }))
   }
 
   handleRequestClose() {
