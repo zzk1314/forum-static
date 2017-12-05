@@ -23,9 +23,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'isDuplicate', alias: '重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
-        {tag: 'isBlack',alias:'黑名单'},
+        { tag: 'isBlack', alias: '黑名单' },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
+        { tag: 'orderId', alias: '订单' },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
@@ -158,7 +159,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
 
-          <span className={`${(value == '是' && label == '是否黑名单用户：')? "bs-dialog-true-value":"bs-dialog-value"}`}>
+          <span className={`${(value == '是' && label == '是否黑名单用户：') ? "bs-dialog-true-value" : "bs-dialog-value"}`}>
             {value}
           </span>
 
@@ -181,7 +182,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
             {renderDialogItem("是否重复申请：", editData.isDuplicate)}
-            {renderDialogItem("是否黑名单用户：",editData.isBlack)}
+            {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
               问卷信息：
@@ -227,12 +228,14 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                     onChange={(event, index, value) => this.handleChangeCoupon(event, index, value)}
                   >
                     <MenuItem value={0} primaryText="无"/>
-                    <MenuItem value={100} primaryText="100"/>
                     <MenuItem value={200} primaryText="200"/>
                     <MenuItem value={300} primaryText="300"/>
+                    <MenuItem value={400} primaryText="400"/>
                     <MenuItem value={500} primaryText="500"/>
-                    <MenuItem value={1340} primaryText="1340"/>
-                    <MenuItem value={2680} primaryText="2680"/>
+                    <MenuItem value={600} primaryText="600"/>
+                    <MenuItem value={800} primaryText="800"/>
+                    <MenuItem value={1540} primaryText="1540"/>
+                    <MenuItem value={3080} primaryText="3080"/>
                   </SelectField>
                   <RaisedButton
                     style={{ marginLeft: 30 }}
