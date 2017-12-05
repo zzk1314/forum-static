@@ -32,6 +32,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       add: false,
       select: false,
       problemAudio:false,
+      audioId:0
     }
   }
 
