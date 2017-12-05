@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from "react-redux"
 import _ from 'lodash'
-import { loadProblem, saveProblem } from './async'
+import { addProblemAndReviewSchedule, loadProblem, saveProblem } from './async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from '../../../../components/editor/Editor'
 import { ProblemSelector } from '../component/ProblemSelector'
@@ -32,6 +32,7 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       add: false,
       select: false,
       problemAudio:false,
+      audioId:0
     }
   }
 
@@ -56,13 +57,13 @@ export default class ProblemImport extends React.Component<any, ProblemImportSta
       return
     }
 
-    saveProblem(param ).then(res => {
-      if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加小课成功', add:false, select:true })
-      } else {
-        this.setState({ snackShow: true, snackMessage: '添加小课失败' })
-      }
-    })
+      saveProblem(param ).then(res => {
+        if(res.code === 200) {
+          this.setState({ snackShow: true, snackMessage: '添加小课成功', add:false, select:true })
+        } else {
+          this.setState({ snackShow: true, snackMessage: '添加小课失败' })
+        }
+      })
   }
 
   closeSnackShow() {
