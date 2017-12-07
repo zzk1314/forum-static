@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
 import Loading from '../../../components/Loading'
+import Confirm from '../../../components/Confirm'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -36,6 +37,23 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       openDialog: false,
       showCouponChoose: false,
       coupon: 0,
+      showNoticeRejectModal: false,
+      noticeRejectModal: {
+        title: '提示',
+        content: '是否拒绝,将进行退款操作',
+        actions: [ {
+          label: '确认',
+          onClick: () => {
+            this.setState({ showNoticeRejectModal: false });
+            this.handleClickRejectApplication();
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showNoticeRejectModal: false })
+          }
+        ]
+      }
     }
   }
 
@@ -67,10 +85,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     this.setState({ coupon: value });
   }
 
-  handleClickRejectApplication(data, comment) {
+  handleClickRejectApplicationBtn() {
+    this.setState({ showNoticeRejectModal: true });
+  }
+
+  handleClickRejectApplication() {
+    const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
     const { dispatch } = this.props;
     dispatch(startLoad());
-    rejectBusinessApplication(data.id, comment).then(res => {
+    rejectBusinessApplication(editData.id, comment).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
         this.refreshPage();
@@ -210,7 +233,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="拒绝" secondary={true}
-              onClick={() => this.handleClickRejectApplication(editData, comment)}/>
+              onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="私信" secondary={true}
@@ -252,6 +275,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         {renderDialog()}
         <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item) => this.openDialog(item)}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)} opsName="审核"/>
+        <Confirm open={this.state.showNoticeRejectModal} {...this.state.noticeRejectModal}
+                 handlerClose={() => this.setState({ showNoticeRejectModal: false })}/>
       </div>
     )
   }
