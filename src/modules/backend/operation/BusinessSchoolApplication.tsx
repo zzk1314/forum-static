@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
 import Loading from '../../../components/Loading'
+import Confirm from '../../../components/Confirm'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -23,9 +24,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'isDuplicate', alias: '重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
-        {tag: 'isBlack',alias:'黑名单'},
+        { tag: 'isBlack', alias: '黑名单' },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
+        { tag: 'orderId', alias: '订单' },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
@@ -35,6 +37,23 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       openDialog: false,
       showCouponChoose: false,
       coupon: 0,
+      showNoticeRejectModal: false,
+      noticeRejectModal: {
+        title: '提示',
+        content: '是否拒绝,将进行退款操作',
+        actions: [ {
+          label: '确认',
+          onClick: () => {
+            this.setState({ showNoticeRejectModal: false });
+            this.handleClickRejectApplication();
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showNoticeRejectModal: false })
+          }
+        ]
+      }
     }
   }
 
@@ -66,10 +85,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     this.setState({ coupon: value });
   }
 
-  handleClickRejectApplication(data, comment) {
+  handleClickRejectApplicationBtn() {
+    this.setState({ showNoticeRejectModal: true });
+  }
+
+  handleClickRejectApplication() {
+    const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
     const { dispatch } = this.props;
     dispatch(startLoad());
-    rejectBusinessApplication(data.id, comment).then(res => {
+    rejectBusinessApplication(editData.id, comment).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
         this.refreshPage();
@@ -158,7 +182,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
 
-          <span className={`${(value == '是' && label == '是否黑名单用户：')? "bs-dialog-true-value":"bs-dialog-value"}`}>
+          <span className={`${(value == '是' && label == '是否黑名单用户：') ? "bs-dialog-true-value" : "bs-dialog-value"}`}>
             {value}
           </span>
 
@@ -181,7 +205,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
             {renderDialogItem("是否重复申请：", editData.isDuplicate)}
-            {renderDialogItem("是否黑名单用户：",editData.isBlack)}
+            {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
               问卷信息：
@@ -209,7 +233,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="拒绝" secondary={true}
-              onClick={() => this.handleClickRejectApplication(editData, comment)}/>
+              onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="私信" secondary={true}
@@ -251,6 +275,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         {renderDialog()}
         <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item) => this.openDialog(item)}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)} opsName="审核"/>
+        <Confirm open={this.state.showNoticeRejectModal} {...this.state.noticeRejectModal}
+                 handlerClose={() => this.setState({ showNoticeRejectModal: false })}/>
       </div>
     )
   }
