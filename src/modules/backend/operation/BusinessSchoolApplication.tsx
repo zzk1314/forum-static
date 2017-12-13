@@ -6,7 +6,6 @@ import { loadBusinessApplicationList, rejectBusinessApplication, approveBusiness
 import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
-import Loading from '../../../components/Loading'
 import Confirm from '../../../components/Confirm'
 
 const cellStyle = {
@@ -21,7 +20,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'isDuplicate', alias: '重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
+        { tag: 'lastVerified', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
         { tag: 'isBlack', alias: '黑名单' },
@@ -86,6 +85,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
+    const {comment} = this.state
+    const {dispatch} = this.props
+    if(comment === undefined || comment === ''){
+      dispatch(alertMsg('请输入面试评价'))
+      return
+    }
     this.setState({ showNoticeRejectModal: true });
   }
 
@@ -106,8 +111,20 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     });
   }
 
+  checkCommentedApproval(){
+    const {comment} = this.state
+    const{dispatch} = this.props
+
+    if(comment === undefined || comment === ''){
+      dispatch(alertMsg('请输入面试评价'))
+      return
+    }
+    this.setState({ showCouponChoose: true })
+  }
+
   handleClickApprove(data, coupon, comment) {
     const { dispatch } = this.props;
+
     dispatch(startLoad());
     approveBusinessApplication(data.id, coupon, comment).then(res => {
       dispatch(endLoad());
@@ -204,7 +221,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("付费状态：", editData.finalPayStatus)}
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
-            {renderDialogItem("是否重复申请：", editData.isDuplicate)}
+            {renderDialogItem("最近审核结果：", editData.lastVerified)}
             {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
@@ -217,19 +234,19 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
               审批：
             </div>
             <br/>
-            输入备注：<br/>
-            <TextField
-              hintText="备注"
-              multiLine={true}
-              rows={1}
+            输入面试评价（必填）：<br/>
+            <textarea
+              placeholder="面试评价"
               value={comment}
-              onChange={(e, v) => this.setState({ comment: v })}
-              rowsMax={4}
+              cols={30}
+              rows={10}
+              onChange={(e) => this.setState({ comment: e.target.value })}
             /><br/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="通过" secondary={true}
-              onClick={() => this.setState({ showCouponChoose: true })}/>
+              onClick={() => { this.checkCommentedApproval()
+              }}/>
             <RaisedButton
               style={{ marginLeft: 30 }}
               label="拒绝" secondary={true}
