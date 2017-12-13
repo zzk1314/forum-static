@@ -20,7 +20,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'lastVerified', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
+        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
         { tag: 'isBlack', alias: '黑名单' },
@@ -221,7 +221,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("付费状态：", editData.finalPayStatus)}
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
-            {renderDialogItem("最近审核结果：", editData.lastVerified)}
+            {renderDialogItem("最近审核结果：", editData.verifiedResult)}
             {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
