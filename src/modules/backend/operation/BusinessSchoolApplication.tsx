@@ -6,7 +6,6 @@ import { loadBusinessApplicationList, rejectBusinessApplication, approveBusiness
 import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
-import Loading from '../../../components/Loading'
 import Confirm from '../../../components/Confirm'
 
 const cellStyle = {
@@ -21,13 +20,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'isDuplicate', alias: '重复申请', style: _.merge({}, cellStyle, { width: '85px' }) },
+        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
         { tag: 'reward', alias: '优秀学员' },
         { tag: 'isBlack', alias: '黑名单' },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
-        { tag: 'orderId', alias: '订单' },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
@@ -38,6 +36,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       showCouponChoose: false,
       coupon: 0,
       showNoticeRejectModal: false,
+      RasiedClicked:false,
       noticeRejectModal: {
         title: '提示',
         content: '是否拒绝,将进行退款操作',
@@ -86,7 +85,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    this.setState({ showNoticeRejectModal: true });
+    const {comment} = this.state
+    const {dispatch} = this.props
+    if(comment === undefined || comment === ''){
+      dispatch(alertMsg('请输入面试评价'))
+      return
+    }
+    this.setState({
+      RasiedClicked:true,
+      showNoticeRejectModal: true });
   }
 
   handleClickRejectApplication() {
@@ -106,8 +113,24 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     });
   }
 
+  checkCommentedApproval(){
+    const {comment} = this.state
+    const{dispatch} = this.props
+
+    if(comment === undefined || comment === ''){
+      dispatch(alertMsg('请输入面试评价'))
+      return
+    }
+
+    this.setState({
+      RasiedClicked:true,
+      showCouponChoose: true
+    })
+  }
+
   handleClickApprove(data, coupon, comment) {
     const { dispatch } = this.props;
+
     dispatch(startLoad());
     approveBusinessApplication(data.id, coupon, comment).then(res => {
       dispatch(endLoad());
@@ -156,7 +179,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     loadBusinessApplicationList(page).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({ applications: res.msg.data, tablePage: res.msg.page, page: page });
+        this.setState({ applications: res.msg.data, RasiedClicked:false,tablePage: res.msg.page, page: page });
       } else {
         dispatch(alertMsg(res.smg));
       }
@@ -191,7 +214,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       )
     }
     const renderDialog = () => {
-      const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
+      const { openDialog, editData = {}, showCouponChoose, coupon, comment,RasiedClicked } = this.state;
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
@@ -204,7 +227,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("付费状态：", editData.finalPayStatus)}
             {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
             {renderDialogItem("是否助教：", editData.isAsst)}
-            {renderDialogItem("是否重复申请：", editData.isDuplicate)}
+            {renderDialogItem("最近审核结果：", editData.verifiedResult)}
             {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
             <div className="bs-dialog-header">
@@ -217,31 +240,37 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
               审批：
             </div>
             <br/>
-            输入备注：<br/>
-            <TextField
-              hintText="备注"
-              multiLine={true}
-              rows={1}
+            输入面试评价（必填）：<br/>
+            <textarea
+              placeholder="面试评价"
               value={comment}
-              onChange={(e, v) => this.setState({ comment: v })}
-              rowsMax={4}
+              className="comment-text"
+              onChange={(e) => this.setState({ comment: e.target.value })}
             /><br/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="通过" secondary={true}
-              onClick={() => this.setState({ showCouponChoose: true })}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="拒绝" secondary={true}
-              onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="私信" secondary={true}
-              onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="取消" secondary={true}
-              onClick={() => this.handleClickClose()}/>
+            {
+              RasiedClicked ? null:
+              <div ref="raisedButton">
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="通过" secondary={true}
+                  onClick={() => {
+                    this.checkCommentedApproval()
+                  }}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="拒绝" secondary={true}
+                  onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="私信" secondary={true}
+                  onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="取消" secondary={true}
+                  onClick={() => this.handleClickClose()}/>
+              </div>
+            }
+
             {
               showCouponChoose ?
                 <div className="bs-dialog-coupon">
