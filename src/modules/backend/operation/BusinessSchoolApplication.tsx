@@ -26,7 +26,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'isBlack', alias: '黑名单' },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
-        { tag: 'orderId', alias: '订单' },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
@@ -37,6 +36,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       showCouponChoose: false,
       coupon: 0,
       showNoticeRejectModal: false,
+      RasiedClicked:false,
       noticeRejectModal: {
         title: '提示',
         content: '是否拒绝,将进行退款操作',
@@ -91,7 +91,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       dispatch(alertMsg('请输入面试评价'))
       return
     }
-    this.setState({ showNoticeRejectModal: true });
+    this.setState({
+      RasiedClicked:true,
+      showNoticeRejectModal: true });
   }
 
   handleClickRejectApplication() {
@@ -119,7 +121,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       dispatch(alertMsg('请输入面试评价'))
       return
     }
-    this.setState({ showCouponChoose: true })
+
+    this.setState({
+      RasiedClicked:true,
+      showCouponChoose: true
+    })
   }
 
   handleClickApprove(data, coupon, comment) {
@@ -173,7 +179,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     loadBusinessApplicationList(page).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({ applications: res.msg.data, tablePage: res.msg.page, page: page });
+        this.setState({ applications: res.msg.data, RasiedClicked:false,tablePage: res.msg.page, page: page });
       } else {
         dispatch(alertMsg(res.smg));
       }
@@ -208,7 +214,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       )
     }
     const renderDialog = () => {
-      const { openDialog, editData = {}, showCouponChoose, coupon, comment } = this.state;
+      const { openDialog, editData = {}, showCouponChoose, coupon, comment,RasiedClicked } = this.state;
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
@@ -238,27 +244,33 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             <textarea
               placeholder="面试评价"
               value={comment}
-              cols={30}
-              rows={10}
+              className="comment-text"
               onChange={(e) => this.setState({ comment: e.target.value })}
             /><br/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="通过" secondary={true}
-              onClick={() => { this.checkCommentedApproval()
-              }}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="拒绝" secondary={true}
-              onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="私信" secondary={true}
-              onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
-            <RaisedButton
-              style={{ marginLeft: 30 }}
-              label="取消" secondary={true}
-              onClick={() => this.handleClickClose()}/>
+            {
+              RasiedClicked ? null:
+              <div ref="raisedButton">
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="通过" secondary={true}
+                  onClick={() => {
+                    this.checkCommentedApproval()
+                  }}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="拒绝" secondary={true}
+                  onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="私信" secondary={true}
+                  onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="取消" secondary={true}
+                  onClick={() => this.handleClickClose()}/>
+              </div>
+            }
+
             {
               showCouponChoose ?
                 <div className="bs-dialog-coupon">
