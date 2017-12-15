@@ -57,6 +57,14 @@ export function loadComments(type, submitId, page) {
   return pget(`/pc/fragment/comment/${type}/${submitId}`, { page: page })
 }
 
+export function loadClassNameAndGroup(){
+  return pget(`/pc/asst/load/classname/group`)
+}
+
+export function loadSubmitByProblemIdClassNameGroup(problemId,className,groupId){
+  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}`)
+}
+
 export function submitComment(type, submitId, content) {
   return ppost(`/pc/fragment/comment/${type}/${submitId}`, { content: content })
 }
@@ -72,6 +80,8 @@ export function requestAsstComment(moduleId, submitId) {
 export function deleteComment(commentId) {
   return ppost(`/pc/fragment/delete/comment/${commentId}`)
 }
+
+
 
 export const CommentType = {
   Challenge: 1,
