@@ -55,52 +55,48 @@ export default class Fragment extends React.Component<any, any> {
     const renderMenu = () => {
       return (
         <List>
-          <Subheader style={style.listTitle}>
-            <div className="listTitle">内容功能</div>
-          </Subheader>
-          <Divider style={style.divider}/>
-          <div className="catalog-area">
-            {
-              window.ENV.isDevelopment ?
+          {
+            window.ENV.isDevelopment ?
+              <Subheader style={style.listTitle}>
+                <div className="listTitle">内容功能</div>
+              </Subheader> : null
+          }
+          {
+            window.ENV.isDevelopment ?
+              <Divider style={style.divider}/> : null
+          }
+          {
+            window.ENV.isDevelopment ?
+              <div className="catalog-area">
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/problem/import' })
-                }}>小课导入</div> : null
-            }
-            {
-              window.ENV.isDevelopment ?
+                }}>小课导入
+                </div>
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/knowledge/import' })
-                }}>小课知识导入</div> : null
-            }
-            {
-              window.ENV.isDevelopment ?
+                }}>小课知识导入
+                </div>
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_NEWPRACTICE))
                   this.context.router.push({ pathname: '/backend/warmup/import' })
-                }}>选择题导入</div> : null
-            }
-            {
-              window.ENV.isDevelopment ?
+                }}>选择题导入
+                </div>
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_MANAGE))
                   this.context.router.push({ pathname: '/backend/warmup/management' })
-                }}>选择题管理</div> : null
-            }
-            {
-              window.ENV.isDevelopment ?
+                }}>选择题管理
+                </div>
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/application/import' })
-                }}>应用题导入</div> : null
-            }
-            {
-              window.ENV.isDevelopment ?
+                }}>应用题导入
+                </div>
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.APPLICATION_MANAGE))
                   this.context.router.push({ pathname: '/backend/application/management' })
-                }}>应用题管理</div> : null
-            }
-          </div>
-
+                }}>应用题管理
+                </div>
+              </div> : null
+          }
           <Subheader style={style.listTitle}>
             <div className="listTitle">运营功能</div>
           </Subheader>
