@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
-import ChoiceEditor from './inputcomponents/ChoiceEditor'
-import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmUp, loadWarmupPracticeByPracticeUid, saveWarmup } from '../async'
+import ChoiceEditor from '../component/ChoiceEditor'
+import { insertWarmupPractice, loadWarmUp, saveWarmup } from './async'
 import * as _ from 'lodash'
 import './WarmupPracticeImport.less'
-import { decodeTextAreaString3 } from '../../../../../utils/textUtils'
-import Editor from '../../../../../components/editor/Editor'
-import { loadAllKnowledges } from '../../application/async'
+import Editor from '../../../../components/editor/Editor'
+import { loadAllKnowledges, loadAllProblemsAndKnowledges } from '../knowledge/async'
 
 interface WarmupPracticeImportState {
-  // 巩固练习训练对象
+  // 选择题训练对象
   question: string; // 题干
   type: number; // 题型 1-单选 2-多选
   analysis: string; //解析
@@ -26,7 +25,7 @@ interface WarmupPracticeImportState {
   problemList: object;
   // 与问题对应的知识点
   knowledgeList: object;
-  // 巩固练习的选择对象
+  // 选择题的选择对象
   choices: object;
   choicesCnt: number;
   choiceList: object;
@@ -92,26 +91,19 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
         }
       })
 
-      loadAllProblemsAndKnowledges().then(res => {
-        const { code, msg } = res
-        if(res.code === 200) {
-          this.setState({
-            problems: msg.problems
-          })
-        }
-      })
     } else {
       this.clear()
-      loadAllProblemsAndKnowledges().then(res => {
-        const { code, msg } = res
-        if(res.code === 200) {
-          this.setState({
-            problems: msg.problems,
-            knowledges: msg.knowledges
-          })
-        }
-      })
     }
+
+    loadAllProblemsAndKnowledges().then(res => {
+      const { code, msg } = res
+      if(res.code === 200) {
+        this.setState({
+          problems: msg.problems,
+          knowledges: msg.knowledges
+        })
+      }
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -470,7 +462,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     return (
       <div className="practice-input-container">
         <div className="practice-input-page">
-          <div className="practice-header">巩固练习录入（更新）页面</div>
+          <div className="practice-header">选择题录入（更新）页面</div>
           <div className="practice-init">
             <div className="practice-step">Step1、选择所在小课及知识点</div>
             <div className="selecte-field">
@@ -500,8 +492,8 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
             <div className="practice-step">Step3、录入主体详情</div>
             {renderMainInfo()}
             <div className="practice-choice ">
-              {isUpdate ? <div className="practice-step">Step4、巩固练习选项</div> :
-                <div className="practice-step">Step4、添加巩固练习选项（若该选项为正确选项，勾选左侧按钮）</div>}
+              {isUpdate ? <div className="practice-step">Step4、选择题选项</div> :
+                <div className="practice-step">Step4、添加选择题选项（若该选项为正确选项，勾选左侧按钮）</div>}
               {isUpdate ? renderUpdateChoices() : renderChoices()}
 
               {isUpdate ? null : showChoiceBtn()}

@@ -72,7 +72,7 @@ export default class DiscussShow extends React.Component <any, any> {
     } = discuss;
     const alertProps = {
       actions: [
-        { label: '再想想', onClick: () => this.setState({ show: false }) },
+        { label: '再想想', onClick: () => this.setState({ show: false }), "primary":true },
         { label: '确定', onClick: () => this.delete() }
       ],
     }

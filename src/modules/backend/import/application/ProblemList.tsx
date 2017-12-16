@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadProblems} from "../async"
+import {loadProblems} from "./async"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {BreakSignal} from "utils/request"
+import {BreakSignal, Stop} from "utils/request"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import ProblemView from "../../../component/ProblemView"
+import ProblemView from "../../component/ProblemView"
 import _ from "lodash"
 
 
@@ -61,7 +61,7 @@ export default class ProblemList extends React.Component<any,any> {
     dispatch(set("activeProblemId",problemId));
     dispatch(set("page.scroll",{x:0,y:0}));
     this.context.router.push({
-      pathname:"/backend/warmup/edit/list",
+      pathname:"/backend/application/catalog",
       query:{problemId:problemId}});
 
   }
@@ -72,13 +72,6 @@ export default class ProblemList extends React.Component<any,any> {
       if (res.code === 200) {
         this.setState({
           problemList: res.msg
-        })
-      } else if(res.code === 401) {
-        this.context.router.push({
-          pathname:"/login",
-          query:{
-            callbackUrl:`/backend/warmup/management`
-          }
         })
       } else if(res.code === 403){
         setTimeout(() => window.location.href = "/403.jsp", 500);
@@ -91,7 +84,7 @@ export default class ProblemList extends React.Component<any,any> {
 
 
   render() {
-    const {problemList=[]} = this.state
+    const {problemList} = this.state
     return (
       <div className="problemContent">
         <div className="leftList" style={{position:'static'}}>

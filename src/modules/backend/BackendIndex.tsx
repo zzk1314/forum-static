@@ -76,39 +76,29 @@ export default class Fragment extends React.Component<any, any> {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_NEWPRACTICE))
-                  this.context.router.push({ pathname: '/backend/warmup/practice/import' })
-                }}>巩固练习导入</div> : null
+                  this.context.router.push({ pathname: '/backend/warmup/import' })
+                }}>选择题导入</div> : null
             }
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.WARM_UP_MANAGE))
                   this.context.router.push({ pathname: '/backend/warmup/management' })
-                }}>巩固练习管理</div> : null
+                }}>选择题管理</div> : null
             }
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/application/import' })
-                }}>应用练习导入</div> : null
+                }}>应用题导入</div> : null
             }
             {
               window.ENV.isDevelopment ?
                 <div className="catalog-name" onClick={() => {
                   this.props.dispatch(set('menu', Menus.APPLICATION_MANAGE))
-                  this.context.router.push({ pathname: '/backend/application/problem/list' })
-                }}>应用练习管理</div> : null
+                  this.context.router.push({ pathname: '/backend/application/management' })
+                }}>应用题管理</div> : null
             }
-            <div className="catalog-name" onClick={() => {
-              this.props.dispatch(set('menu', Menus.WARM_UP_DISCUSS))
-              this.context.router.push({ pathname: '/backend/warmup' })
-            }}>巩固练习评论
-            </div>
-            <div className="catalog-name" onClick={() => {
-              this.props.dispatch(set('menu', Menus.APPLICATION_DISCUSS))
-              this.context.router.push({ pathname: '/backend/application/problem/list' })
-            }}>应用练习评论
-            </div>
           </div>
 
           <Subheader style={style.listTitle}>

@@ -49,22 +49,22 @@ export function discussKnowledge(body) {
 export function loadArticleData(moduleId, commentId) {
   return pget(`/rise/message/comment/reply/${moduleId}/${commentId}`);
 }
-// 应用练习评论回复
+// 应用题评论回复
 export function commentReply(moduleId, submitId, comment, replyedCommentId) {
   return ppost(`/rise/practice/comment/reply/${moduleId}/${submitId}`, {
     comment: comment,
     repliedId: replyedCommentId
   })
 }
-// 应用练习评论删除
+// 应用题评论删除
 export function deleteComment(id) {
   return ppost(`/rise/practice/delete/comment/${id}`)
 }
-// 获取巩固练习对应评论回复
+// 获取选择题对应评论回复
 export function loadWarmUpDiscussReply(discussId) {
   return pget(`/rise/message/warmup/discuss/reply/${discussId}`)
 }
-// 获取巩固练习信息
+// 获取选择题信息
 export function loadWarmUp(id) {
   return pget(`/rise/practice/warmup/${id}`)
 }

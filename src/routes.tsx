@@ -1,38 +1,27 @@
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import * as React from 'react'
-import { Route, IndexRoute } from 'react-router'
+
 import Base from 'modules/base/Base.tsx'
 import RiseBase from 'modules/base/RiseBase.tsx'
-// import Home from './modules/home/Home'
 import Login from './modules/Login'
 import ServerCode from './modules/ServerCode'
 import ShowApplication from './modules/asst/application/ShowApplication'
-import ShowSubject from './modules/asst/subject/ShowSubject'
-import Stranger from './modules/Stranger'
 import Reject from './modules/Reject'
 import NotFoundPage from './modules/NotFoundPage'
-import Test from './modules/Test'
 import BackendIndex from './modules/backend/BackendIndex'
 import BackendWelcome from './modules/backend/Welcome'
 import HotWarmupPractice from './modules/backend/warmup/HotWarmupPractice'
-import PracticeView from './modules/backend/warmup/PracticeView'
-import Discuss from './modules/backend/warmup/Discuss'
-import ApplicationProblemList from './modules/backend/application/ProblemList'
-import CatalogView from './modules/backend/application/Catalog'
-import ApplicationView from './modules/backend/application/ApplicationList'
+import ApplicationProblemList from './modules/backend/import/application/ProblemList'
+import CatalogView from './modules/backend/import/application/Catalog'
 import ProjectConfig from './modules/backend/admin/ProjectConfig'
 import ConfigDetail from './modules/backend/admin/ConfigDetail'
 import Refund from './modules/backend/admin/Refund'
-import WarmupProblemList from './modules/backend/import/warmup/edit/ProblemList'
-import WarmupPracticeList from './modules/backend/import/warmup/edit/WarmupPracticeList'
-import PracticeEditView from './modules/backend/import/warmup/edit/PracticeView'
+import WarmupProblemList from './modules/backend/import/warmup/ProblemList'
+import WarmupPracticeList from './modules/backend/import/warmup/WarmupPracticeList'
 import AsstIndex from './modules/asst/AsstIndex'
 import AsstWelcome from './modules/asst/Welcome'
 import AsstApplicationComment from './modules/asst/application/ProblemList'
 import AsstApplicationList from './modules/asst/application/ApplicationList'
-import AsstSubjectComment from './modules/asst/subject/ProblemList'
-import AsstSubjectList from './modules/asst/subject/SubjectList'
 import CommentedList from './modules/asst/CommentedList'
 import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
 
@@ -61,7 +50,7 @@ import UserProtocol from './modules/fragment/customer/personal/UserProtocol'
 import ReplyKnowledgeDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyKnowledgeDiscussMessage'
 import ReplyCommentMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyCommentMessage'
 import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/TransitionPages/ReplyWarmupDiscussMessage'
-import WarmupPracticeImport from './modules/backend/import/warmup/practiceinput/WarmupPracticeImport'
+import WarmupPracticeImport from './modules/backend/import/warmup/WarmupPracticeImport'
 import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
 import ProblemImport from './modules/backend/import/problem/ProblemImport'
 import CampUserView from './modules/camp/CampUserView'
@@ -73,40 +62,28 @@ import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoo
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/import/application/ApplicationImport'
 import CampIdentityModify from './modules/camp/CampIdentityModify'
-import ApplicationEdit from './modules/backend/import/application/edit/ApplicationEdit'
-import WarmupPracticeEdit from './modules/backend/import/warmup/edit/WarmupPracticeEdit'
-import WarmupEdit from './modules/backend/import/warmup/edit/WarmupEdit'
 
 const routes = (
   <Route path="/">
     <Route component={Base}>
-      {/*<IndexRoute component={Home}/>*/}
-      {/*<Route path="home" component={Home}/>*/}
-      <Route path="test" component={Test}/>
       <Route path="login" component={Login}/>
-      <Route path="stranger" component={Stranger}/>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
-        <Route path="backend" component={BackendWelcome}/>
+        <Route path="/backend" component={BackendWelcome}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
         <Route path="/backend/admin/refund" component={Refund}/>
-        <Route path="backend/warmup" component={HotWarmupPractice}/>
-        <Route path="backend/warmup/view" component={PracticeView}/>
-        <Route path="backend/warmup/discuss" component={Discuss}/>
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
-          <Route path="/backend/warmup/edit/view" component={PracticeEditView}/>
         </Route>
 
         <Route path="/backend/warmup/newpractice">
-          <Route path="/backend/warmup/practice/import" component={WarmupPracticeImport}/>
+          <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
         </Route>
-        <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
+        <Route path="/backend/application/management" component={ApplicationProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
-          <Route path="/backend/application/list" component={ApplicationView}/>
         </Route>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
@@ -122,18 +99,14 @@ const routes = (
         <Route path="/backend/application/import" component={ApplicationImport}/>
       </Route>
       <Route component={AsstIndex}>
-        <Route path="asst" component={AsstWelcome}/>
-        <Route path="asst/commented" component={CommentedList}/>
+        <Route path="/asst" component={AsstWelcome}/>
+        <Route path="/asst/commented" component={CommentedList}/>
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
           <Route path="/asst/application/list" component={AsstApplicationList}/>
           <Route path="/asst/application/view" component={ShowApplication}/>
         </Route>
-        <Route path="/asst/subject/comment" component={AsstSubjectComment}>
-          <Route path="/asst/subject/list" component={AsstSubjectList}/>
-          <Route path="/asst/subject/view" component={ShowSubject}/>
-        </Route>
-        <Route path="asst/warmup/comment" component={HotWarmupPractice}/>
-        <Route path="asst/warmup/view" component={WarmupPracticeView}/>
+        <Route path="/asst/warmup/comment" component={HotWarmupPractice}/>
+        <Route path="/asst/warmup/view" component={WarmupPracticeView}/>
       </Route>
     </Route>
     {/*Rise PC 改版*/}
