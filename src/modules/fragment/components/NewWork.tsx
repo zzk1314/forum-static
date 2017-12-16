@@ -168,7 +168,7 @@ export default class Work extends React.Component<any,any> {
     const alertProps = {
       actions:[
         {label:'再想想',onClick:()=>this.setState({showRequestComment:false})},
-        {label:'确定',onClick:()=>this.requestComment()}
+        {label:'确定',onClick:()=>this.requestComment(), "primary":true}
       ],
     }
 

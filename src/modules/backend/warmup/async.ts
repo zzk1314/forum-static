@@ -36,7 +36,7 @@ export function loadNextWarmup(problemId, prePracticeId) {
 export function loadAllProblemsAndKnowledges() {
   return pget(`/pc/operation/warmup/load/knowledges`)
 }
-// 插入录入的巩固练习信息
+// 插入录入的选择题信息
 export function insertWarmupPractice (param){
   return ppost(`/pc/operation/warmup/insert/practice`, param)
 }

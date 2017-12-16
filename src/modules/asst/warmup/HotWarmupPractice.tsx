@@ -88,7 +88,7 @@ export default class HotWarmupPractice extends React.Component<any,any> {
 
     return (
         <div className="hot-practice">
-          <Subheader>热门的巩固练习</Subheader>
+          <Subheader>热门的选择题</Subheader>
           {renderPractice(practiceList)}
           {!end ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
               <div className="no-more">没有更多了</div>}

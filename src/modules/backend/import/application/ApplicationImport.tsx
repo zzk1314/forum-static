@@ -4,7 +4,8 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import * as _ from 'lodash'
 
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
-import { insertApplicationPractice, loadAllKnowledges, loadAllProblemsAndKnowledges, loadApplication, updateApplicationPractice } from './async'
+import { insertApplicationPractice, loadApplication, updateApplicationPractice } from './async'
+import { loadAllProblemsAndKnowledges, loadAllKnowledges } from '../knowledge/async'
 
 import './ApplicationImport.less'
 import Editor from '../../../../components/editor/Editor'
@@ -54,15 +55,6 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     if(location.query.applicationId) {
       this.setState({
         isEdit:true
-      })
-      loadAllProblemsAndKnowledges().then(res => {
-        const { code, msg } = res
-        if(res.code === 200) {
-          this.setState({
-            problems: msg.problems,
-            knowledges: msg.knowledges
-          })
-        }
       })
 
       loadAllKnowledges().then(res => {

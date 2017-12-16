@@ -311,7 +311,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   handleClickUnComplete() {
     const { dispatch } = this.props
-    dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+    dispatch(alertMsg(null, `先完成所有的知识点和选择题<br/>才能查看报告哦`))
   }
 
   handleClickUnMinStudy() {
@@ -322,7 +322,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   handleClickUnReport() {
     const { dispatch } = this.props
-    dispatch(alertMsg(null, '糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告'))
+    dispatch(alertMsg(null, '糟糕，你的知识点和选择题部分未完成，无法得出学习报告'))
   }
 
   handleClickComplete() {
@@ -344,7 +344,7 @@ export default class PlanMain extends React.Component <any, any> {
         }
       } else {
         if(code === -1) {
-          dispatch(alertMsg(null, `先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+          dispatch(alertMsg(null, `先完成所有的知识点和选择题<br/>才能查看报告哦`))
         } else {
           dispatch(alertMsg(msg))
         }

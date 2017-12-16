@@ -78,7 +78,7 @@ export default class Report extends React.Component<any, any> {
     let applications = (
       <div className="complete-item first">
         <div className="info">
-          <span className="name">应用练习完成 <span
+          <span className="name">应用题完成 <span
             className="big-point">{applicationCompleteCount}</span> / {applicationShouldCount} 份，得分：</span>
           <div className="clear"></div>
         </div>
@@ -167,7 +167,7 @@ export default class Report extends React.Component<any, any> {
         <div className="body-container">
           <div className="body">
             <div className="header">
-              <span className="title">各章巩固练习得分</span>
+              <span className="title">各章选择题得分</span>
             </div>
             {this.renderChapterScores()}
           </div>

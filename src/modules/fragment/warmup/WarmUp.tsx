@@ -40,7 +40,7 @@ export default class WarmUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "RISE", action: "PC打开巩固练习页", memo: "PC" });
+    mark({ module: "打点", function: "RISE", action: "PC打开选择题页", memo: "PC" });
     const { location, dispatch } = this.props;
     const { practicePlanId, integrated } = location.query;
     this.setState({ integrated });

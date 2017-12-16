@@ -1,10 +1,5 @@
 import {pget,ppost} from "utils/request"
 
-// 获取所有小课和对应知识点集合的列表
-export function loadAllProblemsAndKnowledges() {
-  return pget(`/pc/operation/warmup/load/knowledges`)
-}
-
 //插入应用题信息
 export function insertApplicationPractice (param){
   return ppost(`/pc/operation/application/insert/practice`, param)
@@ -18,11 +13,6 @@ export function loadApplication(applicationId){
 //更新某道应用题
 export function updateApplicationPractice(applicationId, topic, description,difficulty) {
   return ppost(`/pc/operation/application/update/${applicationId}`, {topic: topic, description: description,difficulty:difficulty})
-}
-
-//获取所有知识点
-export function loadAllKnowledges(){
-  return pget('/pc/operation/knowledge/query/knowledges')
 }
 
 export function loadProblems() {

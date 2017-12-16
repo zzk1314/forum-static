@@ -42,7 +42,7 @@ export default class Application extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: 'RISE', action: 'PC打开应用练习页', memo: 'PC' })
+    mark({ module: '打点', function: 'RISE', action: 'PC打开应用题页', memo: 'PC' })
     const { location, dispatch } = this.props
     const { integrated, id, planId } = location.query
     this.setState({ integrated })
