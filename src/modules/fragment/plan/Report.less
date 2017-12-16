@@ -17,9 +17,9 @@
       height: 45px;
       text-align: center;
       line-height: 45px;
-      font-size: 1.7em;
+      font-size: 17px;
       color: #666;
-      border-bottom: 2px solid #55cbcb;
+      border-bottom: 2px solid @color_strong;
     }
   }
 
@@ -43,13 +43,13 @@
       color: #666666;
 
       .title {
-        font-size: 2.6em;
+        font-size: 26px;
         line-height: 34px;
         padding: 20px 20px 10px;
       }
 
       .problem-title {
-        font-size: 1.4em;
+        font-size: 14px;
         line-height: 18px;
         padding-left: 20px;
         padding-bottom: 10px;
@@ -60,12 +60,12 @@
         line-height: 11px;
         padding: 10px 20px 10px;
         > .socre {
-          color: #55cbcb;
-          font-size: 1.8em;
+          color: @color_strong;
+          font-size: 18px;
         }
         > .percent {
-          color: #55cbcb;
-          font-size: 1.8em;
+          color: @color_strong;
+          font-size: 18px;
         }
       }
 
@@ -95,7 +95,7 @@
           display: inline-block;
           line-height: 15px;
           padding-bottom: 10px;
-          font-size: 1.5em;
+          font-size: 15px;
 
         }
         > .question {
@@ -105,7 +105,7 @@
           margin-left: 10px;
           width: 14px;
           text-align: center;
-          line-height: 1.4em;
+          line-height: 14px;
           height: 14px;
           border-radius: 10px;
         }
@@ -159,7 +159,7 @@
             height: 100%;
             position: absolute;
             background: rgb(88, 177, 223);
-            background: -webkit-gradient(linear, left center, right center, from(#55cbcb), to(rgb(88, 177, 223)));
+            background: -webkit-gradient(linear, left center, right center, from(@color_strong), to(rgb(88, 177, 223)));
             width: 0;
             border-radius: 5px;
             overflow: hidden;
@@ -182,7 +182,7 @@
       }
 
       > .vote-info {
-        line-height: 2.0em;
+        line-height: 20px;
         font-size: @font_help;
         margin-top: 10px;
         text-align: left;
@@ -203,8 +203,8 @@
   .clear-position {
     position: relative;
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 10px;
+    height: 10px;
   }
   .big-point {
     font-size: @font_context;

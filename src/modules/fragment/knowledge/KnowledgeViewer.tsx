@@ -207,16 +207,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   complete() {
-    // this.setState({ clickedCompleteBtn: true })
-    // const { location } = this.props
-    // learnKnowledge(location.query.practicePlanId).then(res => {
-    //   const { code } = res
-    //   if(code === 200) {
-    //     this.context.router.push({ pathname: "/fragment/learn", query: this.props.location.query })
-    //   }
-    // }).catch(ex => {
-    //   dispatch(alertMsg(ex))
-    // })
     window.history.back();
   }
 
@@ -367,7 +357,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const renderClickBtn = () => {
       if(!location.query.tag) {
         return (
-          <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={this.complete.bind(this)}>
+          <div className={`button-footer ${clickedCompleteBtn ? "disable" : ""}`} onClick={()=>this.complete()}>
             标记完成</div>
         )
       }

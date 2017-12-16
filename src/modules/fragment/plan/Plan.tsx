@@ -131,12 +131,6 @@ export default class Plan extends React.Component<any, PlanStates> {
       return (
         <div>
           <div className="plan-header">我的小课</div>
-          { _.isEmpty(auditions) ? null :
-            <div className="plan-plans">
-              <span>试听课</span>
-              {renderAuditionPlans()}
-            </div>
-          }
           <div className="plan-plans">
             <span>进行中</span>
             {renderRunningPlans()}

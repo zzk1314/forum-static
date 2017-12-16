@@ -123,32 +123,12 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div style={{ marginTop: 30 }}>
                 <pre dangerouslySetInnerHTML={{ __html: why }} />
               </div>
-
-              {/*<div className="context-title-img">*/}
-                {/*<AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/how_2.png"/>*/}
-              {/*</div>*/}
-              {/*<pre dangerouslySetInnerHTML={{ __html: how }} />*/}
-              {/*<div className="context-title-img">*/}
-                {/*<AssetImg width={'60%'} style={{ marginTop: 25 }} url={descPic}/>*/}
-              {/*</div>*/}
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
               {what ? <pre dangerouslySetInnerHTML={{ __html: what }} /> : null}
               <div
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
-
-              {/*<div className="context-title-img">*/}
-                {/*<AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/ability.png"/>*/}
-              {/*</div>*/}
-              {/*<div className="text">在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：</div>*/}
-              {/*<div className="context-title-img">*/}
-                {/*<AssetImg width={'60%'} url={categoryPic} marginTop="25"/>*/}
-              {/*</div>*/}
-              {/*<div className="text click-key"*/}
-                   {/*onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}*/}
-              {/*>了解"个人势能模型"*/}
-              {/*</div>*/}
 
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/who_2.png"/>
@@ -184,7 +164,6 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="text">随时随地，多客户端</div>
               <div className="text"><b>手机微信：</b>圈外同学-上课啦</div>
               <div className="text"><b>网站：</b>www.iquanwai.com，点击圈外同学</div>
-              {/*<div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>*/}
             </div>
           </div>
         </div>
