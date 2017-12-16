@@ -252,7 +252,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
               <div ref="raisedButton">
                 <RaisedButton
                   style={{ marginLeft: 30 }}
-                  label="通过" secondary={true}
+                  label="通过" secondary={true} disabled={editData.isBlack === '是'}
                   onClick={() => {
                     this.checkCommentedApproval()
                   }}/>
