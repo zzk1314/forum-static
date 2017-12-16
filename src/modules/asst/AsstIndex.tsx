@@ -68,19 +68,13 @@ export default class Menu extends React.Component<any,any> {
           <ListItem
               style={this.state.index === 1 ? style.itemActive : style.item}
               value={1}
-              primaryText="评论应用练习"
+              primaryText="评论应用题"
               onTouchTap={()=>this.onClick('/asst/application/comment', 1)}
-          />
-          <ListItem
-              style={this.state.index === 2 ? style.itemActive : style.item}
-              value={2}
-              primaryText="评论小课分享"
-              onTouchTap={()=>this.onClick('/asst/subject/comment', 2)}
           />
           <ListItem
               style={this.state.index === 3 ? style.itemActive : style.item}
               value={3}
-              primaryText="评论巩固练习"
+              primaryText="评论选择题"
               onTouchTap={()=>this.onClick('/asst/warmup/comment', 3)}
           />
         </List>

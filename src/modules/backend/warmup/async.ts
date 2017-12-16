@@ -8,10 +8,6 @@ export function loadWarmUp(warmupPracticeId) {
   return pget(`/pc/asst/warmup/load/${warmupPracticeId}`)
 }
 
-export function highlight(discussId){
-  return ppost(`/pc/operation/highlight/discuss/${discussId}`)
-}
-
 export function replyDiscuss(params) {
   return ppost(`/pc/asst/reply/discuss`, params)
 }

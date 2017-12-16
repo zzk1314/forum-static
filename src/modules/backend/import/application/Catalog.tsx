@@ -2,11 +2,10 @@ import * as React from "react"
 import {connect} from "react-redux"
 import {loadRiseWorkList} from "./async";
 import * as _ from "lodash"
-import {set, alertMsg} from "../../../redux/actions"
-import {BreakSignal, Stop} from "../../../utils/request"
+import {set, alertMsg} from "redux/actions"
+import {BreakSignal, Stop} from "utils/request"
 import "./Catalog.less"
-import Divider from 'material-ui/Divider';
-import {removeHtmlTags} from "../../../utils/textUtils"
+import {removeHtmlTags} from "utils/textUtils"
 
 @connect(state => state)
 export default class Catalog extends React.Component<any,any> {

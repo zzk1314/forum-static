@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
-import ChoiceEditor from './inputcomponents/ChoiceEditor'
-import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmUp, loadWarmupPracticeByPracticeUid, saveWarmup } from '../async'
+import ChoiceEditor from './components/ChoiceEditor'
+import { insertWarmupPractice, loadAllProblemsAndKnowledges, loadWarmUp, saveWarmup } from './async'
 import * as _ from 'lodash'
 import './WarmupPracticeImport.less'
-import { decodeTextAreaString3 } from '../../../../../utils/textUtils'
-import Editor from '../../../../../components/editor/Editor'
-import { loadAllKnowledges } from '../../application/async'
+import Editor from '../../../../components/editor/Editor'
+import { loadAllKnowledges } from '../application/async'
 
 interface WarmupPracticeImportState {
   // 巩固练习训练对象

@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadSubjectArticleProblems} from "../async"
+import {loadProblems} from "./async"
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {BreakSignal, Stop} from "../../../utils/request"
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
-import ProblemView from "../component/ProblemView"
+import {BreakSignal} from "../../../../utils/request"
+import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
+import ProblemView from "../../component/ProblemView"
 import _ from "lodash"
 
 
@@ -47,7 +47,7 @@ export default class ProblemList extends React.Component<any,any> {
 
   chooseProblem(problemId) {
     const {dispatch} = this.props;
-    const {problemList} = this.state
+    const {problemList} = this.state;
     problemList.forEach((item,key) => {
       item.problems.forEach((item1, key1)=>{
         if(item1.id == problemId){
@@ -57,19 +57,18 @@ export default class ProblemList extends React.Component<any,any> {
         }
       })
     });
-    this.setState({problemList})
     // 选择难题，进入rise页面
     dispatch(set("activeProblemId",problemId));
     dispatch(set("page.scroll",{x:0,y:0}));
     this.context.router.push({
-      pathname:"/asst/subject/list",
+      pathname:"/backend/warmup/edit/list",
       query:{problemId:problemId}});
 
   }
 
 
   componentWillMount() {
-    loadSubjectArticleProblems().then(res =>{
+    loadProblems().then(res =>{
       if (res.code === 200) {
         this.setState({
           problemList: res.msg
@@ -78,7 +77,7 @@ export default class ProblemList extends React.Component<any,any> {
         this.context.router.push({
           pathname:"/login",
           query:{
-            callbackUrl:`/asst/subject/comment`
+            callbackUrl:`/backend/warmup/management`
           }
         })
       } else if(res.code === 403){
@@ -92,7 +91,7 @@ export default class ProblemList extends React.Component<any,any> {
 
 
   render() {
-    const {problemList} = this.state
+    const {problemList=[]} = this.state
     return (
       <div className="problemContent">
         <div className="leftList" style={{position:'static'}}>
