@@ -17,16 +17,8 @@ export function loadApplicationListByMemberId(problemId, memberId) {
   return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
 }
 
-export function loadSubjectArticleList(problemId) {
-  return pget(`/pc/asst/subject/${problemId}`)
-}
-
 export function loadApplicationProblems() {
   return pget('/pc/asst/application/problem/list')
-}
-
-export function loadSubjectArticleProblems() {
-  return pget('/pc/asst/subject/problem/list')
 }
 
 export function commentCount() {
@@ -38,39 +30,31 @@ export function loadCommentedList() {
 }
 
 export function loadApplicationSubmit(submitId) {
-  return pget(`/pc/operation/application/show/${submitId}`)
-}
-
-export function loadSubject(submitId) {
-  return pget(`/pc/operation/subject/${submitId}`)
-}
-
-export function loadRiseWorkList(problemId) {
-  return pget(`/pc/operation/homework/${problemId}`)
+  return pget(`/pc/asst/application/show/${submitId}`)
 }
 
 export function vote(referencedId, status, type) {
-  return ppost('/pc/operation/vote', { referencedId: referencedId, status: status, type: type })
+  return ppost('/pc/asst/vote', { referencedId: referencedId, status: status, type: type })
 }
 
 export function loadComments(type, submitId, page) {
-  return pget(`/pc/operation/comment/${type}/${submitId}`, { page: page })
+  return pget(`/pc/asst/comment/${type}/${submitId}`, { page: page })
 }
 
 export function submitComment(type, submitId, content) {
-  return ppost(`/pc/operation/comment/${type}/${submitId}`, { content: content })
+  return ppost(`/pc/asst/comment/${type}/${submitId}`, { content: content })
 }
 
 export function submitReplyComment(type, submitId, content, replyId) {
-  return ppost(`/pc/operation/comment/reply/${type}/${submitId}`, { content: content, replyId: replyId })
+  return ppost(`/pc/asst/comment/reply/${type}/${submitId}`, { content: content, replyId: replyId })
 }
 
 export function requestAsstComment(moduleId, submitId) {
-  return ppost(`/pc/operation/request/comment/${moduleId}/${submitId}`)
+  return ppost(`/pc/asst/request/comment/${moduleId}/${submitId}`)
 }
 
 export function deleteComment(commentId) {
-  return ppost(`/pc/operation/delete/comment/${commentId}`)
+  return ppost(`/pc/asst/delete/comment/${commentId}`)
 }
 
 export function loadHotPractice(page) {
