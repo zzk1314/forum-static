@@ -6,9 +6,9 @@ import Divider from 'material-ui/Divider'
 import { BreakSignal, Stop } from '../../../utils/request'
 import VerticalBarLoading from '../../../components/VerticalBarLoading'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import { loadApplicationList, commentCount, loadApplicationListByNickName, loadApplicationListByMemberId } from  '../async'
+import { loadApplicationList, commentCount, loadApplicationListByNickName, loadApplicationListByMemberId, loadClassNameAndGroup, loadSubmitByProblemIdClassNameGroup } from '../async'
 import CommentTip from '../component/CommentTip'
-import { TextField, RaisedButton } from 'material-ui'
+import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui'
 
 import './ApplicationList.less'
 
@@ -55,7 +55,14 @@ export default class ApplicationList extends React.Component<any, any> {
       data: [],
       todayComment: -1,
       totalComment: -1,
-      searchNickName: ''
+      searchNickName: '',
+      classNames: [],
+      groupIds: [],
+      className: '',
+      groupId: '',
+      selected: false,
+      classSearch: false,
+      isClick:false
     }
   }
 
@@ -94,14 +101,25 @@ export default class ApplicationList extends React.Component<any, any> {
         this.setState({ totalComment: msg.totalComment, todayComment: msg.todayComment })
       }
     })
+
+    loadClassNameAndGroup().then(res => {
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({
+          classNames: msg.className,
+          groupIds: msg.groupIds
+        })
+      }
+    })
   }
+
 
   componentWillReceiveProps(newProps) {
     const { problemId } = newProps.location.query
     if(this.props.location.query.problemId === problemId) {
       return
     } else {
-      this.setState({ search: [] })
+      this.setState({ search: [],selected:false,classSearch:false,isClick:false,className:'',groupId:''})
       this.componentWillMount(newProps.location.query.problemId)
     }
   }
@@ -118,33 +136,55 @@ export default class ApplicationList extends React.Component<any, any> {
   onClickSearchWorks() {
     const { problemId } = this.props.location.query
     const { dispatch } = this.props
-    let nickName = document.getElementById('nickName').value
-    let memberId = document.getElementById('memberId').value
-    if(nickName && !memberId) {
-      loadApplicationListByNickName(problemId, nickName).then(res => {
-        if(res.code === 200) {
-          this.setState({ search: res.msg })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      }).catch(e => dispatch(alertMsg(e)))
-    } else if(!nickName && memberId) {
-      loadApplicationListByMemberId(problemId, memberId).then(res => {
-        if(res.code === 200) {
-          this.setState({ search: res.msg })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      })
-    } else {
-      dispatch(alertMsg("昵称和训练营学号同时只能输入一个"))
+    const { className, groupId, classSearch } = this.state
+    if(classSearch) {
+      if(className != '' && groupId != '') {
+        loadSubmitByProblemIdClassNameGroup(problemId, className, groupId).then(res => {
+          const { code, msg } = res
+          if(code === 200) {
+            this.setState({
+              isClick:true,
+              search: msg
+            })
+          }
+        })
+      }
+      else {
+        dispatch(alertMsg('请选择班级和小组'))
+      }
+    }
+    else {
+      let nickName = document.getElementById('nickName').value
+      let memberId = document.getElementById('memberId').value
+      if(nickName && !memberId) {
+        loadApplicationListByNickName(problemId, nickName).then(res => {
+          if(res.code === 200) {
+            this.setState({ search: res.msg })
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        }).catch(e => dispatch(alertMsg(e)))
+      } else if(!nickName && memberId) {
+        loadApplicationListByMemberId(problemId, memberId).then(res => {
+          if(res.code === 200) {
+            this.setState({ search: res.msg })
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        })
+      }
+      else {
+        dispatch(alertMsg('昵称和训练营学号只能选择一个'))
+      }
     }
   }
 
   render() {
-    const { other = [], search = [], otherLoading, todayComment, totalComment } = this.state
-
+    const { other = [], search = [], otherLoading, todayComment, totalComment, selected, classSearch,isClick} = this.state
     const renderSubmits = () => {
+      if(isClick) {
+        return renderWorkItems(search)
+      }
       if(search.length > 0) {
         return renderWorkItems(search)
       } else {
@@ -168,26 +208,111 @@ export default class ApplicationList extends React.Component<any, any> {
       )
     }
 
+    /**
+     * 加载ClassName
+     */
+    const renderClassName = () => {
+      const { className, classNames } = this.state
+      return (
+        <div>
+          <SelectField
+            floatingLabelText="选择班级名" maxHeight={300} value={className} onChange={(ev, value) => {
+            this.setState({
+              className: ev.target.textContent,
+              groupId: ''
+            })
+          }}>
+            {
+              classNames.map((item, idx) => {
+                return (
+                  <MenuItem key={idx} value={item} primaryText={item}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
+      )
+    }
+
+    const renderGroupId = () => {
+      const { className, groupId, groupIds } = this.state
+      const group = _.filter(groupIds, { className: className })
+      return (
+        <div>
+          <SelectField
+            floatingLabelText="选择小组" maxHeight={300} value={groupId} onChange={(ev, value) => {
+            this.setState({
+              groupId: ev.target.textContent
+            })
+          }}>
+            {
+              group.map((item, idx) => {
+                return (
+                  <MenuItem key={idx} value={item.groupId} primaryText={item.groupId}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
+      )
+    }
+
+    /**
+     * 渲染搜索界面
+     */
+    const renderSearch = () => {
+      return (
+        <div className="search-container">
+          {classSearch ? <div>
+              {renderClassName()}
+              {renderGroupId()}
+            </div> :
+            <div>
+              <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
+                <TextField hintText="输入用户昵称" id='nickName'/><br/>
+                <TextField hintText="输入用户训练营学号" id='memberId'/><br/>
+              </div>
+            </div>
+          }
+          <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
+        </div>
+      )
+    }
+
+    /**
+     * 渲染选择界面
+     */
+    const renderSelected = () => {
+      return (
+        <div className="rasied-select">
+          <RaisedButton
+            label="昵称/学号搜索" primary={true}
+            style={{ marginRight: 50 }}
+            onClick={() => this.setState({ classSearch: false, selected: true })}
+          />
+          <RaisedButton
+            label="班级和小组搜索" primary={true}
+            onClick={() => this.setState({ classSearch: true, selected: true })}
+          />
+        </div>
+      )
+    }
+
     return (
       <div className="applicationListContainer">
         <div className="myApplicationContainer">
-          { todayComment >= 0 && totalComment >= 0 ?
+          {todayComment >= 0 && totalComment >= 0 ?
             <CommentTip todayComment={todayComment} totalComment={totalComment}/> : null
           }
           <div className="titleContainer">
             <div className="title">应用题</div>
           </div>
+
           <div className="list">
             {otherLoading ? <VerticalBarLoading/> :
-              <div>
-                <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
-                  <TextField hintText="输入用户昵称" id='nickName'/><br/>
-                  <TextField hintText="输入用户训练营学号" id='memberId'/><br/>
-                  <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
-                </div>
-                <Divider style={style.mgDivider}/>{renderSubmits()}
-              </div>
+              selected ? renderSearch() : renderSelected()
             }
+            <Divider style={style.mgDivider}/>{renderSubmits()}
           </div>
           <div className="more">
             <span style={{ color: '#cccccc' }}>没有更多了</span>
