@@ -47,14 +47,6 @@ export function commentReply(submitId, comment, replyedCommentId) {
   })
 }
 
-export function openApplication() {
-  return ppost('/rise/plan/open/application')
-}
-
-export function getOpenStatus() {
-  return pget('/rise/open/status')
-}
-
 export function getApplicationPractice(submitId) {
   return pget(`/rise/practice/application/article/${submitId}`)
 }

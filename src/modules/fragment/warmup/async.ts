@@ -24,14 +24,6 @@ export function loadWarmUpAnalysisNew(warmupPracticeId) {
   return pget(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
 }
 
-export function getOpenStatus(){
-  return pget('/rise/open/status');
-}
-
-export function openConsolidation(){
-  return ppost('/rise/plan/open/consolidation')
-}
-
 export function deleteComment(id){
   return ppost(`/rise/practice/warmup/delete/comment/${id}`)
 }

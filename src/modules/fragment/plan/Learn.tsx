@@ -4,7 +4,7 @@ import { renderExist, NumberToChinese, questionList } from '../../../utils/helpe
 import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  loadPlan, completePlan, updateOpenRise, markPlan,
+  completePlan, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList
 } from './async'
 import { mark } from '../../../utils/request'
@@ -398,19 +398,6 @@ export default class PlanMain extends React.Component <any, any> {
   handleClickProblemChoose() {
     this.context.router.push({
       pathname: '/rise/static/problem/explore'
-    })
-  }
-
-  handleClickTutorialEnd() {
-    const { dispatch } = this.props
-    const { planData } = this.state
-    updateOpenRise().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ planData: merge({}, planData, { openRise: true }) })
-      } else {
-        dispatch(alertMsg(msg))
-      }
     })
   }
 

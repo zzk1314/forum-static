@@ -20,10 +20,6 @@ export function closePlan(planId) {
   return ppost(`/rise/plan/close${planId?'?planId='+planId:''}`)
 }
 
-export function updateOpenRise(){
-  return ppost(`/rise/plan/openrise`)
-}
-
 export function checkPractice(series, planId){
   return ppost(`/rise/plan/check/${series}${planId?'?planId='+planId:''}`)
 }

@@ -6,7 +6,7 @@ import AssetImg from '../../../components/AssetImg'
 import Editor from '../../../components/editor/Editor'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, autoSaveApplicationDraft
+  submitApplicationPractice, CommentType, autoSaveApplicationDraft
 } from './async'
 import Work from '../components/NewWork'
 import _ from 'lodash'
@@ -127,16 +127,6 @@ export default class Application extends React.Component<any, any> {
       }
       vote(id)
     }
-  }
-
-  tutorialEnd() {
-    const { openStatus } = this.state
-    openApplication().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ openStatus: _.merge({}, openStatus, { openApplication: true }) })
-      }
-    })
   }
 
   others() {
