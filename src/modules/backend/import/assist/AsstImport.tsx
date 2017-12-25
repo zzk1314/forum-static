@@ -13,7 +13,7 @@ export default class AsstImport extends React.Component {
         { tag: 'roleName', alias: '教练类别' }
       ],
       select: false,
-      add: false
+      add: false,
     }
   }
 
@@ -28,6 +28,9 @@ export default class AsstImport extends React.Component {
     })
   }
 
+  /**
+   * 根据NickName加载非教练
+   */
   loadUnAssistByNickName() {
     loadUnAssistByNickName(this.state.nickName).then(res => {
       if(res.code === 200) {
@@ -35,6 +38,20 @@ export default class AsstImport extends React.Component {
       }
     })
   }
+
+  /**
+   *加载需要更新的教练
+   */
+   loadUpdateAssists(){
+    loadAssists().then(res=>{
+      if(res.code === 200){
+        this.setState({
+          data:res.msg
+        })
+      }
+    })
+  }
+
 
   render() {
     const {
@@ -56,7 +73,11 @@ export default class AsstImport extends React.Component {
           />
           <RaisedButton
             label="更新教练" primary={true}
-            onClick={() => this.setState({ add: false, select: true })}
+            onClick={() => {
+              this.loadUpdateAssists()
+              this.setState({ add: false, select: true }
+              )}
+            }
           />
         </div>
       )
@@ -74,22 +95,12 @@ export default class AsstImport extends React.Component {
             label="昵称查询"
             style={{ height: 30, marginLeft: 20 }}
             onClick={() => this.loadUnAssistByNickName()}/>
-            <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs}/>
+            <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} addFunc={()=>this.loadUnAssistByNickName()}/>
           </div>
         )
       } else {
-        {
-          //加载教练
-          loadAssists().then(res => {
-            if(res.code === 200) {
-              this.setState({
-                data: res.msg
-              })
-            }
-          })
-        }
         return (
-          <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs}/>
+          <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} editFunc={()=>this.loadUpdateAssists()}/>
         )
       }
     }

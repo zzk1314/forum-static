@@ -41,7 +41,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
     super()
     this.state = {
       selected: [],
-      openProfileData: {}
+      openProfileData: {},
     }
   }
 
@@ -68,6 +68,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
 
   handleSubmitModal() {
     let innerState = this.refs.profile.getInnerState()
+    const{addFunc,editFunc} = this.props
     const{assist,assistCatalog,riseId} = innerState
     if(assist=== -1 && assistCatalog!=''){
       addAssist(riseId,assistCatalog).then(res=>{
@@ -75,6 +76,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
           this.setState({
             openProfileModal:false
           })
+          addFunc()
         }
       })
     }
@@ -86,6 +88,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
             this.setState({
               openProfileModal: false
             })
+            editFunc()
           }
         }
       })
