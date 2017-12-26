@@ -12,7 +12,6 @@ export default class AsstImport extends React.Component {
         { tag: 'nickName', alias: '昵称' },
         { tag: 'roleName', alias: '教练类别' }
       ],
-      select: false,
       add: false,
     }
   }
@@ -26,6 +25,7 @@ export default class AsstImport extends React.Component {
         })
       }
     })
+    this.loadUpdateAssists()
   }
 
   /**
@@ -58,7 +58,6 @@ export default class AsstImport extends React.Component {
       data,
       assistCatalogs,
       meta,
-      select,
       nickName,
       add
     } = this.state
@@ -66,50 +65,55 @@ export default class AsstImport extends React.Component {
     const renderSelect = () => {
       return (
         <div>
-          <RaisedButton
-            label="添加教练" primary={true}
-            style={{ marginRight: 50 }}
-            onClick={() => this.setState({ add: true, select: true })}
-          />
-          <RaisedButton
+          {add? <RaisedButton
             label="更新教练" primary={true}
             onClick={() => {
               this.loadUpdateAssists()
-              this.setState({ add: false, select: true }
+              this.setState({ add: false}
               )}
             }
-          />
+          />: <RaisedButton
+            label="添加教练" primary={true}
+            style={{ marginRight: 50 }}
+            onClick={() => this.setState({ add: true,data:[],nickName:''})}
+          />}
         </div>
       )
     }
 
-    //教练升降级
-    const renderAddName = () => {
-      if(add) {
-        return (
-          <div>
-            <TextField style={{height:50,width:200}} hintText="如：天线宝宝" value={nickName} onChange={(e,v)=> this.setState({
-              nickName:v
-            })}/>
-            <RaisedButton
+    /**
+     * 加载add
+     */
+    const renderAdd = () =>{
+      return(
+        <div>
+          <TextField style={{height:50,width:200}} hintText="如：天线宝宝" value={nickName} onChange={(e,v)=> this.setState({
+            nickName:v
+          })}/>
+          <RaisedButton
             label="昵称查询"
             style={{ height: 30, marginLeft: 20 }}
             onClick={() => this.loadUnAssistByNickName()}/>
-            <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} addFunc={()=>this.loadUnAssistByNickName()}/>
-          </div>
-        )
-      } else {
-        return (
-          <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} editFunc={()=>this.loadUpdateAssists()}/>
-        )
-      }
+          <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} addFunc={()=>this.loadUnAssistByNickName()}/>
+        </div>
+      )
+    }
+
+
+    /**
+     * 加载Update
+     **/
+    const renderUpdate = ()=>{
+      return (
+        <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs} editFunc={()=>this.loadUpdateAssists()}/>
+      )
     }
 
     return (
       <div style={{ padding: '20px 40px' }}>
-        {select ? renderAddName() : renderSelect()}
+        {renderSelect()}
+        {add? renderAdd():renderUpdate()}
       </div>
     )
   }
-
 }
