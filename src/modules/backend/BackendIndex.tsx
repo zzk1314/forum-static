@@ -102,14 +102,14 @@ export default class Fragment extends React.Component<any, any> {
           </Subheader>
           <Divider style={style.divider}/>
           <div className="catalog-area">
-            <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>
-              学员录入
-            </div>
-            <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>
-              学员分组
-            </div>
+            {/*<div className="catalog-name"*/}
+                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>*/}
+              {/*学员录入*/}
+            {/*</div>*/}
+            {/*<div className="catalog-name"*/}
+                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>*/}
+              {/*学员分组*/}
+            {/*</div>*/}
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>
               学员详情
@@ -117,6 +117,9 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/identity' })}}>
               优秀学员
+            </div>
+            <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/assist'})}}>
+              助教管理
             </div>
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>

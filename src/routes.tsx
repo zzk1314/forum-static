@@ -62,6 +62,7 @@ import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoo
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/import/application/ApplicationImport'
 import CampIdentityModify from './modules/camp/CampIdentityModify'
+import AsstImport from './modules/backend/import/assist/AsstImport'
 
 const routes = (
   <Route path="/">
@@ -89,7 +90,7 @@ const routes = (
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
-
+        <Route path="/backend/assist" component={AsstImport}/>
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>

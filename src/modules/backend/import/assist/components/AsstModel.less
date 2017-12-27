@@ -1,0 +1,96 @@
+.asst-model {
+  position: fixed;
+  z-index: 201;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px 40px;
+  background-color: #FFFFFF;
+  .main-info {
+    .absolute-inline-child-div();
+    position: relative;
+    height: 250px;
+    .header {
+      .header();
+    }
+    .headimage {
+      width: 200px;
+      height: 200px;
+      > img {
+        width: 200px;
+        height: 200px;
+      }
+    }
+    .nickname {
+      .info-item-box(30px, 220px);
+    }
+    .riseid {
+      .info-item-box(130px, 220px)
+    }
+  }
+  .camp-info {
+    .absolute-inline-child-div();
+    position: relative;
+    height: 200px;
+    .header {
+      .header();
+    }
+    .classname {
+      .info-item-box(40px, 0);
+    }
+    .group {
+      .info-item-box(40px, 220px);
+    }
+    .memberid {
+      .info-item-box(120px, 0);
+    }
+    .active {
+      .info-item-box(120px, 220px);
+    }
+  }
+  .operate-note {
+    .absolute-inline-child-div();
+    position: relative;
+    height: 100px;
+    .header {
+      .header();
+    }
+  }
+}
+
+.mask {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  left: 0;
+}
+
+.absolute-inline-child-div() {
+  > div {
+    display: inline-block;
+    position: absolute;
+  }
+}
+
+.header() {
+  height: 20px;
+  margin: 10px 0;
+  display: block;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.info-item-box(@top, @left) {
+  > span {
+    font-size: 14px;
+    line-height: 14px;
+    display: block;
+  }
+  top: @top;
+  left: @left;
+  width: 150px;
+  height: 100px;
+}
