@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./Moduleheader.less";
+import "./ModuleHeader.less";
 
  interface ModuleHeaderProps {
   content: string
