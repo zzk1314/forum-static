@@ -103,6 +103,21 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
     loadKnowledgeDetail(knowledgeId).then(res => {
       const { code, msg } = res
       if(code === 200) {
+        if(msg.audioId===null){
+          msg.audioId= 0
+        }
+        if(msg.analysisAudioId===null){
+          msg.analysisAudioId= 0
+        }
+        if(msg.analysisAudioId===null){
+          msg.analysisAudioId= 0
+        }
+        if(msg.meansAudioId===null){
+          msg.meansAudioId= 0
+        }
+        if(msg.keynoteAudioId===null){
+          msg.keynoteAudioId= 0
+        }
         this.setState({
           // snackBar
           snackShow: true,
