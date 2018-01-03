@@ -62,7 +62,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
           <MenuItem value={this.identityType.EXCELLENT_COACH} primaryText="优秀教练"/>
         </SelectField><br/>
 
-        <TextField value={memberIdListStr} multiLine={true} floatingLabelText="输入学号，并且换行区分"
+        <TextField value={memberIdListStr} multiLine={true} floatingLabelText="输入学号，换行区分"
                    onChange={(e, v) => this.setState({memberIdListStr: v})}>
         </TextField><br/>
 
