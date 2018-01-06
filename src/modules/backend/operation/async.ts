@@ -23,3 +23,7 @@ export function approveBusinessApplication(id, coupon, comment) {
 export function ignoreBusinessApplication(id, comment) {
   return ppost("/pc/operation/bs/application/ignore", { id: id, comment: comment });
 }
+
+export function sendCheckedApplication(time) {
+  return pget(`/pc/operation/notice/bs/application/${time}`)
+}

@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import "./BusinessSchoolApplication.less";
-import { loadBusinessApplicationList, rejectBusinessApplication, approveBusinessApplication, ignoreBusinessApplication } from "./async"
+import { loadBusinessApplicationList, rejectBusinessApplication, approveBusinessApplication, ignoreBusinessApplication, sendCheckedApplication } from "./async"
 import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
@@ -36,7 +36,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       showCouponChoose: false,
       coupon: 0,
       showNoticeRejectModal: false,
-      RasiedClicked:false,
+      noticeNoticeSendModal: false,
+      RasiedClicked: false,
       noticeRejectModal: {
         title: '提示',
         content: '是否拒绝,将进行退款操作',
@@ -50,6 +51,22 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
           {
             label: '取消',
             onClick: () => this.setState({ showNoticeRejectModal: false })
+          }
+        ]
+      },
+      noticeSendModal: {
+        title: '提示',
+        content: '是否发送之前审批的记录',
+        actions: [ {
+          label: '确认',
+          onClick: () => {
+            this.setState({ noticeNoticeSendModal: false });
+            this.handleClickSend();
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ noticeNoticeSendModal: false })
           }
         ]
       }
@@ -85,15 +102,16 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    const {comment} = this.state
-    const {dispatch} = this.props
-    if(comment === undefined || comment === ''){
+    const { comment } = this.state
+    const { dispatch } = this.props
+    if(comment === undefined || comment === '') {
       dispatch(alertMsg('请输入面试评价'))
       return
     }
     this.setState({
-      RasiedClicked:true,
-      showNoticeRejectModal: true });
+      RasiedClicked: true,
+      showNoticeRejectModal: true
+    });
   }
 
   handleClickRejectApplication() {
@@ -113,17 +131,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     });
   }
 
-  checkCommentedApproval(){
-    const {comment} = this.state
-    const{dispatch} = this.props
+  checkCommentedApproval() {
+    const { comment } = this.state
+    const { dispatch } = this.props
 
-    if(comment === undefined || comment === ''){
+    if(comment === undefined || comment === '') {
       dispatch(alertMsg('请输入面试评价'))
       return
     }
 
     this.setState({
-      RasiedClicked:true,
+      RasiedClicked: true,
       showCouponChoose: true
     })
   }
@@ -179,7 +197,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     loadBusinessApplicationList(page).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({ applications: res.msg.data, RasiedClicked:false,tablePage: res.msg.page, page: page });
+        this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page });
       } else {
         dispatch(alertMsg(res.smg));
       }
@@ -199,6 +217,29 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     })
   }
 
+  handleClickSend() {
+    console.log('send');
+    const { dispatch } = this.props;
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1 < 10) ? ('0' + (now.getMonth() + 1)) : (now.getMonth() + 1);
+    let day = (now.getDate() < 10) ? ('0' + now.getDate()) : now.getDate();
+
+    let dateStr = year + '-' + month + '-' + day;
+    dispatch(startLoad());
+    sendCheckedApplication(dateStr).then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        dispatch(alertMsg("发送成功"));
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    });
+  }
+
   render() {
     const renderDialogItem = (label, value, br, key) => {
       return (
@@ -214,7 +255,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       )
     }
     const renderDialog = () => {
-      const { openDialog, editData = {}, showCouponChoose, coupon, comment,RasiedClicked } = this.state;
+      const { openDialog, editData = {}, showCouponChoose, coupon, comment, RasiedClicked } = this.state;
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
@@ -248,27 +289,27 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
               onChange={(e) => this.setState({ comment: e.target.value })}
             /><br/>
             {
-              RasiedClicked ? null:
-              <div ref="raisedButton">
-                <RaisedButton
-                  style={{ marginLeft: 30 }}
-                  label="通过" secondary={true} disabled={editData.isBlack === '是'}
-                  onClick={() => {
-                    this.checkCommentedApproval()
-                  }}/>
-                <RaisedButton
-                  style={{ marginLeft: 30 }}
-                  label="拒绝" secondary={true}
-                  onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
-                <RaisedButton
-                  style={{ marginLeft: 30 }}
-                  label="私信" secondary={true}
-                  onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
-                <RaisedButton
-                  style={{ marginLeft: 30 }}
-                  label="取消" secondary={true}
-                  onClick={() => this.handleClickClose()}/>
-              </div>
+              RasiedClicked ? null :
+                <div ref="raisedButton">
+                  <RaisedButton
+                    style={{ marginLeft: 30 }}
+                    label="通过" secondary={true} disabled={editData.isBlack === '是'}
+                    onClick={() => {
+                      this.checkCommentedApproval()
+                    }}/>
+                  <RaisedButton
+                    style={{ marginLeft: 30 }}
+                    label="拒绝" secondary={true}
+                    onClick={() => this.handleClickRejectApplicationBtn(editData, comment)}/>
+                  <RaisedButton
+                    style={{ marginLeft: 30 }}
+                    label="私信" secondary={true}
+                    onClick={() => this.handleClickIgnoreApplication(editData, comment)}/>
+                  <RaisedButton
+                    style={{ marginLeft: 30 }}
+                    label="取消" secondary={true}
+                    onClick={() => this.handleClickClose()}/>
+                </div>
             }
 
             {
@@ -301,11 +342,19 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
     return (
       <div className="bs-container">
+        <div className="bs-operator">
+          <RaisedButton
+            style={{ marginLeft: 30 }}
+            label="发送" primary={true}
+            onClick={() => this.setState({ noticeNoticeSendModal: true })}/>
+        </div>
         {renderDialog()}
         <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item) => this.openDialog(item)}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)} opsName="审核"/>
         <Confirm open={this.state.showNoticeRejectModal} {...this.state.noticeRejectModal}
                  handlerClose={() => this.setState({ showNoticeRejectModal: false })}/>
+        <Confirm open={this.state.noticeNoticeSendModal} {...this.state.noticeSendModal}
+                 handlerClose={() => this.setState({ noticeNoticeSendModal: false })}/>
       </div>
     )
   }
