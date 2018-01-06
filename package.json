@@ -9,6 +9,7 @@
     "dev": "PROXY=http://0.0.0.0:3000/ npm start",
     "dist": "NODE_ENV=production webpack",
     "ftp": "NODE_ENV=production webpack; gulp ftp",
+    "beta": "NODE_ENV=production webpack; gulp beta",
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:8080/ npm start",
     "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start"
