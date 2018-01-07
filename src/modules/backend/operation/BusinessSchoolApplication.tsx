@@ -345,7 +345,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         <div className="bs-operator">
           <RaisedButton
             style={{ marginLeft: 30 }}
-            label="发送" primary={true}
+            label="发送审核结果" primary={true}
             onClick={() => this.setState({ noticeNoticeSendModal: true })}/>
         </div>
         {renderDialog()}
