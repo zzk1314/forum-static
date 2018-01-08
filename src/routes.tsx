@@ -63,6 +63,7 @@ import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/import/application/ApplicationImport'
 import CampIdentityModify from './modules/camp/CampIdentityModify'
 import AsstImport from './modules/backend/import/assist/AsstImport'
+import UploadMaterial from './modules/backend/wx/UploadMaterial'
 
 const routes = (
   <Route path="/">
@@ -76,6 +77,7 @@ const routes = (
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
         <Route path="/backend/admin/refund" component={Refund}/>
+        <Route path="/backend/admin/wx/upload/image" component={UploadMaterial}/>
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         </Route>
