@@ -17,7 +17,8 @@ export default class PicUpload extends React.Component<any, any> {
       open: false,
       title: '',
       content: '',
-      load: false
+      load: false,
+      media_id: ''
     }
     this.supportTypes = ['jpeg', 'jpg', 'png', 'bmp']
   }
@@ -33,7 +34,8 @@ export default class PicUpload extends React.Component<any, any> {
     this.setState({ disabled: false, load: false })
     let { code } = response
     if(_.isEqual(code, 200)) {
-      this.alertMsg('media_id为:' + response.msg)
+      this.alertMsg('上传成功')
+      this.props.showMedia(response.msg)
     } else {
       this.alertMsg('上传失败:' + response.msg)
     }
@@ -81,8 +83,8 @@ export default class PicUpload extends React.Component<any, any> {
   }
 
   render() {
-    const { action } = this.props
-    const { load } = this.state
+    const { action, flatLabel } = this.props
+    const { load, media_id } = this.state
     const handleClose = () => {
       this.setState({ open: false })
     }
@@ -97,14 +99,14 @@ export default class PicUpload extends React.Component<any, any> {
                 accept="image/jpeg,image/jpg,image/png,image/bmp"
                 component="span"
                 disabled={this.state.disabled}
-                style={{ float: 'left'}}
+                style={{float:'left'}}
         >
           <FlatButton
             style={{
               border: '1px solid #55cbcb', borderRadius: '4px', width: '120px', height: '42px', margin: '0 90px'
             }}
             labelStyle={{ color: '#55cbcb' }}
-            label="上传图片"/>
+            label={flatLabel}/>
         </Upload>
         <AlertMessage title={this.state.title} content={this.state.content} open={this.state.open}
                       handleClose={() => handleClose(this)}/>
