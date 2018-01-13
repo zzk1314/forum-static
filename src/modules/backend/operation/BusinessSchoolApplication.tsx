@@ -2,7 +2,11 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import "./BusinessSchoolApplication.less";
-import { loadBusinessApplicationList, rejectBusinessApplication, approveBusinessApplication, ignoreBusinessApplication, sendCheckedApplication } from "./async"
+import {
+  loadBusinessApplicationList, rejectBusinessApplication,
+  approveBusinessApplication, ignoreBusinessApplication,
+  sendCheckedApplication, loadAssts, assignApplyInterviewer
+} from "./async"
 import * as _ from "lodash";
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
@@ -22,14 +26,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'nickname', alias: '昵称', style: cellStyle },
         { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
-        { tag: 'reward', alias: '优秀学员' },
-        { tag: 'isBlack', alias: '黑名单' },
+        { tag: 'reward', alias: '优秀学员', style: _.merge({}, cellStyle, { width: '50px' }) },
+        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
+        { tag: 'interviewerName', alias: '面试人', style: cellStyle }
       ],
       data: [],
       openDialog: false,
@@ -87,6 +92,20 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
+    });
+
+    loadAssts().then(res => {
+      if(res.code === 200) {
+        let assts = [];
+        for(let i = 0; i < res.msg.length; i++) {
+          assts.push({
+            value: res.msg[ i ],
+            key: i,
+            primaryText: `${res.msg[ i ].asstType} ${res.msg[ i ].asstName}`
+          })
+        }
+        this.setState({ assts: assts });
+      }
     });
   }
 
@@ -185,6 +204,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       editData: undefined,
       coupon: 0,
       comment: undefined,
+      openInterviewerDialog: false,
+      assignInterviewer: undefined,
       showCouponChoose: false,
     }, () => {
       this.handlePageClick(this.state.page)
@@ -213,12 +234,13 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       editData: undefined,
       coupon: 0,
       comment: undefined,
+      openInterviewerDialog: false,
+      assignInterviewer: undefined,
       showCouponChoose: false,
     })
   }
 
   handleClickSend() {
-    console.log('send');
     const { dispatch } = this.props;
     let now = new Date();
     let year = now.getFullYear();
@@ -240,6 +262,39 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     });
   }
 
+  showInterviewer(data) {
+    this.setState({ openInterviewerDialog: true, editData: data });
+  }
+
+  handleAssign(data, editData) {
+    this.setState({
+      assignInterviewer: data
+    });
+  }
+
+  handleClickAssign() {
+    const { assignInterviewer, editData } = this.state;
+    const { dispatch } = this.props;
+    if(_.isEmpty(assignInterviewer)) {
+      dispatch(alertMsg('请先选择面试官'));
+      return;
+    }
+    dispatch(startLoad());
+    assignApplyInterviewer({
+      applyId: editData.id,
+      profileId: assignInterviewer.profileId
+    }).then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        dispatch(alertMsg("分配成功"));
+        this.refreshPage();
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
+  }
+
   render() {
     const renderDialogItem = (label, value, br, key) => {
       return (
@@ -252,6 +307,31 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
           <Divider/>
         </div>
+      )
+    }
+    const renderInterviewerDialog = () => {
+      const { openInterviewerDialog = false, assts, editData, assignInterviewer = {} } = this.state;
+      return (
+        <Dialog open={openInterviewerDialog} autoScrollBodyContent={true} modal={false}>
+          选择面试官：<br/>
+          <SelectField
+            value={assignInterviewer}
+            onChange={(event, index, value) => this.handleAssign(value, editData)}
+            maxHeight={400}
+          >
+            {assts && assts.map(item => <MenuItem {...item}/>)}
+          </SelectField>
+          <br/>
+          <RaisedButton
+            style={{ marginLeft: 30 }}
+            label="确认" secondary={true}
+            onClick={() => this.handleClickAssign()}/>
+
+          <RaisedButton
+            style={{ marginLeft: 30 }}
+            label="取消" secondary={true}
+            onClick={() => this.handleClickClose()}/>
+        </Dialog>
       )
     }
     const renderDialog = () => {
@@ -349,8 +429,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             onClick={() => this.setState({ noticeNoticeSendModal: true })}/>
         </div>
         {renderDialog()}
-        <MessageTable data={this.state.applications} meta={this.state.meta} editFunc={(item) => this.openDialog(item)}
-                      page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)} opsName="审核"/>
+        {renderInterviewerDialog()}
+        <MessageTable data={this.state.applications} meta={this.state.meta}
+                      opsButtons={[ {
+                        editFunc: (item) => this.openDialog(item),
+                        opsName: "审核"
+                      }, {
+                        editFunc: (item) => this.showInterviewer(item),
+                        opsName: "分配"
+                      } ]}
+
+                      page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
         <Confirm open={this.state.showNoticeRejectModal} {...this.state.noticeRejectModal}
                  handlerClose={() => this.setState({ showNoticeRejectModal: false })}/>
         <Confirm open={this.state.noticeNoticeSendModal} {...this.state.noticeSendModal}

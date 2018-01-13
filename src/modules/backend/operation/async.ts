@@ -27,3 +27,11 @@ export function ignoreBusinessApplication(id, comment) {
 export function sendCheckedApplication(time) {
   return pget(`/pc/operation/notice/bs/application/${time}`)
 }
+
+export function loadAssts() {
+  return pget('/pc/operation/interviewer/list');
+}
+
+export function assignApplyInterviewer(data) {
+  return ppost('/pc/operation/assign/interviewer', data)
+}
