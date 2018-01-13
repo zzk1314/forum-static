@@ -212,7 +212,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   render() {
     const { showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
-    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
+    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,videoUrl,videoPoster,
         analysisAudio, meansAudio, keynoteAudio} = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
@@ -220,6 +220,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const renderKnowledgeContent = () => {
       return (
         <div>
+          {videoUrl && <video src={videoUrl} controls={true} width="100%" poster={videoPoster}>您的设备不支持video标签</video>}
           {audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
           {pic ?
             <div className="context-img" style={{ textAlign: "center" }}>

@@ -88,7 +88,7 @@ export default class ProblemViewer extends React.Component<any, any> {
   render() {
     const { data, showTip } = this.state;
     const { show } = this.props.location.query
-    const { authorPic, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic } = data;
+    const { authorPic, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic,videoUrl,videoPoster } = data;
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -116,6 +116,10 @@ export default class ProblemViewer extends React.Component<any, any> {
               <BreadCrumbs level={1} name="小课介绍"/>
               <div className="page-header">{problem}</div>
             </div>
+            {videoUrl &&
+            <div className="video-container">
+              <video src={videoUrl} controls={true} width="100%" poster={videoPoster}>您的设备不支持video标签</video>
+            </div>}
             <div className="page-content">
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
