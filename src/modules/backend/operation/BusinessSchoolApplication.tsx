@@ -351,6 +351,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem("最近审核结果：", editData.verifiedResult)}
             {renderDialogItem("是否黑名单用户：", editData.isBlack)}
             {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
+            {renderDialogItem("面试官：", editData.interviewerName)}
             <div className="bs-dialog-header">
               问卷信息：
             </div>
