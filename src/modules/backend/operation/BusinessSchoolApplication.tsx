@@ -23,18 +23,18 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     this.state = {
       page: 1,
       meta: [
-        { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '50px' }) },
-        { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
-        { tag: 'reward', alias: '优秀学员', style: _.merge({}, cellStyle, { width: '40px' }) },
-        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '40px' }) },
+        { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '60px' })},
+        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '70px' }) },
+        // { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
+        { tag: 'reward', alias: '优秀学员', style: _.merge({}, cellStyle, { width: '50px' }) },
+        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
         // { tag: 'checkTime', alias: '审核时间', style: cellStyle },
         // { tag: 'deal', alias: '已处理', style: cellStyle, style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
-        { tag: 'interviewerName', alias: '面试人', style: cellStyle }
+        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' })}
       ],
       data: [],
       openDialog: false,
