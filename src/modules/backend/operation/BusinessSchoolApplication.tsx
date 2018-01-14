@@ -24,10 +24,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: cellStyle },
-        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '85px' }) },
+        { tag: 'verifiedResult', alias: '最近审核结果', style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'isAsst', alias: '助教', style: _.merge({}, cellStyle, { width: '35px' }) },
-        { tag: 'reward', alias: '优秀学员', style: _.merge({}, cellStyle, { width: '50px' }) },
-        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '50px' }) },
+        { tag: 'reward', alias: '优秀学员', style: _.merge({}, cellStyle, { width: '40px' }) },
+        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '40px' }) },
         { tag: 'originMemberTypeName', alias: '原本会员类型', style: cellStyle },
         { tag: 'finalPayStatus', alias: '最终付费情况', style: cellStyle },
         // { tag: 'coupon', alias: '优惠券', style: cellStyle },
