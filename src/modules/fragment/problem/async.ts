@@ -15,3 +15,7 @@ export function checkCreatePlan(problemId) {
 export function mark(param){
   return ppost('/rise/b/mark',param);
 }
+
+export function loadProblemExtension(problemId){
+  return pget(`/rise/problem/extension/${problemId}`)
+}
