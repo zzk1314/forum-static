@@ -549,7 +549,7 @@ export default class PlanMain extends React.Component <any, any> {
                 <div className="chapter description hover-cursor"
                      onClick={() => this.handleClickProblemReview(planData.problem.id)}>
                   <div/>
-                  <span>小课介绍</span>
+                  <span>课程介绍</span>
                 </div>
               </div>
             </div>
@@ -659,7 +659,7 @@ export default class PlanMain extends React.Component <any, any> {
 
     const renderOtherComponents = () => {
       let otherComponentsArr = []
-      otherComponentsArr.push(<BreadCrumbs level={0} name={`小课`} show={false}/>)
+      otherComponentsArr.push(<BreadCrumbs level={0} name={`课程`} show={false}/>)
       return otherComponentsArr
     }
 
@@ -687,7 +687,7 @@ export default class PlanMain extends React.Component <any, any> {
                 <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" style={{ height: '150px' }}/>
               </div>
               <div className="empty-text">
-                <span>没有正在学习的小课哦，</span><br/>
+                <span>没有正在学习的课程哦，</span><br/>
                 <span>点击按钮去选课吧！</span>
               </div>
               <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
@@ -706,7 +706,7 @@ export default class PlanMain extends React.Component <any, any> {
                            onClick={() => this.handleClickRiseMemberTips()}>
                       </div> : null}
                     <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
-                      小课介绍
+                      课程介绍
                     </div>
                     <div className="section-title">{problem.problem}</div>
                     <div className="section">总得分：{point} 分</div>

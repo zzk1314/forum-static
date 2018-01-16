@@ -7,6 +7,7 @@ import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { loadProblem, createPlan, checkCreatePlan } from "./async";
 import AlertMessage from "../../../components/AlertMessage";
 import { BreadCrumbs } from "../commons/FragmentComponent"
+import QYVideo from '../../../components/QYVideo'
 
 @connect(state => state)
 export default class ProblemViewer extends React.Component<any, any> {
@@ -88,7 +89,7 @@ export default class ProblemViewer extends React.Component<any, any> {
   render() {
     const { data, showTip } = this.state;
     const { show } = this.props.location.query
-    const { authorPic, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic,videoUrl,videoPoster } = data;
+    const { authorPic, length, why, what, who, audio,audioWords,chapterList, problem,videoUrl,videoWords,videoPoster } = data;
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -113,16 +114,16 @@ export default class ProblemViewer extends React.Component<any, any> {
         <div className={`container ${show ? '' : 'has-footer'}`}>
           <div className="problem-intro">
             <div className="problem-head">
-              <BreadCrumbs level={1} name="小课介绍"/>
+              <BreadCrumbs level={1} name="课程介绍"/>
               <div className="page-header">{problem}</div>
             </div>
             {videoUrl &&
             <div className="video-container">
-              <video src={videoUrl} controls={true} width="100%" poster={videoPoster}>您的设备不支持video标签</video>
+              <QYVideo src={videoUrl} videoWords={videoWords} poster={videoPoster}>您的设备不支持video标签</QYVideo>
             </div>}
             <div className="page-content">
               { audio ? <div className="context-audio">
-                <Audio url={audio}/>
+                <Audio url={audio} words={audioWords}/>
               </div> : null }
               <div style={{ marginTop: 30 }}>
                 <pre dangerouslySetInnerHTML={{ __html: why }} />
@@ -156,7 +157,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div className="time-tip-content"><b>开放时长：</b>30天
                   {showTip ? <div className="tip"><br/>
                     说明：<br/>
-                    本小课最少开放{Math.round(length / 2)}天，最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
+                    本课程最少开放{Math.round(length / 2)}天，最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
                   </div> : <div className="tip-img" onClick={() => this.setState({ showTip: true })}>
                     <AssetImg width={16} height={16} type="question-mark"/></div>}
                 </div>
@@ -175,12 +176,12 @@ export default class ProblemViewer extends React.Component<any, any> {
           null
           :
           <div className="button-footer" onClick={() => this.show()}>
-            学习该小课
+            学习该课程
           </div>
         }
         <AlertMessage { ...this.state.alert }
                       open={this.state.showAlert}>
-          <p className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</p>
+          <p className="global-pre">选择后，需要先学完该课程，才能选择下一课程，想好了吗？</p>
         </AlertMessage>
       </div>
     )

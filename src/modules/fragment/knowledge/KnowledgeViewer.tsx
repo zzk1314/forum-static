@@ -17,6 +17,7 @@ import DiscussShow from "../components/DiscussShow";
 import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import { BreadCrumbs, TitleBar } from "../commons/FragmentComponent"
+import QYVideo from '../../../components/QYVideo'
 
 const sequenceMap = {
   0: "A",
@@ -211,17 +212,17 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const { showTip, showDiscuss, showSelfDiscuss, knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
-    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,videoUrl,videoPoster,
-        analysisAudio, meansAudio, keynoteAudio} = knowledge
+    const { showTip, showDiscuss,knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
+    const { analysis, means, keynote, audio,audioWords, pic, example, analysisPic, meansPic, keynotePic,videoUrl,videoWords,videoPoster,
+        analysisAudio,analysisAudioWords, meansAudio,meansAudioWords, keynoteAudio,keynoteAudioWords} = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
 
     const renderKnowledgeContent = () => {
       return (
         <div>
-          {videoUrl && <video src={videoUrl} controls={true} width="100%" poster={videoPoster}>您的设备不支持video标签</video>}
-          {audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
+          {videoUrl && <QYVideo src={videoUrl} videoWords={videoWords} poster={videoPoster}>您的设备不支持video标签</QYVideo>}
+          {audio ? <div className="context-audio"><Audio url={audio} words={audioWords} /></div> : null }
           {pic ?
             <div className="context-img" style={{ textAlign: "center" }}>
               <AssetImg url={pic} width="60%"/></div> :
@@ -231,7 +232,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
               </div>
-              {analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
+              {analysisAudio ? <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null }
               <div className="text">
                 <pre dangerouslySetInnerHTML={{ __html: analysis }} />
               </div>
@@ -247,7 +248,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
               </div>
-              {meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
+              {meansAudio ? <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null }
               <div className="text">
                 <pre dangerouslySetInnerHTML={{ __html: means }} />
               </div>
@@ -263,7 +264,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
               </div>
-              {keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
+              {keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div> : null }
               <div className="text">
                 <pre dangerouslySetInnerHTML={{ __html: keynote }} />
               </div>

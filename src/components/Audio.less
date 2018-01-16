@@ -1,8 +1,8 @@
 @import "../style/variable";
 
 .audio {
-  margin: 20px auto;
-  width: 80%;
+  margin: 10px 0;
+  width: 99%;
   height: 36px;
   border: 1px solid #e7e7e7;
   background-color: #fff;
@@ -11,12 +11,6 @@
   border-radius: @border-radius;
   .audio-container {
     padding: 0 5px;
-    width: 100%;
-    display: inline-flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    align-items: center;
   }
   & > * {
     vertical-align: middle;
@@ -27,25 +21,23 @@
     border-color: #e7e7e7;
     margin: 8px 8px 8px 5px;
     vertical-align: middle;
-    cursor: pointer;
     & > * {
       vertical-align: middle;
     }
   }
   .audio-duration {
-    flex-basis: 100px;
     display: inline-block;
     font-size: 11px;
     height: 36px;
     line-height: 36px;
     vertical-align: middle;
     margin-left: 10px;
-    width: 100px;
+    width: 75px;
   }
   .audio-progress {
     display: inline-block;
     vertical-align: middle;
-    width: 65%;
+    width: ~"calc(100% - 120px)";
     height: 100%;
   }
 }
@@ -89,5 +81,66 @@
     top: -15px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
+  }
+}
+
+.audio-wrapper {
+  audio {
+    width: 100%;
+  }
+  .audio-words-container {
+    position: relative;
+    height: 10.5rem;
+    overflow: hidden;
+    margin: 2rem 0;
+
+    .audio-words {
+      border-radius: 3px;
+      color: @color_title;
+      font-size: 1.5em;
+    }
+    &.show-all {
+      height: auto;
+      overflow: visible;
+      margin-bottom: 3rem;
+      .words-text-mask {
+        background: none;
+        .words-mask-tips {
+          bottom: -2.5rem;
+        }
+      }
+    }
+    .words-text-mask {
+      background: url('../../assets/img/bg_rectangle.png') no-repeat center center/auto 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      .words-mask-tips {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #55cbcb;
+        span {
+          font-weight: 300;
+          &.hide:after {
+            background: url('../../assets/img/rise_icon_arrow_up.png') no-repeat center center/100% auto;
+          }
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            vertical-align: bottom;
+            margin-left: 5px;
+            background: url('../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+          }
+        }
+      }
+    }
   }
 }

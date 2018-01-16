@@ -114,7 +114,7 @@ export default class Plan extends React.Component<any, PlanStates> {
         return this.generatePlansView(runningPlans)
       } else {
         return (
-          <div className="plan-tip">请先去微信”圈外同学“选择一门小课吧</div>
+          <div className="plan-tip">请先去微信”圈外同学“选择一门课程吧</div>
         )
       }
     }
@@ -123,14 +123,14 @@ export default class Plan extends React.Component<any, PlanStates> {
       if(completedPlans.length > 0) {
         return this.generatePlansView(completedPlans)
       } else {
-        return <div className="plan-tip">暂时没有已完成的小课</div>
+        return <div className="plan-tip">暂时没有已完成的课程</div>
       }
     }
 
     const renderAllPlans = () => {
       return (
         <div>
-          <div className="plan-header">我的小课</div>
+          <div className="plan-header">我的课程</div>
           <div className="plan-plans">
             <span>进行中</span>
             {renderRunningPlans()}
