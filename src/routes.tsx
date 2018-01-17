@@ -64,6 +64,8 @@ import ApplicationImport from './modules/backend/import/application/ApplicationI
 import CampIdentityModify from './modules/camp/CampIdentityModify'
 import AsstImport from './modules/backend/import/assist/AsstImport'
 import UploadMaterial from './modules/backend/wx/UploadMaterial'
+import AsstBusinessComment from './modules/asst/business/AsstBusinessComment'
+import AsstBusinessSchoolApp from './modules/asst/application/AsstBusinessSchoolApp'
 
 const routes = (
   <Route path="/">
@@ -104,6 +106,7 @@ const routes = (
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
         <Route path="/asst/commented" component={CommentedList}/>
+        <Route path="/asst/business/comment" component={AsstBusinessSchoolApp}/>
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
           <Route path="/asst/application/list" component={AsstApplicationList}/>
           <Route path="/asst/application/view" component={ShowApplication}/>
