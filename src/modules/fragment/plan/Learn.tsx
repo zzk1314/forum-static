@@ -26,6 +26,9 @@ const typeMap = {
   32: '知识回顾'
 }
 
+/**
+ * pc学习页面
+ */
 @connect(state => state)
 export default class PlanMain extends React.Component <any, any> {
   constructor() {
@@ -223,17 +226,17 @@ export default class PlanMain extends React.Component <any, any> {
     } else if(type === 11) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: false, planId, practicePlanId, complete }
+        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId, complete }
       }) : null
     } else if(type === 12) {
       this.context ? this.context.router.push({
         pathname: '/fragment/application',
-        query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: true, planId, practicePlanId, complete }
+        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/fragment/challenge',
-        query: { id: item.practiceIdList[ 0 ], currentIndex, planId, practicePlanId, complete }
+        query: { id: item.practiceIdList[0], currentIndex, planId, practicePlanId, complete }
       }) : null
     } else if(type === 31) {
       if(!complete) {
@@ -274,9 +277,19 @@ export default class PlanMain extends React.Component <any, any> {
   }
 
   handleClickProblemReview(problemId) {
-    mark({ module: '打点', function: 'RISE', action: 'PC打开小课介绍', memo: 'PC' })
+    mark({ module: '打点', function: 'RISE', action: 'PC打开课程介绍', memo: 'PC' })
     // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, '_blank')
+  }
+
+  handleClickProblemExtension(problemId){
+    mark({
+      module:'打点',
+      function:'RISE',
+      action:'PC打开延伸学习',
+      memo:'PC'
+    })
+    window.open(`/fragment/problem/extension/view?problemId=${problemId}`, '_blank')
   }
 
   handleClickGoReport() {
@@ -317,7 +330,7 @@ export default class PlanMain extends React.Component <any, any> {
   handleClickUnMinStudy() {
     const { dispatch } = this.props
     const { mustStudyDays } = this.state
-    dispatch(alertMsg(null, `学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
+    dispatch(alertMsg(null, `学得太猛了，再复习一下吧<br/>本课程推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一课程了`))
   }
 
   handleClickUnReport() {
@@ -435,13 +448,13 @@ export default class PlanMain extends React.Component <any, any> {
     let modalList = []
     modalList.push(
       <Modal show={false}
-             buttons={[ {
-               click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}`
-             } ]}
+             buttons={[{
+               click: () => this.handleClickGoReport(), content: `${reportStatus < 0 ? '选择新课程' : '学习报告'}`
+             }]}
              key={0}
       >
         <div className="content">
-          <div className="text">糟糕！好久没学，小课到期了！</div>
+          <div className="text">糟糕！好久没学，课程到期了！</div>
         </div>
         <div className="content2">
           <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
@@ -470,7 +483,7 @@ export default class PlanMain extends React.Component <any, any> {
         if(reportStatus === 1) {
           // 可以点击完成按钮
           lastBtn = (
-            <div onClick={() => this.handleClickComplete()}>完成小课</div>
+            <div onClick={() => this.handleClickComplete()}>完成课程</div>
           )
         } else if(reportStatus === 3) {
           // 已经完成，直接打开学习报告
@@ -480,22 +493,22 @@ export default class PlanMain extends React.Component <any, any> {
         } else if(reportStatus === 2) {
           // 未完成最小学习天数
           lastBtn = (
-            <div className={` disabled`} onClick={() => this.handleClickUnMinStudy()}>完成小课</div>
+            <div className={` disabled`} onClick={() => this.handleClickUnMinStudy()}>完成课程</div>
           )
         } else if(reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
-            <div className={` disabled`} onClick={() => this.handleClickUnComplete()}>完成小课</div>
+            <div className={` disabled`} onClick={() => this.handleClickUnComplete()}>完成课程</div>
           )
         } else if(reportStatus === -1) {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
-            <div className={` disabled`} onClick={() => this.handleClickUnReport()}>完成小课</div>
+            <div className={` disabled`} onClick={() => this.handleClickUnReport()}>完成课程</div>
           )
         } else {
           // 默认去调用一下complete接口
           lastBtn = (
-            <div onClick={() => this.handleClickComplete()}>完成小课</div>
+            <div onClick={() => this.handleClickComplete()}>完成课程</div>
           )
         }
       }
@@ -523,7 +536,7 @@ export default class PlanMain extends React.Component <any, any> {
           <div className="list">
             {this.renderPractice(item.practices)}
           </div>
-          { renderBtnFooter(item, idx) }
+          {renderBtnFooter(item, idx)}
           <div className="padding-footer"/>
         </div>
       </div>
@@ -550,6 +563,11 @@ export default class PlanMain extends React.Component <any, any> {
                      onClick={() => this.handleClickProblemReview(planData.problem.id)}>
                   <div/>
                   <span>课程介绍</span>
+                </div>
+                <div className="chapter description hover-cursor"
+                     onClick={() => this.handleClickProblemExtension(planData.problem.id)}>
+                  <div/>
+                  <span>延伸学习</span>
                 </div>
               </div>
             </div>
@@ -636,7 +654,7 @@ export default class PlanMain extends React.Component <any, any> {
               <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
             }
             <div className="body">
-              <div className="title">{typeMap[ item.type ]}</div>
+              <div className="title">{typeMap[item.type]}</div>
             </div>
             <div className="footer">
               {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
@@ -649,12 +667,11 @@ export default class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, chapterList, expired, style
+      currentIndex, planData, showScoreModal,showEmptyPage,
+       riseMember, riseMemberTips, expired
     } = this.state
-    const { location } = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
+      problem = {}, sections = [], point,openRise, completeSeries, reportStatus
     } = planData
 
     const renderOtherComponents = () => {
@@ -694,38 +711,38 @@ export default class PlanMain extends React.Component <any, any> {
             </div>
           ),
           (<div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>
-              <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
-                <div className="side-bar">
-                  { this.renderSidebar() }
-                </div>
-                <div className="side-bar-content">
-                  <div className="header-img">
-                    <div className="back-img"/>
-                    {riseMember != 1 ?
-                      <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                           onClick={() => this.handleClickRiseMemberTips()}>
-                      </div> : null}
-                    <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
-                      课程介绍
-                    </div>
-                    <div className="section-title">{problem.problem}</div>
-                    <div className="section">总得分：{point} 分</div>
-                  </div>
-                  {renderExist(!isEmpty(planData),
-                    (
-                      <div style={{ padding: '0 15px' }}>
-                        <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                                        onTransitionEnd={() => this.handleSwipeTransitionEnd()}
-                                        onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
-                          {renderExist(sections, sections.map((item, idx) => {
-                            return this.renderSection(item, idx)
-                          }))}
-                        </SwipeableViews>
-                      </div>
-                    ))}
-                </div>
+            <div className="side-bar-container" style={{ height: window.innerHeight - 80 }}>
+              <div className="side-bar">
+                {this.renderSidebar()}
               </div>
-            </div>))}
+              <div className="side-bar-content">
+                <div className="header-img">
+                  <div className="back-img"/>
+                  {riseMember != 1 ?
+                    <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                         onClick={() => this.handleClickRiseMemberTips()}>
+                    </div> : null}
+                  <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
+                    课程介绍
+                  </div>
+                  <div className="section-title">{problem.problem}</div>
+                  <div className="section">总得分：{point} 分</div>
+                </div>
+                {renderExist(!isEmpty(planData),
+                  (
+                    <div style={{ padding: '0 15px' }}>
+                      <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                                      onTransitionEnd={() => this.handleSwipeTransitionEnd()}
+                                      onChangeIndex={(index, indexLatest) => this.handleChangeSection(index + 1)}>
+                        {renderExist(sections, sections.map((item, idx) => {
+                          return this.renderSection(item, idx)
+                        }))}
+                      </SwipeableViews>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>))}
         {renderOtherComponents()}
       </div>
     )
