@@ -70,6 +70,10 @@ function SectionToChinese(section) {
   return chnStr;
 }
 
+export function filterHtmlTag(content) {
+  return _.isString(content) ? content.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '') : ''
+}
+
 export function scroll(target, container) {
   let y = document.querySelector(target).offsetTop
   document.querySelector(container).scrollTop = y

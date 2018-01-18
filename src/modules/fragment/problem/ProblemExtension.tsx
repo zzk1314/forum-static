@@ -33,7 +33,8 @@ export default class ProblemExtension extends React.Component<any, any> {
     loadProblemExtension(problemId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ data: res.msg, extension: res.msg.extension })
+        let replaceExtension = res.msg.extension.replace(/rise\/static/g,"fragment")
+        this.setState({ data: res.msg, extension: replaceExtension })
       } else {
         dispatch(alertMsg('当前课程暂无延伸学习相关内容'))
       }
@@ -44,8 +45,8 @@ export default class ProblemExtension extends React.Component<any, any> {
   }
 
   render() {
-    const { data } = this.state
-    const { extension, onlineActivities, offlineActivities } = data
+    const { data,extension } = this.state
+    const { onlineActivities, offlineActivities } = data
 
     const renderActivities = () => {
       if((onlineActivities && onlineActivities.length > 0) || (offlineActivities && offlineActivities.length > 0)) {

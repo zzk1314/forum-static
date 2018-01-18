@@ -42,6 +42,7 @@ import KnowledgeViewer from './modules/fragment/knowledge/KnowledgeViewer'
 import KnowledgeReview from './modules/fragment/knowledge/KnowledgeReview'
 import ProblemViewer from './modules/fragment/problem/ProblemViewer'
 import Profile from './modules/fragment/customer/personal/Profile'
+import {Comment as SubjectComment} from './modules/fragment/subject/Comment'
 import Personal from './modules/fragment/customer/personal/Personal'
 import Account from './modules/fragment/customer/personal/Account'
 import Help from './modules/fragment/customer/personal/Help'
@@ -119,6 +120,7 @@ const routes = (
       <Route path="/fragment/learn" component={Learn}/>
       <Route path="/fragment/main" component={Learn}/>
       <Route path="/fragment/subject" component={Subject}/>
+      <Route path="/fragment/practice/subject/comment" component={SubjectComment}/>
       <Route path="/fragment/problem/view" component={ProblemViewer}/>
       <Route path="/fragment/problem/extension/view" component={ProblemExtension}/>
       <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
