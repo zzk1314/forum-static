@@ -6,7 +6,7 @@ import {
   loadBusinessApplicationList, addInterviewerRecord
 } from './async'
 import * as _ from 'lodash'
-import { MessageTable } from '../../backend/message/autoreply/messageTable'
+import { MessageTable } from '../../backend/message/autoreply/MessageTable'
 import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
 
 const cellStyle = {
@@ -90,13 +90,10 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetApplyEvent: '',
       applyEventName: '',
       targetLearningWill: '',
-      targetPotentialScore:'',
+      targetPotentialScore: '',
       potentialScore: '',
       targetAward: '',
       applyReason: '',
-      showFocus: false,
-      showTouch: false,
-      showEvent: false,
       openDialog: false,
       RasiedClicked: false
     }
@@ -121,9 +118,9 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
   openDialog(data) {
     if(data.interviewRecord != null) {
-       const { interviewRecord } = data
-      let  targetChannel  = interviewRecord.focusChannel
-      if(targetChannel!='') {
+      const { interviewRecord } = data
+      let targetChannel = interviewRecord.focusChannel
+      if(targetChannel != '') {
         focusChannels.map((target) => {
           if(target.value.indexOf(targetChannel) >= 0) {
             targetChannel = target
@@ -132,8 +129,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         })
       }
 
-      let  targetTouchDuration  = interviewRecord.touchDuration
-      if(targetTouchDuration!='') {
+      let targetTouchDuration = interviewRecord.touchDuration
+      if(targetTouchDuration != '') {
         touchDurations.map((touch) => {
           if(touch.value.indexOf(targetTouchDuration) >= 0) {
             targetTouchDuration = touch
@@ -142,8 +139,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         })
       }
 
-
-      let  targetApplyEvent  = interviewRecord.applyEvent
+      let targetApplyEvent = interviewRecord.applyEvent
       if(targetApplyEvent != '') {
         applyEvents.map((apply) => {
           if(apply.value.indexOf(targetApplyEvent) >= 0) {
@@ -154,29 +150,28 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       }
 
       let targetLearningWill = interviewRecord.learningWill
-      learningWills.map((will)=>{
-        if(will.id === targetLearningWill){
+      learningWills.map((will) => {
+        if(will.id === targetLearningWill) {
           targetLearningWill = will
           return
         }
       })
 
       let targetPotentialScore = interviewRecord.potentialScore
-      potentialScores.map((score)=>{
-        if(score.id === targetPotentialScore){
+      potentialScores.map((score) => {
+        if(score.id === targetPotentialScore) {
           targetPotentialScore = score
           return
         }
       })
 
       let targetAward = interviewRecord.applyAward
-      applyAwards.map((award)=>{
-        if(award.id === targetAward){
+      applyAwards.map((award) => {
+        if(award.id === targetAward) {
           targetAward = award
           return
         }
       })
-
 
       this.setState({
         interviewTime: interviewRecord.interviewTime,
@@ -190,15 +185,20 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         targetLearningWill,
         targetPotentialScore,
         targetAward,
-        applyReason: interviewRecord.applyReason
+        applyReason: interviewRecord.applyReason,
+        openDialog: true,
+        editData: data,
+        applyId: data.applyId,
+        profileId: data.profileId
+      })
+    } else {
+      this.setState({
+        openDialog: true,
+        editData: data,
+        applyId: data.applyId,
+        profileId: data.profileId
       })
     }
-    this.setState({
-      openDialog: true,
-      editData: data,
-      applyId: data.applyId,
-      profileId: data.profileId
-    })
   }
 
   refreshPage() {
@@ -210,19 +210,16 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       question: '',
       targetChannel: '',
       focusChannelName: '',
-      targetTouchDuration:'',
+      targetTouchDuration: '',
       touchDuration: '',
       touchDurationName: '',
       targetApplyEvent: '',
       applyEventName: '',
       targetLearningWill: '',
-      targetPotentialScore:'',
+      targetPotentialScore: '',
       potentialScore: '',
       targetAward: '',
-      applyReason: '',
-      showFocus: false,
-      showTouch: false,
-      showEvent: false
+      applyReason: ''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -257,18 +254,15 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetChannel: '',
       focusChannelName: '',
       touchDuration: '',
-      targetTouchDuration:'',
+      targetTouchDuration: '',
       touchDurationName: '',
       targetApplyEvent: '',
       applyEventName: '',
       targetLearningWill: '',
-      targetPotentialScore:'',
+      targetPotentialScore: '',
       potentialScore: '',
       targetAward: '',
-      applyReason: '',
-      showFocus: false,
-      showTouch: false,
-      showEvent: false
+      applyReason: ''
     })
   }
 
@@ -283,7 +277,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason
     } = this.state
 
-    console.log(this.state)
 
     if(question === null || targetChannel === null ||
       targetTouchDuration === null || targetApplyEvent === null ||
@@ -385,7 +378,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      */
     const renderInterview = () => {
       const {
-        interviewTime, question,
+        interviewTime, question
       } = this.state
 
       return (
@@ -418,7 +411,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      * @returns {{}}
      */
     const renderFocusChannel = () => {
-      const { showFocus ,focusChannelName,targetChannel} = this.state
+      const { focusChannelName, targetChannel } = this.state
       return (
         <div>
           <FlatButton label="关注渠道"/>
@@ -427,16 +420,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
               value={targetChannel}
               floatingLabelText="选择关注渠道"
               onChange={(e, idx, value) => {
-                if(idx === 7) {
-                  this.setState({
-                    showFocus: true
-                  })
-                }
-                else {
-                  this.setState({
-                    showFocus: false
-                  })
-                }
                 this.setState({ targetChannel: value })
               }
               }
@@ -449,7 +432,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
                 })
               }
             </SelectField>
-            {showFocus && <div><TextField
+            {targetChannel && targetChannel.id === 8 && <div><TextField
               value={focusChannelName} placeholder='请填入关注渠道'
               onChange={(e, v) => this.setState({ focusChannelName: v })}
             /> < br/></div>}
@@ -462,7 +445,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      * 接触时长
      */
     const renderTouchDuration = () => {
-      const { showTouch, touchDurationName,targetTouchDuration} = this.state
+      const { touchDurationName, targetTouchDuration } = this.state
       return (<div>
         <FlatButton label="接触圈外时长"/>
         <div className="selector-inline">
@@ -470,16 +453,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
             value={targetTouchDuration}
             floatingLabelText="选择接触圈外时长"
             onChange={(e, idx, value) => {
-              if(idx === 4) {
-                this.setState({
-                  showTouch: true
-                })
-              }
-              else {
-                this.setState({
-                  showTouch: false
-                })
-              }
               this.setState({ targetTouchDuration: value })
             }
             }
@@ -492,7 +465,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
               })
             }
           </SelectField>
-          {showTouch && <div><TextField
+          {targetTouchDuration && targetTouchDuration.id === 5 && <div><TextField
             value={touchDurationName} placeholder='请填入接触圈外时长'
             onChange={(e, v) => this.setState({ touchDurationName: v })}
           /> < br/></div>}
@@ -504,7 +477,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      * 申请商学院事件
      */
     const renderApplyEvent = () => {
-      const { showEvent, applyEventName,targetApplyEvent } = this.state
+      const { applyEventName, targetApplyEvent } = this.state
 
       return (
         <div>
@@ -514,16 +487,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
               value={targetApplyEvent}
               floatingLabelText="选择触发申请商学院事件"
               onChange={(e, idx, value) => {
-                if(idx === 4) {
-                  this.setState({
-                    showEvent: true
-                  })
-                }
-                else {
-                  this.setState({
-                    showEvent: false
-                  })
-                }
                 this.setState({ targetApplyEvent: value })
               }
               }
@@ -536,7 +499,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
                 })
               }
             </SelectField>
-            {showEvent && <div><TextField
+            {targetApplyEvent && targetApplyEvent.id === 5 && <div><TextField
               value={applyEventName} placeholder='请填入触发申请商学院事件'
               onChange={(e, v) => this.setState({ applyEventName: v })}
             /> < br/></div>}
@@ -551,9 +514,9 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      * @returns {any}
      */
     const renderLearningWill = () => {
-      const {targetLearningWill} = this.state
+      const { targetLearningWill } = this.state
 
-      return(
+      return (
         <div>
           <FlatButton label="学员学习意愿评估"/>
           <div className="selector-inline">
@@ -581,10 +544,10 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     /**
      * 发展潜力
      */
-    const renderPotentialScore = () =>{
-      const {targetPotentialScore} = this.state
+    const renderPotentialScore = () => {
+      const { targetPotentialScore } = this.state
 
-      return(
+      return (
         <div>
           <FlatButton label="发展潜力评估"/>
           <div className="selector-inline">
@@ -613,9 +576,9 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      * 奖学金
      */
     const renderAward = () => {
-      const {applyReason,targetAward} = this.state
+      const { applyReason, targetAward } = this.state
 
-      return(
+      return (
         <div>
           <FlatButton label="是否申请奖学金"/>
           <div className="selector-inline">
@@ -635,7 +598,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
                 })
               }
             </SelectField>
-            {(targetAward && targetAward.id == 1) && <div><TextField
+            {(targetAward && targetAward.id === 1) && <div><TextField
               value={applyReason} placeholder='请填入选择申请奖学金理由'
               onChange={(e, v) => this.setState({ applyReason: v })}
             /> < br/></div>}
