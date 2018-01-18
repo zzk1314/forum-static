@@ -119,7 +119,7 @@ export default class ProblemViewer extends React.Component<any, any> {
             </div>
             {videoUrl &&
             <div className="video-container">
-              <QYVideo src={videoUrl} videoWords={videoWords} poster={videoPoster}>您的设备不支持video标签</QYVideo>
+              <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>
             </div>}
             <div className="page-content">
               { audio ? <div className="context-audio">

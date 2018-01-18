@@ -40,7 +40,7 @@ export default class QYVideo extends React.Component<any, any> {
     const { showWords } = this.state
     return (
       <div>
-        <video  ref="video" src={videoUrl} poster={videoPoster} controls="controls" width="100%">您的设备不支持Video标签
+        <video  src={videoUrl} poster={videoPoster} controls="controls" width="100%">您的设备不支持Video标签
         </video>
         <div className={`video-words-container ${showWords ? 'show-all' : 'hide'}`}>
           <div className={`video-words`} dangerouslySetInnerHTML={{ __html: videoWords }}/>

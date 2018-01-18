@@ -221,7 +221,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const renderKnowledgeContent = () => {
       return (
         <div>
-          {videoUrl && <QYVideo src={videoUrl} videoWords={videoWords} poster={videoPoster}>您的设备不支持video标签</QYVideo>}
+          {videoUrl && <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>}
           {audio ? <div className="context-audio"><Audio url={audio} words={audioWords} /></div> : null }
           {pic ?
             <div className="context-img" style={{ textAlign: "center" }}>
