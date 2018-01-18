@@ -1,0 +1,206 @@
+@import "../../../style/variable.less";
+
+.problem-extension-container {
+  background-color:@color_weak_background;
+  margin-top:-20px;
+  margin-bottom: -30px;
+  height: auto;
+
+  .problem-extension-page {
+    padding-bottom: 40px;
+
+    .extension-head {
+      height: 300px;
+      background-image: url("https://static.iqycamp.com/images/problem/extension_backimg.png?imageslim");
+      background-size: cover;
+      margin-bottom: -40px;
+    }
+    .extension-read {
+      width: 85%;
+      margin: 0 auto;
+      background-color: #FFF;
+      border-radius: 5px;
+      padding: 3px;
+      .extension-read-content {
+        padding: 0 8px 15px;
+        font-size: 15px;
+        color: @color_title;
+        a {
+          color: @color_strong;
+          text-decoration: underline;
+        }
+      }
+    }
+    .extension-activity {
+      width: 85%;
+      margin: 20px auto 0;
+      background-color: #FFF;
+      border-radius: 5px;
+      padding: 3px;
+    }
+    .extension-share {
+      width: 85%;
+      max-width: 325px;
+      margin: 20px auto 0;
+      background-color: #FFF;
+      border-radius: 5px;
+      padding: 3px;
+      .extension-share-content {
+        text-align: center;
+        font-size: 13px;
+        height: 13px;
+        color: @color_context;
+        line-height: 13px;
+      }
+      .extension-share-view {
+        margin: 15px auto;
+        padding: 0 10px;
+        border-radius: 5px;
+        width: 64px;
+        height: 21px;
+        color: @color_strong;
+        font-size: 13px;
+        line-height: 21px;
+        text-align: center;
+        border: 1px solid @color_strong;
+      }
+    }
+
+    // 内层带有 ICON 和文字的标题
+    .extension-head-title {
+      display: block;
+      text-align: center;
+      position: relative;
+      padding: 20px 0;
+      height: 20px;
+      .extension-head-icon {
+        height: 20px;
+        position: absolute;
+        left: ~'calc(50% - 70px)';
+        display: inline-block;
+        vertical-align: sub;
+        img {
+          display: inline-block;
+        }
+      }
+      .extension-head-content {
+        font-size: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: @color_context;
+        display: inline-block;
+      }
+    }
+    // 活动分类文本 Title
+    .activity-type-title {
+      margin: 10px 0;
+      font-size: 17px;
+      height: 17px;
+      line-height: 17px;
+      color: @color_context;
+      text-align: center;
+    }
+    // 线上活动 box 样式
+    .online-content-box {
+      background-image: url("https://static.iqycamp.com/images/problem/extension_card_2.png?imageslim");
+      background-size: 100% 100%;
+      padding-bottom: 25px;
+      position: relative;
+      margin-bottom: -10px;
+      .online-content {
+        padding: 28px 15px 10px 20px;
+        text-align: center;
+        font-size: 15px;
+        line-height: 25px;
+        color: @color_title;
+      }
+      .online-password {
+        text-align: center;
+        font-size: 14px;
+        margin: 0 auto;
+        color: #F87048;
+      }
+      .online-view {
+        margin: 8px auto 0;
+        padding: 0 10px;
+        border-radius: 5px;
+        width: 64px;
+        height: 21px;
+        color: @color_strong;
+        font-size: 13px;
+        line-height: 21px;
+        text-align: center;
+        border: 1px solid @color_strong;
+        cursor: pointer;
+      }
+    }
+    // 线下活动 box 样式
+    .offline-content-box {
+      background-image: url("https://static.iqycamp.com/images/problem/extension_card_1_1.png?imageslim");
+      background-size: 100% 100%;
+      height: 135px;
+      position: relative;
+      .offline-left-area {
+        position: absolute;
+        max-height: 75px;
+        overflow: hidden;
+        width: 15px;
+        left: 40px;
+        top: 30px;
+        .offline-left-location {
+          display: inline-block;
+          font-size: 15px;
+          line-height: 25px;
+          color: @color_title;
+        }
+        .offline-left-icon {
+          display: inline-block;
+          margin-top: 3px;
+          img {
+            display: inline-block;
+          }
+        }
+      }
+      .offline-right-area {
+        padding-top: 5px;
+        position: absolute;
+        width: 55%;
+        height: 85px;
+        right: 30px;
+        top: 25px;
+        .offline-right-description {
+          text-align: center;
+          color: @color_title;
+          font-size: 17px;
+          line-height: 19px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .offline-right-workshop {
+          text-align: center;
+          font-size: 13px;
+          color: @color_help;
+        }
+        .offline-right-view {
+          padding: 0 10px;
+          border-radius: 5px;
+          width: 64px;
+          height: 21px;
+          color: @color_strong;
+          font-size: 13px;
+          line-height: 21px;
+          text-align: center;
+          border: 1px solid @color_strong;
+          position: absolute;
+          bottom: 5px;
+          left: 25%;
+          cursor: pointer;
+        }
+      }
+    }
+
+  }
+
+}
