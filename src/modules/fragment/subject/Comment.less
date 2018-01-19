@@ -1,0 +1,130 @@
+@import "../../../style/variable";
+
+.subject-comment{
+  overflow: auto;
+  height: ~"calc(100% + 1px)";
+  .article {
+    padding: 0 15px;
+    > .description {
+      font-size: @font_context;
+      padding: 10px 0;
+    }
+    > .article-header{
+      width: 100%;
+      font-size: @font_title;
+      border-bottom: 2px solid @color_strong;
+      text-align: center;
+      line-height: @font_title;
+      padding: 15px 0;
+      color: @color_title;
+    }
+    > .show-all{
+      font-size:@font_click;
+      color:@color_strong;
+      width: 50px;
+      margin-bottom: 10px;
+    }
+    > .subject-content{
+      font-size: @font_context;
+      color: @color_context;
+      padding: 15px 0;
+    }
+
+    > .vote {
+      display: inline-block;
+      height: 30px;
+      margin-top: -30px;
+      float: right;
+      > span{
+        &:before {
+          content: '';
+          display: inline-block;
+          vertical-align: bottom;
+          width: 25px;
+          height: 25px;
+          margin-right:5px;
+          margin-bottom: 2px;
+        }
+      }
+      > .disVote {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
+        }
+      }
+      > .voted {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
+        }
+      }
+    }
+  }
+  .comment-header{
+    font-size:13px;
+    line-height: 13px;
+    color:@color_help;
+    background-color: @color_weak_background;
+    margin: 0 -15px 10px -15px;
+    padding-left: 15px;
+  }
+  .comment-body{
+    padding: 0 15px 0 15px;
+    .on_message{
+      color: @color_weak;
+      font-size: @font_context;
+      text-align: center;
+      margin-top: 15px;
+      > .no_comment{
+        margin-top: 50px;
+      }
+    }
+  }
+  .write-discuss {
+    position: fixed;
+    height:55px;
+    width:55px;
+    left:15px;
+    bottom: 68px;
+  }
+
+  >.comment-area{
+    padding: 6px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid @color_weak;
+    >.comment-right-area{
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: top;
+      >.reply-tip{
+        font-size: 13px;
+        line-height: 13px;
+        margin-bottom: 15px;
+        color: @color_weak;
+      }
+      >.comment-button{
+        background-color: @color_strong;
+        border-radius: @border-radius;
+        font-size: @font_click;
+        width: 50px;
+        height: 25px;
+        line-height: 25px;
+        color: #fff;
+        text-align: center;
+      }
+    }
+    textarea{
+      width: ~"calc(100% - 72px)";
+      border-radius: @border-radius;
+      display: inline-block;
+      resize: none;
+      border: 1px solid #d0d0d0;
+      font-size: @font_context;
+      height: 80px;
+      padding: 0 2px;
+      box-shadow:0 0 0 rgba(0,0,0,0);
+      -webkit-appearance:none;
+    }
+  }
+
+}
