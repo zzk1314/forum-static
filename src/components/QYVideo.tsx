@@ -1,7 +1,6 @@
 import * as React from 'react'
 import './QYVideo.less'
 import { mark } from '../utils/request'
-import enableInlineVideo from 'iphone-inline-video'
 
 export default class QYVideo extends React.Component<any, any> {
 
