@@ -1,22 +1,18 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
-import "./BusinessSchoolApplication.less";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import './AsstBusinessSchoolApp.less'
 import {
-  loadBusinessApplicationList, rejectBusinessApplication,
-  approveBusinessApplication, ignoreBusinessApplication,
-  sendCheckedApplication, loadAssts, assignApplyInterviewer
-} from "./async"
-import * as _ from "lodash";
-import { MessageTable } from '../message/autoreply/MessageTable'
-import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
-import Confirm from '../../../components/Confirm'
+  loadBusinessApplicationList, addInterviewerRecord
+} from './async'
+import * as _ from 'lodash'
+import { MessageTable } from '../../backend/message/autoreply/MessageTable'
+import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
 
 const cellStyle = {
   paddingLeft: 0,
-  paddingRight: 0,
+  paddingRight: 0
 }
-
 
 const focusChannels = [
   { id: 1, value: '圈圈的书' },
@@ -66,13 +62,10 @@ const applyAwards = [
   { id: 2, value: '否' }
 ]
 
-
-
-
 @connect(state => state)
-export default class BusinessSchoolApplication extends React.Component<any, any> {
+export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       page: 1,
       meta: [
@@ -82,8 +75,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
-        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' })}
+        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle }
       ],
       data: [],
       profileId: '',
@@ -102,75 +95,25 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       targetAward: '',
       applyReason: '',
       openDialog: false,
-      showCouponChoose: false,
-      coupon: 0,
-      showNoticeRejectModal: false,
-      noticeNoticeSendModal: false,
-      RasiedClicked: false,
-      noticeRejectModal: {
-        title: '提示',
-        content: '是否拒绝,将进行退款操作',
-        actions: [ {
-          label: '确认',
-          onClick: () => {
-            this.setState({ showNoticeRejectModal: false });
-            this.handleClickRejectApplication();
-          }
-        },
-          {
-            label: '取消',
-            onClick: () => this.setState({ showNoticeRejectModal: false })
-          }
-        ]
-      },
-      noticeSendModal: {
-        title: '提示',
-        content: '是否发送之前审批的记录',
-        actions: [ {
-          label: '确认',
-          onClick: () => {
-            this.setState({ noticeNoticeSendModal: false });
-            this.handleClickSend();
-          }
-        },
-          {
-            label: '取消',
-            onClick: () => this.setState({ noticeNoticeSendModal: false })
-          }
-        ]
-      }
+      RasiedClicked: false
     }
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props
 
-    dispatch(startLoad());
+    dispatch(startLoad())
     loadBusinessApplicationList(1).then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ applications: res.msg.data, tablePage: res.msg.page });
+        this.setState({ applications: res.msg.data, tablePage: res.msg.page })
       } else {
-        dispatch(alertMsg(res.smg));
+        dispatch(alertMsg(res.smg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
-
-    loadAssts().then(res => {
-      if(res.code === 200) {
-        let assts = [];
-        for(let i = 0; i < res.msg.length; i++) {
-          assts.push({
-            value: res.msg[ i ],
-            key: i,
-            primaryText: `${res.msg[ i ].asstType} ${res.msg[ i ].asstName}`
-          })
-        }
-        this.setState({ assts: assts });
-      }
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
   openDialog(data) {
@@ -258,177 +201,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
   }
 
-  handleChangeCoupon(event, index, value) {
-    this.setState({ coupon: value });
-  }
-
-  handleClickRejectApplicationBtn() {
-    const { dispatch } = this.props
-    const {
-      question, targetChannel,
-      targetTouchDuration,
-      targetApplyEvent,targetLearningWill, targetPotentialScore, targetAward
-    } = this.state
-
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null
-    ) {
-      dispatch(alertMsg('请将信息填写完整'))
-      return
-    }
-
-
-    this.setState({
-      RasiedClicked: true,
-      showNoticeRejectModal: true
-    });
-  }
-
-  handleClickRejectApplication() {
-    const {editData = {}, interviewTime, applyId, profileId, question, targetChannel,
-      focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason } = this.state;
-    const { dispatch } = this.props;
-    dispatch(startLoad());
-
-    let param = {
-      applyId,
-      profileId,
-      interviewTime,
-      question,
-      focusChannel: targetChannel.value,
-      focusChannelName,
-      touchDuration: targetTouchDuration.value,
-      touchDurationName,
-      applyEvent: targetApplyEvent.value,
-      applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
-      applyReason
-    }
-
-    rejectBusinessApplication(editData.id, param).then(res => {
-      dispatch(endLoad());
-      if(res.code === 200) {
-        this.refreshPage();
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
-  }
-
-  checkCommentedApproval() {
-    const {
-      question, targetChannel,
-      targetTouchDuration,
-      targetApplyEvent,targetLearningWill, targetPotentialScore, targetAward
-    } = this.state
-    const { dispatch } = this.props
-
-
-
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null
-    ) {
-      dispatch(alertMsg('请将信息填写完整'))
-      return
-    }
-
-    this.setState({
-      RasiedClicked: true,
-      showCouponChoose: true
-    })
-  }
-
-  handleClickApprove(data, coupon) {
-    const { dispatch } = this.props;
-    const {interviewTime, applyId, profileId, question, targetChannel,
-      focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason } = this.state;
-
-    let param = {
-      applyId,
-      profileId,
-      interviewTime,
-      question,
-      focusChannel: targetChannel.value,
-      focusChannelName,
-      touchDuration: targetTouchDuration.value,
-      touchDurationName,
-      applyEvent: targetApplyEvent.value,
-      applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
-      applyReason
-    }
-
-    dispatch(startLoad());
-    approveBusinessApplication(data.id, coupon,param).then(res => {
-      dispatch(endLoad());
-      if(res.code === 200) {
-        this.refreshPage();
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    })
-  }
-
-  handleClickIgnoreApplication(data) {
-    const {interviewTime, applyId, profileId, question, targetChannel,
-      focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason } = this.state
-    const { dispatch } = this.props;
-    let param = {
-      applyId,
-      profileId,
-      interviewTime,
-      question,
-      focusChannel: targetChannel.value,
-      focusChannelName,
-      touchDuration: targetTouchDuration.value,
-      touchDurationName,
-      applyEvent: targetApplyEvent.value,
-      applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
-      applyReason
-    }
-    dispatch(startLoad());
-    ignoreBusinessApplication(data.id,param).then(res => {
-      dispatch(endLoad());
-      if(res.code === 200) {
-        this.refreshPage();
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    })
-  }
-
   refreshPage() {
     this.setState({
       openDialog: false,
       editData: undefined,
-      coupon: 0,
-      comment: undefined,
-      openInterviewerDialog: false,
-      assignInterviewer: undefined,
-      showCouponChoose: false,
       applyId: '',
       interviewTime: '',
       question: '',
@@ -450,30 +226,28 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handlePageClick(page) {
-    const { dispatch } = this.props;
-    dispatch(startLoad());
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadBusinessApplicationList(page).then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page });
+        this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
       } else {
-        dispatch(alertMsg(res.smg));
+        dispatch(alertMsg(res.smg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
+  /**
+   * 点击取消按钮
+   */
   handleClickClose() {
     this.setState({
       openDialog: false,
       editData: undefined,
-      coupon: 0,
-      comment: undefined,
-      openInterviewerDialog: false,
-      assignInterviewer: undefined,
-      showCouponChoose: false,
       applyId: '',
       interviewTime: '',
       question: '',
@@ -492,58 +266,50 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     })
   }
 
-  handleClickSend() {
-    const { dispatch } = this.props;
-    let now = new Date();
-    let year = now.getFullYear();
-    let month = (now.getMonth() + 1 < 10) ? ('0' + (now.getMonth() + 1)) : (now.getMonth() + 1);
-    let day = (now.getDate() < 10) ? ('0' + now.getDate()) : now.getDate();
+  /**
+   * 点击确定按钮
+   */
+  handleSubmit() {
+    const { dispatch } = this.props
+    const {
+      interviewTime, applyId, profileId, question, targetChannel,
+      focusChannelName, targetTouchDuration, touchDurationName,
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason
+    } = this.state
 
-    let dateStr = year + '-' + month + '-' + day;
-    dispatch(startLoad());
-    sendCheckedApplication(dateStr).then(res => {
-      dispatch(endLoad());
-      if(res.code === 200) {
-        dispatch(alertMsg("发送成功"));
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
-  }
 
-  showInterviewer(data) {
-    this.setState({ openInterviewerDialog: true, editData: data });
-  }
-
-  handleAssign(data, editData) {
-    this.setState({
-      assignInterviewer: data
-    });
-  }
-
-  handleClickAssign() {
-    const { assignInterviewer, editData } = this.state;
-    const { dispatch } = this.props;
-    if(_.isEmpty(assignInterviewer)) {
-      dispatch(alertMsg('请先选择面试官'));
-      return;
+    if(question === null || targetChannel === null ||
+      targetTouchDuration === null || targetApplyEvent === null ||
+      targetLearningWill === null || targetPotentialScore === null ||
+      targetAward === null
+    ) {
+      dispatch(alertMsg('请将信息填写完整'))
+      return
     }
-    dispatch(startLoad());
-    assignApplyInterviewer({
-      applyId: editData.id,
-      profileId: assignInterviewer.profileId
-    }).then(res => {
-      dispatch(endLoad());
+    let param = {
+      applyId,
+      profileId,
+      interviewTime,
+      question,
+      focusChannel: targetChannel.value,
+      focusChannelName,
+      touchDuration: targetTouchDuration.value,
+      touchDurationName,
+      applyEvent: targetApplyEvent.value,
+      applyEventName,
+      learningWill: targetLearningWill.id,
+      potentialScore: targetPotentialScore.id,
+      applyAward: targetAward.id,
+      applyReason
+    }
+
+    addInterviewerRecord(param).then(res => {
       if(res.code === 200) {
-        dispatch(alertMsg("分配成功"));
-        this.refreshPage();
+        this.refreshPage()
       }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      else {
+        dispatch(alertMsg('添加失败'))
+      }
     })
   }
 
@@ -552,8 +318,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return (
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
-
-          <span className={`${(value == '是' && label == '是否黑名单用户：') ? "bs-dialog-true-value" : "bs-dialog-value"}`}>
+          <span className={`${(value == '是' && label == '是否黑名单用户：') ? 'bs-dialog-true-value' : 'bs-dialog-value'}`}>
             {value}
           </span>
 
@@ -561,49 +326,24 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         </div>
       )
     }
-    const renderInterviewerDialog = () => {
-      const { openInterviewerDialog = false, assts, editData, assignInterviewer = {} } = this.state;
-      return (
-        <Dialog open={openInterviewerDialog} autoScrollBodyContent={true} modal={false}>
-          选择面试官：<br/>
-          <SelectField
-            value={assignInterviewer}
-            onChange={(event, index, value) => this.handleAssign(value, editData)}
-            maxHeight={400}
-          >
-            {assts && assts.map(item => <MenuItem {...item}/>)}
-          </SelectField>
-          <br/>
-          <RaisedButton
-            style={{ marginLeft: 30 }}
-            label="确认" secondary={true}
-            onClick={() => this.handleClickAssign()}/>
-
-          <RaisedButton
-            style={{ marginLeft: 30 }}
-            label="取消" secondary={true}
-            onClick={() => this.handleClickClose()}/>
-        </Dialog>
-      )
-    }
     const renderDialog = () => {
-      const { openDialog, editData = {}, showCouponChoose, coupon, RasiedClicked } = this.state;
+      const { openDialog, editData = {} } = this.state
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               申请者信息：
             </div>
-            {renderDialogItem("昵称：", editData.nickname)}
-            {renderDialogItem("OpenId：", editData.openid)}
-            {renderDialogItem("当前会员状态：", editData.memberType)}
-            {renderDialogItem("付费状态：", editData.finalPayStatus)}
-            {renderDialogItem("申请时会员类型：", editData.originMemberTypeName)}
-            {renderDialogItem("是否助教：", editData.isAsst)}
-            {renderDialogItem("最近审核结果：", editData.verifiedResult)}
-            {renderDialogItem("是否黑名单用户：", editData.isBlack)}
-            {renderDialogItem("最终付费状态：", editData.finalPayStatus)}
-            {renderDialogItem("面试官：", editData.interviewerName)}
+            {renderDialogItem('昵称：', editData.nickname)}
+            {renderDialogItem('OpenId：', editData.openid)}
+            {renderDialogItem('当前会员状态：', editData.memberType)}
+            {renderDialogItem('付费状态：', editData.finalPayStatus)}
+            {renderDialogItem('申请时会员类型：', editData.originMemberTypeName)}
+            {renderDialogItem('是否助教：', editData.isAsst)}
+            {renderDialogItem('最近审核结果：', editData.verifiedResult)}
+            {renderDialogItem('是否黑名单用户：', editData.isBlack)}
+            {renderDialogItem('最终付费状态：', editData.finalPayStatus)}
+            {renderDialogItem('面试官：', editData.interviewerName)}
             <div className="bs-dialog-header">
               问卷信息：
             </div>
@@ -615,60 +355,22 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             </div>
             <br/>
             {renderInterview()}
-
             {
-              RasiedClicked ? null :
-                <div ref="raisedButton">
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
-                    label="通过" secondary={true} disabled={editData.isBlack === '是'}
-                    onClick={() => {
-                      this.checkCommentedApproval()
-                    }}/>
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
-                    label="拒绝" secondary={true}
-                    onClick={() => this.handleClickRejectApplicationBtn(editData)}/>
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
-                    label="私信" secondary={true}
-                    onClick={() => this.handleClickIgnoreApplication(editData)}/>
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
-                    label="取消" secondary={true}
-                    onClick={() => this.handleClickClose()}/>
-                </div>
-            }
-
-            {
-              showCouponChoose ?
-                <div className="bs-dialog-coupon">
-                  <SelectField
-                    floatingLabelText="请选择优惠券"
-                    value={coupon}
-                    onChange={(event, index, value) => this.handleChangeCoupon(event, index, value)}
-                  >
-                    <MenuItem value={0} primaryText="无"/>
-                    <MenuItem value={200} primaryText="200"/>
-                    <MenuItem value={300} primaryText="300"/>
-                    <MenuItem value={400} primaryText="400"/>
-                    <MenuItem value={500} primaryText="500"/>
-                    <MenuItem value={600} primaryText="600"/>
-                    <MenuItem value={800} primaryText="800"/>
-                    <MenuItem value={1540} primaryText="1540"/>
-                    <MenuItem value={3080} primaryText="3080"/>
-                  </SelectField>
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
-                    label="确定" primary={true}
-                    onClick={() => this.handleClickApprove(editData, coupon)}/>
-                </div> : <div className="bs-dialog-coupon"/>
+              <div>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="确定" secondary={true}
+                  onClick={() => this.handleSubmit()}/>
+                <RaisedButton
+                  style={{ marginLeft: 30 }}
+                  label="取消" secondary={true}
+                  onClick={() => this.handleClickClose()}/>
+              </div>
             }
           </div>
         </Dialog>
       )
     }
-
 
     /**
      * 面试记录信息
@@ -907,28 +609,14 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
     return (
       <div className="bs-container">
-        <div className="bs-operator">
-          <RaisedButton
-            style={{ marginLeft: 30 }}
-            label="发送审核结果" primary={true}
-            onClick={() => this.setState({ noticeNoticeSendModal: true })}/>
-        </div>
         {renderDialog()}
-        {renderInterviewerDialog()}
         <MessageTable data={this.state.applications} meta={this.state.meta}
-                      opsButtons={[ {
+                      opsButtons={[{
                         editFunc: (item) => this.openDialog(item),
-                        opsName: "审核"
-                      }, {
-                        editFunc: (item) => this.showInterviewer(item),
-                        opsName: "分配"
-                      } ]}
+                        opsName: '评价'
+                      }]}
 
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
-        <Confirm open={this.state.showNoticeRejectModal} {...this.state.noticeRejectModal}
-                 handlerClose={() => this.setState({ showNoticeRejectModal: false })}/>
-        <Confirm open={this.state.noticeNoticeSendModal} {...this.state.noticeSendModal}
-                 handlerClose={() => this.setState({ noticeNoticeSendModal: false })}/>
       </div>
     )
   }
