@@ -285,7 +285,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     if(question === null || targetChannel === null ||
       targetTouchDuration === null || targetApplyEvent === null ||
       targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null || question === null
+      targetAward === null || remark === null
     ) {
       dispatch(alertMsg('请将信息填写完整'))
       return
