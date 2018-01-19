@@ -95,7 +95,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetAward: '',
       applyReason: '',
       openDialog: false,
-      RasiedClicked: false
+      RasiedClicked: false,
+      remark: ''
     }
   }
 
@@ -108,7 +109,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ applications: res.msg.data, tablePage: res.msg.page })
       } else {
-        dispatch(alertMsg(res.smg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -189,7 +190,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         openDialog: true,
         editData: data,
         applyId: data.applyId,
-        profileId: data.profileId
+        profileId: data.profileId,
+        remark: interviewRecord.remark
       })
     } else {
       this.setState({
@@ -219,7 +221,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetPotentialScore: '',
       potentialScore: '',
       targetAward: '',
-      applyReason: ''
+      applyReason: '',
+      remark: ''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -233,7 +236,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
       } else {
-        dispatch(alertMsg(res.smg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -262,7 +265,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       targetPotentialScore: '',
       potentialScore: '',
       targetAward: '',
-      applyReason: ''
+      applyReason: '',
+      remark: ''
     })
   }
 
@@ -274,15 +278,12 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
 
-
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null
-    ) {
+    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+      _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
       return
     }
@@ -300,7 +301,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       learningWill: targetLearningWill.id,
       potentialScore: targetPotentialScore.id,
       applyAward: targetAward.id,
-      applyReason
+      applyReason,
+      remark
     }
 
     addInterviewerRecord(param).then(res => {
@@ -378,7 +380,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      */
     const renderInterview = () => {
       const {
-        interviewTime, question
+        interviewTime, question, remark
       } = this.state
 
       return (
@@ -401,6 +403,13 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
+          <FlatButton label="备注"/><br/>
+          <textarea
+            placeholder="面试备注"
+            value={remark}
+            className="comment-text"
+            onChange={(e) => this.setState({ remark: e.target.value })}
+          /><br/>
         </div>
 
       )
