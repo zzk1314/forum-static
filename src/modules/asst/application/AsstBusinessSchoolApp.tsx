@@ -96,7 +96,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       applyReason: '',
       openDialog: false,
       RasiedClicked: false,
-      remark:''
+      remark: ''
     }
   }
 
@@ -191,7 +191,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         editData: data,
         applyId: data.applyId,
         profileId: data.profileId,
-        remark:interviewRecord.remark
+        remark: interviewRecord.remark
       })
     } else {
       this.setState({
@@ -222,7 +222,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       potentialScore: '',
       targetAward: '',
       applyReason: '',
-      remark:''
+      remark: ''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -266,7 +266,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       potentialScore: '',
       targetAward: '',
       applyReason: '',
-      remark:''
+      remark: ''
     })
   }
 
@@ -278,15 +278,12 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason,remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
 
-
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null || remark === null
-    ) {
+    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+      _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
       return
     }
@@ -383,7 +380,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
      */
     const renderInterview = () => {
       const {
-        interviewTime, question,remark
+        interviewTime, question, remark
       } = this.state
 
       return (
