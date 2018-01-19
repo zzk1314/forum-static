@@ -702,7 +702,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
           {renderAward()}
           <FlatButton label="备注信息"/><br/>
           <textarea
-            placeholder="学员提问"
+            placeholder="面试备注"
             value={remark}
             className="comment-text"
             onChange={(e) => this.setState({ remark: e.target.value })}
