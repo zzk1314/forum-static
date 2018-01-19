@@ -104,7 +104,6 @@ export default class Plan extends React.Component<any, PlanStates> {
   render() {
     const { runningPlans = [], completedPlans = [], isloading, isFollow, auditions = [] } = this.state
 
-    console.log(auditions)
     const renderAuditionPlans = () => {
       return this.generatePlansView(auditions)
     }
