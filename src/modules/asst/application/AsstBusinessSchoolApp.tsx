@@ -109,7 +109,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ applications: res.msg.data, tablePage: res.msg.page })
       } else {
-        dispatch(alertMsg(res.smg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -236,7 +236,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
       } else {
-        dispatch(alertMsg(res.smg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())

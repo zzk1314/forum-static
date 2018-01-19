@@ -458,7 +458,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       if(res.code === 200) {
         this.setState({ applications: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
       } else {
-        dispatch(alertMsg(res.smg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
