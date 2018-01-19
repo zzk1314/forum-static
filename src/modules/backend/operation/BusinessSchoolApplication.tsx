@@ -268,11 +268,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
     } = this.state
 
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null || remark === null
-    ) {
+    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+      _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
       return
     }
@@ -331,11 +329,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     } = this.state
     const { dispatch } = this.props
 
-    if(question === null || targetChannel === null ||
-      targetTouchDuration === null || targetApplyEvent === null ||
-      targetLearningWill === null || targetPotentialScore === null ||
-      targetAward === null || remark === null
-    ) {
+    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+      _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
       return
     }
