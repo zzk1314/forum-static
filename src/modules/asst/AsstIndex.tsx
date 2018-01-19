@@ -68,7 +68,7 @@ export default class Menu extends React.Component<any,any> {
           <ListItem
           style={this.state.index === 1 ? style.itemActive : style.item}
           value={1}
-          primaryText="评论"
+          primaryText="面试结果录入"
           onTouchTap={()=>this.onClick('/asst/business/comment', 1)} />
           <Subheader style={style.listTitle}>
             <div className="listTitle">后台评论</div>
