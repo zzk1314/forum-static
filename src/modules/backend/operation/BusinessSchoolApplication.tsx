@@ -79,7 +79,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
-        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) }
+        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) },
+        { tag: 'isInterviewed', alias: '是否已经面试', style: _.merge({}, cellStyle, { width: '70px' }) }
       ],
       data: [],
       profileId: '',
@@ -153,20 +154,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-    })
-
-    loadAssts().then(res => {
-      if(res.code === 200) {
-        let assts = []
-        for(let i = 0; i < res.msg.length; i++) {
-          assts.push({
-            value: res.msg[i],
-            key: i,
-            primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}`
-          })
-        }
-        this.setState({ assts: assts })
-      }
     })
   }
 
@@ -517,7 +504,20 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   showInterviewer(data) {
-    this.setState({ openInterviewerDialog: true, editData: data })
+    loadAssts().then(res => {
+      if(res.code === 200) {
+        let assts = []
+        for(let i = 0; i < res.msg.length; i++) {
+          assts.push({
+            value: res.msg[i],
+            key: i,
+            primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}  已分配${res.msg[i].assignCount}人`
+          })
+        }
+        this.setState({openInterviewerDialog: true, editData: data,assts: assts })
+      }
+    })
+    // this.setState({ openInterviewerDialog: true, editData: data })
   }
 
   handleAssign(data, editData) {
