@@ -8,6 +8,7 @@ import {
 import * as _ from 'lodash'
 import { MessageTable } from '../../backend/message/autoreply/MessageTable'
 import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
+import DatePicker from 'material-ui/DatePicker'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -275,11 +276,13 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
    */
   handleSubmit() {
     const { dispatch } = this.props
+
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
+
 
     if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
@@ -385,12 +388,14 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
       return (
         <div>
-          <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+          <div className="interview-container">
+          <FlatButton  label="面试时间(例：2000-01-01 06:00:00)"/>
+          </div>
           <TextField
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>
-          <FlatButton label="学员提出的问题"/><br/>
+
           <textarea
             placeholder="学员提问"
             value={question}
@@ -403,7 +408,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
-          <FlatButton label="备注"/><br/>
           <textarea
             placeholder="面试备注"
             value={remark}
@@ -423,7 +427,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       const { focusChannelName, targetChannel } = this.state
       return (
         <div>
-          <FlatButton label="关注渠道"/>
           <div className="selector-inline">
             <SelectField
               value={targetChannel}
@@ -456,7 +459,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     const renderTouchDuration = () => {
       const { touchDurationName, targetTouchDuration } = this.state
       return (<div>
-        <FlatButton label="接触圈外时长"/>
+        {/*<FlatButton label="接触圈外时长"/>*/}
         <div className="selector-inline">
           <SelectField
             value={targetTouchDuration}
@@ -490,7 +493,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
       return (
         <div>
-          <FlatButton label="触发申请商学院事件"/>
+          {/*<FlatButton label="触发申请商学院事件"/>*/}
           <div className="selector-inline">
             <SelectField
               value={targetApplyEvent}
@@ -527,7 +530,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
       return (
         <div>
-          <FlatButton label="学员学习意愿评估"/>
+          {/*<FlatButton label="学员学习意愿评估"/>*/}
           <div className="selector-inline">
             <SelectField
               value={targetLearningWill}
@@ -558,7 +561,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
       return (
         <div>
-          <FlatButton label="发展潜力评估"/>
+          {/*<FlatButton label="发展潜力评估"/>*/}
           <div className="selector-inline">
             <SelectField
               value={targetPotentialScore}
@@ -589,7 +592,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
 
       return (
         <div>
-          <FlatButton label="是否申请奖学金"/>
+          {/*<FlatButton label="是否申请奖学金"/>*/}
           <div className="selector-inline">
             <SelectField
               value={targetAward}
@@ -622,7 +625,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         <MessageTable data={this.state.applications} meta={this.state.meta}
                       opsButtons={[{
                         editFunc: (item) => this.openDialog(item),
-                        opsName: '评价'
+                        opsName: '录入'
                       }]}
 
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
