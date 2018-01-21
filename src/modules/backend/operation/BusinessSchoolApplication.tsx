@@ -79,7 +79,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
-        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) }
+        { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) },
+        { tag: 'isInterviewed', alias: '是否已经面试', style: _.merge({}, cellStyle, { width: '70px' }) }
       ],
       data: [],
       profileId: '',
@@ -153,20 +154,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-    })
-
-    loadAssts().then(res => {
-      if(res.code === 200) {
-        let assts = []
-        for(let i = 0; i < res.msg.length; i++) {
-          assts.push({
-            value: res.msg[i],
-            key: i,
-            primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}`
-          })
-        }
-        this.setState({ assts: assts })
-      }
     })
   }
 
@@ -283,12 +270,14 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   handleClickRejectApplication() {
     const {
-      editData = {}, interviewTime, applyId, profileId, question, targetChannel,
+      editData = {},interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
+
+
 
     let param = {
       applyId,
@@ -345,10 +334,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   handleClickApprove(data, coupon) {
     const { dispatch } = this.props
     const {
-      interviewTime, applyId, profileId, question, targetChannel,
+     interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
+
 
     let param = {
       applyId,
@@ -517,7 +507,19 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   showInterviewer(data) {
-    this.setState({ openInterviewerDialog: true, editData: data })
+    loadAssts().then(res => {
+      if(res.code === 200) {
+        let assts = []
+        for(let i = 0; i < res.msg.length; i++) {
+          assts.push({
+            value: res.msg[i],
+            key: i,
+            primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}  已分配${res.msg[i].assignCount}人`
+          })
+        }
+        this.setState({openInterviewerDialog: true, editData: data,assts: assts })
+      }
+    })
   }
 
   handleAssign(data, editData) {
@@ -682,12 +684,13 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
-          <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+          <div className="backend-interview-container">
+            <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+          </div>
           <TextField
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>
-          <FlatButton label="学员提出的问题"/><br/>
           <textarea
             placeholder="学员提问"
             value={question}
@@ -700,7 +703,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
-          <FlatButton label="备注信息"/><br/>
           <textarea
             placeholder="面试备注"
             value={remark}
@@ -720,7 +722,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       const { focusChannelName, targetChannel } = this.state
       return (
         <div>
-          <FlatButton label="关注渠道"/>
           <div className="selector-inline">
             <SelectField
               value={targetChannel}
@@ -753,7 +754,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const renderTouchDuration = () => {
       const { touchDurationName, targetTouchDuration } = this.state
       return (<div>
-        <FlatButton label="接触圈外时长"/>
         <div className="selector-inline">
           <SelectField
             value={targetTouchDuration}
@@ -787,7 +787,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
-          <FlatButton label="触发申请商学院事件"/>
           <div className="selector-inline">
             <SelectField
               value={targetApplyEvent}
@@ -824,7 +823,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
-          <FlatButton label="学员学习意愿评估"/>
           <div className="selector-inline">
             <SelectField
               value={targetLearningWill}
@@ -855,7 +853,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
-          <FlatButton label="发展潜力评估"/>
           <div className="selector-inline">
             <SelectField
               value={targetPotentialScore}
@@ -886,7 +883,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
-          <FlatButton label="是否申请奖学金"/>
           <div className="selector-inline">
             <SelectField
               value={targetAward}
@@ -928,7 +924,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                         editFunc: (item) => this.openDialog(item),
                         opsName: '审核'
                       }, {
-                        editFunc: (item) => this.showInterviewer(item),
+                        editFunc: (item) =>
+                          this.showInterviewer(item),
                         opsName: '分配'
                       }]}
 
