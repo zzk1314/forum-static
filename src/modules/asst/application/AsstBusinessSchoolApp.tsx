@@ -74,8 +74,9 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         { tag: 'workYear', alias: '首次工作时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '70px' }) },
         { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'isInterviewed', alias: '是否已经录入信息', style: _.merge({}, cellStyle, { width: '120px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle }
       ],
       data: [],
@@ -355,7 +356,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
               return renderDialogItem(item.question, item.answer, true, item.id)
             }) : null}
             <div className="bs-dialog-header">
-              评价：
+              录入面试结果：
             </div>
             <br/>
             {renderInterview()}
