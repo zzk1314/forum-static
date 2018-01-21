@@ -8,7 +8,6 @@ import {
 import * as _ from 'lodash'
 import { MessageTable } from '../../backend/message/autoreply/MessageTable'
 import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
-import DatePicker from 'material-ui/DatePicker'
 
 const cellStyle = {
   paddingLeft: 0,
