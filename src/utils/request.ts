@@ -1,6 +1,9 @@
 import qs from "qs"
 import { get, post } from "axios";
 import * as $ from "jquery";
+import * as axios from 'axios'
+
+axios.defaults.headers.platform = "pc"
 
 export class BreakSignal {
   constructor(msg, title = "提示") {
