@@ -32,7 +32,7 @@ const focusChannels = [
 const touchDurations = [
   { id: 1, value: '不到一周' },
   { id: 2, value: '不到一个月（超过一周）' },
-  { id: 3, value: '2-6个月' },
+  { id: 3, value: '1-6个月' },
   { id: 4, value: '6个月以上' },
   { id: 5, value: '其他，请详述' },
   { id: 6, value: '不记得了' }
