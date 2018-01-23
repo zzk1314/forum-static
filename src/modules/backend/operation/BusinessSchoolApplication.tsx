@@ -250,12 +250,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   handleClickRejectApplicationBtn() {
     const { dispatch } = this.props
     const {
-      question, targetChannel,
+      interviewTime,question, targetChannel,
       targetTouchDuration,
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
     } = this.state
 
-    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if(_.isEmpty(interviewTime) ||_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
@@ -312,13 +312,13 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   checkCommentedApproval() {
     const {
-      question, targetChannel,
+      interviewTime,question, targetChannel,
       targetTouchDuration,
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
     } = this.state
     const { dispatch } = this.props
 
-    if(_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if(_.isEmpty(interviewTime) || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))

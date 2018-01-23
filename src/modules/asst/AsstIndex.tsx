@@ -52,8 +52,8 @@ export default class Menu extends React.Component<any,any> {
   }
 
   onClick(pathname, index){
-      this.setState({index});
-      this.context.router.push({pathname});
+    this.setState({index});
+    this.context.router.push({pathname});
   }
 
   render() {
@@ -66,25 +66,25 @@ export default class Menu extends React.Component<any,any> {
           </Subheader>
           <Divider style={style.divider}/>
           <ListItem
-          style={this.state.index === 1 ? style.itemActive : style.item}
-          value={1}
-          primaryText="面试结果录入"
-          onTouchTap={()=>this.onClick('/asst/business/comment', 1)} />
+            style={this.state.index === 1 ? style.itemActive : style.item}
+            value={1}
+            primaryText="面试结果录入"
+            onTouchTap={()=>this.onClick('/asst/business/comment', 1)} />
           <Subheader style={style.listTitle}>
             <div className="listTitle">后台评论</div>
           </Subheader>
           <Divider style={style.divider}/>
           <ListItem
-              style={this.state.index === 1 ? style.itemActive : style.item}
-              value={1}
-              primaryText="评论应用题"
-              onTouchTap={()=>this.onClick('/asst/application/comment', 1)}
+            style={this.state.index === 2 ? style.itemActive : style.item}
+            value={2}
+            primaryText="评论应用题"
+            onTouchTap={()=>this.onClick('/asst/application/comment', 2)}
           />
           <ListItem
-              style={this.state.index === 3 ? style.itemActive : style.item}
-              value={3}
-              primaryText="评论选择题"
-              onTouchTap={()=>this.onClick('/asst/warmup/comment', 3)}
+            style={this.state.index === 3 ? style.itemActive : style.item}
+            value={3}
+            primaryText="评论选择题"
+            onTouchTap={()=>this.onClick('/asst/warmup/comment', 3)}
           />
         </List>
       )
