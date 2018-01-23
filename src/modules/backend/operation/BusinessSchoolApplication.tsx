@@ -691,6 +691,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>
+          <div className="backend-interview-container">
+            <FlatButton label="学员提问"/>
+          </div>
           <textarea
             placeholder="学员提问"
             value={question}
@@ -703,6 +706,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
+          <div className="backend-interview-container">
+            <FlatButton label="面试备注"/>
+          </div>
           <textarea
             placeholder="面试备注"
             value={remark}
@@ -713,6 +719,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       )
     }
+
 
     /**
      * 关注渠道
@@ -739,10 +746,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                 })
               }
             </SelectField>
-            {targetChannel && targetChannel.id === 8 && <div><TextField
-              value={focusChannelName} placeholder='请填入关注渠道'
-              onChange={(e, v) => this.setState({ focusChannelName: v })}
-            /> < br/></div>}
+            {targetChannel && targetChannel.id === 8 && <div>
+              <div className="interview-container">
+                <FlatButton label="关注渠道"/>
+              </div>
+              <textarea
+                placeholder="请输入关注渠道"
+                value={focusChannelName}
+                className="comment-text"
+                onChange={(e) => this.setState({ focusChannelName: e.target.value })}
+              /><br/>
+            </div>}
           </div>
         </div>
       )
@@ -771,10 +785,19 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
               })
             }
           </SelectField>
-          {targetTouchDuration && targetTouchDuration.id === 5 && <div><TextField
-            value={touchDurationName} placeholder='请填入接触圈外时长'
-            onChange={(e, v) => this.setState({ touchDurationName: v })}
-          /> < br/></div>}
+          {targetTouchDuration && targetTouchDuration.id === 5 &&
+          <div>
+            <div className="interview-container">
+              <FlatButton label="接触圈外时长"/>
+            </div>
+            <textarea
+              placeholder="请输入接触圈外时长"
+              value={touchDurationName}
+              className="comment-text"
+              onChange={(e) => this.setState({ touchDurationName: e.target.value })}
+            /><br/>
+          </div>
+          }
         </div>
       </div>)
     }
@@ -804,10 +827,19 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                 })
               }
             </SelectField>
-            {targetApplyEvent && targetApplyEvent.id === 5 && <div><TextField
-              value={applyEventName} placeholder='请填入触发申请商学院事件'
-              onChange={(e, v) => this.setState({ applyEventName: v })}
-            /> < br/></div>}
+            {targetApplyEvent && targetApplyEvent.id === 5 &&
+            <div>
+              <div className="interview-container">
+                <FlatButton label="触发申请商学院事件"/>
+              </div>
+              <textarea
+                placeholder="请填入触发申请商学院事件"
+                value={applyEventName}
+                className="comment-text"
+                onChange={(e) => this.setState({ applyEventName: e.target.value })}
+              /><br/>
+            </div>
+            }
           </div>
         </div>
       )
@@ -883,6 +915,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
+          {/*<FlatButton label="是否申请奖学金"/>*/}
           <div className="selector-inline">
             <SelectField
               value={targetAward}
@@ -900,10 +933,20 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                 })
               }
             </SelectField>
-            {(targetAward && targetAward.id === 1) && <div><TextField
-              value={applyReason} placeholder='请填入选择申请奖学金理由'
-              onChange={(e, v) => this.setState({ applyReason: v })}
-            /> < br/></div>}
+            {(targetAward && targetAward.id === 1) &&
+
+            <div>
+              <div className="interview-container">
+                <FlatButton label="申请奖学金理由"/>
+              </div>
+              <textarea
+                placeholder="请填入选择申请奖学金理由"
+                value={applyReason}
+                className="comment-text"
+                onChange={(e) => this.setState({ applyReason: e.target.value })}
+              /><br/>
+            </div>
+            }
           </div>
         </div>
       )
