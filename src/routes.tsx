@@ -68,6 +68,9 @@ import UploadMaterial from './modules/backend/wx/UploadMaterial'
 import AsstBusinessComment from './modules/asst/business/AsstBusinessComment'
 import AsstBusinessSchoolApp from './modules/asst/application/AsstBusinessSchoolApp'
 import ProblemExtension from './modules/fragment/problem/ProblemExtension'
+import UpGradeInfo from './modules/asst/info/UpGradeInfo'
+import AsstManagement from './modules/backend/asst/AsstManagement'
+import AsstStandard from './modules/backend/asst/AsstStandard'
 
 const routes = (
   <Route path="/">
@@ -96,6 +99,9 @@ const routes = (
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
+        <Route path = "/backend/assist/management" component={AsstManagement}>
+            <Route path="/backend/assist/standard" component={AsstStandard}/>
+        </Route>
         <Route path="/backend/assist" component={AsstImport}/>
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
@@ -115,6 +121,7 @@ const routes = (
         </Route>
         <Route path="/asst/warmup/comment" component={HotWarmupPractice}/>
         <Route path="/asst/warmup/view" component={WarmupPracticeView}/>
+        <Route path="/asst/upgrade/info" component={UpGradeInfo}/>
       </Route>
     </Route>
     {/*Rise PC 改版*/}
