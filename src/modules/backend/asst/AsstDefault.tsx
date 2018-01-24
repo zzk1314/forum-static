@@ -15,7 +15,7 @@ const cellStyle = {
 }
 
 @connect(state => state)
-export default class AsstStandard extends React.Component<any, any> {
+export default class AsstDefault extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
@@ -25,6 +25,7 @@ export default class AsstStandard extends React.Component<any, any> {
         { tag: 'roleName', alias: '助教级别', style: _.merge({}, cellStyle, { width: '200px' }) }
       ],
       id: '',
+      profileId:'',
       editData: undefined,
       countDown: '',
       learnedProblem: '',
@@ -74,6 +75,7 @@ export default class AsstStandard extends React.Component<any, any> {
   openDialog(data) {
     const {
       id,
+      profileId,
       countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
@@ -84,6 +86,7 @@ export default class AsstStandard extends React.Component<any, any> {
     this.setState({
       openDialog: true,
       id,
+      profileId,
       editData: data,
       countDown,
       learnedProblem,
@@ -112,7 +115,7 @@ export default class AsstStandard extends React.Component<any, any> {
   handleClickApprove() {
     const { dispatch } = this.props
     const {
-        id,countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+        id, profileId, countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
@@ -122,6 +125,7 @@ export default class AsstStandard extends React.Component<any, any> {
 
     let param = {
       id,
+      profileId,
       countDown,
       learnedProblem,
       reviewNumber,
@@ -163,6 +167,7 @@ export default class AsstStandard extends React.Component<any, any> {
       openDialog: false,
       editData: undefined,
       id: '',
+      profileId:'',
       countDown: '',
       learnedProblem: '',
       reviewNumber: '',
@@ -210,6 +215,7 @@ export default class AsstStandard extends React.Component<any, any> {
       openDialog: false,
       editData: undefined,
       id: '',
+      profileId:'',
       countDown: '',
       learnedProblem: '',
       reviewNumber: '',
@@ -392,12 +398,12 @@ export default class AsstStandard extends React.Component<any, any> {
     }
 
     return (
-      <div className="asst-standard-bs-container">
+      <div className="asst-default-bs-container">
         {renderDialog()}
         <MessageTable data={this.state.standards} meta={this.state.meta}
                       opsButtons={[{
                         editFunc: (item) => {this.openDialog(item)},
-                        opsName: '修改测评标准'
+                        opsName: '修改默认标准'
                       }]}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
       </div>

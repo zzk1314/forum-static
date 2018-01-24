@@ -71,6 +71,8 @@ import ProblemExtension from './modules/fragment/problem/ProblemExtension'
 import UpGradeInfo from './modules/asst/info/UpGradeInfo'
 import AsstManagement from './modules/backend/asst/AsstManagement'
 import AsstStandard from './modules/backend/asst/AsstStandard'
+import AsstDefault from './modules/backend/asst/AsstDefault'
+import AsstExecution from './modules/backend/asst/AsstExecution'
 
 const routes = (
   <Route path="/">
@@ -100,7 +102,9 @@ const routes = (
         <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
         <Route path = "/backend/assist/management" component={AsstManagement}>
+            {/*<Route path="/backend/assist/default" component={AsstDefault}/>*/}
             <Route path="/backend/assist/standard" component={AsstStandard}/>
+            <Route path="/backend/assist/execution" component={AsstExecution}/>
         </Route>
         <Route path="/backend/assist" component={AsstImport}/>
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>

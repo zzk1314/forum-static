@@ -56,16 +56,21 @@ export default class AsstManagement extends React.Component<any, any> {
       return (
         <List>
               <div className="catalog-area">
+                {/*<div className="catalog-name" onClick={()=>{*/}
+                  {/*this.context.router.push({pathname:'/backend/assist/default'})*/}
+                {/*}}>*/}
+                  {/*助教默认标准*/}
+                {/*</div>*/}
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/assist/standard' })
                 }}>助教测评标准
                 </div>
                 <div className="catalog-name" onClick={() => {
-                  this.context.router.push({ pathname: '/backend/problem/import' })
+                  this.context.router.push({ pathname: '/backend/assist/execution' })
                 }}>助教完成情况
                 </div>
                 <div className="catalog-name" onClick={() => {
-                  this.context.router.push({ pathname: '/backend/problem/import' })
+                  this.context.router.push({ pathname: '/backend/assist/upgrade' })
                 }}>助教升降级
                 </div>
               </div>

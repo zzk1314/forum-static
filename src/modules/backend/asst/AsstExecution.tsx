@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import './AsstStandard.less'
+import './AsstExecution.less'
 import * as _ from 'lodash'
 import { MessageTable } from '../message/autoreply/MessageTable'
-import { loadAssistsStandard, updateAssistStandard } from './async'
-import { Dialog } from 'material-ui'
+import { loadAssistsExecution, updateAssistsExecution } from './async'
+import { Dialog, Divider } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
@@ -15,7 +15,7 @@ const cellStyle = {
 }
 
 @connect(state => state)
-export default class AsstStandard extends React.Component<any, any> {
+export default class AsstExecution extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,10 +26,12 @@ export default class AsstStandard extends React.Component<any, any> {
       ],
       id: '',
       editData: undefined,
+      startDate: '',
       countDown: '',
       learnedProblem: '',
       reviewNumber: '',
       requestReviewNumber: '',
+      validReviewNumber: '',
       validReviewRate: '',
       highQualityAnswer: '',
       hostNumber: '',
@@ -55,11 +57,11 @@ export default class AsstStandard extends React.Component<any, any> {
     const { dispatch } = this.props
 
     dispatch(startLoad())
-    loadAssistsStandard(1).then(res => {
+    loadAssistsExecution(1).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
-          standards: res.msg.data, tablePage: res.msg.page
+          executions: res.msg.data, tablePage: res.msg.page
         })
       }
       else {
@@ -73,8 +75,8 @@ export default class AsstStandard extends React.Component<any, any> {
 
   openDialog(data) {
     const {
-      id,
-      countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      id, startDate,
+      countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
@@ -84,11 +86,13 @@ export default class AsstStandard extends React.Component<any, any> {
     this.setState({
       openDialog: true,
       id,
+      startDate,
       editData: data,
       countDown,
       learnedProblem,
       reviewNumber,
       requestReviewNumber,
+      validReviewNumber,
       validReviewRate,
       highQualityAnswer,
       hostNumber,
@@ -109,10 +113,52 @@ export default class AsstStandard extends React.Component<any, any> {
     })
   }
 
+  openUpdateDialog(data) {
+    const {
+      id,
+      hostScore, mainPointScore,
+      onlineAnswer, swing, onlineScore,
+      campScore,
+      monthlyWork, companyTrainScore
+    } = data
+
+    this.setState({
+      openUpdateDialog: true,
+      id,
+      editData: data,
+      reviewNumber: 0,
+      requestReviewNumber: 0,
+      validReviewNumber: 0,
+      highQualityAnswer: 0,
+      hostNumber: 0,
+      hostScore,
+      mainPointNumber: 0,
+      mainPointScore,
+      onlineAnswer,
+      swing,
+      onlineOrSwingNumber: 0,
+      onlineScore,
+      campNumber: 0,
+      asstNumber: 0,
+      campScore,
+      monthlyWork,
+      fosterNew: 0,
+      companyTrainNumber: 0,
+      companyTrainScore
+    })
+  }
+
   handleClickApprove() {
+    this.setState({
+      openDialog: false
+    })
+
+  }
+
+  handleClickUpdateApproval() {
     const { dispatch } = this.props
     const {
-        id,countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      id, reviewNumber, requestReviewNumber, validReviewNumber, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
@@ -122,11 +168,9 @@ export default class AsstStandard extends React.Component<any, any> {
 
     let param = {
       id,
-      countDown,
-      learnedProblem,
       reviewNumber,
       requestReviewNumber,
-      validReviewRate,
+      validReviewNumber,
       highQualityAnswer,
       hostNumber,
       hostScore,
@@ -145,7 +189,7 @@ export default class AsstStandard extends React.Component<any, any> {
       companyTrainScore
     }
     dispatch(startLoad())
-    updateAssistStandard(param).then(res => {
+    updateAssistsExecution(param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.refreshPage()
@@ -161,8 +205,10 @@ export default class AsstStandard extends React.Component<any, any> {
   refreshPage() {
     this.setState({
       openDialog: false,
+      openUpdateDialog: false,
       editData: undefined,
       id: '',
+      startDate: '',
       countDown: '',
       learnedProblem: '',
       reviewNumber: '',
@@ -192,10 +238,10 @@ export default class AsstStandard extends React.Component<any, any> {
   handlePageClick(page) {
     const { dispatch } = this.props
     dispatch(startLoad())
-    loadAssistsStandard(page).then(res => {
+    loadAssistsExecution(page).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ standards: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
+        this.setState({ executions: res.msg.data, RasiedClicked: false, tablePage: res.msg.page, page: page })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -207,9 +253,10 @@ export default class AsstStandard extends React.Component<any, any> {
 
   handleClickClose() {
     this.setState({
-      openDialog: false,
+      openUpdateDialog: false,
       editData: undefined,
       id: '',
+      startDate: '',
       countDown: '',
       learnedProblem: '',
       reviewNumber: '',
@@ -236,7 +283,7 @@ export default class AsstStandard extends React.Component<any, any> {
 
   render() {
     const {
-      countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
@@ -246,23 +293,15 @@ export default class AsstStandard extends React.Component<any, any> {
       return (
         <div>
           <div>
-            升降级倒计时天数：<TextField value={countDown} onChange={(e, v) => {this.setState({ countDown: v })}}/>
+            新增点评数: <TextField value={reviewNumber} onChange={(e, v) => {this.setState({ reviewNumber: v })}}/>
           </div>
           <div>
-            小课学习（累积）: <TextField value={learnedProblem} onChange={(e, v) => {this.setState({ learnedProblem: v })}}/>
+            新增求点评的回答数: <TextField value={requestReviewNumber}
+                                  onChange={(e, v) => {this.setState({ requestReviewNumber: v })}}/>
           </div>
           <div>
-            点评数: <TextField value={reviewNumber} onChange={(e, v) => {this.setState({ reviewNumber: v })}}/>
-          </div>
-          <div>
-            求点评的回答数: <TextField value={requestReviewNumber}
-                                onChange={(e, v) => {this.setState({ requestReviewNumber: v })}}/>
-          </div>
-          <div>
-            有效点评率: <TextField value={validReviewRate} onChange={(e, v) => {this.setState({ validReviewRate: v })}}/>%
-          </div>
-          <div>
-            优质回答数: <TextField value={highQualityAnswer} onChange={(e, v) => {this.setState({ highQualityAnswer: v })}}/>
+            新增优质回答数: <TextField value={highQualityAnswer}
+                                onChange={(e, v) => {this.setState({ highQualityAnswer: v })}}/>
           </div>
         </div>
 
@@ -273,18 +312,17 @@ export default class AsstStandard extends React.Component<any, any> {
       return (
         <div>
           <div>
-            主持人次数: <TextField value={hostNumber} onChange={(e, v) => {this.setState({ hostNumber: v })}}/>
+            新增主持人次数: <TextField value={hostNumber} onChange={(e, v) => {this.setState({ hostNumber: v })}}/>
           </div>
           <div>
-            主持人评分: <TextField value={hostScore} onChange={(e, v) => {this.setState({ hostScore: v })}}/>
+            修改主持人评分: <TextField value={hostScore} onChange={(e, v) => {this.setState({ hostScore: v })}}/>
           </div>
           <div>
-            串讲人次数: <TextField value={mainPointNumber} onChange={(e, v) => {this.setState({ mainPointNumber: v })}}/>
+            新增串讲人次数: <TextField value={mainPointNumber} onChange={(e, v) => {this.setState({ mainPointNumber: v })}}/>
           </div>
           <div>
-            串讲人评分: <TextField value={mainPointScore} onChange={(e, v) => {this.setState({ mainPointScore: v })}}/>
+            修改串讲人评分: <TextField value={mainPointScore} onChange={(e, v) => {this.setState({ mainPointScore: v })}}/>
           </div>
-
         </div>
       )
     }
@@ -293,17 +331,17 @@ export default class AsstStandard extends React.Component<any, any> {
       return (
         <div>
           <div>
-            线上答题演习: <TextField value={onlineAnswer} onChange={(e, v) => {this.setState({ onlineAnswer: v })}}/>
+            修改线上答题演习: <TextField value={onlineAnswer} onChange={(e, v) => {this.setState({ onlineAnswer: v })}}/>
           </div>
           <div>
-            吊打演习: <TextField value={swing} onChange={(e, v) => {this.setState({ swing: v })}}/>
+            修改吊打演习: <TextField value={swing} onChange={(e, v) => {this.setState({ swing: v })}}/>
           </div>
           <div>
-            线上答疑或吊打: <TextField value={onlineOrSwingNumber}
-                                onChange={(e, v) => {this.setState({ onlineOrSwingNumber: v })}}/>
+            新增线上答疑或吊打: <TextField value={onlineOrSwingNumber}
+                                  onChange={(e, v) => {this.setState({ onlineOrSwingNumber: v })}}/>
           </div>
           <div>
-            线上活动反馈分数: <TextField value={onlineScore} onChange={(e, v) => {this.setState({ onlineScore: v })}}/>
+            修改线上活动反馈分数: <TextField value={onlineScore} onChange={(e, v) => {this.setState({ onlineScore: v })}}/>
           </div>
         </div>
       )
@@ -313,13 +351,13 @@ export default class AsstStandard extends React.Component<any, any> {
       return (
         <div>
           <div>
-            训练营次数: <TextField value={campNumber} onChange={(e, v) => {this.setState({ campNumber: v })}}/>
+            新增训练营次数: <TextField value={campNumber} onChange={(e, v) => {this.setState({ campNumber: v })}}/>
           </div>
           <div>
-            大教练次数: <TextField value={asstNumber} onChange={(e, v) => {this.setState({ asstNumber: v })}}/>
+            新增大教练次数: <TextField value={asstNumber} onChange={(e, v) => {this.setState({ asstNumber: v })}}/>
           </div>
           <div>
-            反馈评分: <TextField value={campScore} onChange={(e, v) => {this.setState({ campScore: v })}}/>
+            修改反馈评分: <TextField value={campScore} onChange={(e, v) => {this.setState({ campScore: v })}}/>
           </div>
         </div>
       )
@@ -329,26 +367,99 @@ export default class AsstStandard extends React.Component<any, any> {
       return (
         <div>
           <div>
-            每月作业: <TextField value={monthlyWork} onChange={(e, v) => {this.setState({ monthlyWork: v })}}/>
+            修改每月作业: <TextField value={monthlyWork} onChange={(e, v) => {this.setState({ monthlyWork: v })}}/>
           </div>
           <div>
-            培养新人: <TextField value={fosterNew} onChange={(e, v) => {this.setState({ fosterNew: v })}}/>
+            新增培养新人: <TextField value={fosterNew} onChange={(e, v) => {this.setState({ fosterNew: v })}}/>
           </div>
           <div>
-            企业培训次数: <TextField value={companyTrainNumber}
-                               onChange={(e, v) => {this.setState({ companyTrainNumber: v })}}/>
+            新增企业培训次数: <TextField value={companyTrainNumber}
+                                 onChange={(e, v) => {this.setState({ companyTrainNumber: v })}}/>
           </div>
           <div>
-            企业培训评分：<TextField value={companyTrainScore} onChange={(e, v) => {this.setState({ companyTrainScore: v })}}/>
+            修改企业培训评分：<TextField value={companyTrainScore}
+                                onChange={(e, v) => {this.setState({ companyTrainScore: v })}}/>
           </div>
+        </div>
+      )
+    }
+    const renderDialogItem = (label, value, br, key) => {
+      return (
+        <div className="bs-dialog-row" key={key}>
+          <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
+          <span className='bs-dialog-value'>
+            {value}
+          </span>
+
+          <Divider/>
         </div>
       )
     }
 
     const renderDialog = () => {
-      const { openDialog, editData = {}, RasiedClicked } = this.state
+      const { openDialog, editData = {} } = this.state
       return (
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
+          <div className="bs-dialog">
+            <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
+              测评时间：
+            </div>
+            {renderDialogItem('开始日期：', editData.startDate)}
+            {renderDialogItem('倒计时：', editData.countDown + '天')}
+
+            <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
+              小课完成情况：
+            </div>
+            {renderDialogItem('小课学习（累积）：', editData.learnedProblem)}
+            {renderDialogItem('点评数：', editData.reviewNumber)}
+            {renderDialogItem('求点评的点评数：', editData.requestReviewNumber)}
+            {renderDialogItem('有效的点评数：', editData.validReviewNumber)}
+            {renderDialogItem('有效点评率:', editData.validReviewRate + '%')}
+            {renderDialogItem('优质回答：', editData.highQualityAnswer)}
+            <div className="bs-dialog-header">
+              线下工作坊完成情况：
+            </div>
+            {renderDialogItem('主持人次数：', editData.hostNumber)}
+            {renderDialogItem('主持人分数：', editData.hostScore)}
+            {renderDialogItem('串讲人次数：', editData.mainPointNumber)}
+            {renderDialogItem('串讲人分数：', editData.mainPointScore)}
+            <div className="bs-dialog-header">
+              线上活动完成情况：
+            </div>
+            {renderDialogItem('线上答题演习：', editData.onlineAnswer)}
+            {renderDialogItem('吊打演习：', editData.swing)}
+            {renderDialogItem('线上答疑或吊打次数：', editData.onlineOrSwingNumber)}
+            {renderDialogItem('线上活动反馈分数：', editData.onlineScore)}
+            <div className="bs-dialog-header">
+              训练营完成情况：
+            </div>
+            {renderDialogItem('训练营次数：', editData.campNumber)}
+            {renderDialogItem('大教练次数：', editData.asstNumber)}
+            {renderDialogItem('反馈评分：', editData.campScore)}
+            <div className="bs-dialog-header">
+              企业培训完成情况：
+            </div>
+            {renderDialogItem('每月作业：', editData.monthlyWork)}
+            {renderDialogItem('培养新人次数：', editData.fosterNew)}
+            {renderDialogItem('企业培训次数：', editData.companyTrainNumber)}
+            {renderDialogItem('企业培训评分：', editData.companyTrainScore)}
+            <br/>
+          </div>
+          {
+            <div>
+              <RaisedButton
+                style={{ marginLeft: 30 }}
+                label="确定" secondary={true}
+                onClick={() => this.handleClickApprove()}/>
+            </div>
+          }
+        </Dialog>
+      )
+    }
+    const renderUpdateDialog = () => {
+      const { openUpdateDialog, RasiedClicked } = this.state
+      return (
+        <Dialog open={openUpdateDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               小课内容：
@@ -378,7 +489,7 @@ export default class AsstStandard extends React.Component<any, any> {
                     style={{ marginLeft: 30 }}
                     label="确定" secondary={true}
                     onClick={() => {
-                      this.handleClickApprove()
+                      this.handleClickUpdateApproval()
                     }}/>
                   <RaisedButton
                     style={{ marginLeft: 30 }}
@@ -392,12 +503,17 @@ export default class AsstStandard extends React.Component<any, any> {
     }
 
     return (
-      <div className="asst-standard-bs-container">
+      <div className="asst-execution-bs-container">
         {renderDialog()}
-        <MessageTable data={this.state.standards} meta={this.state.meta}
+        {renderUpdateDialog()}
+        <MessageTable data={this.state.executions} meta={this.state.meta}
                       opsButtons={[{
                         editFunc: (item) => {this.openDialog(item)},
-                        opsName: '修改测评标准'
+                        opsName: '查看详情'
+                      }, {
+                        editFunc: (item) =>
+                          this.openUpdateDialog(item),
+                        opsName: '录入数据'
                       }]}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
       </div>
