@@ -60,7 +60,7 @@ export default class Help extends React.Component<HelpProps, HelpStates> {
                   {'https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/'}</a>
                 </p>
                 <br/>
-                <p className="q">还想了解更多【训练营】的使用问题？戳链接直达：</p>
+                <p className="q">还想了解更多【专项课】的使用问题？戳链接直达：</p>
                 <p><a style={{ color: '#666' }} href="https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/">
                   {'https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/'}</a>
                 </p>
