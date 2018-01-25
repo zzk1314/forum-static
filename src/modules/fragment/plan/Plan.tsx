@@ -73,7 +73,7 @@ export default class Plan extends React.Component<any, PlanStates> {
         query: { planId: plan.planId }
       })
     } else {
-      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+      dispatch(alertMsg(`专项课将于${startDate}统一开营\n在当天开始学习哦！`))
     }
   }
 
