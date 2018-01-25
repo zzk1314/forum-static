@@ -82,7 +82,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
     }
     else {
       //更新教练状态
-      updateAssistCatalog(assist, assistCatalog).then(res => {
+      updateAssistCatalog(riseId,assist, assistCatalog).then(res => {
         if(res.code === 200) {
           if(res.msg === 1) {
             this.setState({

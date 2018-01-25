@@ -65,14 +65,13 @@ import ApplicationImport from './modules/backend/import/application/ApplicationI
 import CampIdentityModify from './modules/camp/CampIdentityModify'
 import AsstImport from './modules/backend/import/assist/AsstImport'
 import UploadMaterial from './modules/backend/wx/UploadMaterial'
-import AsstBusinessComment from './modules/asst/business/AsstBusinessComment'
 import AsstBusinessSchoolApp from './modules/asst/application/AsstBusinessSchoolApp'
 import ProblemExtension from './modules/fragment/problem/ProblemExtension'
 import UpGradeInfo from './modules/asst/info/UpGradeInfo'
 import AsstManagement from './modules/backend/asst/AsstManagement'
 import AsstStandard from './modules/backend/asst/AsstStandard'
-import AsstDefault from './modules/backend/asst/AsstDefault'
 import AsstExecution from './modules/backend/asst/AsstExecution'
+import AsstUpgrade from './modules/backend/asst/AsstUpgrade'
 
 const routes = (
   <Route path="/">
@@ -105,6 +104,7 @@ const routes = (
             {/*<Route path="/backend/assist/default" component={AsstDefault}/>*/}
             <Route path="/backend/assist/standard" component={AsstStandard}/>
             <Route path="/backend/assist/execution" component={AsstExecution}/>
+            <Route path="/backend/assist/upgrade" component={AsstImport}/>
         </Route>
         <Route path="/backend/assist" component={AsstImport}/>
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
