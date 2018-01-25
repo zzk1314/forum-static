@@ -51,29 +51,30 @@ export default class AsstManagement extends React.Component<any, any> {
 
   }
 
+  onClick(pathname, index){
+    this.setState({index});
+    this.context.router.push({pathname});
+  }
+
   render() {
     const renderMenu = () => {
       return (
         <List>
-              <div className="catalog-area">
-                {/*<div className="catalog-name" onClick={()=>{*/}
-                  {/*this.context.router.push({pathname:'/backend/assist/default'})*/}
-                {/*}}>*/}
-                  {/*助教默认标准*/}
-                {/*</div>*/}
-                <div className="catalog-name" onClick={() => {
-                  this.context.router.push({ pathname: '/backend/assist/standard' })
-                }}>助教测评标准
-                </div>
-                <div className="catalog-name" onClick={() => {
-                  this.context.router.push({ pathname: '/backend/assist/execution' })
-                }}>助教完成情况
-                </div>
-                <div className="catalog-name" onClick={() => {
-                  this.context.router.push({ pathname: '/backend/assist/upgrade' })
-                }}>助教升降级
-                </div>
-              </div>
+          <ListItem
+            style={this.state.index === 1 ? style.itemActive : style.item}
+            value={1}
+            primaryText="助教测评标准"
+            onTouchTap={()=>this.onClick('/backend/assist/standard', 1)} />
+          <ListItem
+            style={this.state.index === 2 ? style.itemActive : style.item}
+            value={2}
+            primaryText="助教完成情况"
+            onTouchTap={()=>this.onClick('/backend/assist/execution', 2)} />
+          <ListItem
+            style={this.state.index === 3 ? style.itemActive : style.item}
+            value={3}
+            primaryText="助教升降级"
+            onTouchTap={()=>this.onClick('/backend/assist/upgrade', 3)} />
         </List>
       )
     }
