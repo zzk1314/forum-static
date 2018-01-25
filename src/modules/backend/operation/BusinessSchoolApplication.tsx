@@ -262,6 +262,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return
     }
 
+    if(interviewTime.length>20){
+      dispatch(alertMsg('面试时间过长'))
+      return
+    }
+
     this.setState({
       RasiedClicked: true,
       showNoticeRejectModal: true

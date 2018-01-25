@@ -84,12 +84,10 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
       //更新教练状态
       updateAssistCatalog(riseId,assist, assistCatalog).then(res => {
         if(res.code === 200) {
-          if(res.msg === 1) {
             this.setState({
               openProfileModal: false
             })
             editFunc()
-          }
         }
       })
     }

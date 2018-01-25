@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { startLoad, endLoad } from '../../../redux/actions'
+import { startLoad, endLoad,alertMsg } from '../../../redux/actions'
 import { connect } from 'react-redux'
 import { loadGradeInfo } from './async'
 import './UpGradeInfo.less'
@@ -24,6 +24,8 @@ export default class UpGradeInfo extends React.Component<any, any> {
         this.setState({
           data: res.msg
         })
+      }else{
+        dispatch(alertMsg(res.msg))
       }
     })
 
@@ -46,12 +48,17 @@ export default class UpGradeInfo extends React.Component<any, any> {
           {data.needReviewRate !== 0 && <div>{`您需要完成的点评率为${data.needReviewRate}%,目前的点评率为${data.reviewRate}%`}</div>}
           {data.needHighAnswer !== 0 &&
           <div>{`您已经完成的优质回答数为${data.highAnswer}，还需完成的优质回答数为${data.remainHighAnswer}`}</div>}
-          {data.needHostNumber !== 0 && <div>{`您完成的主持人次数为：${data.hostNumber},还需要完成的次数为：${data.remainHostNumber}`}</div>}
-          {data.needHostScore !== 0 && <div>{`您需要完成的主持人评分为：${data.needHostScore},目前的评分为${data.hostScore}`}</div>}
+          {data.needHostNumber !== 0 && <div>
+            {`您完成的主持人次数为：${data.hostNumber},还需要完成的次数为：${data.remainHostNumber}`}
+            <div>
+              {`您需要完成的主持人评分为：${data.needHostScore},目前的评分为${data.hostScore}`}
+            </div>
+            </div>}
           {data.needMainPointNumber !== 0 &&
-          <div>{`您完成的串讲人次数为${data.mainPointNumber}，还需要完成的次数为：${data.remainPointNumber}`}</div>}
-          {data.needPointScore !== 0 &&
-          <div>{`您需要完成的串讲人评分为：${data.needPointScore}，目前的评分为：${data.mainPointScore}`}</div>}
+          <div>
+            {`您完成的串讲人次数为${data.mainPointNumber}，还需要完成的次数为：${data.remainPointNumber}`}
+            <div>{`您需要完成的串讲人评分为：${data.needPointScore}，目前的评分为：${data.mainPointScore}`}</div>
+            </div>}
           {data.needOnlineAnswer === 'Y' && <div>{`您需要完成线上答疑演习，目前的状态为${data.onlineAnswer}`}</div>}
           {data.needSwing === 'Y' && <div>{`您需要完成吊打演习，目前的状态为${data.swing}`}</div>}
           {data.needOnlineNumber !== 0 &&
@@ -72,8 +79,8 @@ export default class UpGradeInfo extends React.Component<any, any> {
     }
 
     return (
-      <div className="upgrade-info-container">
-        {renderUpGradeInfo()}
+       <div className="upgrade-info-container">
+         {data!='' && renderUpGradeInfo()}
       </div>
     )
   }

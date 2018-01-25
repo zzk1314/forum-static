@@ -21,8 +21,11 @@ export default class AsstExecution extends React.Component<any, any> {
     this.state = {
       page: 1,
       meta: [
-        { tag: 'nickName', alias: '昵称', style: _.merge({}, cellStyle, { width: '200px' }) },
-        { tag: 'roleName', alias: '助教级别', style: _.merge({}, cellStyle, { width: '200px' }) }
+        { tag: 'nickName', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'roleName', alias: '助教级别', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'startDate', alias: '审核开始日期', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'countDown', alias: '倒计时天数', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'remainDay', alias: '剩余天数', style: _.merge({}, cellStyle, { width: '100px' }) }
       ],
       id: '',
       editData: undefined,
@@ -283,7 +286,7 @@ export default class AsstExecution extends React.Component<any, any> {
 
   render() {
     const {
-      reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      reviewNumber, requestReviewNumber, validReviewNumber, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
@@ -298,6 +301,10 @@ export default class AsstExecution extends React.Component<any, any> {
           <div>
             新增求点评的回答数: <TextField value={requestReviewNumber}
                                   onChange={(e, v) => {this.setState({ requestReviewNumber: v })}}/>
+          </div>
+          <div>
+            新增有效的点评数：<TextField value={validReviewNumber}
+                                onChange={(e, v) => {this.setState({ validReviewNumber: v })}}/>
           </div>
           <div>
             新增优质回答数: <TextField value={highQualityAnswer}
@@ -383,11 +390,11 @@ export default class AsstExecution extends React.Component<any, any> {
         </div>
       )
     }
-    const renderDialogItem = (label, value, br, key) => {
+    const renderDialogItem = (label, value, style, br, key) => {
       return (
         <div className="bs-dialog-row" key={key}>
           <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
-          <span className='bs-dialog-value'>
+          <span className={style}>
             {value}
           </span>
 
@@ -404,13 +411,17 @@ export default class AsstExecution extends React.Component<any, any> {
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               测评时间：
             </div>
-            {renderDialogItem('开始日期：', editData.startDate)}
-            {renderDialogItem('倒计时：', editData.countDown + '天')}
+            {renderDialogItem('开始日期：', editData.startDate, 'bs-dialog-value')}
+            {renderDialogItem('倒计时：', editData.countDown + '天', 'bs-dialog-value')}
+
+
+            {renderDialogItem('剩余天数：', editData.remainDay + '天', editData.remainDay > 0 ? 'bs-dialog-value' : 'bs-red-dialog-value'
+            )}
 
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               小课完成情况：
             </div>
-            {renderDialogItem('小课学习（累积）：', editData.learnedProblem)}
+            {renderDialogItem('小课学习（累积）：', editData.learnedProblem,editData.remainProblem>0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('点评数：', editData.reviewNumber)}
             {renderDialogItem('求点评的点评数：', editData.requestReviewNumber)}
             {renderDialogItem('有效的点评数：', editData.validReviewNumber)}
@@ -510,11 +521,12 @@ export default class AsstExecution extends React.Component<any, any> {
                       opsButtons={[{
                         editFunc: (item) => {this.openDialog(item)},
                         opsName: '查看详情'
-                      }, {
-                        editFunc: (item) =>
-                          this.openUpdateDialog(item),
-                        opsName: '录入数据'
-                      }]}
+                      },
+                        {
+                          editFunc: (item) =>
+                            this.openUpdateDialog(item),
+                          opsName: '录入数据'
+                        }]}
                       page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}/>
       </div>
     )
