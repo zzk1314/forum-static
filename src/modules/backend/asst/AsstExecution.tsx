@@ -22,10 +22,10 @@ export default class AsstExecution extends React.Component<any, any> {
       page: 1,
       meta: [
         { tag: 'nickName', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'roleName', alias: '助教级别', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'startDate', alias: '审核开始日期', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'countDown', alias: '倒计时天数', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'remainDay', alias: '剩余天数', style: _.merge({}, cellStyle, { width: '100px' }) }
+        { tag: 'roleName', alias: '助教级别', style: _.merge({}, cellStyle, { width: '80px' }) },
+        { tag: 'startDate', alias: '审核开始日期', style: _.merge({}, cellStyle, { width: '120px' }) },
+        { tag: 'countDown', alias: '倒计时天数', style: _.merge({}, cellStyle, { width: '80px' }) },
+        { tag: 'remainDay', alias: '剩余天数', style: _.merge({}, cellStyle, { width: '80px' }) }
       ],
       id: '',
       editData: undefined,
@@ -421,39 +421,38 @@ export default class AsstExecution extends React.Component<any, any> {
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               小课完成情况：
             </div>
-            {renderDialogItem('小课学习（累积）：', editData.learnedProblem,editData.remainProblem>0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('点评数：', editData.reviewNumber)}
-            {renderDialogItem('求点评的点评数：', editData.requestReviewNumber)}
-            {renderDialogItem('有效的点评数：', editData.validReviewNumber)}
-            {renderDialogItem('有效点评率:', editData.validReviewRate + '%')}
-            {renderDialogItem('优质回答：', editData.highQualityAnswer)}
+            {renderDialogItem('小课学习（累积）：', editData.learnedProblem, editData.remainProblem > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('点评数：', editData.reviewedNumber, editData.remainReviewNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('求点评的点评数：', editData.requestReviewNumber, editData.remainRequestRevierNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.validReviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('优质回答：', editData.highAnswer, editData.remainHighAnswer > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               线下工作坊完成情况：
             </div>
-            {renderDialogItem('主持人次数：', editData.hostNumber)}
-            {renderDialogItem('主持人分数：', editData.hostScore)}
-            {renderDialogItem('串讲人次数：', editData.mainPointNumber)}
-            {renderDialogItem('串讲人分数：', editData.mainPointScore)}
+            {renderDialogItem('主持人次数：', editData.hostNumber, editData.remainHostNumbe > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('主持人分数：', editData.hostScore, editData.remainHostNumbe > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('串讲人次数：', editData.mainPointNumber, editData.remainPointNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('串讲人分数：', editData.mainPointScore, editData.mainPointScore < editData.needHostScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               线上活动完成情况：
             </div>
-            {renderDialogItem('线上答题演习：', editData.onlineAnswer)}
-            {renderDialogItem('吊打演习：', editData.swing)}
-            {renderDialogItem('线上答疑或吊打次数：', editData.onlineOrSwingNumber)}
-            {renderDialogItem('线上活动反馈分数：', editData.onlineScore)}
+            {renderDialogItem('线上答题演习：', editData.onlineAnswer, (editData.onlineAnswer === 'N' && editData.needOnlineAnswer === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('吊打演习：', editData.swing, (editData.swing === 'N' && editData.needSwing === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('线上答疑或吊打次数：', editData.onlineOrSwingNumber, editData.remainOnlineOrSwingNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('线上活动反馈分数：', editData.onlineScore, editData.needOnlineScore > editData.onlineScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               训练营完成情况：
             </div>
-            {renderDialogItem('训练营次数：', editData.campNumber)}
-            {renderDialogItem('大教练次数：', editData.asstNumber)}
-            {renderDialogItem('反馈评分：', editData.campScore)}
+            {renderDialogItem('训练营次数：', editData.campNumber, editData.remainCampNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('大教练次数：', editData.asstNumber, editData.remainAsstNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('反馈评分：', editData.campScore, editData.needCompanyScore > editData.campScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               企业培训完成情况：
             </div>
-            {renderDialogItem('每月作业：', editData.monthlyWork)}
-            {renderDialogItem('培养新人次数：', editData.fosterNew)}
-            {renderDialogItem('企业培训次数：', editData.companyTrainNumber)}
-            {renderDialogItem('企业培训评分：', editData.companyTrainScore)}
+            {renderDialogItem('每月作业：', editData.monthlyWork, (editData.monthlyWork === 'N' && editData.needMonthlyWork === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('培养新人次数：', editData.fosterNew, editData.remainFosterNew > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('企业培训次数：', editData.companyNumber, editData.remainCompanyNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('企业培训评分：', editData.companyScore, editData.needCampScore > editData.companyScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <br/>
           </div>
           {

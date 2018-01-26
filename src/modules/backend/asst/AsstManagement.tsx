@@ -23,8 +23,6 @@ const style = {
     padding: '20px 0 25px'
   },
   item: {
-    margin: '0 auto',
-    padding: '24px 0'
   },
   itemActive: {
     color: '#55cbcb'
@@ -43,7 +41,8 @@ export default class AsstManagement extends React.Component<any, any> {
     this.state = {
       problemCatalogs: [],
       doingId: null,
-      curProblem: null
+      curProblem: null,
+      index: 0
     }
   }
 
@@ -51,31 +50,36 @@ export default class AsstManagement extends React.Component<any, any> {
 
   }
 
-  onClick(pathname, index){
-    this.setState({index});
-    this.context.router.push({pathname});
+  onClick(pathname, index) {
+    this.setState({ index })
+    this.context.router.push({ pathname })
   }
 
   render() {
     const renderMenu = () => {
       return (
-        <List>
-          <ListItem
-            style={this.state.index === 1 ? style.itemActive : style.item}
-            value={1}
-            primaryText="助教测评标准"
-            onTouchTap={()=>this.onClick('/backend/assist/standard', 1)} />
-          <ListItem
-            style={this.state.index === 2 ? style.itemActive : style.item}
-            value={2}
-            primaryText="助教完成情况"
-            onTouchTap={()=>this.onClick('/backend/assist/execution', 2)} />
-          <ListItem
-            style={this.state.index === 3 ? style.itemActive : style.item}
-            value={3}
-            primaryText="助教升降级"
-            onTouchTap={()=>this.onClick('/backend/assist/upgrade', 3)} />
-        </List>
+        <div>
+          <div className="catalog-area">
+            <div className="catalog-name" style={this.state.index === 1 ? style.itemActive : style.item}
+                 onClick={() => {
+                   this.context.router.push({ pathname: '/backend/assist/standard' })
+                   this.setState({ index: 1 })
+                 }}>助教测评标准
+            </div>
+            <div className="catalog-name" style={this.state.index === 2 ? style.itemActive : style.item}
+                 onClick={() => {
+                   this.context.router.push({ pathname: '/backend/assist/execution' })
+                   this.setState({ index: 2 })
+                 }}>助教完成情况
+            </div>
+            <div className="catalog-name" style={this.state.index === 3 ? style.itemActive : style.item}
+                 onClick={() => {
+                   this.context.router.push({ pathname: '/backend/assist/upgrade' })
+                   this.setState({ index: 3 })
+                 }}>助教升降级
+            </div>
+          </div>
+        </div>
       )
     }
 
