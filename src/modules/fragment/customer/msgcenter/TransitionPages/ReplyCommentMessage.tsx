@@ -142,7 +142,7 @@ export default class ReplyCommentMessage extends React.Component<any, any> {
           reply={() => {
             this.reply(comment)
           }}
-          onDelete={this.onDelete.bind(this, comment.id)}
+          onDelete={()=>this.onDelete(comment.id)}
         />
       )
     }

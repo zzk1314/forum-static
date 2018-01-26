@@ -41,7 +41,7 @@ export default class Challenge extends React.Component<any, any> {
       }
     }
     dispatch(startLoad())
-    loadChallengePractice(location.query.id,location.query.planId).then(res => {
+    loadChallengePractice(location.query.id, location.query.planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -70,7 +70,7 @@ export default class Challenge extends React.Component<any, any> {
   onSubmit() {
     const { dispatch, location } = this.props;
     const { data, planId } = this.state;
-    const {complete, practicePlanId} = location.query;
+    const { complete, practicePlanId } = location.query;
     const answer = this.refs.editor.getValue();
     const { submitId } = data;
     if(answer == null || answer.length === 0) {
@@ -81,11 +81,11 @@ export default class Challenge extends React.Component<any, any> {
     submitChallengePractice(planId, location.query.id, { answer }).then(res => {
       const { code, msg } = res
       if(code === 200) {
-        if (complete == 'false') {
+        if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId));
         }
         dispatch(startLoad());
-        loadChallengePractice(location.query.id,location.query.planId).then(res => {
+        loadChallengePractice(location.query.id, location.query.planId).then(res => {
           dispatch(endLoad());
           const { code, msg } = res
           if(code === 200) {
@@ -174,7 +174,7 @@ export default class Challenge extends React.Component<any, any> {
             {showDisable ?
               <div className="button-footer small disabled">提交中</div> :
               edit ?
-                <div className="button-footer small" onClick={this.onSubmit.bind(this)}>提交</div> : null
+                <div className="button-footer small" onClick={()=>this.onSubmit()}>提交</div> : null
             }
           </div>
         </div>

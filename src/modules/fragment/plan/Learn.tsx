@@ -103,7 +103,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   componentDidMount() {
     mark({ module: '打点', function: 'RISE', action: 'PC打开学习页', memo: 'PC' })
-    window.addEventListener('resize', this.resize.bind(this))
+    window.addEventListener('resize', ()=>this.resize())
     const { planId } = this.props.location.query
     queryChapterList(planId).then(res => {
       if(res.code === 200) {
@@ -707,7 +707,7 @@ export default class PlanMain extends React.Component <any, any> {
                 <span>没有正在学习的课程哦，</span><br/>
                 <span>点击按钮去选课吧！</span>
               </div>
-              <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+              <div className="empty-button"><span onClick={()=>this.handleClickProblemChoose()}>去选课</span></div>
             </div>
           ),
           (<div className="rise-main" style={{ minHeight: window.innerHeight - 80 }}>

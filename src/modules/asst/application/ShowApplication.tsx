@@ -299,7 +299,7 @@ export default class ShowApplication extends React.Component<any, any> {
       },
       {
         "label": "确定",
-        "onClick": this.onRequestComment.bind(this),
+        "onClick": ()=>this.onRequestComment(),
         "primary": true,
       }
     ];

@@ -26,11 +26,11 @@ export default class ProblemViewer extends React.Component<any, any> {
         actions: [
           {
             label: '再看看',
-            onClick: this.close.bind(this)
+            onClick: ()=>this.close()
           },
           {
             label: '想好了',
-            onClick: this.submitProblem.bind(this),
+            onClick: ()=>this.submitProblem(),
           }
         ]
       },

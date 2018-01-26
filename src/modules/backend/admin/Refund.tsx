@@ -58,7 +58,7 @@ export default class Refund extends React.Component<any,any> {
     const actions = [
       {
         "label": "确定",
-        "onClick": this.submit.bind(this),
+        "onClick": ()=>this.submit(),
       },
       {
         "label": "取消",
@@ -87,7 +87,7 @@ export default class Refund extends React.Component<any,any> {
 
         <RaisedButton
           className="submit-btn" label="申请退款" primary={true}
-          onTouchTap={this.onSubmit.bind(this)}/>
+          onTouchTap={()=>this.onSubmit()}/>
       </div>
     )
   }

@@ -23,7 +23,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props;
-    const {complete , practicePlanId} = location.query;
+    const { complete, practicePlanId } = location.query;
     dispatch(startLoad())
     loadProblem(location.query.problemId).then(res => {
       const { code, msg } = res
@@ -36,7 +36,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    if (complete == 'false') {
+    if(complete == 'false') {
       dispatch(set('completePracticePlanId', practicePlanId));
     }
   }
@@ -72,7 +72,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
           <div key={idx} className="click-key">
             <div className='section'>{chapter}{'.'}{section.section + '节 '}{section.name}</div>
           </div> :
-          <div key={idx} className="click-key" onClick={this.goKnowledgeIntro.bind(this, section)}>
+          <div key={idx} className="click-key" onClick={()=>this.goKnowledgeIntro(section)}>
             <div className='section click'>{chapter}{'.'}{section.section + '节 '}{section.name}</div>
           </div>
       )
@@ -85,7 +85,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
           <div className="problem-header">知识回顾</div>
         </div>
         <div className="detail-header click" style={{ marginBottom: '10px', borderBottom: "none" }}
-             onClick={this.goProblemIntro.bind(this)}>
+             onClick={()=>this.goProblemIntro()}>
           <div className="header-label hover-cursor" style={{ float: "left" }}>小课介绍</div>
         </div>
         <TitleBar content=""/>

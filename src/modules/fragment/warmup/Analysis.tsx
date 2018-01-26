@@ -271,7 +271,7 @@ export default class Analysis extends React.Component <any, any> {
         <div key={idx}>
           <DiscussShow
             key={idx} discuss={comment} reply={() => this.reply(comment)}
-            onDelete={this.onDelete.bind(this, comment.id)}/>
+            onDelete={()=>this.onDelete(comment.id)}/>
           {
             this.state.showDiscuss && this.state.repliedId === comment.id ?
               <Discuss
@@ -296,7 +296,7 @@ export default class Analysis extends React.Component <any, any> {
       return (
         <div key={idx}>
           <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
-                          onDelete={this.onDelete.bind(this, discuss.id)}/>
+                          onDelete={()=>this.onDelete(discuss.id)}/>
           {
             this.state.showDiscuss && this.state.repliedId === discuss.id ?
               <div className="sub-discuss-reply">
@@ -338,11 +338,11 @@ export default class Analysis extends React.Component <any, any> {
         <div>
           <div className="button-footer">
             <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`}
-                 onClick={this.prev.bind(this)}>上一题
+                 onClick={()=>this.prev()}>上一题
             </div>
             {currentIndex + 1 < practiceCount ?
-              <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-              <div className={`right`} onClick={this.nextTask.bind(this)}>返回</div>}
+              <div className={`right`} onClick={()=>this.next()}>下一题</div> :
+              <div className={`right`} onClick={()=>this.nextTask()}>返回</div>}
           </div>
         </div>
       )

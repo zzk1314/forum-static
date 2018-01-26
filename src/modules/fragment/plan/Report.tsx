@@ -127,7 +127,7 @@ export default class Report extends React.Component<any, any> {
 
   renderBtns() {
     return (
-      <div className="button-footer" onClick={this.goBack.bind(this)}>
+      <div className="button-footer" onClick={()=>this.goBack()}>
         返回
       </div>
     )

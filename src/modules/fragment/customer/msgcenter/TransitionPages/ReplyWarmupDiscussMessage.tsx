@@ -130,7 +130,7 @@ export default class ReplyWarmupDiscussMessage extends React.Component<any, any>
       <div>
         <div className="reply-warmup-container" onClick={() => this.cancel()}>
           <div className="question">{question}</div>
-          <div className="origin-question-tip" onClick={this.goOrigin.bind(this)}>点击查看原题</div>
+          <div className="origin-question-tip" onClick={()=>this.goOrigin()}>点击查看原题</div>
           <TitleBar content={this.state.data.del === 1 ? `该评论已删除` : `当前评论`}/>
           {renderDiscuss(data)}
         </div>

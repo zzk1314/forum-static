@@ -102,7 +102,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
             let provinceObject = _.filter(res.msg.provinceList, { value: this.state.province })
             let parentId = 0;
             if(provinceObject.length > 0) {
-              parentId = provinceObject[0].id
+              parentId = provinceObject[ 0 ].id
             }
             this.setState({ cityChoose: _.filter(res.msg.cityList, { parentId: parentId }), isLoadingDone: true })
           })
@@ -134,7 +134,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
     let province = _.filter(this.state.provinceList, { value: value })
     let provinceId = 0
     if(province.length > 0) {
-      provinceId = province[0].id
+      provinceId = province[ 0 ].id
     }
     this.setState({
       province: value,
@@ -156,7 +156,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
     const job = document.getElementById("job").value
     let chooseProvince = _.filter(provinceList, { value: province })
     if(chooseProvince.length > 0) {
-      let provinceId = chooseProvince[0].id
+      let provinceId = chooseProvince[ 0 ].id
       if(_.filter(cityList, { parentId: provinceId, value: city }).length === 0) {
         dispatch(alertMsg(null, "请选择城市"))
         return
@@ -195,7 +195,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={workingLife}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={this.handleWorkingYear.bind(this)}
+              onChange={()=>this.handleWorkingYear()}
             >
               {
                 workingLifeList.map((item, idx) => {
@@ -219,7 +219,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={industry}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={this.handleIndustry.bind(this)}>
+              onChange={()=>this.handleIndustry()}>
               {
                 industryList.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
@@ -259,7 +259,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={province}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={this.handleProvince.bind(this)}>
+              onChange={()=>this.handleProvince()}>
               {
                 provinceList.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
@@ -272,7 +272,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={city}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={this.handleCity.bind(this)}>
+              onChange={()=>this.handleCity()}>
               {
                 cityChoose.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
@@ -294,7 +294,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               {renderJob()}
               {renderRegion()}
               <div className={`profile-button ${updateable ? "enable" : "disable"}`}
-                   onClick={this.handleUpdateProfile.bind(this)}>
+                   onClick={()=>this.handleUpdateProfile()}>
                 {updateable ? "更新信息" : "更新中" }
               </div>
             </div>

@@ -167,7 +167,7 @@ export class Comment extends React.Component<any, any> {
             return (
               <DiscussShow discuss={item} showLength={100} reply={() => {
                 this.reply(item)
-              }} onDelete={this.onDelete.bind(this, item.id)}/>
+              }} onDelete={()=>this.onDelete(item.id)}/>
             )
           })
         )

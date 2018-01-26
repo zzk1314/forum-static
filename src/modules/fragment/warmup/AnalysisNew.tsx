@@ -218,7 +218,7 @@ export default class AnalysisNew extends React.Component <any, any> {
           <div key={idx}>
             <DiscussShow
               key={idx} discuss={comment} reply={() => this.reply(comment)}
-              onDelete={this.onDelete.bind(this, comment.id)}/>
+              onDelete={()=>this.onDelete(comment.id)}/>
             {!_.isEmpty(warmupPracticeDiscussList) ?
               <div>
                 <div className="discuss-triangle"></div>
@@ -234,7 +234,7 @@ export default class AnalysisNew extends React.Component <any, any> {
         return (
           <div key={idx}>
             <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
-                            onDelete={this.onDelete.bind(this, discuss.id)}/>
+                            onDelete={()=>this.onDelete(discuss.id)}/>
           </div>
         )
       }

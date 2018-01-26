@@ -209,10 +209,10 @@ export default class WarmUp extends React.Component<any, any> {
     const renderClickBtn = () => {
       return (
         <div className="button-footer">
-          <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+          <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={()=>this.prev()}>上一题
           </div>
-          { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-            <div className={`right ${submitting ? 'disabled' : ''}`} onClick={this.onSubmit.bind(this)}>提交</div>
+          { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={()=>this.next()}>下一题</div> :
+            <div className={`right ${submitting ? 'disabled' : ''}`} onClick={()=>this.onSubmit()}>提交</div>
           }
         </div>
       )
