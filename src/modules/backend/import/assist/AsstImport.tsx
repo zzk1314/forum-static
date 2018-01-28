@@ -11,7 +11,8 @@ export default class AsstImport extends React.Component {
       meta: [
         { tag: 'nickName', alias: '昵称' },
         { tag: 'roleName', alias: '教练类别' },
-        { tag: 'reached', alias: '是否达标' }
+        { tag: 'reached', alias: '是否达标' },
+        {tag:'verified',alias:'升级认证结果'}
       ],
       add: false
     }

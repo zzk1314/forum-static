@@ -28,8 +28,9 @@ export default class AsstStandard extends React.Component<any, any> {
       editData: undefined,
       countDown: '',
       learnedProblem: '',
-      reviewNumber: '',
+      applicationRate:'',
       requestReviewNumber: '',
+      validReviewNumber:'',
       validReviewRate: '',
       highQualityAnswer: '',
       hostNumber: '',
@@ -46,7 +47,8 @@ export default class AsstStandard extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScor: '',
+      companyTrainScore: '',
+      needVerified:'',
       RasiedClicked: false
     }
   }
@@ -74,11 +76,11 @@ export default class AsstStandard extends React.Component<any, any> {
   openDialog(data) {
     const {
       id,
-      countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      countDown, learnedProblem,applicationRate,requestReviewNumber,validReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,needVerified
     } = data
 
     this.setState({
@@ -87,8 +89,9 @@ export default class AsstStandard extends React.Component<any, any> {
       editData: data,
       countDown,
       learnedProblem,
-      reviewNumber,
+      applicationRate,
       requestReviewNumber,
+      validReviewNumber,
       validReviewRate,
       highQualityAnswer,
       hostNumber,
@@ -105,27 +108,29 @@ export default class AsstStandard extends React.Component<any, any> {
       monthlyWork,
       fosterNew,
       companyTrainNumber,
-      companyTrainScore
+      companyTrainScore,
+      needVerified
     })
   }
 
   handleClickApprove() {
     const { dispatch } = this.props
     const {
-        id,countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+        id,countDown, learnedProblem,applicationRate,requestReviewNumber,validReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
       monthlyWork, fosterNew,
-      companyTrainNumber, companyTrainScore
+      companyTrainNumber, companyTrainScore,needVerified
     } = this.state
 
     let param = {
       id,
       countDown,
       learnedProblem,
-      reviewNumber,
+      applicationRate,
       requestReviewNumber,
+      validReviewNumber,
       validReviewRate,
       highQualityAnswer,
       hostNumber,
@@ -142,7 +147,8 @@ export default class AsstStandard extends React.Component<any, any> {
       monthlyWork,
       fosterNew,
       companyTrainNumber,
-      companyTrainScore
+      companyTrainScore,
+      needVerified
     }
     dispatch(startLoad())
     updateAssistStandard(param).then(res => {
@@ -165,8 +171,9 @@ export default class AsstStandard extends React.Component<any, any> {
       id: '',
       countDown: '',
       learnedProblem: '',
-      reviewNumber: '',
+      applicationRate:'',
       requestReviewNumber: '',
+      validReviewNumber:'',
       validReviewRate: '',
       highQualityAnswer: '',
       hostNumber: '',
@@ -183,7 +190,8 @@ export default class AsstStandard extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScore: ''
+      companyTrainScore: '',
+      needVerified:''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -212,8 +220,9 @@ export default class AsstStandard extends React.Component<any, any> {
       id: '',
       countDown: '',
       learnedProblem: '',
-      reviewNumber: '',
+      applicationRate:'',
       requestReviewNumber: '',
+      validReviewNumber:'',
       validReviewRate: '',
       highQualityAnswer: '',
       hostNumber: '',
@@ -230,17 +239,18 @@ export default class AsstStandard extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScore: ''
+      companyTrainScore: '',
+      needVerified:''
     })
   }
 
   render() {
     const {
-      countDown, learnedProblem, reviewNumber, requestReviewNumber, validReviewRate, highQualityAnswer,
+      countDown, learnedProblem, applicationRate,requestReviewNumber,validReviewNumber, validReviewRate, highQualityAnswer,
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,needVerified
     } = this.state
     const renderProblemContent = () => {
       return (
@@ -252,11 +262,15 @@ export default class AsstStandard extends React.Component<any, any> {
             小课学习（累积）: <TextField value={learnedProblem} onChange={(e, v) => {this.setState({ learnedProblem: v })}}/>
           </div>
           <div>
-            点评数: <TextField value={reviewNumber} onChange={(e, v) => {this.setState({ reviewNumber: v })}}/>
+            应用题完成比例：<TextField value={applicationRate} onChange={(e,v)=>{this.setState({applicationRate:v})}}/>%
           </div>
           <div>
             求点评的回答数: <TextField value={requestReviewNumber}
                                 onChange={(e, v) => {this.setState({ requestReviewNumber: v })}}/>
+          </div>
+          <div>
+            有效点评数：<TextField value={validReviewNumber} onChange={(e,v)=>{this.setState({validReviewNumber:v})}}/>
+
           </div>
           <div>
             有效点评率: <TextField value={validReviewRate} onChange={(e, v) => {this.setState({ validReviewRate: v })}}/>%
@@ -345,6 +359,14 @@ export default class AsstStandard extends React.Component<any, any> {
       )
     }
 
+    const renderUpgrade = () =>{
+      return(
+        <div>
+          是否需要升级认证:<TextField value={needVerified} onChange={(e,v)=>{this.setState({needVerified:v})}}/>
+        </div>
+      )
+    }
+
     const renderDialog = () => {
       const { openDialog, editData = {}, RasiedClicked } = this.state
       return (
@@ -370,6 +392,12 @@ export default class AsstStandard extends React.Component<any, any> {
               企业培训
             </div>
             {renderCompany()}
+            <div className="bs-dialog-header" style={{marginTop:'0px'}}>
+              升级认证
+            </div>
+            <div>
+              {renderUpgrade()}
+            </div>
             <br/>
             {
               RasiedClicked ? null :

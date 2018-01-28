@@ -51,7 +51,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScor: '',
+      companyTrainScore: '',
+      upGrade:'',
       RasiedClicked: false
     }
   }
@@ -83,7 +84,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,upGrade
     } = data
 
     this.setState({
@@ -112,7 +113,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork,
       fosterNew,
       companyTrainNumber,
-      companyTrainScore
+      companyTrainScore,
+      upGrade
     })
   }
 
@@ -122,7 +124,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostScore, mainPointScore,
       onlineAnswer, swing, onlineScore,
       campScore,
-      monthlyWork, companyTrainScore
+      monthlyWork, companyTrainScore,upGrade
     } = data
 
     this.setState({
@@ -147,7 +149,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork,
       fosterNew: 0,
       companyTrainNumber: 0,
-      companyTrainScore
+      companyTrainScore,
+      upGrade
     })
   }
 
@@ -166,7 +169,7 @@ export default class AsstExecution extends React.Component<any, any> {
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
       monthlyWork, fosterNew,
-      companyTrainNumber, companyTrainScore
+      companyTrainNumber, companyTrainScore,upGrade
     } = this.state
 
     let param = {
@@ -189,7 +192,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork,
       fosterNew,
       companyTrainNumber,
-      companyTrainScore
+      companyTrainScore,
+      upGrade
     }
     dispatch(startLoad())
     updateAssistsExecution(param).then(res => {
@@ -232,7 +236,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScore: ''
+      companyTrainScore: '',
+      upGrade:''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -280,7 +285,8 @@ export default class AsstExecution extends React.Component<any, any> {
       monthlyWork: '',
       fosterNew: '',
       companyTrainNumber: '',
-      companyTrainScore: ''
+      companyTrainScore: '',
+      upGrade:''
     })
   }
 
@@ -290,7 +296,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,upGrade
     } = this.state
     const renderProblemContent = () => {
       return (
@@ -403,6 +409,18 @@ export default class AsstExecution extends React.Component<any, any> {
       )
     }
 
+    const renderUpGrade = () => {
+
+      return(
+        <div>
+          <div>
+            认证结果: <TextField value={upGrade}
+                                 onChange={(e, v) => {this.setState({ upGrade: v })}}/>
+          </div>
+        </div>
+      )
+    }
+
     const renderDialog = () => {
       const { openDialog, editData = {} } = this.state
       return (
@@ -424,6 +442,7 @@ export default class AsstExecution extends React.Component<any, any> {
             {renderDialogItem('小课学习（累积）：', editData.learnedProblem, editData.remainProblem > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('点评数：', editData.reviewedNumber, editData.remainReviewNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('求点评的点评数：', editData.requestReviewNumber, editData.remainRequestRevierNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('有效的点评数：',editData.requestReviewNumber,'bs-dialog-value')}
             {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.validReviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('优质回答：', editData.highAnswer, editData.remainHighAnswer > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
@@ -452,7 +471,7 @@ export default class AsstExecution extends React.Component<any, any> {
             {renderDialogItem('每月作业：', editData.monthlyWork, (editData.monthlyWork === 'N' && editData.needMonthlyWork === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('培养新人次数：', editData.fosterNew, editData.remainFosterNew > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('企业培训次数：', editData.companyNumber, editData.remainCompanyNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('企业培训评分：', editData.companyScore, editData.needCampScore > editData.companyScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('企业培训评分：', editData.companyTrainScore, editData.needCampScore > editData.companyTrainScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <br/>
           </div>
           {
@@ -491,6 +510,10 @@ export default class AsstExecution extends React.Component<any, any> {
               企业培训
             </div>
             {renderCompany()}
+            <div className="bs-dialog-header" style={{marginTop:'0px'}}>
+              升级认证
+            </div>
+            {renderUpGrade()}
             <br/>
             {
               RasiedClicked ? null :

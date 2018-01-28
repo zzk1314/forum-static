@@ -144,6 +144,12 @@ export default class UpGradeInfo extends React.Component<any, any> {
           </div>
           }
 
+          {data.needValidReviewNumber !== 0 &&
+            <div>
+            <span>{`您的有效点评数为${data.validReviewNumber},本级至少需要${data.needValidReviewNumber}`}</span>
+            </div>
+          }
+
           {data.needReviewRate !== 0 &&
           <div>
             <span>{`您需要达到的点评率为${data.needReviewRate}%，目前点评率为`}</span>
