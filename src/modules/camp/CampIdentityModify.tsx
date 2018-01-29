@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui'
+import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui'
 import { addCertificate } from './async'
 
 interface CampIdentityModifyState {
@@ -7,6 +7,7 @@ interface CampIdentityModifyState {
   month: number,
   identityType: any,
   memberIdListStr: any,
+  showDialog: boolean,
   showSnack: boolean
 }
 
@@ -50,7 +51,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
 
   render() {
     const {
-      year, month, identityType = 0, memberIdListStr = '', showSnack = false
+      year, month, identityType = 0, memberIdListStr = '', showDialog = false, showSnack = false
     } = this.state
 
     return (
@@ -77,7 +78,21 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
                    onChange={(e, v) => this.setState({memberIdListStr: v})}>
         </TextField><br/>
 
-        <RaisedButton label="点击提交" primary={true} onClick={() => this.handleMemberIds()}/>
+        <RaisedButton label="点击提交" primary={true} onClick={() => this.setState({showDialog: true})}/>
+
+        <Dialog open={showDialog}>
+          {`您将要添加 ${year} 年 ${month} 月的证书，请确认`}
+          <br/>
+          <div style={{padding: '20px 50px'}}>
+            <RaisedButton
+              style={{marginTop: 30}} label="取消" primary={true}
+              onClick={() => this.setState({showDialog: false})}/>
+            <RaisedButton
+              style={{marginLeft: 30}} label="确认" primary={true}
+              onClick={() => this.handleMemberIds()}
+            />
+          </div>
+        </Dialog>
 
         <Snackbar
           open={showSnack}
