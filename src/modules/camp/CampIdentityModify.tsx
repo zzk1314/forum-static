@@ -3,6 +3,8 @@ import { SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'materi
 import { addCertificate } from './async'
 
 interface CampIdentityModifyState {
+  year: number,
+  month: number,
   identityType: any,
   memberIdListStr: any,
   showSnack: boolean
@@ -25,11 +27,11 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
   }
 
   handleMemberIds() {
-    const {identityType, memberIdListStr} = this.state
+    const {year, month, identityType, memberIdListStr} = this.state
     let memberIds = memberIdListStr.split('\n')
     memberIds = memberIds.map(memberId => memberId.trim()).filter(memberId => memberId != '')
     console.log(memberIds)
-    let param = {type: identityType, memberIds: memberIds}
+    let param = {year: year, month: month, type: identityType, memberIds: memberIds}
     addCertificate(param).then(res => {
       if(res.code === 200) {
         this.setState({showSnack: true})
@@ -48,11 +50,20 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
 
   render() {
     const {
-      identityType = 0, memberIdListStr = '', showSnack = false
+      year, month, identityType = 0, memberIdListStr = '', showSnack = false
     } = this.state
 
     return (
       <section style={{padding: '25px 50px'}}>
+
+        <TextField value={year} floatingLabelText="证书生成年份"
+                   onChange={(e, v) => this.setState({year: v})}>
+        </TextField><br/>
+
+        <TextField value={month} floatingLabelText="证书生成月份"
+                   onChange={(e, v) => this.setState({month: v})}>
+        </TextField><br/>
+
         <SelectField value={identityType} floatingLabelText="选择身份类型"
                      onChange={(e, i, v) => this.setState({identityType: v})}>
           <MenuItem value={this.identityType.EXCELLENT_CLASS_LEADER} primaryText="优秀班长"/>
