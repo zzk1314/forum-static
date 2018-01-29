@@ -45,7 +45,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
 
   clear() {
     this.setState({
-      identityType: 0, memberIdListStr: ''
+      year: '', month: '', identityType: 0, memberIdListStr: '', showDialog: false
     })
   }
 
