@@ -80,6 +80,10 @@ export default class UpGradeInfo extends React.Component<any, any> {
               企业培训
             </div>
             {renderCompany()}
+            <div className="bs-dialog-header" style={{marginTop:'20px'}}>
+              升级认证
+            </div>
+            {renderVerified()}
             <br/>
             {
               <div ref="raisedButton">
@@ -240,6 +244,15 @@ export default class UpGradeInfo extends React.Component<any, any> {
         0 && <div>{`您完成的企业培训次数为：${data.companyNumber}，还需要完成的企业培训次数为：${data.remainCompanyNumber}`}</div>}
           {data.needCompanyScore !== 0 &&
           <div>{`您需要的企业培训的分数为：${data.needCompanyScore}，目前的分数为：${data.companyScore}`}</div>} </div>
+      )
+    }
+
+    const renderVerified = ()=>{
+      return (
+        <div style={{marginTop:20}}>
+          <div>{`是否需要升级认证：${data.needVerified}`}</div>
+          <div>{`升级认证结果：${data.upGrade}`}</div>
+        </div>
       )
     }
 

@@ -34,8 +34,7 @@ export default class ExcelUpload extends React.Component<any,any>{
     this.setState({disabled:false,load:false});
     let {code} = response;
     if(_.isEqual(code,200)){
-      this.props.onUploadSuccess(response.msg.picUrl);
-      this.alertMsg("上传成功");
+     this.props.func()
     } else {
       this.alertMsg("上传失败:"+response.msg);
     }

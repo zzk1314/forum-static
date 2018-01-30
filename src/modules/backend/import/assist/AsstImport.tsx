@@ -2,6 +2,12 @@ import * as React from 'react'
 import { TextField, RaisedButton } from 'material-ui'
 import { loadAssistCatalogs, loadAssists, loadUnAssistByNickName } from './async'
 import { AsstDataTable } from './components/AsstDataTable'
+import * as _ from 'lodash'
+
+const cellStyle = {
+  paddingLeft: 0,
+  paddingRight: 0
+}
 
 export default class AsstImport extends React.Component {
   constructor() {
@@ -9,10 +15,11 @@ export default class AsstImport extends React.Component {
     this.state = {
       data: [],
       meta: [
-        { tag: 'nickName', alias: '昵称' },
-        { tag: 'roleName', alias: '教练类别' },
-        { tag: 'reached', alias: '是否达标' },
-        {tag:'verified',alias:'升级认证结果'}
+        { tag: 'nickName', alias: '昵称',style: _.merge({}, cellStyle, { width: '50px' }) },
+        { tag: 'roleName', alias: '教练类别',style: _.merge({}, cellStyle, { width: '50px' }) },
+        { tag: 'reached', alias: '是否达标',style: _.merge({}, cellStyle, { width: '50px' }) },
+        {tag:'needVerified',alias:'是否需要升级认证',style: _.merge({}, cellStyle, { width: '50px' })},
+        {tag:'upGrade',alias:'升级认证结果',style: _.merge({}, cellStyle, { width: '50px' })}
       ],
       add: false
     }

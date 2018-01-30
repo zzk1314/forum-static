@@ -424,7 +424,9 @@ export default class AsstExecution extends React.Component<any, any> {
 
     const renderUploadExcel = () => {
       return (
-       <ExcelUpload action={`/pc/operation/assist/execution/update`} flatLabel={`上传Excel`}/>
+        <div className="excel-upload-container">
+          <ExcelUpload action={`/pc/operation/assist/execution/file/update`} flatLabel={`上传Excel`} func={this.refreshPage.bind(this)}/>
+        </div>
       )
     }
 
