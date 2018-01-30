@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
 import Confirm from '../../../components/Confirm'
+import isEmpty = require('lodash/isEmpty')
 
 const cellStyle = {
   paddingLeft: 0,
@@ -248,22 +249,25 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    const { dispatch } = this.props
-    const {
-      interviewTime,question, targetChannel,
-      targetTouchDuration,
-      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
-    } = this.state
+    // const { dispatch } = this.props
+    // const {
+    //   interviewTime,question, targetChannel,
+    //   targetTouchDuration,
+    //   targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
+    // } = this.state
 
-    if(_.isEmpty(interviewTime) ||_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
-      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-      _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      dispatch(alertMsg('请将信息填写完整'))
-      return
-    }
+    // if(_.isEmpty(interviewTime) ||_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration)
+    // || _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+    // _.isEmpty(targetAward) || _.isEmpty(remark)) { // dispatch(alertMsg('请将信息填写完整')) // return }
 
-    if(interviewTime.length>20){
-      dispatch(alertMsg('面试时间填写过长'))
+    // if(interviewTime.length>20){
+    //   dispatch(alertMsg('面试时间填写过长'))
+    //   return
+    // }
+    const { remark } = this.state
+
+    if(_.isEmpty(remark)) {
+      alert('面试备注不能为空')
       return
     }
 
@@ -275,31 +279,60 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   handleClickRejectApplication() {
     const {
-      editData = {},interviewTime, applyId, profileId, question, targetChannel,
+      editData = {}, interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
 
-
+    // let param = {
+    //   applyId,
+    //   profileId,
+    //   interviewTime,
+    //   question,
+    //   focusChannel: targetChannel.value,
+    //   focusChannelName,
+    //   touchDuration: targetTouchDuration.value,
+    //   touchDurationName,
+    //   applyEvent: targetApplyEvent.value,
+    //   applyEventName,
+    //   learningWill: targetLearningWill.id,
+    //   potentialScore: targetPotentialScore.id,
+    //   applyAward: targetAward.id,
+    //   applyReason,
+    //   remark
+    // }
 
     let param = {
       applyId,
       profileId,
       interviewTime,
       question,
-      focusChannel: targetChannel.value,
       focusChannelName,
-      touchDuration: targetTouchDuration.value,
       touchDurationName,
-      applyEvent: targetApplyEvent.value,
       applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
       applyReason,
       remark
+    }
+
+    if(!_.isEmpty(targetChannel)){
+      param = _.merge( param ,{focusChannel:targetChannel.value})
+    }
+    if(!_.isEmpty(targetTouchDuration)){
+      param = _.merge( param ,{touchDuration:targetTouchDuration.value})
+    }
+    if(!_.isEmpty(targetApplyEvent)){
+      param = _.merge( param ,{applyEvent:targetApplyEvent.value})
+    }
+    if(!_.isEmpty(targetLearningWill)){
+      param = _.merge( param ,{learningWill:targetLearningWill.id})
+    }
+    if(!_.isEmpty(targetPotentialScore)){
+      param = _.merge( param ,{potentialScore:targetPotentialScore.id})
+    }
+    if(!_.isEmpty(targetAward)){
+      param = _.merge( param ,{applyAward:targetAward.id})
     }
 
     rejectBusinessApplication(editData.id, param).then(res => {
@@ -317,7 +350,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   checkCommentedApproval() {
     const {
-      interviewTime,question, targetChannel,
+      interviewTime, question, targetChannel,
       targetTouchDuration,
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
     } = this.state
@@ -330,7 +363,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return
     }
 
-    if(interviewTime.length>20){
+    if(interviewTime.length > 20) {
       dispatch(alertMsg('面试时间填写过长'))
       return
     }
@@ -344,11 +377,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   handleClickApprove(data, coupon) {
     const { dispatch } = this.props
     const {
-     interviewTime, applyId, profileId, question, targetChannel,
+      interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
-
 
     let param = {
       applyId,
@@ -527,7 +559,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}  已分配${res.msg[i].assignCount}人`
           })
         }
-        this.setState({openInterviewerDialog: true, editData: data,assts: assts })
+        this.setState({ openInterviewerDialog: true, editData: data, assts: assts })
       }
     })
   }
@@ -689,7 +721,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
      */
     const renderInterview = () => {
       const {
-        interviewTime, question,remark
+        interviewTime, question, remark
       } = this.state
 
       return (
@@ -729,7 +761,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       )
     }
-
 
     /**
      * 关注渠道
