@@ -8,6 +8,7 @@ import { loadAssistsExecution, updateAssistsExecution } from './async'
 import { Dialog, Divider } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import ExcelUpload from '../../../components/ExcelUpload'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -52,7 +53,7 @@ export default class AsstExecution extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
-      upGrade:'',
+      upGrade: '',
       RasiedClicked: false
     }
   }
@@ -84,7 +85,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,upGrade
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore, upGrade
     } = data
 
     this.setState({
@@ -124,7 +125,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostScore, mainPointScore,
       onlineAnswer, swing, onlineScore,
       campScore,
-      monthlyWork, companyTrainScore,upGrade
+      monthlyWork, companyTrainScore, upGrade
     } = data
 
     this.setState({
@@ -169,7 +170,7 @@ export default class AsstExecution extends React.Component<any, any> {
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
       monthlyWork, fosterNew,
-      companyTrainNumber, companyTrainScore,upGrade
+      companyTrainNumber, companyTrainScore, upGrade
     } = this.state
 
     let param = {
@@ -237,7 +238,7 @@ export default class AsstExecution extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
-      upGrade:''
+      upGrade: ''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -286,7 +287,7 @@ export default class AsstExecution extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
-      upGrade:''
+      upGrade: ''
     })
   }
 
@@ -296,7 +297,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,upGrade
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore, upGrade
     } = this.state
     const renderProblemContent = () => {
       return (
@@ -411,13 +412,19 @@ export default class AsstExecution extends React.Component<any, any> {
 
     const renderUpGrade = () => {
 
-      return(
+      return (
         <div>
           <div>
             认证结果: <TextField value={upGrade}
-                                 onChange={(e, v) => {this.setState({ upGrade: v })}}/>
+                             onChange={(e, v) => {this.setState({ upGrade: v })}}/>
           </div>
         </div>
+      )
+    }
+
+    const renderUploadExcel = () => {
+      return (
+       <ExcelUpload action={`/pc/operation/assist/execution/update`} flatLabel={`上传Excel`}/>
       )
     }
 
@@ -442,7 +449,7 @@ export default class AsstExecution extends React.Component<any, any> {
             {renderDialogItem('小课学习（累积）：', editData.learnedProblem, editData.remainProblem > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('点评数：', editData.reviewedNumber, editData.remainReviewNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('求点评的点评数：', editData.requestReviewNumber, editData.remainRequestRevierNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('有效的点评数：',editData.requestReviewNumber,'bs-dialog-value')}
+            {renderDialogItem('有效的点评数：', editData.requestReviewNumber, 'bs-dialog-value')}
             {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.validReviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('优质回答：', editData.highAnswer, editData.remainHighAnswer > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
@@ -510,7 +517,7 @@ export default class AsstExecution extends React.Component<any, any> {
               企业培训
             </div>
             {renderCompany()}
-            <div className="bs-dialog-header" style={{marginTop:'0px'}}>
+            <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
               升级认证
             </div>
             {renderUpGrade()}
@@ -537,6 +544,7 @@ export default class AsstExecution extends React.Component<any, any> {
 
     return (
       <div className="asst-execution-bs-container">
+        {renderUploadExcel()}
         {renderDialog()}
         {renderUpdateDialog()}
         <MessageTable data={this.state.executions} meta={this.state.meta}
