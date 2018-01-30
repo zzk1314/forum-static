@@ -289,6 +289,13 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       dispatch(alertMsg('请将信息填写完整'))
       return
     }
+
+    if(interviewTime.length>20){
+      dispatch(alertMsg('面试时间填写过长'))
+      return
+    }
+
+
     let param = {
       applyId,
       profileId,

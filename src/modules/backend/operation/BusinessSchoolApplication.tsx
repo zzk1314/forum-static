@@ -263,7 +263,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
 
     if(interviewTime.length>20){
-      dispatch(alertMsg('面试时间过长'))
+      dispatch(alertMsg('面试时间填写过长'))
       return
     }
 
@@ -327,6 +327,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
       dispatch(alertMsg('请将信息填写完整'))
+      return
+    }
+
+    if(interviewTime.length>20){
+      dispatch(alertMsg('面试时间填写过长'))
       return
     }
 

@@ -34,7 +34,7 @@ export default class extends React.Component<any,any> {
               </div>
             </li>
             <li className="intro-card">
-              <div className="title">训练营</div>
+              <div className="title">专项课</div>
               <div className="intro">升级思维</div>
               <div className="intro">翻转课堂</div>
               <div className="intro">实操案例</div>
