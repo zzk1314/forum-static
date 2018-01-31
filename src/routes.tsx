@@ -42,7 +42,7 @@ import KnowledgeViewer from './modules/fragment/knowledge/KnowledgeViewer'
 import KnowledgeReview from './modules/fragment/knowledge/KnowledgeReview'
 import ProblemViewer from './modules/fragment/problem/ProblemViewer'
 import Profile from './modules/fragment/customer/personal/Profile'
-import {Comment as SubjectComment} from './modules/fragment/subject/Comment'
+import { Comment as SubjectComment } from './modules/fragment/subject/Comment'
 import Personal from './modules/fragment/customer/personal/Personal'
 import Account from './modules/fragment/customer/personal/Account'
 import Help from './modules/fragment/customer/personal/Help'
@@ -71,8 +71,8 @@ import ProblemExtension from './modules/fragment/problem/ProblemExtension'
 
 const routes = (
   <Route path="/">
+    <Route path="/login" component={Login}/>
     <Route component={Base}>
-      <Route path="login" component={Login}/>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>

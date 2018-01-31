@@ -5,7 +5,7 @@ import * as axios from 'axios'
 axios.defaults.headers.platform = 'pc'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-// 对于 700 返回，统一跳转登录页
+// 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(function(response) {
   if(response.status === 700) {
     window.location.href = '/login'

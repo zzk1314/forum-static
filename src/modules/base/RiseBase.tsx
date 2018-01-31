@@ -16,7 +16,8 @@ export default class Main extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      open: false
+      open: false,
+      showPage: false
     }
   }
 
@@ -26,6 +27,7 @@ export default class Main extends React.Component<any, any> {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
       }
+      this.setState({showPage: true})
     })
   }
 
@@ -35,6 +37,9 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
+    if(!this.state.showPage) {
+      return <div></div>
+    }
 
     const actions = [{
       'label': '我知道了',

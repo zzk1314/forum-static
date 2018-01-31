@@ -16,24 +16,27 @@ import { pget } from '../../utils/request'
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      open: false,
+      showPage: false
+    }
+  }
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
   componentWillMount() {
+    // 通过此接口弥补 window.ENV
     pget('/rise/customer/info').then(res => {
       if(res.code === 200) {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
       }
+      this.setState({showPage: true})
     })
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: false
-    }
   }
 
   closeBaseAlert() {
@@ -42,6 +45,9 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
+    if(!this.state.showPage) {
+      return <div></div>
+    }
 
     return (
       <MuiThemeProvider>
