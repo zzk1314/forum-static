@@ -230,7 +230,7 @@ export default class Application extends React.Component<any, any> {
               {...data}
               onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
               onEdit={() => this.onEdit()}
-              headImage={window.ENV.headImage}
+              headImage={window.ENV.headImgUrl}
               userName={window.ENV.userName}
               type={CommentType.Application}
               articleModule={ArticleViewModule.Application}

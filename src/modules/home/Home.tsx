@@ -1,18 +1,18 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from "material-ui/Toolbar";
-import {set, startLoad, endLoad, alertMsg} from "../../redux/actions";
-import "./Home.less";
-import {imgSrc} from "utils/imgSrc"
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import { set, startLoad, endLoad, alertMsg } from '../../redux/actions'
+import './Home.less'
+import { imgSrc } from 'utils/imgSrc'
 
 @connect(state => state)
-export default class extends React.Component<any,any> {
+export default class extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -72,18 +72,30 @@ export default class extends React.Component<any,any> {
               <img src={imgSrc.subscribeCode}/>
               <div>圈外订阅号</div>
             </div>
-            <div style={{"marginRight":"-93px"}} className="img-item">
+            <div style={{'marginRight': '-93px'}} className="img-item">
               <img src={imgSrc.serverCode}/>
               <div>圈外服务号</div>
             </div>
-            <div style={{marginTop:"30px",float:"right",marginLeft:"30px"}}><a style={{textDecoration:"none",color: "#FFFFFF"}} target="_blank" href="https://book.douban.com/subject/26936065/">圈圈的书</a></div>
-            <div style={{marginTop:"30px",float:"right"}}>
-              <div className="email" style={{textDecoration:"none",color: "#FFFFFF",position:"relative"}}>意见反馈
+            <div style={{marginTop: '30px', float: 'right', marginLeft: '30px'}}>
+              <a style={{textDecoration: 'none', color: '#FFFFFF'}} target="_blank"
+                 href="https://book.douban.com/subject/26936065/">圈圈的书</a>
+            </div>
+            <div style={{marginTop: '30px', float: 'right'}}>
+              <div className="email" style={{textDecoration: 'none', color: '#FFFFFF', position: 'relative'}}>意见反馈
                 <div className="email-link">iquanwai@vip.163.com</div>
               </div>
             </div>
-            {window.ENV.isDevelopment?null:<div style={{fontSize:"12px",position:"absolute",width:"280px",top:"76px",right:"-69px",color:"#cccccc"}}><a style={{textDecoration:"none",color: "#cccccc"}}
-                                             href="http://www.miitbeian.gov.cn/">ICP备15006409号</a></div>}
+            {
+              !window.ENV.isDevelopment &&
+              <div
+                style={{
+                  fontSize: '12px', position: 'absolute', width: '280px',
+                  top: '76px', right: '-69px', color: '#cccccc'
+                }}>
+                <a style={{textDecoration: 'none', color: '#cccccc'}}
+                   href="http://www.miitbeian.gov.cn/">ICP备15006409号</a>
+              </div>
+            }
           </div>
         </div>
       </div>

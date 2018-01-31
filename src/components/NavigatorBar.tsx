@@ -117,7 +117,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
             </button>
           </div>
           {
-            window.ENV.headImage && window.ENV.userName ?
+            window.ENV.headImgUrl && window.ENV.userName ?
               <div className="nav-user" onMouseOver={() => this.setState({ hoverShowNotes: true })}>
                 <div className="user-img"><img src={window.ENV.headImage}/></div>
                 <div className="user-name">{window.ENV.userName}</div>
