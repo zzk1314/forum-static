@@ -451,7 +451,7 @@ export default class AsstExecution extends React.Component<any, any> {
             {renderDialogItem('小课学习（累积）：', editData.learnedProblem, editData.remainProblem > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('点评数：', editData.reviewedNumber, editData.remainReviewNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('求点评的点评数：', editData.requestReviewNumber, editData.remainRequestRevierNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('有效的点评数：', editData.requestReviewNumber, 'bs-dialog-value')}
+            {renderDialogItem('有效的点评数：', editData.validReviewNumber, 'bs-dialog-value')}
             {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.validReviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('优质回答：', editData.highAnswer, editData.remainHighAnswer > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">

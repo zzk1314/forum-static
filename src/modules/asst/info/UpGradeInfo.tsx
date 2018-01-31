@@ -57,6 +57,12 @@ export default class UpGradeInfo extends React.Component<any, any> {
         <Dialog open={showDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
+              当前等级：
+            </div>
+          </div>
+          {renderCurrentGrade()}
+          <div className="bs-dialog">
+            <div className="bs-dialog-header" style={{ marginTop: '20px' }}>
               时间测评：
             </div>
             {renderTimeContent()}
@@ -80,7 +86,7 @@ export default class UpGradeInfo extends React.Component<any, any> {
               企业培训
             </div>
             {renderCompany()}
-            <div className="bs-dialog-header" style={{marginTop:'20px'}}>
+            <div className="bs-dialog-header" style={{ marginTop: '20px' }}>
               升级认证
             </div>
             {renderVerified()}
@@ -107,6 +113,14 @@ export default class UpGradeInfo extends React.Component<any, any> {
           </span>
 
           <Divider/>
+        </div>
+      )
+    }
+
+    const renderCurrentGrade = () => {
+      return (
+        <div style={{ marginTop: 20 }}>
+          {renderDialogItem('当前等级：', data.roleName)}
         </div>
       )
     }
@@ -149,9 +163,9 @@ export default class UpGradeInfo extends React.Component<any, any> {
           }
 
           {data.needValidReviewNumber !== 0 &&
-            <div>
+          <div>
             <span>{`您的有效点评数为${data.validReviewNumber},本级至少需要${data.needValidReviewNumber}`}</span>
-            </div>
+          </div>
           }
 
           {data.needReviewRate !== 0 &&
@@ -247,9 +261,9 @@ export default class UpGradeInfo extends React.Component<any, any> {
       )
     }
 
-    const renderVerified = ()=>{
+    const renderVerified = () => {
       return (
-        <div style={{marginTop:20}}>
+        <div style={{ marginTop: 20 }}>
           <div>{`是否需要升级认证：${data.needVerified}`}</div>
           <div>{`升级认证结果：${data.upGrade}`}</div>
         </div>
