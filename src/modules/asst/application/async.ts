@@ -11,5 +11,5 @@ export function assignApplyInterviewer(data) {
 }
 
 export function addInterviewerRecord(param){
-  return ppost('/pc/asst//add/interview/record',param)
+  return ppost('/pc/asst/add/interview/record',param)
 }
