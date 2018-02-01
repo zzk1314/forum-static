@@ -12,6 +12,7 @@ import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 import isEmpty = require('lodash/isEmpty')
+import TimePicker from 'material-ui/TimePicker'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -161,6 +162,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   openDialog(data) {
     if(data.interviewRecord != null) {
       const { interviewRecord } = data
+      let interviewTime = new Date(interviewRecord.interviewTime)
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -216,7 +218,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       })
 
       this.setState({
-        interviewTime: interviewRecord.interviewTime,
+        interviewTime,
         question: interviewRecord.question,
         targetChannel,
         focusChannelName: interviewRecord.focusChannelName,
@@ -249,21 +251,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    // const { dispatch } = this.props
-    // const {
-    //   interviewTime,question, targetChannel,
-    //   targetTouchDuration,
-    //   targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
-    // } = this.state
-
-    // if(_.isEmpty(interviewTime) ||_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration)
-    // || _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-    // _.isEmpty(targetAward) || _.isEmpty(remark)) { // dispatch(alertMsg('请将信息填写完整')) // return }
-
-    // if(interviewTime.length>20){
-    //   dispatch(alertMsg('面试时间填写过长'))
-    //   return
-    // }
     const { remark } = this.state
 
     if(_.isEmpty(remark)) {
@@ -285,24 +272,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
-
-    // let param = {
-    //   applyId,
-    //   profileId,
-    //   interviewTime,
-    //   question,
-    //   focusChannel: targetChannel.value,
-    //   focusChannelName,
-    //   touchDuration: targetTouchDuration.value,
-    //   touchDurationName,
-    //   applyEvent: targetApplyEvent.value,
-    //   applyEventName,
-    //   learningWill: targetLearningWill.id,
-    //   potentialScore: targetPotentialScore.id,
-    //   applyAward: targetAward.id,
-    //   applyReason,
-    //   remark
-    // }
 
     let param = {
       applyId,
@@ -356,15 +325,11 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     } = this.state
     const { dispatch } = this.props
 
-    if(_.isEmpty(interviewTime) || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      dispatch(alertMsg('请将信息填写完整'))
-      return
-    }
-
-    if(interviewTime.length > 20) {
-      dispatch(alertMsg('面试时间填写过长'))
+      // dispatch(alertMsg('请将信息填写完整'))
+      alert('请将信息填写完成')
       return
     }
 
@@ -727,9 +692,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       return (
         <div>
           <div className="backend-interview-container">
-            <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+            <FlatButton label="面试时间"/>
           </div>
-          <TextField
+          <TimePicker
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>
