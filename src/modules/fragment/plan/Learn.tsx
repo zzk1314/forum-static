@@ -21,6 +21,7 @@ const typeMap = {
   2: '选择题',
   11: '应用题',
   12: '应用题',
+  20: '小课介绍',
   21: '小目标',
   31: '知识点',
   32: '知识回顾'
@@ -233,6 +234,11 @@ export default class PlanMain extends React.Component <any, any> {
         pathname: '/fragment/application',
         query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId, complete }
       }) : null
+    } else if(type === 20){
+        this.context ? this.context.router.push({
+            pathname: '/fragment/problem/view',
+            query: { id: item.practiceIdList[0], complete, practicePlanId, show:true }
+          }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/fragment/challenge',
@@ -643,7 +649,7 @@ export default class PlanMain extends React.Component <any, any> {
                   <div className="warmup" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
                 {item.type === 11 || item.type === 12 ?
                   <div className="application" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
-                {item.type === 21 ?
+                {item.type === 20 || item.type === 21 ?
                   <div className="challenge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
                 {item.type === 31 || item.type === 32 ?
                   <div className="knowledge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
@@ -656,9 +662,9 @@ export default class PlanMain extends React.Component <any, any> {
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
             </div>
-            <div className="footer">
-              {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-            </div>
+            {/*<div className="footer">*/}
+              {/*{item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}*/}
+            {/*</div>*/}
           </div>
         )
       })
