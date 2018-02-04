@@ -478,6 +478,7 @@ export default class AsstExecution extends React.Component<any, any> {
               企业培训完成情况：
             </div>
             {renderDialogItem('每月作业：', editData.monthlyWork, (editData.monthlyWork === 'N' && editData.needMonthlyWork === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('缺少作业数：',editData.lackTask,(editData.lackTask > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value'))}
             {renderDialogItem('培养新人次数：', editData.fosterNew, editData.remainFosterNew > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('企业培训次数：', editData.companyNumber, editData.remainCompanyNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('企业培训评分：', editData.companyTrainScore, editData.needCampScore > editData.companyTrainScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}

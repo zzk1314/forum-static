@@ -17,6 +17,7 @@ export default class AsstImport extends React.Component {
       meta: [
         { tag: 'nickName', alias: '昵称',style: _.merge({}, cellStyle, { width: '50px' }) },
         { tag: 'roleName', alias: '教练类别',style: _.merge({}, cellStyle, { width: '50px' }) },
+        {tag:'remainDay',alias:'倒计时天数',style:_.merge({},cellStyle,{width:'50px'})},
         { tag: 'reached', alias: '是否达标',style: _.merge({}, cellStyle, { width: '50px' }) },
         {tag:'needVerified',alias:'是否需要升级认证',style: _.merge({}, cellStyle, { width: '50px' })},
         {tag:'upGrade',alias:'升级认证结果',style: _.merge({}, cellStyle, { width: '50px' })}
