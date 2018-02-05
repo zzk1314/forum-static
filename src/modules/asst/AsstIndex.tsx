@@ -62,6 +62,16 @@ export default class Menu extends React.Component<any,any> {
       return (
         <List>
           <Subheader style={style.listTitle}>
+            <div className="listTitle">助教信息</div>
+          </Subheader>
+          <Divider style={style.divider}/>
+          <ListItem
+            style={this.state.index === 4 ? style.itemActive : style.item}
+            value={4}
+            primaryText="升级信息"
+            onTouchTap={()=>this.onClick('/asst/upgrade/info', 4)} />
+
+          <Subheader style={style.listTitle}>
             <div className="listTitle">商学院申请</div>
           </Subheader>
           <Divider style={style.divider}/>
