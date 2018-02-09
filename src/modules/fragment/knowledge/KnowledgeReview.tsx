@@ -79,7 +79,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
     }
 
     return (
-      <div className="problem-detail">
+      <div className="knowledge-review-container">
         <div className="problem-head">
           <BreadCrumbs level={1} name="知识回顾"/>
           <div className="problem-header">知识回顾</div>
