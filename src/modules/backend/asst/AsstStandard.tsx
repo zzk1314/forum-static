@@ -4,7 +4,7 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import './AsstStandard.less'
 import * as _ from 'lodash'
 import { MessageTable } from '../message/autoreply/MessageTable'
-import { loadAssistsStandard, updateAssistStandard } from './async'
+import { loadAssistsStandard, standardSearch, updateAssistStandard } from './async'
 import { Dialog } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
@@ -49,6 +49,7 @@ export default class AsstStandard extends React.Component<any, any> {
       companyTrainNumber: '',
       companyTrainScore: '',
       needVerified:'',
+      riseId:'',
       RasiedClicked: false
     }
   }
@@ -191,6 +192,7 @@ export default class AsstStandard extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
+      riseId:'',
       needVerified:''
     }, () => {
       this.handlePageClick(this.state.page)
@@ -240,7 +242,22 @@ export default class AsstStandard extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
+      riseId:'',
       needVerified:''
+    })
+  }
+
+  goSearch = () =>{
+    const {dispatch} = this.props
+    const {riseId} = this.state
+    standardSearch(riseId).then(res=>{
+      if(res.code===200){
+        this.setState({
+          standards: res.msg
+        })
+      }else {
+        dispatch(alertMsg(res.msg))
+      }
     })
   }
 
@@ -250,7 +267,7 @@ export default class AsstStandard extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,needVerified
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore,needVerified,riseId
     } = this.state
     const renderProblemContent = () => {
       return (
@@ -359,6 +376,19 @@ export default class AsstStandard extends React.Component<any, any> {
       )
     }
 
+    const renderSearch = () =>{
+      return(
+        <div className="search-container">
+          <TextField floatingLabelText='输入昵称或者RiseId查询' value={riseId} onChange={(e,v)=>this.setState({riseId:v})}/>
+          <RaisedButton
+            label="点击搜索" primary={true}
+            style={{ marginLeft: 50 }}
+            onClick={() => this.goSearch()}
+          />
+        </div>
+      )
+    }
+
     const renderUpgrade = () =>{
       return(
         <div>
@@ -422,6 +452,7 @@ export default class AsstStandard extends React.Component<any, any> {
     return (
       <div className="asst-standard-bs-container">
         {renderDialog()}
+        {renderSearch()}
         <MessageTable data={this.state.standards} meta={this.state.meta}
                       opsButtons={[{
                         editFunc: (item) => {this.openDialog(item)},
