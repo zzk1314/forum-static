@@ -5,7 +5,7 @@ import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   completePlan, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList
+  gradeProblem, isRiseMember, learnKnowledge, queryChapterList
 } from './async'
 import { mark } from '../../../utils/request'
 import * as Async from './async'
