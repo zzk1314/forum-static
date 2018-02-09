@@ -284,7 +284,6 @@ export default class PlanMain extends React.Component <any, any> {
 
   handleClickProblemReview(problemId) {
     mark({ module: '打点', function: 'RISE', action: 'PC打开课程介绍', memo: 'PC' })
-    // this.context.router.push({pathname: '/fragment/problem/view', query: {id: problemId, show: true}});
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, '_blank')
   }
 
@@ -331,12 +330,6 @@ export default class PlanMain extends React.Component <any, any> {
   handleClickUnComplete() {
     const { dispatch } = this.props
     dispatch(alertMsg(null, `先完成所有的知识点和选择题<br/>才能查看报告哦`))
-  }
-
-  handleClickUnMinStudy() {
-    const { dispatch } = this.props
-    const { mustStudyDays } = this.state
-    dispatch(alertMsg(null, `学得太猛了，再复习一下吧<br/>本课程推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一课程了`))
   }
 
   handleClickUnReport() {
@@ -495,11 +488,6 @@ export default class PlanMain extends React.Component <any, any> {
           // 已经完成，直接打开学习报告
           lastBtn = (
             <div onClick={() => this.handleClickGoReport()}>学习报告</div>
-          )
-        } else if(reportStatus === 2) {
-          // 未完成最小学习天数
-          lastBtn = (
-            <div className={` disabled`} onClick={() => this.handleClickUnMinStudy()}>完成课程</div>
           )
         } else if(reportStatus === -2) {
           // 没有完成，需要先完成
