@@ -301,7 +301,9 @@ export default class AsstExecution extends React.Component<any, any> {
     const {riseId} = this.state
     executionSearch(riseId).then(res=>{
       if(res.code===200){
-
+        this.setState({
+          executions: res.msg
+        })
       }else {
         dispatch(alertMsg(res.msg))
       }
