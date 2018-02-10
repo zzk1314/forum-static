@@ -15,3 +15,11 @@ export function loadAssistsExecution(page){
 export function updateAssistsExecution(param){
   return ppost("/pc/operation/assist/execution/update",param)
 }
+
+export function standardSearch(riseId){
+  return pget(`/pc/operation/assist/standard/search/load?riseId=${riseId}`)
+}
+
+export function executionSearch(riseId){
+  return pget(`/pc/operation/assist/execution/search/load?riseId=${riseId}`)
+}

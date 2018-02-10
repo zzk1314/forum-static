@@ -4,11 +4,13 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import './AsstExecution.less'
 import * as _ from 'lodash'
 import { MessageTable } from '../message/autoreply/MessageTable'
-import { loadAssistsExecution, updateAssistsExecution } from './async'
+import { executionSearch, loadAssistsExecution, updateAssistsExecution } from './async'
 import { Dialog, Divider } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import ExcelUpload from '../../../components/ExcelUpload'
+import FlatButton from 'material-ui/FlatButton'
+import RadioButton from 'material-ui/RadioButton'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -54,6 +56,7 @@ export default class AsstExecution extends React.Component<any, any> {
       companyTrainNumber: '',
       companyTrainScore: '',
       upGrade: '',
+      riseId:'',
       RasiedClicked: false
     }
   }
@@ -238,7 +241,8 @@ export default class AsstExecution extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
-      upGrade: ''
+      upGrade: '',
+      riseId:''
     }, () => {
       this.handlePageClick(this.state.page)
     })
@@ -287,7 +291,22 @@ export default class AsstExecution extends React.Component<any, any> {
       fosterNew: '',
       companyTrainNumber: '',
       companyTrainScore: '',
-      upGrade: ''
+      upGrade: '',
+      riseId:''
+    })
+  }
+
+  goSearch = () =>{
+    const {dispatch} = this.props
+    const {riseId} = this.state
+    executionSearch(riseId).then(res=>{
+      if(res.code===200){
+        this.setState({
+          executions: res.msg
+        })
+      }else {
+        dispatch(alertMsg(res.msg))
+      }
     })
   }
 
@@ -297,7 +316,7 @@ export default class AsstExecution extends React.Component<any, any> {
       hostNumber, hostScore, mainPointNumber, mainPointScore,
       onlineAnswer, swing, onlineOrSwingNumber, onlineScore,
       campNumber, asstNumber, campScore,
-      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore, upGrade
+      monthlyWork, fosterNew, companyTrainNumber, companyTrainScore, upGrade,riseId
     } = this.state
     const renderProblemContent = () => {
       return (
@@ -430,6 +449,19 @@ export default class AsstExecution extends React.Component<any, any> {
       )
     }
 
+    const renderSearch = () =>{
+      return(
+        <div className="search-container">
+          <TextField floatingLabelText='输入昵称或者RiseId查询' value={riseId} onChange={(e,v)=>this.setState({riseId:v})}/>
+          <RaisedButton
+            label="点击搜索" primary={true}
+            style={{ marginLeft: 50 }}
+            onClick={() => this.goSearch()}
+          />
+        </div>
+      )
+    }
+
     const renderDialog = () => {
       const { openDialog, editData = {} } = this.state
       return (
@@ -547,6 +579,7 @@ export default class AsstExecution extends React.Component<any, any> {
     return (
       <div className="asst-execution-bs-container">
         {renderUploadExcel()}
+        {renderSearch()}
         {renderDialog()}
         {renderUpdateDialog()}
         <MessageTable data={this.state.executions} meta={this.state.meta}
