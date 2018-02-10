@@ -379,7 +379,7 @@ export default class AsstStandard extends React.Component<any, any> {
     const renderSearch = () =>{
       return(
         <div className="search-container">
-          <TextField floatingLabelText='输入昵称或者RiseId查询' value={riseId} onChange={(e,v)=>this.setState({riseId:v})}/>
+          <TextField floatingLabelText='输入昵称或者学号或者RiseId查询' value={riseId} onChange={(e,v)=>this.setState({riseId:v})}/>
           <RaisedButton
             label="点击搜索" primary={true}
             style={{ marginLeft: 50 }}
