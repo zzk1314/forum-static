@@ -1,12 +1,12 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import "./ProblemViewer.less";
-import Audio from "../../../components/Audio";
-import AssetImg from "../../../components/AssetImg";
-import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { loadProblem, createPlan, checkCreatePlan } from "./async";
-import AlertMessage from "../../../components/AlertMessage";
-import { BreadCrumbs } from "../commons/FragmentComponent"
+import * as React from 'react'
+import { connect } from 'react-redux'
+import './ProblemViewer.less'
+import Audio from '../../../components/Audio'
+import AssetImg from '../../../components/AssetImg'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { loadProblem, createPlan, checkCreatePlan, openProblemIntroduction } from './async'
+import AlertMessage from '../../../components/AlertMessage'
+import { BreadCrumbs } from '../commons/FragmentComponent'
 import QYVideo from '../../../components/QYVideo'
 
 @connect(state => state)
@@ -17,7 +17,7 @@ export default class ProblemViewer extends React.Component<any, any> {
   }
 
   constructor() {
-    super();
+    super()
     this.state = {
       data: {},
       showAlert: false,
@@ -30,17 +30,17 @@ export default class ProblemViewer extends React.Component<any, any> {
           },
           {
             label: '想好了',
-            onClick: this.submitProblem.bind(this),
+            onClick: this.submitProblem.bind(this)
           }
         ]
       },
-      show: true,
+      show: true
     }
   }
 
   componentWillMount() {
     const { dispatch, location } = this.props
-    const { id } = location.query
+    const { id, practicePlanId } = location.query
     dispatch(startLoad())
     loadProblem(id).then(res => {
       dispatch(endLoad())
@@ -49,6 +49,11 @@ export default class ProblemViewer extends React.Component<any, any> {
         this.setState({ data: msg })
       } else {
         dispatch(alertMsg(msg))
+      }
+    })
+    openProblemIntroduction(id, practicePlanId).then(res => {
+      if(res.code !== 200) {
+        dispatch(alertMsg(res.msg))
       }
     })
   }
@@ -87,9 +92,9 @@ export default class ProblemViewer extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showTip } = this.state;
+    const { data, showTip } = this.state
     const { show } = this.props.location.query
-    const { authorPic, length, why, what, who, audio,audioWords,chapterList, problem,videoUrl,videoWords,videoPoster } = data;
+    const { authorPic, length, why, what, who, audio, audioWords, chapterList, problem, videoUrl, videoWords, videoPoster } = data
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -122,16 +127,16 @@ export default class ProblemViewer extends React.Component<any, any> {
               <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>
             </div>}
             <div className="page-content">
-              { audio ? <div className="context-audio">
+              {audio ? <div className="context-audio">
                 <Audio url={audio} words={audioWords}/>
-              </div> : null }
+              </div> : null}
               <div style={{ marginTop: 30 }}>
-                <pre dangerouslySetInnerHTML={{ __html: why }} />
+                <pre dangerouslySetInnerHTML={{ __html: why }}/>
               </div>
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              {what ? <pre dangerouslySetInnerHTML={{ __html: what }} /> : null}
+              {what ? <pre dangerouslySetInnerHTML={{ __html: what }}/> : null}
               <div
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
 
@@ -154,10 +159,8 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="text">教研团队的推荐进度：2天学习1节，第1天：知识点学习、选择题，第2天：2个应用题</div>
 
               <div className="text">
-                <div className="time-tip-content"><b>开放时长：</b>30天
-                  {showTip ? <div className="tip"><br/>
-                    说明：<br/>
-                    本课程最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
+                <div className="time-tip-content"><b>开放时长：</b>30天 {showTip ?
+                  <div className="tip"><br/> 说明：<br/> 本课程最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
                   </div> : <div className="tip-img" onClick={() => this.setState({ showTip: true })}>
                     <AssetImg width={16} height={16} type="question-mark"/></div>}
                 </div>
@@ -165,17 +168,14 @@ export default class ProblemViewer extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        { show ?
+        {show ?
           null
           :
           <div className="button-footer" onClick={() => this.show()}>
-            学习该课程
-          </div>
-        }
-        <AlertMessage { ...this.state.alert }
-                      open={this.state.showAlert}>
-          <p className="global-pre">选择后，需要先学完该课程，才能选择下一课程，想好了吗？</p>
-        </AlertMessage>
+            学习该课程 </div>
+        } <AlertMessage {...this.state.alert} open={this.state.showAlert}>
+        <p className="global-pre">选择后，需要先学完该课程，才能选择下一课程，想好了吗？</p>
+      </AlertMessage>
       </div>
     )
   }
