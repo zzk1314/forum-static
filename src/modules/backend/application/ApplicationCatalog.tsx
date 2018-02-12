@@ -83,7 +83,7 @@ export default class ApplicationCatalog extends React.Component<any,any> {
     const {applicationList} = this.state;
 
     return (
-      <div className="catalog">
+      <div className="application-catalog">
         <div className="item-container">
           <div className="title app">应用练习</div>
           <div className="app-container">
