@@ -8,8 +8,8 @@ export function loadAssistCatalogs(){
   return pget('/pc/operation/assist/load/catalog')
 }
 
-export function updateAssistCatalog(assist,assistCatalog){
-  return pget(`/pc/operation/assist/update/${assist}/${assistCatalog}`)
+export function updateAssistCatalog(riseId,assist,assistCatalog){
+  return pget(`/pc/operation/assist/update?riseId=${riseId}&assist=${assist}&catalog=${assistCatalog}`)
 }
 
 export function loadUnAssistByNickName(nickName){

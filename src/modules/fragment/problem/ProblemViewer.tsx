@@ -157,18 +157,11 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div className="time-tip-content"><b>开放时长：</b>30天
                   {showTip ? <div className="tip"><br/>
                     说明：<br/>
-                    本课程最少开放{Math.round(length / 2)}天，最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
+                    本课程最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
                   </div> : <div className="tip-img" onClick={() => this.setState({ showTip: true })}>
                     <AssetImg width={16} height={16} type="question-mark"/></div>}
                 </div>
               </div>
-
-              <div className="context-title-img">
-                <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/where_2.png"/>
-              </div>
-              <div className="text">随时随地，多客户端</div>
-              <div className="text"><b>手机微信：</b>圈外同学-上课啦</div>
-              <div className="text"><b>网站：</b>www.iquanwai.com，点击圈外同学</div>
             </div>
           </div>
         </div>
