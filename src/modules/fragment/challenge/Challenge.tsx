@@ -122,7 +122,7 @@ export default class Challenge extends React.Component<any, any> {
           <div>
             <Work onEdit={() => this.onEdit()} operation={false}
                   articleModule={ArticleViewModule.Challenge}
-                  headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
+                  headImage={window.ENV.headImgUrl} userName={window.ENV.userName} {...data}/>
           </div>
         )
       }
