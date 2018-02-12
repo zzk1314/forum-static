@@ -8,7 +8,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 // 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(function(response) {
   if(response.status === 700) {
-    window.location.href = '/login'
+    window.location.href = encodeURI(`${window.location.protocol}//${window.location.host}/login?callbackUrl=${window.location.href}`)
   } else {
     return response
   }
