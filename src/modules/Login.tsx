@@ -15,11 +15,11 @@ export default class Login extends React.Component<any, any> {
   componentDidMount() {
     pget('/wx/oauth/pc/auth', {
       callbackUrl: this.props.location.query.callbackUrl ?
-        `${encodeURIComponent(this.props.location.query.callbackUrl)}` :
+        `${encodeURI(this.props.location.query.callbackUrl)}` :
         `https://${window.location.host}/fragment/rise`
     }).then(res => {
       if(res.code === 200) {
-        let param = _.merge({}, res.msg, {id: 'qr_code'})
+        let param = _.merge({}, res.msg, { id: 'qr_code' })
         window.obj = new WxLogin(param)
       }
     })
@@ -29,7 +29,7 @@ export default class Login extends React.Component<any, any> {
     return (
       <div className="messageContainer container">
         <NavigatorBar/>
-        <div className="qrContainer" style={{textAlign: 'center', marginTop: 130}}>
+        <div className="qrContainer" style={{ textAlign: 'center', marginTop: 130 }}>
           <div id="qr_code"/>
           <p className="loginTip">微信扫一扫，登录圈外</p>
         </div>
