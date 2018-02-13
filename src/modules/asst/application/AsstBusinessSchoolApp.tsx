@@ -8,6 +8,7 @@ import {
 import * as _ from 'lodash'
 import { MessageTable } from '../../backend/message/autoreply/MessageTable'
 import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
+import TimePicker from 'material-ui/TimePicker'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -121,6 +122,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   openDialog(data) {
     if(data.interviewRecord != null) {
       const { interviewRecord } = data
+      let interviewTime = new Date(interviewRecord.interviewTime)
+
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -176,7 +179,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       })
 
       this.setState({
-        interviewTime: interviewRecord.interviewTime,
+        interviewTime,
         question: interviewRecord.question,
         targetChannel,
         focusChannelName: interviewRecord.focusChannelName,
@@ -277,18 +280,21 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   handleSubmit() {
     const { dispatch } = this.props
 
+
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
 
-    if(_.isEmpty(interviewTime) || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if( interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      dispatch(alertMsg('请将信息填写完整'))
+      alert('请将信息填写完成')
       return
     }
+
+
     let param = {
       applyId,
       profileId,
@@ -388,9 +394,9 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       return (
         <div>
           <div className="interview-container">
-            <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+            <FlatButton label="面试时间"/>
           </div>
-          <TextField
+          <TimePicker
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>

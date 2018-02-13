@@ -13,15 +13,15 @@ export function loadBusinessApplicationList(page) {
 }
 
 export function rejectBusinessApplication(id, param) {
-  return ppost(`/pc/operation/bs/application/reject`, { id: id, interviewRecord: param });
+  return ppost(`/pc/operation/bs/application/reject`, { id: id, interviewDto: param });
 }
 
 export function approveBusinessApplication(id, coupon, param) {
-  return ppost("/pc/operation/bs/application/approve", { id: id, coupon: coupon, interviewRecord: param });
+  return ppost("/pc/operation/bs/application/approve", { id: id, coupon: coupon, interviewDto: param });
 }
 
 export function ignoreBusinessApplication(id, param) {
-  return ppost("/pc/operation/bs/application/ignore", { id: id, interviewRecord: param });
+  return ppost("/pc/operation/bs/application/ignore", { id: id, interviewDto: param });
 }
 
 export function sendCheckedApplication(time) {

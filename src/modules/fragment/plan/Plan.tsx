@@ -4,7 +4,7 @@ import { set, alertMsg, startLoad, endLoad } from 'redux/actions'
 import { checkIsFollow, loadSelfPlans } from './async'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
-import _ from "lodash"
+import _ from 'lodash'
 
 import './Plan.less'
 
@@ -17,6 +17,7 @@ interface PlanStates {
   isloading: boolean;
   isFollow: boolean;
 }
+
 @connect(state => state)
 export default class Plan extends React.Component<any, PlanStates> {
 
@@ -36,21 +37,18 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "RISE", action: "PC打开计划列表页", memo: "PC" });
-    const { dispatch } = this.props;
-    dispatch(startLoad());
+    mark({module: '打点', function: 'RISE', action: 'PC打开计划列表页', memo: 'PC'})
+    const {dispatch} = this.props
+    dispatch(startLoad())
     checkIsFollow().then(res => {
-      if(res.code === 401) {
+      if(res.code !== 200) {
         dispatch(endLoad())
-        this.context.router.push("/login")
-      } else if(res.code === 403) {
-        dispatch(endLoad())
-        this.setState({ isloading: false, isFollow: false })
+        this.setState({isloading: false, isFollow: false})
       } else {
         loadSelfPlans().then(res => {
-          this.setState({ isloading: false })
+          this.setState({isloading: false})
           dispatch(endLoad())
-          const { code, msg } = res
+          const {code, msg} = res
           if(code === 200) {
             this.setState({
               runningPlans: msg.runningPlans, completedPlans: msg.completedPlans, auditions: msg.auditions
@@ -65,12 +63,12 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   handleClickPlan(plan) {
-    const { learnable, startDate } = plan
-    const { dispatch } = this.props
+    const {learnable, startDate} = plan
+    const {dispatch} = this.props
     if(learnable) {
       this.context.router.push({
         pathname: '/fragment/learn',
-        query: { planId: plan.planId }
+        query: {planId: plan.planId}
       })
     } else {
       dispatch(alertMsg(`专项课将于${startDate}统一开营\n在当天开始学习哦！`))
@@ -102,7 +100,7 @@ export default class Plan extends React.Component<any, PlanStates> {
   }
 
   render() {
-    const { runningPlans = [], completedPlans = [], isloading, isFollow, auditions = [] } = this.state
+    const {runningPlans = [], completedPlans = [], isloading, isFollow, auditions = []} = this.state
 
     const renderAuditionPlans = () => {
       return this.generatePlansView(auditions)
@@ -155,7 +153,7 @@ export default class Plan extends React.Component<any, PlanStates> {
 
     return (
       <div className="plan-container">
-        <div className="plan-content" style={{ minHeight: window.innerHeight - 50 }}>
+        <div className="plan-content" style={{minHeight: window.innerHeight - 50}}>
           {!isloading ?
             <div>
               {

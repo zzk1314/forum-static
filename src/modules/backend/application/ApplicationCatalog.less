@@ -1,0 +1,140 @@
+.application-catalog {
+  background-color: #f5f5f5;
+  .item-container {
+    padding: 20px 10px 40px;
+    background-color: #FFF;
+    border-radius: 4px;
+    border-bottom: 1px solid #cccccc;
+    .title {
+      width: 100px;
+      font-size: 18px;
+      line-height: 18px;
+      padding-bottom: 10px;
+      text-align: center;
+      border-bottom: 2px solid #55cbcb;
+      color:#999999;
+      &:before {
+        content: '';
+        display: inline-block;
+        line-height: 18px;
+        width: 13px;
+        height: 18px;
+        float: left;
+      }
+      &.subject:before {
+        background: url("https://static.iqycamp.com/images/pcCatalogStar.png?imageslim") no-repeat center center;
+      }
+      &.goal:before {
+        background: url("https://static.iqycamp.com/images/pcCatalogGoal.png?imageslim") no-repeat center center;
+      }
+      &.app:before {
+        background: url("https://static.iqycamp.com/images/pcCatalogApp.png?imageslim") no-repeat center center;
+      }
+    }
+    > .content {
+      font-size: 20px;
+      line-height: 24px;
+      color: #666666;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    > .detail {
+      > .score {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 16px;
+        color: #999999;
+      }
+      > .go {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 16px;
+        float: right;
+        margin-right: 20px;
+        color: #55cbcb;
+      }
+    }
+    > .app-container{
+      > .item{
+        border-bottom:1px dashed #cccccc;
+        > .content {
+          font-size: 20px;
+          line-height: 20px;
+          color: #666666;
+          margin-top:5px;
+          padding-top: 15px;
+          padding-bottom: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  > .riseInnerContainer {
+    > .rise-workContainer {
+      > .title {
+        padding-top: 30px;
+        padding-bottom: 10px;
+        text-align: center;
+        > .title-text {
+          display: inline-block;
+          font-size: 24px;
+          color: #666666;
+          &:before {
+            content: '';
+            display: inline-block;
+            margin-right: 12px;
+            vertical-align: middle;
+            width: 29px;
+            height: 5px;
+            background: url('https://static.iqycamp.com/images/pcWorkSplit.png?imageslim') no-repeat;
+            margin-bottom: 3px;
+            transform: scaleX(-1);
+            //filter: FlipH;
+          }
+          &:after {
+            content: '';
+            display: inline-block;
+            margin-left: 12px;
+            vertical-align: middle;
+            width: 29px;
+            height: 5px;
+            background: url('https://static.iqycamp.com/images/pcWorkSplit.png?imageslim') no-repeat;
+            margin-bottom: 3px;
+          }
+        }
+      }
+      > .content {
+        > .rise-workItem {
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          padding-left: 20px;
+          margin-top: 5px;
+          margin-bottom: 5px;
+          height: 120px;
+          background-color: #FFF;
+          overflow: hidden;
+          cursor: pointer;
+          > .rise-workTitle {
+            font-size: 24px;
+            color: #999999;
+            margin-top: 26px;
+            margin-bottom: 16px;
+          }
+          > .rise-workScore {
+            font-size: 16px;
+            color: #999999;
+          }
+          > .rise-go {
+            float: right;
+            margin-right: 20px;
+            margin-top: -38px;
+            img {
+            }
+          }
+        }
+      }
+    }
+  }
+}

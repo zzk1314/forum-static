@@ -44,3 +44,7 @@ export function insertWarmupPractice (param){
 export function loadWarmupPracticeByPracticeUid(practiceUid) {
   return pget(`/pc/operation/warmup/load/problem/${practiceUid}`)
 }
+
+export function highlight(discussId){
+  return ppost(`/pc/operation/highlight/discuss/${discussId}`,null)
+}

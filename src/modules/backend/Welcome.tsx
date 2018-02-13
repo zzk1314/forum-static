@@ -13,7 +13,7 @@ export default class Welcome extends React.Component<any,any> {
       const {code, msg} = res;
       if (code === 200) {
         window.ENV.userName = msg.weixinName;
-        window.ENV.headImage = msg.headimgUrl;
+        window.ENV.headImgUrl = msg.headimgUrl;
       } else if (code === 401) {
         setTimeout(() => window.location.href = "/login?callbackUrl=/backend", 500);
         throw new BreakSignal("请先登录");

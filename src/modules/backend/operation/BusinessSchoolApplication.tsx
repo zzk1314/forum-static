@@ -11,6 +11,8 @@ import * as _ from 'lodash'
 import { MessageTable } from '../message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
 import Confirm from '../../../components/Confirm'
+import isEmpty = require('lodash/isEmpty')
+import TimePicker from 'material-ui/TimePicker'
 
 const cellStyle = {
   paddingLeft: 0,
@@ -160,6 +162,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   openDialog(data) {
     if(data.interviewRecord != null) {
       const { interviewRecord } = data
+      let interviewTime = new Date(interviewRecord.interviewTime)
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -215,7 +218,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       })
 
       this.setState({
-        interviewTime: interviewRecord.interviewTime,
+        interviewTime,
         question: interviewRecord.question,
         targetChannel,
         focusChannelName: interviewRecord.focusChannelName,
@@ -248,17 +251,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    const { dispatch } = this.props
-    const {
-      interviewTime,question, targetChannel,
-      targetTouchDuration,
-      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
-    } = this.state
+    const { remark } = this.state
 
-    if(_.isEmpty(interviewTime) ||_.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
-      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-      _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      dispatch(alertMsg('请将信息填写完整'))
+    if(_.isEmpty(remark)) {
+      alert('面试备注不能为空')
       return
     }
 
@@ -270,31 +266,42 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   handleClickRejectApplication() {
     const {
-      editData = {},interviewTime, applyId, profileId, question, targetChannel,
+      editData = {}, interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
 
-
-
     let param = {
       applyId,
       profileId,
       interviewTime,
       question,
-      focusChannel: targetChannel.value,
       focusChannelName,
-      touchDuration: targetTouchDuration.value,
       touchDurationName,
-      applyEvent: targetApplyEvent.value,
       applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
       applyReason,
       remark
+    }
+
+    if(!_.isEmpty(targetChannel)){
+      param = _.merge( param ,{focusChannel:targetChannel.value})
+    }
+    if(!_.isEmpty(targetTouchDuration)){
+      param = _.merge( param ,{touchDuration:targetTouchDuration.value})
+    }
+    if(!_.isEmpty(targetApplyEvent)){
+      param = _.merge( param ,{applyEvent:targetApplyEvent.value})
+    }
+    if(!_.isEmpty(targetLearningWill)){
+      param = _.merge( param ,{learningWill:targetLearningWill.id})
+    }
+    if(!_.isEmpty(targetPotentialScore)){
+      param = _.merge( param ,{potentialScore:targetPotentialScore.id})
+    }
+    if(!_.isEmpty(targetAward)){
+      param = _.merge( param ,{applyAward:targetAward.id})
     }
 
     rejectBusinessApplication(editData.id, param).then(res => {
@@ -312,16 +319,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   checkCommentedApproval() {
     const {
-      interviewTime,question, targetChannel,
+      interviewTime, question, targetChannel,
       targetTouchDuration,
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
     } = this.state
     const { dispatch } = this.props
 
-    if(_.isEmpty(interviewTime) || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      dispatch(alertMsg('请将信息填写完整'))
+      // dispatch(alertMsg('请将信息填写完整'))
+      alert('请将信息填写完成')
       return
     }
 
@@ -334,11 +342,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   handleClickApprove(data, coupon) {
     const { dispatch } = this.props
     const {
-     interviewTime, applyId, profileId, question, targetChannel,
+      interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
     } = this.state
-
 
     let param = {
       applyId,
@@ -517,7 +524,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             primaryText: `${res.msg[i].asstType} ${res.msg[i].asstName}  已分配${res.msg[i].assignCount}人`
           })
         }
-        this.setState({openInterviewerDialog: true, editData: data,assts: assts })
+        this.setState({ openInterviewerDialog: true, editData: data, assts: assts })
       }
     })
   }
@@ -679,15 +686,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
      */
     const renderInterview = () => {
       const {
-        interviewTime, question,remark
+        interviewTime, question, remark
       } = this.state
 
       return (
         <div>
           <div className="backend-interview-container">
-            <FlatButton label="面试时间(例：2000-01-01 06:00:00)"/>
+            <FlatButton label="面试时间"/>
           </div>
-          <TextField
+          <TimePicker
             value={interviewTime}
             onChange={(e, v) => this.setState({ interviewTime: v })}
           /><br/>
@@ -719,7 +726,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       )
     }
-
 
     /**
      * 关注渠道
