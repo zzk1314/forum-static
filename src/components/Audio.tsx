@@ -140,26 +140,26 @@ export default class Audio extends React.Component<any, any> {
       <div className="audio">
         <div className="audio-container">
           {loading ?
-            <div className="audio-btn" onClick={this.pause.bind(this)}>
+            <div className="audio-btn" onClick={()=>this.pause()}>
               <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
             </div>
             : playing ?
-              <div className="audio-btn" onClick={this.pause.bind(this)}>
+              <div className="audio-btn" onClick={()=>this.pause()}>
                 <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
               </div> :
-              <div className="audio-btn" onClick={this.start.bind(this)}>
+              <div className="audio-btn" onClick={()=>this.start()}>
                 <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
               </div>
           }
           <div className="audio-progress">
-            <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
+            <Slider min={0} max={duration} value={currentSecond} onChange={()=>this.onProgressChange()}
                     withBars={true}/>
           </div>
           <div className="audio-duration">
             {intToTime(currentSecond)} / {intToTime(duration)}
           </div>
           <audio ref="sound" src={url}
-                 onEnded={this.onEnd.bind(this)}
+                 onEnded={()=>this.onEnd()}
           />
         </div>
       </div>

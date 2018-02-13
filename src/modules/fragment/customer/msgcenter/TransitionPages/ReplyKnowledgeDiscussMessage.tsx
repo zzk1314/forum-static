@@ -122,7 +122,7 @@ export default class ReplyKnowledgeDiscussMessage extends React.Component<any, a
     return (
       <div className="replyknowledge-container">
         <div className="question">知识点:{knowledge ? knowledge.knowledge : null}</div>
-        <div className="origin-question-tip" onClick={this.handleClickGoKnowledgePage.bind(this)}>点击查看相关知识</div>
+        <div className="origin-question-tip" onClick={()=>this.handleClickGoKnowledgePage()}>点击查看相关知识</div>
         <TitleBar content={this.state.data.del === 1 ? `该评论已删除` : `当前评论`}/>
         {renderDiscuss(data)}
         {showDiscuss ?

@@ -184,7 +184,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
                       ))
                     }
                     <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
-                      <span onClick={this.handleEditProfile.bind(this, dataItem)}>编辑</span>
+                      <span onClick={()=>this.handleEditProfile(dataItem)}>编辑</span>
                     </TableRowColumn>
                   </TableRow>
                 )) : null

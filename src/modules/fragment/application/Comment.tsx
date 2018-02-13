@@ -68,7 +68,7 @@ export default class Comment extends React.Component<any, any> {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [res.msg].concat(this.state.commentList),
+              commentList: [ res.msg ].concat(this.state.commentList),
               showDiscuss: false,
               showSelfDiscuss: false,
               editDisable: false
@@ -85,7 +85,7 @@ export default class Comment extends React.Component<any, any> {
         comment(location.query.submitId, content).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [res.msg].concat(this.state.commentList),
+              commentList: [ res.msg ].concat(this.state.commentList),
               showDiscuss: false,
               showSelfDiscuss: false,
               editDisable: false
@@ -173,7 +173,7 @@ export default class Comment extends React.Component<any, any> {
                   reply={() => {
                     this.reply(item);
                   }}
-                  onDelete={this.onDelete.bind(this, item.id)}
+                  onDelete={()=>this.onDelete(item.id)}
                 />
                 {
                   this.state.showDiscuss && item.id === this.state.id ?

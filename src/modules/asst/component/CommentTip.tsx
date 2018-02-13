@@ -43,8 +43,8 @@ export default class CommentTip extends React.Component<any, any> {
     return (
       <Paper style={style.paper}>
         <div className="comment-count">今日点评<span>{todayComment}</span>份</div>
-        <div className="comment-count"><a href="/asst/commented" onMouseOut={this.onMouseOut.bind(this)}
-                                          onMouseOver={this.onMouseOver.bind(this)}>
+        <div className="comment-count"><a href="/asst/commented" onMouseOut={()=>this.onMouseOut()}
+                                          onMouseOver={()=>this.onMouseOver()}>
           共点评过{' '}
           <div ref="total">{totalComment}</div>
           {' '}份</a></div>

@@ -55,8 +55,6 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     }
   }
 
-
-
   componentWillMount(nextProps) {
     const { location } = nextProps || this.props;
 
@@ -107,7 +105,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.location.query.id !== nextProps.location.query.id){
+    if(this.props.location.query.id !== nextProps.location.query.id) {
       this.componentWillMount(nextProps);
     }
   }
@@ -235,7 +233,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     // 将对应 id 值的 checkbox 值拼装
     // questionid 要通过后端 insert WarmupPractice 返回得到
     let { choices } = this.state
-    choices[id] = { sequence: id + 1, isRight, subject: _.trim(subject) }
+    choices[ id ] = { sequence: id + 1, isRight, subject: _.trim(subject) }
     this.setState({
       choices: choices
     })
@@ -251,23 +249,23 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
 
   onAnswerChange(value, idx) {
     const { choiceList = [] } = this.state
-    if(value != choiceList[idx].isRight) {
-      _.set(choiceList[idx], 'isRight', value === '√')
+    if(value != choiceList[ idx ].isRight) {
+      _.set(choiceList[ idx ], 'isRight', value === '√')
       this.setState({ choiceList, edit: true })
     }
   }
 
   onChoiceEdit(idx) {
     const { choiceList = [] } = this.state
-    _.set(choiceList[idx], 'choiceEdit', true)
+    _.set(choiceList[ idx ], 'choiceEdit', true)
     this.setState({ choiceList })
   }
 
   onChoiceChange(value, idx) {
     const { choiceList = [] } = this.state
-    if(value !== choiceList[idx].subject) {
-      _.set(choiceList[idx], 'subject', value)
-      _.set(choiceList[idx], 'choiceEdit', false)
+    if(value !== choiceList[ idx ].subject) {
+      _.set(choiceList[ idx ], 'subject', value)
+      _.set(choiceList[ idx ], 'choiceEdit', false)
       this.setState({ choiceList, edit: true })
     }
   }
@@ -294,10 +292,10 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       question: '',
       analysis: ''
     })
-    if(this.refs.question){
+    if(this.refs.question) {
       this.refs.question.setValue('')
     }
-    if(this.refs.analysis){
+    if(this.refs.analysis) {
       this.refs.analysis.setValue('')
     }
   }
@@ -311,7 +309,6 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
       choices, choicesCnt, problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
     } = this.state
-
 
     const renderProblemSelect = () => {
       return (
@@ -444,7 +441,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
                           this.setState({ choicesCnt: this.state.choicesCnt + 1 })
                         }}/>
           <RaisedButton className="main-btn" label="删除选项" primary={true}
-                        onTouchTap={this.handleClickRemoveChoice.bind(this)}/>
+                        onTouchTap={()=>this.handleClickRemoveChoice()}/>
         </div>
       )
     }
@@ -526,7 +523,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           </div>
           <RaisedButton
             className="submit-btn" label="提交题目" primary={true}
-            onTouchTap={this.submitWarmupPractice.bind(this)}/>
+            onTouchTap={()=>this.submitWarmupPractice()}/>
         </div>
         {renderOtherComponents()}
       </div>

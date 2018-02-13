@@ -76,7 +76,7 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
         // 更新 data 数据
         data.map((item, index) => {
           if(item.riseId === res.msg.riseId) {
-            data[index] = res.msg
+            data[ index ] = res.msg
           }
         })
         this.setState({
@@ -172,11 +172,11 @@ export class DataTable extends React.Component<DataTableProps, DataTableState> {
                     <TableHeaderColumn>{index + 1}</TableHeaderColumn>
                     {
                       meta.map((metaItem, index) => (
-                        <TableRowColumn key={index}>{dataItem[metaItem.tag]}</TableRowColumn>
+                        <TableRowColumn key={index}>{dataItem[ metaItem.tag ]}</TableRowColumn>
                       ))
                     }
                     <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
-                      <span onClick={this.handleEditProfile.bind(this, dataItem)}>编辑</span>
+                      <span onClick={()=>this.handleEditProfile(dataItem)}>编辑</span>
                     </TableRowColumn>
                   </TableRow>
                 )) : null

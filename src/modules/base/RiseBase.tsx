@@ -41,11 +41,11 @@ export default class Main extends React.Component<any, any> {
       return <div></div>
     }
 
-    const actions = [{
-      'label': '我知道了',
-      'onClick': this.closeBaseAlert.bind(this),
-      'primary': true
-    }]
+    const actions = [ {
+      "label": "我知道了",
+      "onClick": () => this.closeBaseAlert(),
+      "primary": true
+    } ]
 
     const renderFeedBack = () => {
       return (

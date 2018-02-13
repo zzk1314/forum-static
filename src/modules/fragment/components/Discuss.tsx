@@ -24,14 +24,14 @@ export default class Discuss extends React.Component <any, any> {
   onSubmit() {
     const { submit } = this.props;
     const result = submit();
-    if(result !== false){
+    if(result !== false) {
       this.refs.input.value = '';
     }
   }
 
   change(value) {
     const { onChange } = this.props;
-    this.setState({length:value.length});
+    this.setState({ length: value.length });
     onChange(value);
   }
 
@@ -42,7 +42,8 @@ export default class Discuss extends React.Component <any, any> {
     return (
       <div className="comment-dialog">
         <div className="textarea-div">
-          <textarea ref="input" placeholder={placeholder} maxLength={limit} onChange={(e) => this.change(e.currentTarget.value)}>
+          <textarea ref="input" placeholder={placeholder} maxLength={limit}
+                    onChange={(e) => this.change(e.currentTarget.value)}>
           </textarea>
         </div>
         <div className="comment-right-area">
@@ -50,7 +51,7 @@ export default class Discuss extends React.Component <any, any> {
           {
             editDisable ?
               <div className="comment-button disabled">评论中</div> :
-              <div className="comment-button hover-cursor" onClick={this.onSubmit.bind(this)}>评论</div>
+              <div className="comment-button hover-cursor" onClick={()=>this.onSubmit()}>评论</div>
           }
         </div>
         <div className="length-div">

@@ -111,7 +111,7 @@ export default class CampUserUnGroup extends React.Component {
         <RaisedButton
           label="批量分组"
           style={{ height: 30, marginTop: 20 }}
-          onClick={this.batchHandle.bind(this)}/>
+          onClick={()=>this.batchHandle()}/>
         <DataTable ref="table"
                    data={data}
                    meta={meta}

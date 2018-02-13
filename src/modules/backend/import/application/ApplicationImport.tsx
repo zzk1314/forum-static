@@ -338,7 +338,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
           </div>
 
           <RaisedButton className="submit-btn" primary={true} label="提交题目"
-                        onTouchTap={this.submitApplication.bind(this)}/>
+                        onTouchTap={()=>this.submitApplication()}/>
         </div>
         {renderOtherComponents()}
       </div>

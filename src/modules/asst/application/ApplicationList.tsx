@@ -274,7 +274,7 @@ export default class ApplicationList extends React.Component<any, any> {
               </div>
             </div>
           }
-          <RaisedButton primary={true} label="点击搜索" onClick={this.onClickSearchWorks.bind(this)}/>
+          <RaisedButton primary={true} label="点击搜索" onClick={()=>this.onClickSearchWorks()}/>
         </div>
       )
     }

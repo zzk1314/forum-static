@@ -205,7 +205,7 @@ export default class WarmupPracticeView extends React.Component <any, any> {
           <div key={idx}>
             <DiscussShow
                 key={idx} discuss={discuss} reply={() => this.reply(discuss)}
-                onDelete={this.onDelete.bind(this, discuss.id)}/>
+                onDelete={()=>this.onDelete(discuss.id)}/>
             {
               this.state.showDiscuss && this.state.repliedId === discuss.id ?
                   <Discuss

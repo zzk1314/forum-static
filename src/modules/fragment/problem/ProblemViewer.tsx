@@ -26,11 +26,11 @@ export default class ProblemViewer extends React.Component<any, any> {
         actions: [
           {
             label: '再看看',
-            onClick: this.close.bind(this)
+            onClick: ()=>this.close()
           },
           {
             label: '想好了',
-            onClick: this.submitProblem.bind(this)
+            onClick: ()=>this.submitProblem()
           }
         ]
       },
@@ -127,16 +127,16 @@ export default class ProblemViewer extends React.Component<any, any> {
               <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>
             </div>}
             <div className="page-content">
-              {audio ? <div className="context-audio">
+              {audio && <div className="context-audio">
                 <Audio url={audio} words={audioWords}/>
-              </div> : null}
+              </div> }
               <div style={{ marginTop: 30 }}>
                 <pre dangerouslySetInnerHTML={{ __html: why }}/>
               </div>
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              {what ? <pre dangerouslySetInnerHTML={{ __html: what }}/> : null}
+              {what && <pre dangerouslySetInnerHTML={{ __html: what }}/> }
               <div
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
 
@@ -168,10 +168,7 @@ export default class ProblemViewer extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        {show ?
-          null
-          :
-          <div className="button-footer" onClick={() => this.show()}>
+        {!show && <div className="button-footer" onClick={() => this.show()}>
             学习该课程 </div>
         } <AlertMessage {...this.state.alert} open={this.state.showAlert}>
         <p className="global-pre">选择后，需要先学完该课程，才能选择下一课程，想好了吗？</p>

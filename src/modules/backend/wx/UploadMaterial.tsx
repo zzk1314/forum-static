@@ -34,9 +34,9 @@ export default class UploadMaterial extends React.Component<any, any> {
             /><br/>
           </div>
           <PicUpload action={`/wx/file/upload/image/?tmp=1&remark=${remark}`} flatLabel={`上传临时素材`}
-                     showMedia={this.showMedia.bind(this)}/>
+                     showMedia={()=>this.showMedia()}/>
           <PicUpload action={`/wx/file/upload/image/?tmp=0&remark=${remark}`} flatLabel={`上传永久素材`}
-                     showMedia={this.showMedia.bind(this)}/>
+                     showMedia={()=>this.showMedia()}/>
           {media_id != '' && <div className="media-id-container">{`media_id:${media_id}`}</div>}
         </div>
       )
