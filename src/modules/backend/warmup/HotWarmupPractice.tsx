@@ -64,7 +64,11 @@ export default class HotWarmupPractice extends React.Component<any,any> {
   }
 
   view(practice){
-    window.open(`/asst/warmup/view?id=${practice.id}`)
+    if(this.props.location.pathname.indexOf('asst')!=-1){
+      window.open(`/asst/warmup/view?id=${practice.id}`)
+    }else{
+      window.open(`/backend/warmup/view?id=${practice.id}`)
+    }
   }
 
   render() {

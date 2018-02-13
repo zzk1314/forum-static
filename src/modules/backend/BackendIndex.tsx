@@ -103,12 +103,12 @@ export default class Fragment extends React.Component<any, any> {
           <Divider style={style.divider}/>
           <div className="catalog-area">
             {/*<div className="catalog-name"*/}
-                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>*/}
-              {/*学员录入*/}
+            {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>*/}
+            {/*学员录入*/}
             {/*</div>*/}
             {/*<div className="catalog-name"*/}
-                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>*/}
-              {/*学员分组*/}
+            {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>*/}
+            {/*学员分组*/}
             {/*</div>*/}
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>
@@ -118,8 +118,19 @@ export default class Fragment extends React.Component<any, any> {
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/identity' })}}>
               优秀学员
             </div>
-            <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/assist/management'})}}>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/assist/management' })}}>
               助教管理
+            </div>
+            <div className="catalog-name" onClick={() => {
+              this.props.dispatch(set('menu', Menus.WARM_UP_DISCUSS))
+              this.context.router.push({ pathname: '/backend/warmup' })
+            }}>巩固练习评论
+            </div>
+            <div className="catalog-name" onClick={() => {
+              this.props.dispatch(set('menu', Menus.APPLICATION_DISCUSS))
+              this.context.router.push({ pathname: '/backend/application/problem/list' })
+            }}>应用练习评论
             </div>
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>
@@ -149,9 +160,10 @@ export default class Fragment extends React.Component<any, any> {
             }}>项目配置
             </div>
             <div className="catalog-area">
-              <div className="catalog-name" onClick={()=>{
-                this.context.router.push({pathname: '/backend/admin/wx/upload/image'})
-              }}>微信上传图片</div>
+              <div className="catalog-name" onClick={() => {
+                this.context.router.push({ pathname: '/backend/admin/wx/upload/image' })
+              }}>微信上传图片
+              </div>
             </div>
 
             <div className="catalog-name" onClick={() => {
