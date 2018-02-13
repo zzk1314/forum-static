@@ -195,7 +195,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={workingLife}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={()=>this.handleWorkingYear()}
+              onChange={(ev)=>this.handleWorkingYear(ev)}
             >
               {
                 workingLifeList.map((item, idx) => {
@@ -219,7 +219,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={industry}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={()=>this.handleIndustry()}>
+              onChange={(ev)=>this.handleIndustry(ev)}>
               {
                 industryList.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
@@ -259,7 +259,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={province}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={()=>this.handleProvince()}>
+              onChange={(ev, index, value)=>this.handleProvince(ev, index, value)}>
               {
                 provinceList.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>
@@ -272,7 +272,7 @@ export default class Profile extends React.Component<any, ProfileStates> {
               value={city}
               maxHeight={300}
               selectedMenuItemStyle={{color: "#55cbcb"}}
-              onChange={()=>this.handleCity()}>
+              onChange={(ev, index, value)=>this.handleCity(ev, index, value)}>
               {
                 cityChoose.map((item, idx) => {
                   return <MenuItem key={idx} className="edit-value" value={item.value} primaryText={item.value}/>

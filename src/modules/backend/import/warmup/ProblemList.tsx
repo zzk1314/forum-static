@@ -95,7 +95,7 @@ export default class ProblemList extends React.Component<any,any> {
     return (
       <div className="problemContent">
         <div className="leftList" style={{position:'static'}}>
-          <ProblemView chooseProblem={()=>this.chooseProblem()} problemList={problemList}/>
+          <ProblemView chooseProblem={(problemId)=>this.chooseProblem(problemId)} problemList={problemList}/>
         </div>
         <div className="rightContent">
           {this.props.children}
