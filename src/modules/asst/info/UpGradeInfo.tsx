@@ -255,7 +255,7 @@ export default class UpGradeInfo extends React.Component<any, any> {
           {data.needMonthlyWork
           === 'Y' && <div>{`您需要完成每月作业，目前的状态为：${data.monthlyWork}`}</div>} {data.needFosterNew !== 0 &&
         <div>{`您完成的培养新人次数为：${data.fosterNew}，还需要培养新人的次数为：${data.remainFosterNew}`}</div>} {data.needCompanyNumber !==
-        0 && <div>{`您完成的企业培训次数为：${data.companyNumber}，还需要完成的企业培训次数为：${data.remainCompanyNumber}`}</div>}
+        0 && <div>{`您完成的企业培训次数为：${data.companyTrainNumber}，还需要完成的企业培训次数为：${data.remainCompanyNumber}`}</div>}
           {data.needCompanyScore !== 0 &&
           <div>{`您需要的企业培训的分数为：${data.needCompanyScore}，目前的分数为：${data.companyTrainScore}`}</div>} </div>
       )
