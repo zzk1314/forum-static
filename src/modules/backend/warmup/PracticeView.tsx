@@ -26,7 +26,7 @@ const avatarStyle = {
 }
 
 @connect(state => state)
-export default class practiceView extends React.Component <any, any> {
+export default class PracticeView extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
