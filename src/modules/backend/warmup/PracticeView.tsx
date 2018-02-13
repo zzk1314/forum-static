@@ -1,10 +1,13 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PracticeView.less";
-import {loadWarmUp, highlight} from "./async"
-import {BreakSignal} from "../../../utils/request"
+import {loadWarmUp, highlight, deleteWarmupDiscuss} from "./async"
+import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
+import Avatar from 'material-ui/Avatar'
+import _ from "lodash"
+import AlertMessage from "../../../components/AlertMessage";
 
 const sequenceMap = {
   0: 'A',
@@ -16,6 +19,12 @@ const sequenceMap = {
   6: 'G',
 }
 
+const avatarStyle = {
+  "position": "fixed",
+  "right": 50,
+  "top": '20%',
+}
+
 @connect(state => state)
 export default class PracticeView extends React.Component <any, any> {
   constructor() {
@@ -25,6 +34,10 @@ export default class PracticeView extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
+      delMsgOpen: false,
+      nodelAuthority: false,
+      delDiscussId: 0,
+      discussList: []
     }
   }
 
@@ -36,9 +49,10 @@ export default class PracticeView extends React.Component <any, any> {
     const {dispatch, location} = this.props
     const {id} = location.query
     loadWarmUp(id).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({
-          data: res.msg
+          data: res.msg,
+          discussList: res.msg.discussList
         })
       } else {
         throw new BreakSignal(res.msg, "加载当前问题失败")
@@ -48,29 +62,75 @@ export default class PracticeView extends React.Component <any, any> {
 
   showAlert(content, title) {
     const {dispatch} = this.props;
-    dispatch(alertMsg(title,content));
+    dispatch(alertMsg(title, content));
     setTimeout(() => {
-      dispatch(set("base.showModal",false));
+      dispatch(set("base.showModal", false));
     }, 1000);
   }
 
-  highlight(id){
-    highlight(id).then(res =>{
-      if (res.code === 200) {
+  highlight(id) {
+    const {data} = this.state
+    highlight(id).then(res => {
+      if(res.code === 200) {
         this.showAlert('提交成功')
       }
+      data.discussList.forEach((item) => {
+        if(item.id === id) {
+          _.set(item, 'priority', 1)
+        }
+      })
     })
   }
 
-  reply(warmupPracticeId, repliedId){
-    this.context.router.push({pathname:'/backend/warmup/discuss', query:{warmupPracticeId, repliedId}})
+  reply(warmupPracticeId, repliedId) {
+    if(repliedId) {
+      this.context.router.push({pathname: '/backend/warmup/discuss', query: {warmupPracticeId, repliedId}})
+    } else {
+      this.context.router.push({pathname: '/backend/warmup/discuss', query: {warmupPracticeId}})
+    }
+  }
+
+  onClickDelButton(discussId) {
+    this.setState({delMsgOpen: true, delDiscussId: discussId})
+  }
+
+  deleteComment(id) {
+    this.setState({delMsgOpen: false})
+    deleteWarmupDiscuss(id).then(res => {
+      if(res.code === 200) {
+        let newArray = []
+        this.state.discussList.map(discuss => {
+          if(discuss.id !== id) {
+            newArray.push(discuss)
+          }
+        })
+        this.setState({discussList: newArray})
+      } else if(res.code === 201) {
+        this.setState({nodelAuthority: true})
+      }
+    }).catch(e => {
+      console.error(e)
+    })
   }
 
   render() {
     const {data} = this.state
+    const {id} = data
+    let actions = [
+      {
+        label: "确认",
+        onClick: this.deleteComment.bind(this, this.state.delDiscussId)
+      },
+      {
+        label: "取消",
+        onClick: () => {
+          this.setState({delMsgOpen: false})
+        }
+      }
+    ]
 
     const questionRender = (practice) => {
-      const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, choiceList = []} = practice
       return (
         <div className="intro-container">
           <div className="question">
@@ -87,7 +147,7 @@ export default class PracticeView extends React.Component <any, any> {
           <div className="discuss">
             <a name="discuss"/>
             <div className="discuss-title-bar"><span className="discuss-title">问答</span></div>
-            {discussList.map((discuss, idx) => discussRender(discuss, idx))}
+            {this.state.discussList.map((discuss, idx) => discussRender(discuss, idx))}
             <div className="discuss-end">
               你已经浏览完所有的讨论啦
             </div>
@@ -97,23 +157,27 @@ export default class PracticeView extends React.Component <any, any> {
     }
 
     const discussRender = (discuss, idx) => {
-      const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId} = discuss
+      const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority} = discuss
       return (
         <div className="comment-cell" key={id}>
-          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
+          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
           <div className="comment-area">
             <div className="comment-head">
-              <div className="comment-name">
-                {name}
-              </div>
+              <div className="comment-name">{name}</div>
               <div className="comment-time">{discussTime}</div>
               <div className="right">
-                <div className="function-button" onClick={()=>this.reply(warmupPracticeId, id)}>
+                <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
+                <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
                   回复
                 </div>
-                <div className="function-button" onClick={()=>this.highlight(id)}>
-                  加精
-                </div>
+                {priority === 0 ?
+                  <div className="function-button" onClick={() => this.highlight(id)}>
+                    加精
+                  </div> :
+                  <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
+                    已加精
+                  </div>
+                }
               </div>
             </div>
             <div className="comment-content">{comment}</div>
@@ -121,6 +185,7 @@ export default class PracticeView extends React.Component <any, any> {
               <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           </div>
           <div className="comment-hr"/>
+
         </div>
       )
     }
@@ -136,8 +201,12 @@ export default class PracticeView extends React.Component <any, any> {
 
     return (
       <div className="warm-up-analysis">
-        <Subheader>理解训练</Subheader>
+        <Subheader>选择题</Subheader>
         {questionRender(data)}
+        <Avatar size={40} src="https://www.iqycamp.com/images/discuss.png" style={avatarStyle}
+                backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
+        <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
+        <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论" handleClose={() => this.setState({nodelAuthority: false})}/>
       </div>
     )
   }
