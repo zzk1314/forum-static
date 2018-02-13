@@ -121,10 +121,10 @@ export default class AsstExecution extends React.Component<any, any> {
 
   openUpdateDialog(data) {
     const {
-      id,
-      hostScore, mainPointScore,
-      onlineAnswer, swing, onlineScore,
-      campScore,
+      id,hostNumber,
+      hostScore,mainPointNumber, mainPointScore,
+      onlineAnswer, swing, onlineOrSwingNumber,onlineScore,
+      campNumber,campScore,asstNumber,fosterNew,companyTrainNumber,
       monthlyWork, companyTrainScore, upGrade
     } = data
 
@@ -136,20 +136,20 @@ export default class AsstExecution extends React.Component<any, any> {
       requestReviewNumber: 0,
       validReviewNumber: 0,
       highQualityAnswer: 0,
-      hostNumber: 0,
+      hostNumber,
       hostScore,
-      mainPointNumber: 0,
+      mainPointNumber,
       mainPointScore,
       onlineAnswer,
       swing,
-      onlineOrSwingNumber: 0,
+      onlineOrSwingNumber,
       onlineScore,
-      campNumber: 0,
-      asstNumber: 0,
+      campNumber,
+      asstNumber,
       campScore,
       monthlyWork,
-      fosterNew: 0,
-      companyTrainNumber: 0,
+      fosterNew,
+      companyTrainNumber,
       companyTrainScore,
       upGrade
     })
@@ -326,16 +326,16 @@ export default class AsstExecution extends React.Component<any, any> {
       return (
         <div>
           <div>
-            新增主持人次数: <TextField value={hostNumber} onChange={(e, v) => {this.setState({ hostNumber: v })}}/>
+            主持人次数: <TextField value={hostNumber} onChange={(e, v) => {this.setState({ hostNumber: v })}}/>
           </div>
           <div>
-            修改主持人评分: <TextField value={hostScore} onChange={(e, v) => {this.setState({ hostScore: v })}}/>
+            主持人评分: <TextField value={hostScore} onChange={(e, v) => {this.setState({ hostScore: v })}}/>
           </div>
           <div>
-            新增串讲人次数: <TextField value={mainPointNumber} onChange={(e, v) => {this.setState({ mainPointNumber: v })}}/>
+            串讲人次数: <TextField value={mainPointNumber} onChange={(e, v) => {this.setState({ mainPointNumber: v })}}/>
           </div>
           <div>
-            修改串讲人评分: <TextField value={mainPointScore} onChange={(e, v) => {this.setState({ mainPointScore: v })}}/>
+            串讲人评分: <TextField value={mainPointScore} onChange={(e, v) => {this.setState({ mainPointScore: v })}}/>
           </div>
         </div>
       )
@@ -345,17 +345,17 @@ export default class AsstExecution extends React.Component<any, any> {
       return (
         <div>
           <div>
-            修改线上答题演习: <TextField value={onlineAnswer} onChange={(e, v) => {this.setState({ onlineAnswer: v })}}/>
+            线上答题演习: <TextField value={onlineAnswer} onChange={(e, v) => {this.setState({ onlineAnswer: v })}}/>
           </div>
           <div>
-            修改吊打演习: <TextField value={swing} onChange={(e, v) => {this.setState({ swing: v })}}/>
+            吊打演习: <TextField value={swing} onChange={(e, v) => {this.setState({ swing: v })}}/>
           </div>
           <div>
-            新增线上答疑或吊打: <TextField value={onlineOrSwingNumber}
+            线上答疑或吊打: <TextField value={onlineOrSwingNumber}
                                   onChange={(e, v) => {this.setState({ onlineOrSwingNumber: v })}}/>
           </div>
           <div>
-            修改线上活动反馈分数: <TextField value={onlineScore} onChange={(e, v) => {this.setState({ onlineScore: v })}}/>
+            线上活动反馈分数: <TextField value={onlineScore} onChange={(e, v) => {this.setState({ onlineScore: v })}}/>
           </div>
         </div>
       )
@@ -365,13 +365,13 @@ export default class AsstExecution extends React.Component<any, any> {
       return (
         <div>
           <div>
-            新增训练营次数: <TextField value={campNumber} onChange={(e, v) => {this.setState({ campNumber: v })}}/>
+            训练营次数: <TextField value={campNumber} onChange={(e, v) => {this.setState({ campNumber: v })}}/>
           </div>
           <div>
-            新增大教练次数: <TextField value={asstNumber} onChange={(e, v) => {this.setState({ asstNumber: v })}}/>
+            大教练次数: <TextField value={asstNumber} onChange={(e, v) => {this.setState({ asstNumber: v })}}/>
           </div>
           <div>
-            修改反馈评分: <TextField value={campScore} onChange={(e, v) => {this.setState({ campScore: v })}}/>
+            反馈评分: <TextField value={campScore} onChange={(e, v) => {this.setState({ campScore: v })}}/>
           </div>
         </div>
       )
@@ -381,17 +381,17 @@ export default class AsstExecution extends React.Component<any, any> {
       return (
         <div>
           <div>
-            修改每月作业: <TextField value={monthlyWork} onChange={(e, v) => {this.setState({ monthlyWork: v })}}/>
+            每月作业: <TextField value={monthlyWork} onChange={(e, v) => {this.setState({ monthlyWork: v })}}/>
           </div>
           <div>
-            新增培养新人: <TextField value={fosterNew} onChange={(e, v) => {this.setState({ fosterNew: v })}}/>
+            培养新人: <TextField value={fosterNew} onChange={(e, v) => {this.setState({ fosterNew: v })}}/>
           </div>
           <div>
-            新增企业培训次数: <TextField value={companyTrainNumber}
+            企业培训次数: <TextField value={companyTrainNumber}
                                  onChange={(e, v) => {this.setState({ companyTrainNumber: v })}}/>
           </div>
           <div>
-            修改企业培训评分：<TextField value={companyTrainScore}
+            企业培训评分：<TextField value={companyTrainScore}
                                 onChange={(e, v) => {this.setState({ companyTrainScore: v })}}/>
           </div>
         </div>
@@ -452,7 +452,7 @@ export default class AsstExecution extends React.Component<any, any> {
             {renderDialogItem('点评数：', editData.reviewedNumber, editData.remainReviewNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('求点评的点评数：', editData.requestReviewNumber, editData.remainRequestRevierNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('有效的点评数：', editData.validReviewNumber, 'bs-dialog-value')}
-            {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.validReviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('有效点评率:', editData.reviewRate + '%', editData.reviewRate < editData.needReviewRate ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('优质回答：', editData.highAnswer, editData.remainHighAnswer > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               线下工作坊完成情况：
@@ -473,14 +473,13 @@ export default class AsstExecution extends React.Component<any, any> {
             </div>
             {renderDialogItem('训练营次数：', editData.campNumber, editData.remainCampNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('大教练次数：', editData.asstNumber, editData.remainAsstNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('反馈评分：', editData.campScore, editData.needCompanyScore > editData.campScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('反馈评分：', editData.campScore, editData.needCampScore > editData.campScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <div className="bs-dialog-header">
               企业培训完成情况：
             </div>
             {renderDialogItem('每月作业：', editData.monthlyWork, (editData.monthlyWork === 'N' && editData.needMonthlyWork === 'Y') ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('缺少作业数：',editData.lackTask,(editData.lackTask > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value'))}
             {renderDialogItem('培养新人次数：', editData.fosterNew, editData.remainFosterNew > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
-            {renderDialogItem('企业培训次数：', editData.companyNumber, editData.remainCompanyNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
+            {renderDialogItem('企业培训次数：', editData.companyTrainNumber, editData.remainCompanyNumber > 0 ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             {renderDialogItem('企业培训评分：', editData.companyTrainScore, editData.needCampScore > editData.companyTrainScore ? 'bs-red-dialog-value' : 'bs-dialog-value')}
             <br/>
           </div>
@@ -521,7 +520,7 @@ export default class AsstExecution extends React.Component<any, any> {
             </div>
             {renderCompany()}
             <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
-              升级认证
+              升级认证(Y-已认证 N-未认证)
             </div>
             {renderUpGrade()}
             <br/>
