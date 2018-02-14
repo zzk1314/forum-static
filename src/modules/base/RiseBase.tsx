@@ -51,7 +51,7 @@ export default class Main extends React.Component<any, any> {
       return (
         <div className="feed-back">
           <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank">
-            <img src="https://www.iqycamp.com/images/pcFeedBack.png"/>
+            <img src="https://static.iqycamp.com/images/pcFeedBack.png"/>
           </a>
         </div>
       )
