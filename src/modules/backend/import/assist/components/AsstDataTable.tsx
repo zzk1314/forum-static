@@ -109,7 +109,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
       selectable = true,
       multiSelectable = true,
       enableSelectAll = true,
-      showCheckboxes = true,
+      showCheckboxes = false,
       deselectOnClickaway = false
     } = this.state
 
