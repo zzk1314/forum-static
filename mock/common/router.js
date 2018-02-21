@@ -25,4 +25,12 @@ router.get("/wx/js/signature", (req, res) => {
 		}), Math.random() * 1500)
 });
 
+router.get('/rise/customer/info', (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      'msg': {"nickname":'风之伤',"headimgurl":"http://someurl"},
+      'code': 200
+    }), Math.random() * 1000)
+})
+
 module.exports = router;
