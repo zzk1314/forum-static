@@ -1,9 +1,5 @@
 import { pget, ppost } from 'utils/request'
 
-export function loadKnowledgeIntro(knowledgeId) {
-  return pget(`/rise/plan/knowledge/load/${knowledgeId}`)
-}
-
 export function loadApplicationPractice(id, planId) {
   let param = {}
   if(planId) {
