@@ -1,9 +1,5 @@
 import { pget, ppost } from "utils/request";
 
-export function loadKnowledgeIntro(knowledgeId) {
-  return pget(`/rise/plan/knowledge/load/${knowledgeId}`)
-}
-
 export function loadWarmUpAnalysis(practicePlanId) {
   return pget(`/rise/practice/warmup/analysis/${practicePlanId}`)
 }
