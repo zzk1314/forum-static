@@ -5,7 +5,7 @@ import './Application.less'
 import AssetImg from '../../../components/AssetImg'
 import Editor from '../../../components/editor/Editor'
 import {
-  loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
+  loadApplicationPractice, vote, loadOtherList,
   submitApplicationPractice, CommentType, autoSaveApplicationDraft
 } from './async'
 import Work from '../components/NewWork'
@@ -24,7 +24,6 @@ export default class Application extends React.Component<any, any> {
     super()
     this.state = {
       data: {},
-      knowledge: {},
       submitId: 0,
       page: 0,
       otherList: [],
@@ -60,16 +59,6 @@ export default class Application extends React.Component<any, any> {
           applicationScore: res.msg.applicationScore,
           autoPushDraftFlag: false,
         })
-        if(integrated == 'false') {
-          loadKnowledgeIntro(msg.knowledgeId).then(res => {
-            const { code, msg } = res
-            if(code === 200) {
-              this.setState({ knowledge: msg })
-            } else {
-              dispatch(alertMsg(msg))
-            }
-          })
-        }
       } else {
         dispatch(alertMsg(msg))
       }
@@ -195,7 +184,7 @@ export default class Application extends React.Component<any, any> {
 
   render() {
     const {
-      data, otherList, knowledge = {}, end,
+      data, otherList, end,
       showOthers, edit, showDisable, integrated, loading
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
