@@ -78,7 +78,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'interviewTime', alias: '合适的面试时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'workYear', alias: '首次工作时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'level', alias: '职位层级', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
         { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) },
