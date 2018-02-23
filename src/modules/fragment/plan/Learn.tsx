@@ -4,7 +4,7 @@ import { renderExist, NumberToChinese, questionList } from '../../../utils/helpe
 import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  completePlan, markPlan,
+  closePlan, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, queryChapterList
 } from './async'
 import { mark } from '../../../utils/request'
@@ -342,7 +342,7 @@ export default class PlanMain extends React.Component <any, any> {
     const { planData = {} } = this.state
     const { planId } = location.query
     dispatch(startLoad())
-    completePlan(planId).then(res => {
+    closePlan(planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {

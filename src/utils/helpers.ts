@@ -167,7 +167,7 @@ export const questionList = [
     ]
   }, {
     id: 4,
-    subject: '对本课程有什么建议或意见',
+    subject: '对于圈外课程你有什么优化建议和想法吗？<br/>欢迎在下框留言。',
     comment: null,
     choiceList: null,
   }
