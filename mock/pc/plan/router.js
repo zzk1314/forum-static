@@ -834,7 +834,7 @@ router.get("/rise/plan/load", (req, res) => {
         "hasProblemScore": false,
         "doneAllIntegrated": false,
         "lockedStatus": -1,
-        "reportStatus": -1
+        "reportStatus": 1
       }, "code": 200
     }), Math.random() * 1500);
 });

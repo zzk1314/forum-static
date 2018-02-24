@@ -22,8 +22,7 @@
      > .top{
        background: url('https://static.iqycamp.com/images/dropChoiceTop.png?imageslim') center center/100% 100%;
        width:100%;
-       line-height: 32px;
-       font-size: 16px;
+       font-size: 15px;
        position: relative;
        > .top-tips {
          position: absolute;
@@ -34,7 +33,6 @@
          color:#FFF;
          > span{
            display: table-cell;
-           padding:0 20px;
            vertical-align: middle;
          }
        }
@@ -62,7 +60,6 @@
       text-align: center;
       > .choice{
         color:@color_title;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
         &:not(:last-of-type){
           border-bottom:1px solid #e8ebf6;
         }
@@ -71,6 +68,20 @@
           font-weight:bolder;
         }
       }
+      > textarea{
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: .8rem 1rem;
+        font-size: 1.6rem;
+        display: inline-block;
+        margin: 0;
+        -webkit-appearance: none;
+        resize: none;
+        box-sizing: border-box;
+        height: 20rem;
+        margin-top: .3rem;
+      }
     }
     > .bottom-btn{
       background: url('https://static.iqycamp.com/images/gray_buttom_btn.png?imageslim') center center/100% 100%;
@@ -78,7 +89,6 @@
       text-align: center;
       font-size: @font_click;
       color:#fff;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
       &.can{
         background-image: url('https://static.iqycamp.com/images/dropChoiceButton.png?imageslim') ;
       }
@@ -87,7 +97,6 @@
       text-align: center;
       > span{
         display: inline-block;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
       }
     }
   }

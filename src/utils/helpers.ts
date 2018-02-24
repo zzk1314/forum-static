@@ -1,14 +1,14 @@
 import * as _ from "lodash"
 
 export function isPending(state, key): boolean {
-  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[key] : false
+  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
 }
 
 export function getUri(url: String): { pathname: String, query: Object } {
   let tempUrl = url;
   tempUrl = tempUrl.replace(tempUrl.match(/[a-zA-z]+:\/\/[^/]*/), "");
   // 这里的url是一个,相对的
-  let queryStr = tempUrl.match(/\?.*/)[0];
+  let queryStr = tempUrl.match(/\?.*/)[ 0 ];
   let pathname = tempUrl.replace(queryStr, "");
   let query = {};
   if(!_.isNull(queryStr)) {
@@ -17,9 +17,9 @@ export function getUri(url: String): { pathname: String, query: Object } {
     queryStr = queryStr.replace("?", "");
     let queryArr = queryStr.split("&");
     for(let i = 0; i < queryArr.length; i++) {
-      let item = queryArr[i];
+      let item = queryArr[ i ];
       let queryItem = item.split("=");
-      query[queryItem[0]] = queryItem[1];
+      query[ queryItem[ 0 ] ] = queryItem[ 1 ];
     }
   }
   return { pathname: pathname, query: query };
@@ -43,9 +43,9 @@ export function renderExist(flag, render, normal) {
   }
 }
 
-var chnUnitChar = ["", "十", "百", "千"];
-var chnUnitSection = ["", "万", "亿", "万亿", "亿亿"];
-var chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+var chnUnitChar = [ "", "十", "百", "千" ];
+var chnUnitSection = [ "", "万", "亿", "万亿", "亿亿" ];
+var chnNumChar = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" ];
 
 function SectionToChinese(section) {
   var strIns = '', chnStr = '';
@@ -56,12 +56,12 @@ function SectionToChinese(section) {
     if(v === 0) {
       if(!zero) {
         zero = true;
-        chnStr = chnNumChar[v] + chnStr;
+        chnStr = chnNumChar[ v ] + chnStr;
       }
     } else {
       zero = false;
-      strIns = chnNumChar[v];
-      strIns += chnUnitChar[unitPos];
+      strIns = chnNumChar[ v ];
+      strIns += chnUnitChar[ unitPos ];
       chnStr = strIns + chnStr;
     }
     unitPos++;
@@ -85,16 +85,16 @@ export function NumberToChinese(num) {
   var needZero = false;
 
   if(num === 0) {
-    return chnNumChar[0];
+    return chnNumChar[ 0 ];
   }
 
   while(num > 0) {
     var section = num % 10000;
     if(needZero) {
-      chnStr = chnNumChar[0] + chnStr;
+      chnStr = chnNumChar[ 0 ] + chnStr;
     }
     strIns = SectionToChinese(section);
-    strIns += (section !== 0) ? chnUnitSection[unitPos] : chnUnitSection[0];
+    strIns += (section !== 0) ? chnUnitSection[ unitPos ] : chnUnitSection[ 0 ];
     chnStr = strIns + chnStr;
     needZero = (section < 1000) && (section > 0);
     num = Math.floor(num / 10000);
@@ -106,58 +106,80 @@ export function NumberToChinese(num) {
 
 export const questionList = [
   {
-    id: 1,
-    subject: "你已完成了本小课的训练<br/>对本小课的学习难度打个分吧",
+    id: 2,
+    subject: '本课程的训练对工作/生活有用吗？',
+    comment: null,
     choiceList: [
       {
         id: 5,
-        subject: "非常难"
+        subject: '非常实用，大部分能马上应用'
       }, {
         id: 4,
-        subject: "比较难"
+        subject: '较为实用，不少能实际应用'
       }, {
         id: 3,
-        subject: "适中"
+        subject: '实用性一般，要找找应用场景'
       }, {
         id: 2,
-        subject: "较简单"
+        subject: '不太实用，偶尔能用上'
       }, {
         id: 1,
-        subject: "很简单"
+        subject: '大部分不能应用'
       }
     ]
   },
   {
-    id: 2,
-    subject: "本小课的训练对工作/生活有用吗？",
+    id: 3,
+    subject: '你是否愿意推荐本课程给你的朋友<br/>（1-10打分，分数越高代表推荐意愿越强）',
+    comment: null,
     choiceList: [
       {
+        id: 10,
+        subject: 10
+      }, {
+        id: 9,
+        subject: 9
+      }, {
+        id: 8,
+        subject: 8
+      }, {
+        id: 7,
+        subject: 7
+      }, {
+        id: 6,
+        subject: 6
+      }, {
         id: 5,
-        subject: "非常实用，大部分能马上应用"
+        subject: 5
       }, {
         id: 4,
-        subject: "较为实用，不少能实际应用"
+        subject: 4
       }, {
         id: 3,
-        subject: "实用性一般，要找找应用场景"
+        subject: 3
       }, {
         id: 2,
-        subject: "不太实用，偶尔能用上"
+        subject: 2
       }, {
         id: 1,
-        subject: "大部分不能应用"
+        subject: 1
       }
     ]
+  }, {
+    id: 4,
+    subject: '对于圈外课程你有什么优化建议和想法吗？<br/>欢迎在下框留言。',
+    comment: null,
+    choiceList: null,
   }
-];
+]
 
 export const ArticleViewModule = {
-  Challenge:1,
-  Application:2,
-  Subject:3,
+  Challenge: 1,
+  Application: 2,
+  Subject: 3,
 }
 
-export function changeTitle(title){
+export function changeTitle(title) {
   document.title = title;
   const iframe = document.createElement('iframe');
   iframe.style.cssText = 'display: none; width: 0; height: 0;';

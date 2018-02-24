@@ -4,7 +4,7 @@ import { renderExist, NumberToChinese, questionList } from '../../../utils/helpe
 import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  completePlan, markPlan,
+  closePlan, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, queryChapterList
 } from './async'
 import { mark } from '../../../utils/request'
@@ -342,7 +342,7 @@ export default class PlanMain extends React.Component <any, any> {
     const { planData = {} } = this.state
     const { planId } = location.query
     dispatch(startLoad())
-    completePlan(planId).then(res => {
+    closePlan(planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -421,13 +421,17 @@ export default class PlanMain extends React.Component <any, any> {
     const { selectProblem, planData } = this.state
     const { dispatch } = this.props
     let problemScores = questionList.map(item => {
-      let selectedChoice
-      item.choiceList.forEach(choice => {
-        if(choice.selected) {
-          selectedChoice = choice.id
-        }
-      })
-      return { question: item.id, choice: selectedChoice }
+      if(item.choiceList){
+        let selectedChoice
+        item.choiceList.forEach(choice => {
+          if(choice.selected) {
+            selectedChoice = choice.id
+          }
+        })
+        return { question: item.id, choice: selectedChoice }
+      }else{
+        return { question: item.id, comment: item.comment }
+      }
     })
     dispatch(startLoad())
     gradeProblem(problemScores, selectProblem.id).then(res => {
