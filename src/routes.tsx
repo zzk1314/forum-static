@@ -76,6 +76,8 @@ import ApplicationCatalog from './modules/backend/application/ApplicationCatalog
 import ApplicationProblemList from './modules/backend/application/ApplicationProblemList'
 import ProblemList from './modules/backend/import/application/ProblemList'
 import Discuss from './modules/backend/warmup/Discuss'
+import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
+import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 
 const routes = (
   <Route path="/">
@@ -94,7 +96,15 @@ const routes = (
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         </Route>
-        <Route path="/backend/warmup" component={HotWarmupPractice}/>
+        {/*<Route path="/backend/warmup" component={HotWarmupPractice}/>*/}
+
+        <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
+          <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
+        </Route>
+
+
+
+
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
