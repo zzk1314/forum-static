@@ -67,7 +67,7 @@ export default class WarmupShowList extends React.Component<any, any> {
               <div className="practice" onClick={() => {
                 this.view(practice)
               }}>
-                {practice.example ? `【第${practice.chapter}章第${practice.section}节例题】` :
+                {
                   `【第${practice.chapter}章第${practice.section}节第${practice.sequence}道】`
                 }
                 {
