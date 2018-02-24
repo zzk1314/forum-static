@@ -3,7 +3,9 @@ var webpack = require("webpack")
 var WebpackDevServer = require("webpack-dev-server")
 var devConfig = require("./webpack-dev.config")
 
-var PROXY = process.env.PROXY
+var PROXY = process.env.PROXY;
+
+var RISE_PROXY = process.env.RISE_PROXY;
 
 var serverConfig = {
   publicPath: devConfig.output.publicPath,
@@ -25,6 +27,19 @@ var serverConfig = {
 // 所有的配置 https://github.com/nodejitsu/node-http-proxy#options
 if (Boolean(PROXY)) {
   serverConfig.proxy = {
+    "/rise/*": (function () {
+      var config = {
+        target: RISE_PROXY || PROXY,
+        secure: false,
+        bypass: function (req) {
+          if(req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
+            console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
+            return "/index.html";
+          }
+        }
+      }
+      return config
+    })(),
     "/": (function() {
         var config = {
           target: PROXY,
