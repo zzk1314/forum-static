@@ -203,7 +203,7 @@ export default class PracticeView extends React.Component <any, any> {
       <div className="warm-up-analysis">
         <Subheader>选择题</Subheader>
         {questionRender(data)}
-        <Avatar size={40} src="https://www.iqycamp.com/images/discuss.png" style={avatarStyle}
+        <Avatar size={40} src="https://static.iqycamp.com/images/discuss.png" style={avatarStyle}
                 backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
         <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
         <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论" handleClose={() => this.setState({nodelAuthority: false})}/>
