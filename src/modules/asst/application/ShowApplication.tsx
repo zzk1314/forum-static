@@ -22,6 +22,7 @@ import { imgSrc } from "../../../utils/imgSrc"
 import Snackbar from 'material-ui/Snackbar';
 import Confirm from "../../../components/Confirm"
 import { BreakSignal, Stop } from "../../../utils/request";
+import AssetImg from '../../../components/AssetImg'
 
 const style = {
   divider: {
@@ -397,13 +398,14 @@ export default class ShowApplication extends React.Component<any, any> {
             <div className="upInfo">
               <div className="intro">
                 <div className="upName">{upName}</div>
-                {role == 3 || role == 4 ?
-                  <div className="role"><img src='https://static.iqycamp.com/images/coach.png'/></div> : null}
-                {role == 5 || role == 10 ?
-                  <div className="role"><img src='https://static.iqycamp.com/images/senior_coach.png'/></div> : null}
-                {role == 6 || role == 8 ?
-                  <div className="role"><img src='https://static.iqycamp.com/images/first_coach.png'/></div> : null}
-                {role == 7 ? <div className="role"><img src='https://static.iqycamp.com/images/vip.png'/></div> : null}
+                {role == 3 || role == 4 || role == 12 || role == 13 ?
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div> : null}
+                {role == 5 || role == 10 || role == 14 || role == 15 ?
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/></div> : null}
+                {role == 6 ?
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/></div> : null}
+                {role == 7 ?
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png'/></div> : null}
                 <div className="upTime">{upTime + "上传"}</div>
               </div>
               <div className="signature">{signature}</div>

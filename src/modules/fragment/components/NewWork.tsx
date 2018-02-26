@@ -131,13 +131,14 @@ export default class Work extends React.Component<any,any> {
               <div className="submit-name">
                 {userName}
               </div>
-              {role == 3 || role == 4 ?
-                <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div>: null}
-              {role == 5 || role == 10 ?
-                <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/></div>: null}
-              {role == 6 || role == 8 ?
-                <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/></div>: null}
-              {role == 7 ?<div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png'/></div>: null}
+              {role == 3 || role == 4 || role == 12 || role == 13 ?
+                <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div> : null}
+              {role == 5 || role == 10 || role == 14 || role == 15 ?
+                <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/></div> : null}
+              {role == 6 ?
+                <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/></div> : null}
+              {role == 7 ?
+                <div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png'/></div> : null}
               <div className="submit-time">{submitUpdateTime}</div>
             </div>
             <div className="signature">{signature}</div>
