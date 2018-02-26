@@ -102,6 +102,9 @@ export default class Fragment extends React.Component<any, any> {
           </Subheader>
           <Divider style={style.divider}/>
           <div className="catalog-area">
+            <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/user/info'})}}>
+              用户信息
+            </div>
             {/*<div className="catalog-name"*/}
             {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>*/}
             {/*学员录入*/}
