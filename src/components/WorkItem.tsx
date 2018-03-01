@@ -7,6 +7,7 @@ import Alert from "./AlertMessage";
 import {requestAsstComment} from  "../modules/asst/async"
 import {set, startLoad, endLoad, alertMsg} from "../redux/actions"
 import {connect} from "react-redux";
+import AssetImg from './AssetImg'
 
 @connect(state => state)
 export default class WorkItem extends React.Component<any,any> {
@@ -123,10 +124,14 @@ export default class WorkItem extends React.Component<any,any> {
               <div className="upInfo">
                 <div className="intro">
                   <div className="upName">{upName}</div>
-                  {role==3||role==4?<div className="role"><img src='https://static.iqycamp.com/images/coach.png'/></div>:null}
-                  {role==5||role==10?<div className="role"><img src='https://static.iqycamp.com/images/senior_coach.png'/></div>:null}
-                  {role==6||role==8?<div className="role"><img src='https://static.iqycamp.com/images/first_coach.png'/></div>:null}
-                  {role==7?<div className="role"><img src='https://static.iqycamp.com/images/vip.png'/></div>:null}
+                  {role == 3 || role == 4 || role == 12 || role == 13 ?
+                    <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div> : null}
+                  {role == 5 || role == 10 || role == 14 || role == 15 ?
+                    <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/></div> : null}
+                  {role == 6 ?
+                    <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/></div> : null}
+                  {role == 7 ?
+                    <div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png'/></div> : null}
                   <div className="upTime">{upTime + "上传"}</div>
                 </div>
                 <div className="signature">{signature}</div>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Avatar from 'material-ui/Avatar';
+import AssetImg from './AssetImg'
 
 
 
@@ -47,10 +48,15 @@ export default class Author extends React.Component{
         </div>
         <div style={this.style.upInfo}>
           <div style={this.style.upName}>{upName}</div>
-          {role==3||role==4?<div style={this.style.role}><img style={this.style.img} src='https://static.iqycamp.com/images/coach.png'/></div>:null}
-          {role==5||role==10?<div style={this.style.role}><img style={this.style.img} src='https://static.iqycamp.com/images/senior_coach.png'/></div>:null}
-          {role==6||role==8?<div style={this.style.role}><img style={this.style.img} src='https://static.iqycamp.com/images/first_coach.png'/></div>:null}
-          {role==7?<div style={this.style.role}><img style={this.style.img} src='https://static.iqycamp.com/images/vip.png'/></div>:null}
+          {role == 3 || role == 4 || role == 12 || role == 13 ?
+            <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png' height={30}/></div> : null}
+          {role == 5 || role == 10 || role == 14 || role == 15 ?
+            <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png' height={30}/></div> : null}
+          {role == 6 ?
+            <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png' height={30}/></div> : null}
+          {role == 7 ?
+            <div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png' height={30}/></div> : null}
+
           <div style={this.style.upTime}>{upTime + "上传"}</div>
         </div>
       </div>
