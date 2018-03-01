@@ -104,8 +104,6 @@ const routes = (
         </Route>
 
 
-
-
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
@@ -122,7 +120,6 @@ const routes = (
         <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
-        <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
         <Route path="/backend/assist/management" component={AsstManagement}>
           <Route path="/backend/assist/standard" component={AsstStandard}/>

@@ -113,10 +113,10 @@ export default class Fragment extends React.Component<any, any> {
             {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>*/}
             {/*学员分组*/}
             {/*</div>*/}
-            <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>
-              学员详情
-            </div>
+            {/*<div className="catalog-name"*/}
+                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>*/}
+              {/*学员详情*/}
+            {/*</div>*/}
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/identity' })}}>
               优秀学员

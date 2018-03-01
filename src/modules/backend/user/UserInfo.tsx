@@ -22,6 +22,7 @@ export default class UserInfo extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
+      page:1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'memberId', alias: '学号', style: _.merge({}, cellStyle, { width: '100px' }) },
@@ -77,18 +78,19 @@ export default class UserInfo extends React.Component<any, any> {
 
   searchClass = () => {
     const { dispatch } = this.props
-    const { className, groupId } = this.state
-    if(_.isEmpty(className) || _.isEmpty(groupId)) {
-      dispatch(alertMsg('请将班级和小组选择完整'))
+    const { className, groupId,page } = this.state
+    if(_.isEmpty(className)) {
+      dispatch(alertMsg('请选择班级'))
       return
     }
     dispatch(startLoad())
-    searchInfoByClass(className, groupId).then(res => {
+    searchInfoByClass(page,className, groupId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({
-          infos: msg
+          infos: msg.data,
+          tablePage: res.msg.page
         })
       } else {
         dispatch(alertMsg(msg))
@@ -107,6 +109,23 @@ export default class UserInfo extends React.Component<any, any> {
   closeDialog = () => {
     this.setState({
       openDialog: false
+    })
+  }
+
+  handlePageClick(page) {
+    const { dispatch } = this.props
+    const{className,groupId} = this.state
+    dispatch(startLoad())
+    searchInfoByClass(page,className,groupId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.setState({ infos: res.msg.data,tablePage: res.msg.page, page: page })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
@@ -179,7 +198,8 @@ export default class UserInfo extends React.Component<any, any> {
             floatingLabelText="选择班级名" maxHeight={300} value={className} onChange={(ev, value) => {
             this.setState({
               className: ev.target.textContent,
-              groupId: ''
+              groupId: '',
+              page:1
             })
           }}>
             {
@@ -202,7 +222,8 @@ export default class UserInfo extends React.Component<any, any> {
           <SelectField
             floatingLabelText="选择小组" maxHeight={300} value={groupId} onChange={(ev, value) => {
             this.setState({
-              groupId: ev.target.textContent
+              groupId: ev.target.textContent,
+              page:1
             })
           }}>
             {
@@ -292,6 +313,7 @@ export default class UserInfo extends React.Component<any, any> {
                         editFunc: (item) => {this.openDialog(item)},
                         opsName: '查看详情'
                       }]}
+                      page={this.state.tablePage} handlePageClick={(page) => this.handlePageClick(page)}
         />
       )
     }
