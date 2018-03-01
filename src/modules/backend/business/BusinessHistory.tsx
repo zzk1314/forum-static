@@ -26,7 +26,9 @@ export default class BusinessHistory extends React.Component<any, any> {
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
         { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) }
-      ]
+      ],
+      openDialog:false,
+      showData:''
     }
 
   }
@@ -68,12 +70,13 @@ export default class BusinessHistory extends React.Component<any, any> {
   }
 
   openDialog(item) {
-
+      this.setState({
+        openDialog:true,
+        showData:item
+      })
   }
 
   render() {
-
-
     // const renderDialog = () => {
     //   const { openDialog, editData = {}, showCouponChoose, coupon, RasiedClicked } = this.state
     //   return (
