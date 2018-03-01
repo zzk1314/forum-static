@@ -144,7 +144,7 @@ export default class UserInfo extends React.Component<any, any> {
     const renderNormalSearch = () => {
       return (
         <div className="search-item-container">
-          <TextField hintText={'输入学号/profileId/RiseId/昵称查询'} style={{ margin: 40, width: 300 }} value={searchId}
+          <TextField hintText={'输入学号/ProfileId/RiseId/昵称查询'} style={{ margin: 40, width: 300 }} value={searchId}
                      onChange={(e, v) => this.setState({ searchId: v })}/>
           <RaisedButton
             label="点击查询" onClick={() => this.searchUserInfo(searchId)}
@@ -232,15 +232,23 @@ export default class UserInfo extends React.Component<any, any> {
             {renderDialogItem('圈外id：', info.riseId)}
             {renderDialogItem('微信号：', info.weixinId)}
             {renderDialogItem('联系方式：', info.mobileNo)}
-            {renderDialogItem('婚恋情况：', info.married)}
 
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
               会员信息
             </div>
             {renderDialogItem('当前会员类型：', info.memberType)}
+            {renderDialogItem('班级：',info.className)}
+            {renderDialogItem('小组：',info.groupId)}
             {renderDialogItem('学号：', info.memberId)}
             {renderDialogItem('入学日期：', info.openDate)}
 
+            <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
+              工作情况
+            </div>
+            {renderDialogItem('行业：',info.industry)}
+            {renderDialogItem('职业：',info.function)}
+            {renderDialogItem('参加工作年份：',info.workingYear)}
+            {renderDialogItem('工作年限：',info.workingLife)}
 
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
               地址信息：
