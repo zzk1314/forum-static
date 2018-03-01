@@ -244,7 +244,7 @@ export default class UserInfo extends React.Component<any, any> {
         <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
           <div className="bs-dialog">
             <div className="bs-dialog-header" style={{ marginTop: '0px', marginBottom: '20px' }}>
-              用户信息：
+              用户信息
             </div>
             {renderDialogItem('昵称：', info.nickname)}
             {renderDialogItem('openid：', info.openid)}
@@ -272,7 +272,7 @@ export default class UserInfo extends React.Component<any, any> {
             {renderDialogItem('工作年限：',info.workingLife)}
 
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
-              地址信息：
+              地址信息
             </div>
             {renderDialogItem('国家：', info.country)}
             {renderDialogItem('省份：', info.province)}
