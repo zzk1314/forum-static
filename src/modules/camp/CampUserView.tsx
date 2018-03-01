@@ -3,6 +3,9 @@ import { DataTable } from './components/DataTable'
 import { Tabs, Tab, TextField, RaisedButton } from 'material-ui'
 import { loadMonthlyCampByClassName, modifyMonthlyCamp } from './async'
 
+/**
+ * 已废弃
+ */
 export default class CampUserView extends React.Component<any, any> {
   constructor() {
     super()

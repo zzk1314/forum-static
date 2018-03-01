@@ -78,6 +78,7 @@ import ProblemList from './modules/backend/import/application/ProblemList'
 import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
+import UserInfo from './modules/backend/user/UserInfo'
 
 const routes = (
   <Route path="/">
@@ -103,8 +104,6 @@ const routes = (
         </Route>
 
 
-
-
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
@@ -118,9 +117,9 @@ const routes = (
         <Route path="/backend/application/management" component={ProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
         </Route>
+        <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
-        <Route path="/backend/camp/info" component={CampUserView}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
         <Route path="/backend/assist/management" component={AsstManagement}>
           <Route path="/backend/assist/standard" component={AsstStandard}/>
