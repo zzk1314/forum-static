@@ -145,6 +145,10 @@ export default class Fragment extends React.Component<any, any> {
               商学院申请审批
             </div>
             <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/business/history' })}}>
+              历史商学院审批
+            </div>
+            <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/survey/config' })}}>
               问卷链接设置
             </div>

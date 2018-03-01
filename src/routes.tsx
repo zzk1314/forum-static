@@ -78,6 +78,7 @@ import ProblemList from './modules/backend/import/application/ProblemList'
 import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
+import BusinessHistory from './modules/backend/business/BusinessHistory'
 
 const routes = (
   <Route path="/">
@@ -133,6 +134,7 @@ const routes = (
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
+        <Route path="/backend/business/history" component={BusinessHistory}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
       </Route>
