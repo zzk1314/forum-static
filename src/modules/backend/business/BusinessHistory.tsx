@@ -1,22 +1,26 @@
-import *  as React from 'react'
-import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import { loadCheckedApplication } from './async'
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import * as _ from 'lodash'
+import { loadApplicationById, loadCheckedApplication } from './async'
 import { MessageTable } from '../message/autoreply/MessageTable'
-
+import { Dialog, Divider, RaisedButton, TextField } from 'material-ui'
+import './BusinessHistory.less'
 
 const cellStyle = {
   paddingLeft: 0,
   paddingRight: 0
 }
 
+/**
+ * 历史审批记录
+ */
+@connect(state => state)
 export default class BusinessHistory extends React.Component<any, any> {
-
   constructor(props) {
     super(props)
-
     this.state = {
       page: 1,
-      infos: [],
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'interviewTime', alias: '合适的面试时间', style: _.merge({}, cellStyle, { width: '100px' }) },
@@ -27,24 +31,23 @@ export default class BusinessHistory extends React.Component<any, any> {
         { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
         { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) }
       ],
-      openDialog:false,
-      showData:''
+      data: [],
+      item: '',
+      profileId: ''
     }
-
   }
 
   componentWillMount() {
     const { dispatch } = this.props
     const { page } = this.state
-
     dispatch(startLoad())
     loadCheckedApplication(page).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({
-          infos: res.msg.data,
-          tablePage: res.msg.page
+          data: msg.data,
+          tablePage: msg.page
         })
       }
       else {
@@ -53,116 +56,166 @@ export default class BusinessHistory extends React.Component<any, any> {
     })
   }
 
-  handlePageClick(page) {
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    loadCheckedApplication(page).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ infos: res.msg.data, tablePage: res.msg.page, page: page })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+  openDialog(item) {
+    this.setState({
+      showDialog: true,
+      item: item
     })
   }
 
-  openDialog(item) {
-      this.setState({
-        openDialog:true,
-        showData:item
+  handlePageClick(page) {
+    const { dispatch } = this.props
+    const {profileId} = this.state
+    dispatch(startLoad())
+    if(_.isEmpty(profileId)){
+      loadCheckedApplication(page).then(res => {
+        dispatch(endLoad())
+        if(res.code === 200) {
+          this.setState({ data: res.msg.data, tablePage: res.msg.page, page: page })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
       })
+    }
+    else{
+      loadApplicationById(page,profileId).then(res => {
+        dispatch(endLoad())
+        if(res.code === 200) {
+          this.setState({ data: res.msg.data, tablePage: res.msg.page, page: page })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    }
+  }
+
+  closeDialog() {
+    this.setState({
+      showDialog: false,
+      item: ''
+    })
+  }
+
+  goSearch() {
+    const { dispatch } = this.props
+    const { profileId, page } = this.state
+    if(_.isEmpty(profileId)) {
+      dispatch(alertMsg('id不能为空'))
+      return
+    }
+    if(isNaN(profileId)) {
+      dispatch(alertMsg('id必须是数字'))
+      return
+    }
+
+    dispatch(startLoad())
+    loadApplicationById(1, profileId).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({
+          data: msg.data,
+          tablePage: msg.page
+        })
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    })
+
   }
 
   render() {
-    // const renderDialog = () => {
-    //   const { openDialog, editData = {}, showCouponChoose, coupon, RasiedClicked } = this.state
-    //   return (
-    //     <Dialog open={openDialog} autoScrollBodyContent={true} modal={false}>
-    //       <div className="bs-dialog">
-    //         <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
-    //           申请者信息：
-    //         </div>
-    //         {renderDialogItem('昵称：', editData.nickname)}
-    //         {renderDialogItem('OpenId：', editData.openid)}
-    //         {renderDialogItem('当前会员状态：', editData.memberType)}
-    //         {renderDialogItem('付费状态：', editData.finalPayStatus)}
-    //         {renderDialogItem('申请时会员类型：', editData.originMemberTypeName)}
-    //         {renderDialogItem('是否助教：', editData.isAsst)}
-    //         {renderDialogItem('最近审核结果：', editData.verifiedResult)}
-    //         {renderDialogItem('是否黑名单用户：', editData.isBlack)}
-    //         {renderDialogItem('最终付费状态：', editData.finalPayStatus)}
-    //         {renderDialogItem('面试官：', editData.interviewerName)}
-    //         <div className="bs-dialog-header">
-    //           问卷信息：
-    //         </div>
-    //         {editData.questionList ? editData.questionList.map(item => {
-    //           return renderDialogItem(item.question, item.answer, true, item.id)
-    //         }) : null}
-    //         <div className="bs-dialog-header">
-    //           评价：
-    //         </div>
-    //         <br/>
-    //         {renderInterview()}
-    //
-    //         {
-    //           RasiedClicked ? null :
-    //             <div ref="raisedButton">
-    //               <RaisedButton
-    //                 style={{ marginLeft: 30 }}
-    //                 label="通过" secondary={true} disabled={editData.isBlack === '是'}
-    //                 onClick={() => {
-    //                   this.checkCommentedApproval()
-    //                 }}/>
-    //               <RaisedButton
-    //                 style={{ marginLeft: 30 }}
-    //                 label="拒绝" secondary={true}
-    //                 onClick={() => this.handleClickRejectApplicationBtn(editData)}/>
-    //               <RaisedButton
-    //                 style={{ marginLeft: 30 }}
-    //                 label="私信" secondary={true}
-    //                 onClick={() => this.handleClickIgnoreApplication(editData)}/>
-    //               <RaisedButton
-    //                 style={{ marginLeft: 30 }}
-    //                 label="取消" secondary={true}
-    //                 onClick={() => this.handleClickClose()}/>
-    //             </div>
-    //         }
-    //
-    //         {
-    //           showCouponChoose ?
-    //             <div className="bs-dialog-coupon">
-    //               <SelectField
-    //                 floatingLabelText="请选择优惠券"
-    //                 value={coupon}
-    //                 onChange={(event, index, value) => this.handleChangeCoupon(event, index, value)}
-    //               >
-    //                 <MenuItem value={0} primaryText="无"/>
-    //                 <MenuItem value={200} primaryText="200"/>
-    //                 <MenuItem value={300} primaryText="300"/>
-    //                 <MenuItem value={400} primaryText="400"/>
-    //                 <MenuItem value={500} primaryText="500"/>
-    //                 <MenuItem value={600} primaryText="600"/>
-    //                 <MenuItem value={800} primaryText="800"/>
-    //                 <MenuItem value={1540} primaryText="1540"/>
-    //                 <MenuItem value={3080} primaryText="3080"/>
-    //               </SelectField>
-    //               <RaisedButton
-    //                 style={{ marginLeft: 30 }}
-    //                 label="确定" primary={true}
-    //                 onClick={() => this.handleClickApprove(editData, coupon)}/>
-    //             </div> : <div className="bs-dialog-coupon"/>
-    //         }
-    //       </div>
-    //     </Dialog>
-    //   )
-    // }
+    const { showDialog, item, profileId } = this.state
+    const renderDialog = () => {
+      return (
+        <Dialog open={showDialog} autoScrollBodyContent={true} modal={false}>
+          <div className="bs-dialog">
+            <div className="bs-dialog-header" style={{ marginTop: '0px' }}>
+              申请者信息
+            </div>
+            {renderDialogItem('昵称：', item.nickname)}
+            {renderDialogItem('当前会员状态：', item.memberType)}
+            {renderDialogItem('付费状态：', item.finalPayStatus)}
+            {renderDialogItem('申请时会员类型：', item.originMemberTypeName)}
+            {renderDialogItem('是否助教：', item.isAsst)}
+            {renderDialogItem('最近审核结果：', item.verifiedResult)}
+            {renderDialogItem('是否黑名单用户：', item.isBlack)}
+            {renderDialogItem('最终付费状态：', item.finalPayStatus)}
+            {renderDialogItem('面试官：', item.interviewerName)}
+            <div className="bs-dialog-header">
+              问卷信息
+            </div>
+            {item.questionList ? item.questionList.map(item => {
+              return renderDialogItem(item.question, item.answer, true, item.id)
+            }) : null}
+
+
+            <div className="bs-dialog-header" style={{ marginTop: '20px' }}>
+              面试信息
+            </div>
+            {!_.isEmpty(item.interviewRecord) && <div>
+              {renderDialogItem('面试时间：', item.interviewRecord.interviewTime)}
+              {renderDialogItem('学员提问：', item.interviewRecord.question)}
+              {_.isEmpty(item.interviewRecord.focusChannelName) ? renderDialogItem('关注渠道：', item.interviewRecord.focusChannel) : renderDialogItem('关注渠道：', item.interviewRecord.focusChannelName)}
+              {_.isEmpty(item.interviewRecord.touchDurationName) ? renderDialogItem('关注时长：', item.interviewRecord.touchDuration) : renderDialogItem('关注时长：', item.interviewRecord.touchDurationName)}
+              {_.isEmpty(item.interviewRecord.applyEventName) ? renderDialogItem('触发申请商学院事件：', item.interviewRecord.applyEvent) : renderDialogItem('触发申请商学院事件：', item.interviewRecord.applyEventName)}
+              {renderDialogItem('学习意愿（1-有，2-无）：', item.interviewRecord.learningWill)}
+              {renderDialogItem('发展潜力：', item.interviewRecord.potentialScore)}
+              {renderDialogItem('是否申请奖学金（1-申请，2-不申请）：', item.interviewRecord.applyAward)}
+              {!_.isEmpty(item.interviewRecord.applyReason) && renderDialogItem('申请奖学金理由：', item.interviewRecord.applyReason)}
+              {renderDialogItem('备注：', item.interviewRecord.remark)}
+            </div>
+            }
+            <div style={{ marginTop: 20 }}>
+              <RaisedButton
+                style={{ marginLeft: 30 }}
+                label="确认" secondary={true}
+                onClick={() => this.closeDialog()}/>
+            </div>
+
+          </div>
+        </Dialog>
+      )
+    }
+
+    const renderDialogItem = (label, value, br, key) => {
+      return (
+        <div className="bs-dialog-row" key={key}>
+          <span className="bs-dialog-label">{label}</span>{br ? <br/> : null}
+
+          <span className='bs-dialog-value'>
+            {value}
+          </span>
+
+          <Divider/>
+        </div>
+      )
+    }
+
+    const renderSearch = () => {
+      return (
+        <div className="search-container">
+          <TextField floatingLabelText='输入id查询' value={profileId} onChange={(e, v) => this.setState({ profileId: v })}/>
+          <RaisedButton
+            label="点击搜索" primary={true}
+            style={{ marginLeft: 50 }}
+            onClick={() => this.goSearch()}
+          />
+        </div>
+      )
+    }
 
     return (
-      <div>
-        <MessageTable data={this.state.infos} meta={this.state.meta}
+      <div className="application-history-container">
+        {renderSearch()}
+        {!_.isEmpty(item) && renderDialog()}
+        <MessageTable data={this.state.data} meta={this.state.meta}
                       opsButtons={[{
                         editFunc: (item) => this.openDialog(item),
                         opsName: '查看详情'
