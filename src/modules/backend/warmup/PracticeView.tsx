@@ -8,6 +8,7 @@ import Subheader from 'material-ui/Subheader'
 import Avatar from 'material-ui/Avatar'
 import _ from "lodash"
 import AlertMessage from "../../../components/AlertMessage";
+import Confirm from '../../../components/Confirm'
 
 const sequenceMap = {
   0: 'A',
@@ -37,7 +38,25 @@ export default class PracticeView extends React.Component <any, any> {
       delMsgOpen: false,
       nodelAuthority: false,
       delDiscussId: 0,
-      discussList: []
+      discussList: [],
+      showConfirm: false,
+      showId:'',
+      showConfirmModal: {
+        title: '提示',
+        content: '确认加精？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm: false })
+            this.confirmHighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      }
     }
   }
 
@@ -69,13 +88,20 @@ export default class PracticeView extends React.Component <any, any> {
   }
 
   highlight(id) {
-    const {data} = this.state
-    highlight(id).then(res => {
+    this.setState({
+      showConfirm:true,
+      showId:id
+    })
+  }
+
+  confirmHighlight(){
+    const {data,showId} = this.state
+    highlight(showId).then(res => {
       if(res.code === 200) {
         this.showAlert('提交成功')
       }
       data.discussList.forEach((item) => {
-        if(item.id === id) {
+        if(item.id === showId) {
           _.set(item, 'priority', 1)
         }
       })
@@ -207,6 +233,8 @@ export default class PracticeView extends React.Component <any, any> {
                 backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
         <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
         <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论" handleClose={() => this.setState({nodelAuthority: false})}/>
+        <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
+                 handlerClose={() => this.setState({ showConfirmtModal: false })}/>
       </div>
     )
   }
