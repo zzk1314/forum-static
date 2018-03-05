@@ -13,6 +13,7 @@ import Editor from "../../../components/editor/Editor"
 import { decodeTextAreaString3 } from "../../../utils/textUtils"
 import Snackbar from 'material-ui/Snackbar'
 import {imgSrc} from "../../../utils/imgSrc"
+import Confirm from '../../../components/Confirm'
 
 export const CommentType = {
   Challenge: 1,
@@ -39,7 +40,26 @@ export default class ApplicationList extends React.Component<any, any> {
       descriptionEditable: false,
       snackOpen: false,
       message: "",
-      saving: false
+      saving: false,
+      showConfirm: false,
+      applicationId:'',
+      highlightId:'',
+      showConfirmModal: {
+        title: '提示',
+        content: '确认加精？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm: false })
+            this.confirmHighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      }
     }
   }
 
@@ -80,6 +100,24 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
+
+  confirmHighlight(){
+    const {other,applicationId,highlightId} = this.state
+    highlight(applicationId, highlightId).then(res => {
+      if(res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      other.forEach((item) => {
+        if(item.id === highlightId) {
+          _.set(item, 'priority', 1)
+        }
+      })
+      this.setState({other})
+    })
+  }
+
+
+
   showAlert(content, title) {
     const {dispatch} = this.props;
     dispatch(alertMsg(title, content));
@@ -87,6 +125,8 @@ export default class ApplicationList extends React.Component<any, any> {
       dispatch(set("base.showModal", false));
     }, 1000);
   }
+
+
 
   loadMoreContent() {
     const {location, dispatch} = this.props;
@@ -113,17 +153,22 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   highlight(application, id) {
-    const {other} = this.state
-    highlight(application, id).then(res => {
-      if(res.code === 200) {
-        this.showAlert('提交成功')
-      }
-      other.forEach((item) => {
-        if(item.id === id) {
-          _.set(item, 'priority', 1)
-        }
-      })
-      this.setState({other})
+    // const {other} = this.state
+    // highlight(application, id).then(res => {
+    //   if(res.code === 200) {
+    //     this.showAlert('提交成功')
+    //   }
+    //   other.forEach((item) => {
+    //     if(item.id === id) {
+    //       _.set(item, 'priority', 1)
+    //     }
+    //   })
+    //   this.setState({other})
+    // })
+    this.setState({
+      applicationId:application,
+      highlightId:id,
+      showConfirm:true
     })
   }
 
@@ -316,6 +361,8 @@ export default class ApplicationList extends React.Component<any, any> {
           open={this.state.snackOpen}
           message={this.state.message}
           autoHideDuration={2000}/>
+        <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
+                 handlerClose={() => this.setState({ showConfirmtModal: false })}/>
       </div>
     )
   }
