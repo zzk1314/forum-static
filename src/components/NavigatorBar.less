@@ -29,29 +29,32 @@
         top: 1px;
       }
       .logo-name {
-        font-size: 40px;
         position: relative;
         left: 111.5px;
-        color: #55cbcb;
+        color: rgba(0, 0, 0, 0.6);
+        line-height: 28px;
+        margin-left: 10px;
+        font-size: 30px;
       }
     }
 
     .nav-btn {
       height: 100%;
       width: 62.5%;
+      padding-right:50px;
       display: inline-flex;
-      flex-direction: row;
+      flex-direction:row-reverse;
       align-items: center;
       align-content: center;
       .nav-item {
+        font-size: 17px;
+        font-weight: 500;
         margin-left: 6%;
         //width: 88px;
         height: 44px;
         text-transform: uppercase;
         letter-spacing: 0;
-        font-weight: 300;
         color: #333;
-        font-size: 19.5px;
         vertical-align: middle;
         cursor: pointer;
         user-select: none;
@@ -64,7 +67,7 @@
           border-radius: 5px;
         }
         &.active {
-          color: rgb(85, 203, 203);
+          color: #ffc323;
         }
       }
     }

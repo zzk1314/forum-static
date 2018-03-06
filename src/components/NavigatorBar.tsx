@@ -7,8 +7,10 @@ import { Divider, Paper, Menu, MenuItem } from 'material-ui'
 
 enum NavType {
   Home = 1,
-  Rise,
-  Forum
+  Rise = 2,
+  Forum = 3,
+  Course = 4,
+  Article = 5,
 }
 
 interface NavigatorBarStates {
@@ -55,6 +57,18 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
         this.setState({activeNav: NavType.Forum})
         break
       }
+      case NavType.Course: {
+        this.setState({activeNav: NavType.Course}, () => {
+          window.location.href = '/course_project';
+        })
+        break
+      }
+      case NavType.Article: {
+        this.setState({activeNav: NavType.Article}, () => {
+          window.location.href = '/article';
+        })
+        break
+      }
       default: {
         break
       }
@@ -67,6 +81,10 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
       this.setState({activeNav: NavType.Rise})
     } else if(url === '/home' || url === '/') {
       this.setState({activeNav: NavType.Home})
+    } else if(url === '/course_project') {
+      this.setState({activeNAV:NavType.Course})
+    } else if(url === '/article') {
+      this.setState({activeNAV:NavType.Article});
     }
   }
 
@@ -104,18 +122,26 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">
-              <AssetImg url="https://static.iqycamp.com/images/logo.png" width="36" height="38"/>
+              <AssetImg url="https://static.iqycamp.com/images/logo.png" width="60" height="60"/>
             </div>
-            <span className="logo-name">圈外
+            <span className="logo-name">圈外同学
             </span>
           </div>
           <div className="nav-btn">
+            <button className={`nav-item ${activeNav === NavType.Rise ? 'active' : ''}`}
+                    onClick={() => this.handleClickNav(NavType.Rise)}>线上学习
+            </button>
+            <button className={`nav-item first-item ${activeNav === NavType.Article ? 'active' : ''}`}
+                    onClick={() => this.handleClickNav(NavType.Article)}>文章
+            </button>
+
+            <button className={`nav-item first-item ${activeNav === NavType.Course ? 'active' : ''}`}
+                    onClick={() => this.handleClickNav(NavType.Course)}>课程项目
+            </button>
             <button className={`nav-item first-item ${activeNav === NavType.Home ? 'active' : ''}`}
                     onClick={() => this.handleClickNav(NavType.Home)}>首页
             </button>
-            <button className={`nav-item ${activeNav === NavType.Rise ? 'active' : ''}`}
-                    onClick={() => this.handleClickNav(NavType.Rise)}>圈外同学
-            </button>
+
           </div>
           {
             window.ENV.headImgUrl && window.ENV.userName ?
