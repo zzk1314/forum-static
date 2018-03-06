@@ -660,14 +660,13 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                     onChange={(event, index, value) => this.handleChangeCoupon(event, index, value)}
                   >
                     <MenuItem value={0} primaryText="无"/>
-                    <MenuItem value={200} primaryText="200"/>
                     <MenuItem value={300} primaryText="300"/>
                     <MenuItem value={400} primaryText="400"/>
                     <MenuItem value={500} primaryText="500"/>
                     <MenuItem value={600} primaryText="600"/>
                     <MenuItem value={800} primaryText="800"/>
-                    <MenuItem value={1540} primaryText="1540"/>
-                    <MenuItem value={3080} primaryText="3080"/>
+                    <MenuItem value={1740} primaryText="1740"/>
+                    <MenuItem value={3480} primaryText="3480"/>
                   </SelectField>
                   <RaisedButton
                     style={{ marginLeft: 30 }}
