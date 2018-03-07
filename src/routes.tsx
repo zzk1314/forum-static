@@ -79,6 +79,7 @@ import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
+import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 
 const routes = (
   <Route path="/">
@@ -134,6 +135,7 @@ const routes = (
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
+        <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>

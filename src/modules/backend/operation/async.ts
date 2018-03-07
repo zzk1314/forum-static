@@ -35,3 +35,8 @@ export function loadAssts() {
 export function assignApplyInterviewer(data) {
   return ppost('/pc/operation/assign/interviewer', data)
 }
+
+
+export function loadQrCode(scene,remark){
+  return pget(`/subscribe/per/qrCode?scene=${scene}&&remark=${remark}`)
+}
