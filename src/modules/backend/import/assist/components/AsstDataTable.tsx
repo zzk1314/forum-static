@@ -14,6 +14,8 @@ import ReactPaginate from 'react-paginate'
 import { AsstModel } from './AsstModel'
 import { addAssist, updateAssistCatalog } from '../async'
 
+import './AsstDataTable.less'
+
 interface DataTableProps {
   data: any,
   meta: any,
@@ -22,6 +24,7 @@ interface DataTableProps {
   page?: any,
   handlePageClick?: any
 }
+
 interface DataTableState {
   openProfileModal: boolean,
 
@@ -36,12 +39,13 @@ interface DataTableState {
   showCheckboxes: boolean, // 显示选择看
   deselectOnClickaway: boolean, // 点击其他区域，取消选择
 }
+
 export class AsstDataTable extends React.Component<DataTableProps, DataTableState> {
   constructor() {
     super()
     this.state = {
       selected: [],
-      openProfileData: {},
+      openProfileData: {}
     }
   }
 
@@ -68,13 +72,13 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
 
   handleSubmitModal() {
     let innerState = this.refs.profile.getInnerState()
-    const{addFunc,editFunc} = this.props
-    const{assist,assistCatalog,riseId} = innerState
-    if(assist=== -1 && assistCatalog!=''){
-      addAssist(riseId,assistCatalog).then(res=>{
-        if(res.code===200){
+    const { addFunc, editFunc } = this.props
+    const { assist, assistCatalog, riseId } = innerState
+    if(assist === -1 && assistCatalog != '') {
+      addAssist(riseId, assistCatalog).then(res => {
+        if(res.code === 200) {
           this.setState({
-            openProfileModal:false
+            openProfileModal: false
           })
           addFunc()
         }
@@ -82,12 +86,12 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
     }
     else {
       //更新教练状态
-      updateAssistCatalog(riseId,assist, assistCatalog).then(res => {
+      updateAssistCatalog(riseId, assist, assistCatalog).then(res => {
         if(res.code === 200) {
-            this.setState({
-              openProfileModal: false
-            })
-            editFunc()
+          this.setState({
+            openProfileModal: false
+          })
+          editFunc()
         }
       })
     }
@@ -100,7 +104,7 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
   }
 
   render() {
-    const { data = [],assistCatalogs=[],page, meta = [] } = this.props
+    const { data = [], assistCatalogs = [], page, meta = [] } = this.props
     const {
       openProfileModal = false,
       openProfileData,
@@ -180,11 +184,13 @@ export class AsstDataTable extends React.Component<DataTableProps, DataTableStat
                     <TableHeaderColumn>{index + 1}</TableHeaderColumn>
                     {
                       meta.map((metaItem, index) => (
-                        <TableRowColumn key={index}>{dataItem[metaItem.tag]}</TableRowColumn>
+
+                        <TableRowColumn key={index}
+                                        className={(index === 4 && dataItem[metaItem.tag] === '是') ? 'asst-red-text' : ''}>{dataItem[metaItem.tag]}</TableRowColumn>
                       ))
                     }
                     <TableRowColumn style={{ color: '#55cbcb', cursor: 'pointer' }}>
-                      <span onClick={()=>this.handleEditProfile(dataItem)}>编辑</span>
+                      <span onClick={() => this.handleEditProfile(dataItem)}>编辑</span>
                     </TableRowColumn>
                   </TableRow>
                 )) : null
