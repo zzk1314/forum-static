@@ -28,7 +28,7 @@ export default class GenerateQrCode extends React.Component<any, any> {
     const { dispatch } = this.props
     const { scene,remark } = this.state
     if(_.isEmpty(scene) || _.isEmpty(remark)){
-      dispatch(alertMsg('请输入场景值和备注'))
+      dispatch(alertMsg('请输入活动英文名和中文活动名称'))
       return
     }
     dispatch(startLoad())
@@ -53,9 +53,9 @@ export default class GenerateQrCode extends React.Component<any, any> {
     const renderScene = () => {
       return (
         <div className="scene-container">
-          <TextField floatingLabelText='请输入场景值（请使用英文活动名和编号，中间用_分割，例：subscribe_push_1）' fullWidth={200} value={scene}
+          <TextField floatingLabelText='请输入英文活动名和编号（格式例如：subscribe_push_1）' fullWidth={200} value={scene}
                      onChange={(e, v) => this.setState({ scene: v })}/>
-          <TextField floatingLabelText='请输入活动备注' value={remark} onChange={(e, v) => this.setState({ remark: v })}/>
+          <TextField floatingLabelText='请输入中文活动名称' value={remark} onChange={(e, v) => this.setState({ remark: v })}/>
           <div>
           <RaisedButton
             label="点击生成" primary={true}
