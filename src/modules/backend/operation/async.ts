@@ -35,3 +35,7 @@ export function loadAssts() {
 export function assignApplyInterviewer(data) {
   return ppost('/pc/operation/assign/interviewer', data)
 }
+
+export function  sendTemplateMsg(param){
+  return ppost('/pc/operation/send/template/msg',param)
+}

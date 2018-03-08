@@ -79,6 +79,7 @@ import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
+import SendTemplate from './modules/backend/operation/SendTemplate'
 
 const routes = (
   <Route path="/">
@@ -110,6 +111,8 @@ const routes = (
           <Route path="/backend/problem/application/catalog" component={ApplicationCatalog}/>
           <Route path="/backend/problem/application/list" component={ApplicationView}/>
         </Route>
+
+        <Route path="/backend/template" component={SendTemplate}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
