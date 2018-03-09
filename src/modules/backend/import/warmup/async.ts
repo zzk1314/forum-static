@@ -20,6 +20,10 @@ export function deleteWarmupDiscuss(discussId) {
   return pget(`/pc/operation/warmup/discuss/del/${discussId}`)
 }
 
+export function  loadAllWarmupList(problemId){
+  return pget(`/pc/operation/warmup/load/all/${problemId}`)
+}
+
 export function loadWarmupList(problemId) {
   return pget(`/pc/operation/warmup/list/${problemId}`)
 }
@@ -43,4 +47,8 @@ export function insertWarmupPractice (param){
 // 根据 practiceUid 获取小课信息
 export function loadWarmupPracticeByPracticeUid(practiceUid) {
   return pget(`/pc/operation/warmup/load/problem/${practiceUid}`)
+}
+
+export function deleteExample(id){
+  return pget(`/pc/operation/warmup/delete/example/${id}`)
 }
