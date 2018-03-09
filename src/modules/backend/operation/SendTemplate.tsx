@@ -7,8 +7,7 @@ import './SendTemplate.less'
 import * as _ from 'lodash'
 
 const templates = [
-  { id: 0, value: '代办事项提醒' },
-  { id: 1, value: '账户变动提醒' }
+  { id: 0, value: '代办事项提醒' }
 ]
 
 const forcePushs = [
@@ -150,7 +149,7 @@ export default class SendTemplate extends React.Component<any, any> {
             <TextField hintText='请输入url' fullWidth={200} value={url} onChange={(e, v) => this.setState({ url: v })}/>
           </div>
           <div>
-            <textarea placeholder='请输入发送人员的openid（用逗号隔开）' className='comment-container' value={openIds}
+            <textarea placeholder='请输入发送人员的openid（用换行符隔开）' className='comment-container' value={openIds}
                       onChange={(e, v) => this.setState({ openIds: e.target.value })}/>
           </div>
         </div>
