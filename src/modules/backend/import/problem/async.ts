@@ -16,3 +16,8 @@ export function loadProblemCatalog() {
 export function saveProblem(param) {
   return ppost(`/pc/operation/problem/save`, param)
 }
+
+
+export function loadExport(){
+  return pget('/pc/operation/problem/load/export')
+}

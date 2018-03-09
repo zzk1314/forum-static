@@ -95,6 +95,11 @@ export default class Fragment extends React.Component<any, any> {
                   this.context.router.push({ pathname: '/backend/application/management' })
                 }}>应用题管理
                 </div>
+                <div className="catalog-name" onClick={()=>{
+                  this.context.router.push({pathname:'/backend/problem/export'})
+                }}>
+                  导出更新内容
+                </div>
               </div> : null
           }
           <Subheader style={style.listTitle}>
