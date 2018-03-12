@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
 import ChoiceEditor from '../component/ChoiceEditor'
-import { insertWarmupPractice, loadWarmUp, saveWarmup } from './async'
+import { deleteExample, insertWarmupPractice, loadWarmUp, saveWarmup } from './async'
 import * as _ from 'lodash'
 import './WarmupPracticeImport.less'
 import Editor from '../../../../components/editor/Editor'
@@ -56,7 +56,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
   }
 
   componentWillMount(nextProps) {
-    const { location } = nextProps || this.props;
+    const { location } = nextProps || this.props
 
     if(location.query.id) {
       const { id } = location.query
@@ -106,7 +106,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
 
   componentWillReceiveProps(nextProps) {
     if(this.props.location.query.id !== nextProps.location.query.id) {
-      this.componentWillMount(nextProps);
+      this.componentWillMount(nextProps)
     }
   }
 
@@ -221,6 +221,22 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
 
   }
 
+  deletePractice() {
+    const { id } = this.state
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    deleteExample(id).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code===200){
+        dispatch(alertMsg('删除成功'))
+      }else {
+        dispatch(alertMsg(msg))
+      }
+    })
+
+  }
+
   disableSnackBar() {
     this.setState({
       showSnackBar: false
@@ -233,7 +249,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     // 将对应 id 值的 checkbox 值拼装
     // questionid 要通过后端 insert WarmupPractice 返回得到
     let { choices } = this.state
-    choices[ id ] = { sequence: id + 1, isRight, subject: _.trim(subject) }
+    choices[id] = { sequence: id + 1, isRight, subject: _.trim(subject) }
     this.setState({
       choices: choices
     })
@@ -249,23 +265,23 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
 
   onAnswerChange(value, idx) {
     const { choiceList = [] } = this.state
-    if(value != choiceList[ idx ].isRight) {
-      _.set(choiceList[ idx ], 'isRight', value === '√')
+    if(value != choiceList[idx].isRight) {
+      _.set(choiceList[idx], 'isRight', value === '√')
       this.setState({ choiceList, edit: true })
     }
   }
 
   onChoiceEdit(idx) {
     const { choiceList = [] } = this.state
-    _.set(choiceList[ idx ], 'choiceEdit', true)
+    _.set(choiceList[idx], 'choiceEdit', true)
     this.setState({ choiceList })
   }
 
   onChoiceChange(value, idx) {
     const { choiceList = [] } = this.state
-    if(value !== choiceList[ idx ].subject) {
-      _.set(choiceList[ idx ], 'subject', value)
-      _.set(choiceList[ idx ], 'choiceEdit', false)
+    if(value !== choiceList[idx].subject) {
+      _.set(choiceList[idx], 'subject', value)
+      _.set(choiceList[idx], 'choiceEdit', false)
       this.setState({ choiceList, edit: true })
     }
   }
@@ -441,7 +457,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
                           this.setState({ choicesCnt: this.state.choicesCnt + 1 })
                         }}/>
           <RaisedButton className="main-btn" label="删除选项" primary={true}
-                        onTouchTap={()=>this.handleClickRemoveChoice()}/>
+                        onTouchTap={() => this.handleClickRemoveChoice()}/>
         </div>
       )
     }
@@ -521,9 +537,17 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
               <RadioButton value={1} label="是"/>
             </RadioButtonGroup>
           </div>
+
           <RaisedButton
             className="submit-btn" label="提交题目" primary={true}
-            onTouchTap={()=>this.submitWarmupPractice()}/>
+            onTouchTap={() => this.submitWarmupPractice()}/>
+          {
+            example == 1 &&
+            <RaisedButton
+              className="delete-btn" label="删除题目" primary={true}
+              onTouchTap={() => this.deletePractice()}/>
+          }
+
         </div>
         {renderOtherComponents()}
       </div>
