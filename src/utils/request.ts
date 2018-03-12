@@ -9,6 +9,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.interceptors.response.use(function(response) {
   if(response.status === 700) {
     window.location.href = decodeURI(`${window.location.protocol}//${window.location.host}/login?callbackUrl=${window.location.href}`)
+  } else if(response.status === 701) {
+    alert('抱歉，当前页面无权访问')
+    window.location.href = '/403.jsp'
   } else {
     return response
   }
@@ -19,7 +22,7 @@ axios.interceptors.response.use(function(response) {
 function pget(url: string, query?: Object) {
   return get(`${url}${_appendQs(query)}`, {
     validateStatus: function(status) {
-      return status >= 200 && status < 300 || status == 700
+      return status >= 200 && status < 300 || (status >= 700 || status < 800)
     }
   }).then(res => res.data).catch(error => {
     if(error.response) {
