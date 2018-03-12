@@ -228,7 +228,11 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     deleteExample(id).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      dispatch(alertMsg(msg))
+      if(code===200){
+        dispatch(alertMsg('删除成功'))
+      }else {
+        dispatch(alertMsg(msg))
+      }
     })
 
   }
