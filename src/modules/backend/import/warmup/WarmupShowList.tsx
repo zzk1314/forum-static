@@ -8,6 +8,9 @@ import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import { removeHtmlTags } from '../../../../utils/textUtils'
 
+/**
+ * 已废弃
+ */
 @connect(state => state)
 export default class WarmupShowList extends React.Component<any, any> {
 
@@ -53,7 +56,8 @@ export default class WarmupShowList extends React.Component<any, any> {
   }
 
   view(practice) {
-    window.open(`/backend/warmup/view?id=${practice.id}`)
+    const {interval} = this.state
+    window.open(`/backend/warmup/view?id=${practice.id}&interval=${interval}`)
   }
 
   render() {

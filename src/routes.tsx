@@ -80,6 +80,7 @@ import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
+import WarmupList from './modules/backend/warmup/WarmupList'
 
 const routes = (
   <Route path="/">
@@ -101,10 +102,10 @@ const routes = (
         {/*<Route path="/backend/warmup" component={HotWarmupPractice}/>*/}
 
         <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
-          <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
+          {/*<Route path="/backend/warmup/show/list" component={WarmupShowList}/>*/}
         </Route>
 
-
+        <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
