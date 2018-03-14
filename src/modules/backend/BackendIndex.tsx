@@ -126,7 +126,7 @@ export default class Fragment extends React.Component<any, any> {
               助教管理
             </div>
             <div className="catalog-name" onClick={()=>{this.props.dispatch(set('menu',Menus.WARM_UP_DISCUSS))
-            this.context.router.push({pathname:'/backend/warmup/list'})}}>
+            this.context.router.push({pathname:'/backend/warmup/view'})}}>
               选择题评论
             </div>
             <div className="catalog-name" onClick={() => {
