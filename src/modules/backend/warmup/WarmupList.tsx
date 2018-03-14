@@ -5,7 +5,7 @@ import { loadTargetDiscuss, loadTodayDiscuss } from './async'
 import { Divider, FlatButton, MenuItem, RaisedButton, SelectField } from 'material-ui'
 import { removeHtmlTags } from '../../../utils/textUtils'
 import './WarmupList.less'
-
+import * as _ from "lodash"
 /**
  * 选择题评论列表页
  */
@@ -28,7 +28,9 @@ export default class WarmupList extends React.Component<any, any> {
     super(props)
     this.state = {
       warmupList: [],
-      interval: { id: 0, value: '今天' }
+      interval: { id: 0, value: '今天' },
+      current: 1,
+      total: ''
     }
   }
 
@@ -72,7 +74,15 @@ export default class WarmupList extends React.Component<any, any> {
   }
 
   render() {
-    const { warmupList = [], interval } = this.state
+    const { warmupList = [], interval, current } = this.state
+
+    const renderTotal = () => {
+      return (
+        <div className="display-total">
+          {warmupList.length>0 && <div>{current}/{warmupList.length}</div>}
+        </div>
+      )
+    }
 
     /*加载7天选择期*/
     const renderSevenDays = () => {
@@ -80,7 +90,7 @@ export default class WarmupList extends React.Component<any, any> {
         <div>
           <SelectField
             value={interval} style={{ 'text-align': 'center' }}
-            onChange={(event, index, value) => this.setState({ interval: value })}
+            onChange={(event, index, value) => this.setState({ interval: value,current:1})}
             maxHeight={400}
           >
             {
@@ -93,7 +103,7 @@ export default class WarmupList extends React.Component<any, any> {
           </SelectField>
           <div>
             <RaisedButton
-              style={{ marginLeft: 60 }}
+              style={{ marginLeft: 60, marginBottom: 50, marginTop: 20 }}
               label="确定" primary={true}
               onClick={() => this.loadSelectDay()}/>
           </div>
@@ -103,27 +113,36 @@ export default class WarmupList extends React.Component<any, any> {
 
     const renderWarmupList = (warmupList) => {
       return (
-          warmupList.map((practice, index) => {
-          return (
-            <div key={index}>
-              <div className="show-warm-up" onClick={() => {
-                this.view(practice)
-              }}>
-                {
-                  removeHtmlTags(practice.question).length > 40 ?
-                    removeHtmlTags(practice.question).substring(0, 40).concat(' ...') : removeHtmlTags(practice.question)
-                }
-              </div>
-              <Divider/>
+        <div>
+          {!_.isEmpty(warmupList) &&
+            <div>
+            <div className="show-warm-up" onClick={() => {
+              this.view(warmupList[current - 1])
+            }}>
+              {
+                removeHtmlTags(warmupList[current - 1].question).length > 40 ?
+                  removeHtmlTags(warmupList[current - 1].question).substring(0, 40).concat(' ...') :
+                  removeHtmlTags(warmupList[current - 1].question)}<Divider/>
             </div>
-          )
-        })
+              <div>
+                <RaisedButton
+                  style={{ marginLeft: 60, marginBottom: 50, marginTop: 20 }}
+                  label="下一题" primary={true}
+                  onClick={() => this.setState({current:current+1})}/>
+              </div>
+            </div>
+          }
+
+
+
+        </div>
       )
     }
 
     return (
       <div className="warm-up-list">
         {renderSevenDays()}
+        {renderTotal()}
         {renderWarmupList(warmupList)}
       </div>
     )

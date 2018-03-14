@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './PracticeView.less'
-import { loadWarmUp, highlight, deleteWarmupDiscuss, loadCurrentWarmup, ignoreDiscuss } from './async'
+import { highlight, deleteWarmupDiscuss, loadCurrentWarmup, ignoreDiscuss, replyDiscuss } from './async'
 import { BreakSignal, Stop } from '../../../utils/request'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import Subheader from 'material-ui/Subheader'
@@ -9,22 +9,7 @@ import Avatar from 'material-ui/Avatar'
 import _ from 'lodash'
 import AlertMessage from '../../../components/AlertMessage'
 import Confirm from '../../../components/Confirm'
-
-const sequenceMap = {
-  0: 'A',
-  1: 'B',
-  2: 'C',
-  3: 'D',
-  4: 'E',
-  5: 'F',
-  6: 'G'
-}
-
-const avatarStyle = {
-  'position': 'fixed',
-  'right': 50,
-  'top': '20%'
-}
+import { FlatButton } from 'material-ui'
 
 @connect(state => state)
 export default class PracticeView extends React.Component <any, any> {
@@ -40,7 +25,10 @@ export default class PracticeView extends React.Component <any, any> {
       delDiscussId: 0,
       discussList: [],
       showConfirm: false,
+      showIgnore: false,
       showId: '',
+      discussId: '',
+      showReply: false,
       showConfirmModal: {
         title: '提示',
         content: '确认加精？',
@@ -56,7 +44,24 @@ export default class PracticeView extends React.Component <any, any> {
             onClick: () => this.setState({ showConfirm: false })
           }
         ]
+      },
+      showIgnoreModal: {
+        title: '提示',
+        content: '确认忽略？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showIgnore: false })
+            this.ignore()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showIgnore: false })
+          }
+        ]
       }
+
     }
   }
 
@@ -65,7 +70,7 @@ export default class PracticeView extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    const { dispatch, location } = this.props
+    const { location } = this.props
     const { id, interval } = location.query
     loadCurrentWarmup(id, interval).then(res => {
       if(res.code === 200) {
@@ -79,12 +84,29 @@ export default class PracticeView extends React.Component <any, any> {
     })
   }
 
-  showAlert(content, title) {
+  onSubmit() {
     const { dispatch } = this.props
-    dispatch(alertMsg(title, content))
-    setTimeout(() => {
-      dispatch(set('base.showModal', false))
-    }, 1000)
+    const { repliedId, warmupPracticeId, content } = this.state
+    if(_.isEmpty(content)) {
+      dispatch(alertMsg('作业还没写完哦', '提示'))
+      return
+    }
+    const param = { comment: content, repliedId, warmupPracticeId }
+    replyDiscuss(param).then(res => {
+      if(res.code === 200) {
+        let newArray = []
+        this.state.discussList.map(discuss => {
+          if(discuss.id !== repliedId) {
+            newArray.push(discuss)
+          }
+        })
+        this.setState({ discussList: newArray,showReply:false })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch((err) => {
+      dispatch(alertMsg(err))
+    })
   }
 
   highlight(id) {
@@ -109,11 +131,12 @@ export default class PracticeView extends React.Component <any, any> {
   }
 
   reply(warmupPracticeId, repliedId) {
-    if(repliedId) {
-      this.context.router.push({ pathname: '/backend/warmup/discuss', query: { warmupPracticeId, repliedId } })
-    } else {
-      this.context.router.push({ pathname: '/backend/warmup/discuss', query: { warmupPracticeId } })
-    }
+    this.setState({
+      showReply: true,
+      warmupPracticeId,
+      repliedId
+    })
+
   }
 
   onClickDelButton(discussId) {
@@ -139,18 +162,18 @@ export default class PracticeView extends React.Component <any, any> {
     })
   }
 
-  ignore(id) {
-    const { dispatch,location } = this.props
-    const { discussList } = this.state
-    const {interval} = location.query
+  ignore() {
+    const { dispatch, location } = this.props
+    const { discussList, discussId } = this.state
+    const { interval } = location.query
     dispatch(startLoad())
-    ignoreDiscuss(id,interval).then(res => {
+    ignoreDiscuss(discussId, interval).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if(code===200){
+      if(code === 200) {
         let newArray = []
         discussList.map(discuss => {
-          if(discuss.id !== id) {
+          if(discuss.id !== discussId) {
             newArray.push(discuss)
           }
         })
@@ -162,7 +185,7 @@ export default class PracticeView extends React.Component <any, any> {
   }
 
   render() {
-    const { data } = this.state
+    const { data, showReply } = this.state
     const { id } = data
     let actions = [
       {
@@ -176,6 +199,19 @@ export default class PracticeView extends React.Component <any, any> {
         }
       }
     ]
+
+    const renderDoWorkArea = () => {
+      return (
+        <div className="doWorkArea">
+          <textarea cols={30} rows={10} onChange={(e) => this.setState({ content: e.currentTarget.value })}/>
+          <div className="submitBtnGroup">
+            <FlatButton style={{ borderRadius: '4px', width: '120px', height: '42px', margin: '0 90px' }}
+                        backgroundColor="#55cbcb" labelStyle={{ color: '#FFF' }} label="提交"
+                        onClick={(e) => this.onSubmit()}/>
+          </div>
+        </div>
+      )
+    }
 
     const questionRender = (practice) => {
       const { id, question, choiceList = [] } = practice
@@ -214,8 +250,10 @@ export default class PracticeView extends React.Component <any, any> {
               <div className="comment-name">{name}</div>
               <div className="comment-time">{discussTime}</div>
               <div className="right">
-                <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div>
-                <div className="function-button" onClick={() => this.ignore(discuss.id)}>
+                <div className="function-button" onClick={() => {
+                  this.setState({ discussId: discuss.id, showIgnore: true })
+                }
+                }>
                   忽略
                 </div>
                 <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
@@ -254,11 +292,15 @@ export default class PracticeView extends React.Component <any, any> {
       <div className="warm-up-analysis">
         <Subheader>选择题</Subheader>
         {questionRender(data)}
-        <Avatar size={40} src="https://static.iqycamp.com/images/discuss.png" style={avatarStyle}
-                backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
+        {showReply && renderDoWorkArea()}
         <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
         <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论"
                       handleClose={() => this.setState({ nodelAuthority: false })}/>
+
+        <Confirm open={this.state.showIgnore} {...this.state.showIgnoreModal}
+                 handlerClose={() => this.setState({ showIgnoreModal: false })}/>
+
+
         <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
                  handlerClose={() => this.setState({ showConfirmtModal: false })}/>
       </div>
