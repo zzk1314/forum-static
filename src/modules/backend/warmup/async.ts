@@ -48,3 +48,17 @@ export function loadWarmupPracticeByPracticeUid(practiceUid) {
 export function highlight(discussId){
   return ppost(`/pc/operation/highlight/discuss/${discussId}`,null)
 }
+
+export function loadTargetDiscuss(interval){
+  return pget(`/pc/operation/warmup/load/discuss?interval=${interval}`)
+}
+
+export function loadCurrentWarmup(warmupPracticeId,interval){
+  return pget(`/pc/operation/warmup/load/target/${warmupPracticeId}?interval=${interval}`)
+}
+
+export function ignoreDiscuss(id,interval){
+  return pget(`/pc/operation/warmup/ignore/discuss?discussId=${id}&interval=${interval}`)
+}
+
+

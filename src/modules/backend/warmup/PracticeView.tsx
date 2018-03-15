@@ -10,16 +10,6 @@ import _ from "lodash"
 import AlertMessage from "../../../components/AlertMessage";
 import Confirm from '../../../components/Confirm'
 
-const sequenceMap = {
-  0: 'A',
-  1: 'B',
-  2: 'C',
-  3: 'D',
-  4: 'E',
-  5: 'F',
-  6: 'G',
-}
-
 const avatarStyle = {
   "position": "fixed",
   "right": 50,
