@@ -407,7 +407,7 @@ export default class NewPracticeView extends React.Component <any, any> {
     }
 
     return (
-      <div className="warm-up-analysis">
+      <div className="new-warm-up-analysis">
         {renderSevenDays()}
         {!_.isEmpty(warmupList) && renderShowNext()}
         {!_.isEmpty(warmupList) && <div><Subheader>选择题</Subheader>{questionRender(data)}</div>}
