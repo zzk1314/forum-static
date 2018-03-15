@@ -79,10 +79,10 @@ export default class ProblemView extends React.Component<any,any> {
     const textItem = (item) => {
       return item.chosen?
         <div key={item.id}
-                  className="listItem done choose done-chose">{item.problem}
+                  className="listItem done choose done-chose">{item.abbreviation}
         </div>:
         <div key={item.id}
-               className="listItem done">{item.problem}
+               className="listItem done">{item.abbreviation}
         </div>
     }
 

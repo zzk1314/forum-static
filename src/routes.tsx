@@ -81,6 +81,7 @@ import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
+import NewPracticeView from './modules/backend/warmup/NewPracticeView'
 
 const routes = (
   <Route path="/">
@@ -91,6 +92,7 @@ const routes = (
       <Route component={BackendIndex}>
         <Route path="/backend" component={BackendWelcome}/>
         <Route path="backend/warmup/view" component={PracticeView}/>
+        <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
@@ -102,7 +104,7 @@ const routes = (
         {/*<Route path="/backend/warmup" component={HotWarmupPractice}/>*/}
 
         <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
-          {/*<Route path="/backend/warmup/show/list" component={WarmupShowList}/>*/}
+          <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
         </Route>
 
         <Route path="/backend/warmup/list" component={WarmupList}/>
