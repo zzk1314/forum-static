@@ -66,16 +66,8 @@ export default class ApplicationCatalog extends React.Component<any,any> {
   // 根据redux设置的menu值，实行不同情况的跳转
   goApp(workId){
     this.context.router.push({
-      pathname:"/backend/problem/application/list",
+      pathname:"/asst/problem/application/list",
       query:{applicationId:workId}
-    })
-  }
-
-  goSubject(){
-    const {activeProblemId} = this.props;
-    this.context.router.push({
-      pathname:"/fragment/subject/list",
-      query:{problemId:activeProblemId}
     })
   }
 
