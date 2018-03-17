@@ -91,6 +91,12 @@ export default class Menu extends React.Component<any,any> {
             onTouchTap={()=>this.onClick('/asst/application/comment', 2)}
           />
           <ListItem
+            style={this.state.index === 5 ? style.itemActive : style.item}
+            value={5}
+            primaryText="加精应用题"
+            onTouchTap={()=>this.onClick('/asst/application/problem/list', 5)}
+          />
+          <ListItem
             style={this.state.index === 3 ? style.itemActive : style.item}
             value={3}
             primaryText="评论选择题"

@@ -60,7 +60,7 @@ export default class ApplicationProblemList extends React.Component<any,any> {
     dispatch(set("activeProblemId",problemId));
     dispatch(set("page.scroll",{x:0,y:0}));
     this.context.router.push({
-      pathname:"/backend/problem/application/catalog",
+      pathname:"/asst/problem/application/catalog",
       query:{problemId:problemId}});
 
   }
