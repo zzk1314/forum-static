@@ -7,7 +7,7 @@ import Avatar from 'material-ui/Avatar';
 import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
 import _ from "lodash"
 import "./ApplicationList.less"
-import { loadApplicationSubmit, highlight, loadApplication, submitComment, saveApplicationPractice } from  "./async"
+import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice } from  "./async"
 import Snackbar from 'material-ui/Snackbar'
 import { imgSrc } from "../../../utils/imgSrc"
 import Confirm from '../../../components/Confirm'
@@ -39,6 +39,7 @@ export default class ApplicationList extends React.Component<any, any> {
       message: "",
       saving: false,
       showConfirm: false,
+      showConfirm2: false,
       applicationId: '',
       highlightId: '',
       showConfirmModal: {
@@ -54,6 +55,22 @@ export default class ApplicationList extends React.Component<any, any> {
           {
             label: '取消',
             onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      },
+      showConfirmModal2: {
+        title: '提示',
+        content: '是否取消加精？',
+        actions: [ {
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm2: false })
+            this.confirmUnhighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm2: false })
           }
         ]
       }
@@ -98,14 +115,29 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   confirmHighlight() {
-    const { other, applicationId, highlightId } = this.state
-    highlight(applicationId, highlightId).then(res => {
+    const { other, highlightId } = this.state
+    highlight(highlightId).then(res => {
       if(res.code === 200) {
         this.showAlert('提交成功')
       }
       other.forEach((item) => {
         if(item.id === highlightId) {
           _.set(item, 'priority', 1)
+        }
+      })
+      this.setState({ other })
+    })
+  }
+
+  confirmUnhighlight() {
+    const { other, highlightId } = this.state
+    unhighlight(highlightId).then(res => {
+      if(res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      other.forEach((item) => {
+        if(item.id === highlightId) {
+          _.set(item, 'priority', 0)
         }
       })
       this.setState({ other })
@@ -144,11 +176,17 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
-  highlight(application, id) {
+  highlight(id) {
     this.setState({
-      applicationId: application,
       highlightId: id,
       showConfirm: true
+    })
+  }
+
+  unhighlight(id) {
+    this.setState({
+      highlightId: id,
+      showConfirm2: true
     })
   }
 
@@ -258,10 +296,12 @@ export default class ApplicationList extends React.Component<any, any> {
                   </div>
                   <div className="rightArea">
                     {priority === 0 ?
-                      <div className="function-button" onClick={() => this.highlight(applicationId, id)}>
+                      <div className="function-button" onClick={() => this.highlight(id)}>
                         加精
                       </div> :
-                      <div className="function-done">已加精</div> }
+                      <div className="function-button" onClick={() => this.unhighlight(id)}>
+                        取消加精
+                      </div> }
                     <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
                   </div>
                   {commenting === 1 ?
@@ -312,7 +352,9 @@ export default class ApplicationList extends React.Component<any, any> {
           message={this.state.message}
           autoHideDuration={2000}/>
         <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
-                 handlerClose={() => this.setState({ showConfirmtModal: false })}/>
+                 handlerClose={() => this.setState({ showConfirm: false })}/>
+        <Confirm open={this.state.showConfirm2} {...this.state.showConfirmModal2}
+                 handlerClose={() => this.setState({ showConfirm2: false })}/>
       </div>
     )
   }

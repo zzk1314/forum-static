@@ -12,8 +12,12 @@ export function loadApplicationSubmit(cid, index) {
   return pget(`/pc/operation/application/submit/${cid}`, {page:index});
 }
 
-export function highlight(applicationId, submitId){
-  return ppost(`/pc/operation/highlight/applicationSubmit/${applicationId}/${submitId}`,null)
+export function highlight(submitId){
+  return ppost(`/pc/operation/highlight/applicationSubmit/${submitId}`,null)
+}
+
+export function unhighlight(submitId){
+  return ppost(`/pc/operation/highlight/cancel/applicationSubmit/${submitId}`,null)
 }
 
 export function loadApplication(applicationId){

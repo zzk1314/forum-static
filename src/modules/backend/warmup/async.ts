@@ -49,6 +49,10 @@ export function highlight(discussId){
   return ppost(`/pc/operation/highlight/discuss/${discussId}`,null)
 }
 
+export function unhighlight(discussId){
+  return ppost(`/pc/operation/highlight/cancel/discuss/${discussId}`,null)
+}
+
 export function loadTargetDiscuss(interval){
   return pget(`/pc/operation/warmup/load/discuss?interval=${interval}`)
 }
