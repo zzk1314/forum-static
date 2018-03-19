@@ -6,10 +6,6 @@ import { sendTemplateMsg } from './async'
 import './SendTemplate.less'
 import * as _ from 'lodash'
 
-const templates = [
-  { id: 0, value: '代办事项提醒' }
-]
-
 const forcePushs = [
   { id: 0, value: '是' },
   { id: 1, value: '否' }
@@ -30,16 +26,16 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword2: '',
       keyword3: '',
       openIds: '',
-      forcePush: ''
+      forcePush: '',
+      source:'',
     }
   }
-
-  sendTemplate = () => {
+  sendTemplateToMime = ()=>{
     const { dispatch } = this.props
-    const { templateId, comment, first, remark, url, keyword1, keyword2, keyword3, openIds,forcePush } = this.state
+    const { templateId, comment, first, remark, url, keyword1, keyword2, keyword3, openIds,forcePush,source} = this.state
 
-    if(_.isEmpty(templateId) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark) || _.isEmpty(url)
-      || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds)  || _.isEmpty(forcePush)) {
+    if(_.isEmpty(templateId) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
+      || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush)||_.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
@@ -51,7 +47,7 @@ export default class SendTemplate extends React.Component<any, any> {
     }
 
     let param = {
-      templateId: templateId.id,
+      templateId,
       comment,
       first,
       remark,
@@ -60,7 +56,47 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword2,
       keyword3,
       openIds,
-      forcePush: push
+      forcePush: push,
+      source,
+      isMime:true
+    }
+    dispatch(startLoad())
+    sendTemplateMsg(param).then(res => {
+      dispatch(endLoad())
+      dispatch(alertMsg(res.msg))
+    })
+
+  }
+
+  sendTemplate = () => {
+    const { dispatch } = this.props
+    const { templateId, comment, first, remark, url, keyword1, keyword2, keyword3, openIds,forcePush,source} = this.state
+
+    if(_.isEmpty(templateId) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
+      || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds)  || _.isEmpty(forcePush)||_.isEmpty(source)) {
+      dispatch(alertMsg('请将信息填写完成'))
+      return
+    }
+    let push
+    if(forcePush.id === 0) {
+      push = true
+    } else {
+      push = false
+    }
+
+    let param = {
+      templateId,
+      comment,
+      first,
+      remark,
+      url,
+      keyword1,
+      keyword2,
+      keyword3,
+      openIds,
+      source,
+      forcePush: push,
+      isMime:false
     }
     dispatch(startLoad())
     sendTemplateMsg(param).then(res => {
@@ -70,24 +106,14 @@ export default class SendTemplate extends React.Component<any, any> {
   }
 
   render() {
-    const { templateId, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush } = this.state
+    const { templateId, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush,source } = this.state
     const renderSelectTemplate = () => {
 
       return (
         <div>
-          <SelectField
-            floatingLabelText='请选择模板消息类型'
-            value={templateId}
-            onChange={(event, index, value) => this.setState({ templateId: value })}
-            maxHeight={400}>
-            {
-              templates.map((item, idx) => {
-                return (
-                  <MenuItem key={idx} value={item} primaryText={item.value}/>
-                )
-              })
-            }
-          </SelectField>
+          <TextField hintText='请输入模板消息id' value={templateId} onChange={(e, v) => this.setState({
+            templateId: v
+          })}/>
         </div>
       )
     }
@@ -118,6 +144,11 @@ export default class SendTemplate extends React.Component<any, any> {
           <div>
             <TextField hintText='请输入备注信息' value={comment} onChange={(e, v) => this.setState({
               comment: v
+            })}/>
+          </div>
+          <div>
+            <TextField hintText='请输入来源(请使用英文格式)' value={source} onChange={(e, v) => this.setState({
+              source: v
             })}/>
           </div>
           <div>
@@ -159,6 +190,12 @@ export default class SendTemplate extends React.Component<any, any> {
     const renderSendBtn = () => {
       return (
         <div>
+          <RaisedButton
+            style={{ marginLeft: 30 }}
+            label="发送给自己" primary={true}
+            onClick={() => {
+              this.sendTemplateToMime()
+            }}/>
           <RaisedButton
             style={{ marginLeft: 30 }}
             label="发送模板消息" primary={true}
