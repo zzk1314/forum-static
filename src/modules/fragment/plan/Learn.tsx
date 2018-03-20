@@ -558,11 +558,6 @@ export default class PlanMain extends React.Component <any, any> {
             <div className="chapter-area">
               <div className="cell">
                 <div className="chapter description hover-cursor"
-                     onClick={() => this.handleClickProblemReview(planData.problem.id)}>
-                  <div/>
-                  <span>课程介绍</span>
-                </div>
-                <div className="chapter description hover-cursor"
                      onClick={() => this.handleClickProblemExtension(planData.problem.id)}>
                   <div/>
                   <span>延伸学习</span>
