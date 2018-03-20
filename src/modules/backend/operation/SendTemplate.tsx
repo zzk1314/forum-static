@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { FlatButton, MenuItem, RaisedButton, SelectField, TextField } from 'material-ui'
+import { MenuItem, RaisedButton, SelectField, TextField } from 'material-ui'
 import { alertMsg, startLoad, endLoad } from '../../../redux/actions'
 import { loadTemplates, sendTemplateMsg } from './async'
 import './SendTemplate.less'
@@ -59,10 +59,14 @@ export default class SendTemplate extends React.Component<any, any> {
   sendTemplateToMime = () => {
     const { dispatch } = this.props
     const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source } = this.state
-    console.log(template)
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
+      return
+    }
+
+    if(source.length>32){
+      dispatch(alertMsg('英文消息用途过长'))
       return
     }
     let push
@@ -101,6 +105,10 @@ export default class SendTemplate extends React.Component<any, any> {
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
+      return
+    }
+    if(source.length>32){
+      dispatch(alertMsg('英文消息用途过长'))
       return
     }
     let push
@@ -178,12 +186,12 @@ export default class SendTemplate extends React.Component<any, any> {
       return (
         <div>
           <div>
-            <TextField hintText='请输入备注信息' value={comment} onChange={(e, v) => this.setState({
+            <TextField hintText='请输入消息用途' value={comment} onChange={(e, v) => this.setState({
               comment: v
             })}/>
           </div>
           <div>
-            <TextField hintText='请输入来源(英文，格式xx_xx)' value={source} onChange={(e, v) => this.setState({
+            <TextField hintText='请输入消息用途英文(格式xx_xx)' value={source} onChange={(e, v) => this.setState({
               source: v
             })}/>
           </div>
