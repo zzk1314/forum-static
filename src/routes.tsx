@@ -111,11 +111,6 @@ const routes = (
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
-        <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
-          <Route path="/backend/problem/application/catalog" component={ApplicationCatalog}/>
-          <Route path="/backend/problem/application/list" component={ApplicationView}/>
-        </Route>
-
         <Route path="/backend/template" component={SendTemplate}/>
 
         <Route path="/backend/warmup/newpractice">
