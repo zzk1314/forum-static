@@ -1,5 +1,14 @@
 .template-container {
   margin-left: 50px;
+
+  .title-container{
+    margin-top: 20px;
+    font-size: 16px;
+    color:#333333;
+    font-weight:bold;
+  }
+
+
   .comment-container {
     margin-top: 8px;
     width: 98%;
@@ -12,4 +21,55 @@
       padding-left: 3px;
     }
   }
+
+  .audio-words-container {
+    position: relative;
+    height: 10.5rem;
+    overflow: hidden;
+    margin: 2rem 0;
+
+    &.show-all {
+      height: auto;
+      overflow: visible;
+      margin-bottom: 3rem;
+      .words-text-mask {
+        background: none;
+        .words-mask-tips {
+          bottom: -2.5rem;
+        }
+      }
+    }
+    .words-text-mask {
+      background: url('../../../../assets/img/bg_rectangle.png') no-repeat center center/auto 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      .words-mask-tips {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin-left:50px;
+        font-size: 1.4rem;
+        color: #274365;
+        span {
+          &.hide:after {
+            background: url('../../../../assets/img/arrow_up_icon.png') no-repeat center center/100% auto;
+          }
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 1rem;
+            height: 1.4rem;
+            vertical-align: bottom;
+            margin-left: 5px;
+            background: url('../../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+          }
+        }
+      }
+    }
+  }
+
 }

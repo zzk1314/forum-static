@@ -36,6 +36,11 @@ export function assignApplyInterviewer(data) {
   return ppost('/pc/operation/assign/interviewer', data)
 }
 
+export function loadTemplates(){
+   return pget('/pc/operation/load/templates')
+}
+
 export function  sendTemplateMsg(param){
   return ppost('/pc/operation/send/template/msg',param)
 }
+
