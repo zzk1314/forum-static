@@ -125,14 +125,17 @@ export default class Fragment extends React.Component<any, any> {
                  onClick={() => {this.context.router.push({ pathname: '/backend/assist/management' })}}>
               助教管理
             </div>
-            <div className="catalog-name" onClick={() => {
-              this.props.dispatch(set('menu', Menus.WARM_UP_DISCUSS))
-              this.context.router.push({ pathname: '/backend/warmup/problem/list' })
-            }}>选择题评论
+            <div className="catalog-name" onClick={()=>{this.props.dispatch(set('menu',Menus.WARM_UP_DISCUSS))
+            this.context.router.push({pathname:'/backend/warmup/view/seven'})}}>
+              7天选择题评论
+            </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/warmup/problem/list'})}}>
+              选择题评论
             </div>
             <div className="catalog-name" onClick={() => {
               this.props.dispatch(set('menu', Menus.APPLICATION_DISCUSS))
-              this.context.router.push({ pathname: '/backend/application/problem/list' })
+              this.context.router.push({ pathname: '/asst/application/problem/list' })
             }}>应用练习评论
             </div>
             <div className="catalog-name" onClick={()=>{
@@ -152,6 +155,10 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/business/school/application' })}}>
               商学院申请审批
+            </div>
+
+            <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/generate/qrcode'})}}>
+              推广二维码
             </div>
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/survey/config' })}}>

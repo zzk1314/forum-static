@@ -44,3 +44,8 @@ export function  sendTemplateMsg(param){
   return ppost('/pc/operation/send/template/msg',param)
 }
 
+
+
+export function loadQrCode(scene,remark){
+  return pget(`/subscribe/per/qrCode?scene=${scene}&&remark=${remark}`)
+}

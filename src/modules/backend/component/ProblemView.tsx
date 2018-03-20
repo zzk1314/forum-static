@@ -43,7 +43,7 @@ export default class ProblemView extends React.Component<any,any> {
   }
 
   render() {
-    const {chooseProblem, problemList} = this.props
+    const {chooseProblem, problemList,comment =false} = this.props
 
     const renderProblemList = () => {
       return (
@@ -63,7 +63,7 @@ export default class ProblemView extends React.Component<any,any> {
                               key={seq}
                               onClick={()=>chooseProblem(item.id)}
                               innerDivStyle={_.isEqual(seq,0)?style.firstItem:style.item}
-                              children={textItem(item)}
+                              children={textItem(item,catalog.problems)}
                               value={item.id}
                           >
                           </ListItem>
@@ -77,13 +77,12 @@ export default class ProblemView extends React.Component<any,any> {
     }
 
     const textItem = (item) => {
-      return item.chosen?
-        <div key={item.id}
-                  className="listItem done choose done-chose">{item.problem}
-        </div>:
-        <div key={item.id}
-               className="listItem done">{item.problem}
+      return (
+        <div key={item.id} className={item.chosen? 'listItem done choose done-chose':'listItem done'}>
+          {item.abbreviation}
+          {comment && item.hasNewComments && <span style={{marginLeft:10,color:'red'}}>New</span>}
         </div>
+      )
     }
 
     return (

@@ -65,6 +65,17 @@ export default class WarmupShowList extends React.Component<any, any> {
           return (
             <div key={index}>
               <div className="practice" onClick={() => {
+                let newArray = []
+                practiceList.map(origin => {
+                  if(origin.id !== practice.id) {
+                    newArray.push(origin)
+                  }
+                  else{
+                    origin.hasNewComment = false
+                    newArray.push(origin)
+                  }
+                })
+                this.setState({practiceList: newArray})
                 this.view(practice)
               }}>
                 {
@@ -74,6 +85,7 @@ export default class WarmupShowList extends React.Component<any, any> {
                   removeHtmlTags(practice.question).length > 40 ?
                     removeHtmlTags(practice.question).substring(0, 40).concat(' ...') : removeHtmlTags(practice.question)
                 }
+                {practice.hasNewComment  &&  <span  style={{ marginLeft: 10,color:'red'}}>New</span>}
               </div>
               <Divider/>
             </div>

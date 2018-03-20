@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PracticeView.less";
-import {loadWarmUp, highlight, deleteWarmupDiscuss} from "./async"
+import {loadWarmUp, highlight, unhighlight, deleteWarmupDiscuss} from "./async"
 import {BreakSignal, Stop} from "../../../utils/request"
 import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
 import Subheader from 'material-ui/Subheader'
@@ -9,16 +9,6 @@ import Avatar from 'material-ui/Avatar'
 import _ from "lodash"
 import AlertMessage from "../../../components/AlertMessage";
 import Confirm from '../../../components/Confirm'
-
-const sequenceMap = {
-  0: 'A',
-  1: 'B',
-  2: 'C',
-  3: 'D',
-  4: 'E',
-  5: 'F',
-  6: 'G',
-}
 
 const avatarStyle = {
   "position": "fixed",
@@ -40,6 +30,7 @@ export default class PracticeView extends React.Component <any, any> {
       delDiscussId: 0,
       discussList: [],
       showConfirm: false,
+      showConfirm2: false,
       showId:'',
       showConfirmModal: {
         title: '提示',
@@ -54,6 +45,22 @@ export default class PracticeView extends React.Component <any, any> {
           {
             label: '取消',
             onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      },
+      showConfirmModal2: {
+        title: '提示',
+        content: '是否取消加精？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm2: false })
+            this.confirmUnhighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm2: false })
           }
         ]
       }
@@ -94,6 +101,13 @@ export default class PracticeView extends React.Component <any, any> {
     })
   }
 
+  unhighlight(id) {
+    this.setState({
+      showConfirm2:true,
+      showId:id
+    })
+  }
+
   confirmHighlight(){
     const {data,showId} = this.state
     highlight(showId).then(res => {
@@ -103,6 +117,20 @@ export default class PracticeView extends React.Component <any, any> {
       data.discussList.forEach((item) => {
         if(item.id === showId) {
           _.set(item, 'priority', 1)
+        }
+      })
+    })
+  }
+
+  confirmUnhighlight(){
+    const {data,showId} = this.state
+    unhighlight(showId).then(res => {
+      if(res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      data.discussList.forEach((item) => {
+        if(item.id === showId) {
+          _.set(item, 'priority', 0)
         }
       })
     })
@@ -200,8 +228,8 @@ export default class PracticeView extends React.Component <any, any> {
                   <div className="function-button" onClick={() => this.highlight(id)}>
                     加精
                   </div> :
-                  <div className="function-button" style={{color: 'black', cursor: 'auto'}}>
-                    已加精
+                  <div className="function-button" onClick={() => this.unhighlight(id)}>
+                    取消加精
                   </div>
                 }
               </div>
@@ -234,7 +262,9 @@ export default class PracticeView extends React.Component <any, any> {
         <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
         <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论" handleClose={() => this.setState({nodelAuthority: false})}/>
         <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
-                 handlerClose={() => this.setState({ showConfirmtModal: false })}/>
+                 handlerClose={() => this.setState({ showConfirm: false })}/>
+        <Confirm open={this.state.showConfirm2} {...this.state.showConfirmModal2}
+                 handlerClose={() => this.setState({ showConfirm2: false })}/>
       </div>
     )
   }

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import "./WarmupPracticeList.less"
 import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
-import {loadWarmupList} from "./async"
+import { loadAllWarmupList, loadWarmupList } from './async'
 import {BreakSignal, Stop} from "../../../../utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
@@ -28,7 +28,7 @@ export default class WarmupPracticeList extends React.Component<any, any> {
     if (!problemId) {
       problemId = this.props.location.query.problemId
     }
-    loadWarmupList(problemId).then(res => {
+    loadAllWarmupList(problemId).then(res => {
       if (res.code === 200) {
         this.setState({
           practiceList: res.msg

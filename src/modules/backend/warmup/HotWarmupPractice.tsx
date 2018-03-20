@@ -8,7 +8,9 @@ import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import {decodeTextAreaString2} from "../../../utils/textUtils"
 
-
+/**
+ * 已废弃
+ */
 @connect(state => state)
 export default class HotWarmupPractice extends React.Component<any,any> {
 

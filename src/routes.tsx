@@ -80,6 +80,9 @@ import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
 import SendTemplate from './modules/backend/operation/SendTemplate'
+import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
+import WarmupList from './modules/backend/warmup/WarmupList'
+import NewPracticeView from './modules/backend/warmup/NewPracticeView'
 
 const routes = (
   <Route path="/">
@@ -90,6 +93,7 @@ const routes = (
       <Route component={BackendIndex}>
         <Route path="/backend" component={BackendWelcome}/>
         <Route path="backend/warmup/view" component={PracticeView}/>
+        <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
@@ -104,7 +108,7 @@ const routes = (
           <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
         </Route>
 
-
+        <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/application/problem/list" component={ApplicationProblemList}>
@@ -137,11 +141,16 @@ const routes = (
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
+        <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
         <Route path="/asst/commented" component={CommentedList}/>
         <Route path="/asst/business/comment" component={AsstBusinessSchoolApp}/>
+        <Route path="/asst/application/problem/list" component={ApplicationProblemList}>
+          <Route path="/asst/problem/application/catalog" component={ApplicationCatalog}/>
+          <Route path="/asst/problem/application/list" component={ApplicationView}/>
+        </Route>
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
           <Route path="/asst/application/list" component={AsstApplicationList}/>
           <Route path="/asst/application/view" component={ShowApplication}/>
