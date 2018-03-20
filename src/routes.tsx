@@ -79,6 +79,7 @@ import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
+import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
@@ -109,6 +110,8 @@ const routes = (
 
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
+
+        <Route path="/backend/template" component={SendTemplate}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
