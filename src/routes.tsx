@@ -130,6 +130,8 @@ const routes = (
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
+        <Route path="/backend/upload/file" component={SubmitFile}/>
+        <Route path="/backend/upload/richtext" component={SubmitRichText}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
@@ -147,7 +149,6 @@ const routes = (
         <Route path="/asst/warmup/view" component={WarmupPracticeView}/>
         <Route path="/asst/upgrade/info" component={UpGradeInfo}/>
       </Route>
-      <Route path="demo" component={SubmitFile}/>
     </Route>
 
     {/*Rise PC 改版*/}
