@@ -329,7 +329,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
     const renderProblemSelect = () => {
       return (
         <SelectField
-          floatingLabelText="小课选择" maxHeight={300}
+          floatingLabelText="课程选择" maxHeight={300}
           value={problemSelect} disabled={isUpdate}
           onChange={(ev, value) => {
             let targetValue = ev.target.textContent
@@ -348,7 +348,7 @@ export default class WarmupPracticeImport extends React.Component<any, WarmupPra
           {
             problems.map((item, idx) => {
               return (
-                <MenuItem key={idx} value={item.id} primaryText={item.id + '、' + item.problem}/>
+                <MenuItem key={idx} value={item.id} primaryText={item.id + '、' + item.abbreviation}/>
               )
             })
           }

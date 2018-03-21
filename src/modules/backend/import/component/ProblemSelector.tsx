@@ -51,7 +51,7 @@ export class ProblemSelector extends React.Component<any,any> {
           {
             data.map((problem, idx) => {
               return (
-                <MenuItem key={idx} value={problem} primaryText={problem.problem}/>
+                <MenuItem key={idx} value={problem} primaryText={problem.abbreviation}/>
               )
             })
           }
