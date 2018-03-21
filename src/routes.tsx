@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
-
 import Base from 'modules/base/Base.tsx'
 import RiseBase from 'modules/base/RiseBase.tsx'
 import Login from './modules/Login'
@@ -25,7 +24,6 @@ import CommentedList from './modules/asst/CommentedList'
 import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
 
 // pc rise 改版
-
 import Plan from './modules/fragment/plan/Plan'
 import Learn from './modules/fragment/plan/Learn'
 import Report from './modules/fragment/plan/Report'
@@ -82,6 +80,8 @@ import UserInfo from './modules/backend/user/UserInfo'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
+import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
+import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 
 const routes = (
   <Route path="/">
@@ -101,15 +101,11 @@ const routes = (
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         </Route>
-        {/*<Route path="/backend/warmup" component={HotWarmupPractice}/>*/}
-
         <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
           <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
         </Route>
-
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
-
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
         </Route>
@@ -151,7 +147,9 @@ const routes = (
         <Route path="/asst/warmup/view" component={WarmupPracticeView}/>
         <Route path="/asst/upgrade/info" component={UpGradeInfo}/>
       </Route>
+      <Route path="demo" component={SubmitFile}/>
     </Route>
+
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
