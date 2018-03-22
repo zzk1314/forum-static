@@ -83,11 +83,15 @@ import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
+import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
+import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 
 const routes = (
   <Route path="/">
     <Route path="/login" component={Login}/>
     <Route component={Base}>
+      <Route path="/addvip" component={AddVipRiseMember}/>
+      <Route path="/opencourse" component={BatchOpenCourse}/>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
