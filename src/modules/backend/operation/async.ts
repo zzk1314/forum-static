@@ -53,5 +53,10 @@ export function openVipRiseMember (riseId, month, memo) {
 }
 
 export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelcomeMsg) {
-  return ppost(`/rise/b/open/course/memberid`)
+  return ppost(`/rise/b/open/course/memberid`, {
+    memberIds: memberIds,
+    problemId: problemId,
+    startDate: startDate,
+    sendWelcomeMsg: sendWelcomeMsg,
+  })
 }

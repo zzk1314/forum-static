@@ -90,8 +90,6 @@ const routes = (
   <Route path="/">
     <Route path="/login" component={Login}/>
     <Route component={Base}>
-      <Route path="/addvip" component={AddVipRiseMember}/>
-      <Route path="/opencourse" component={BatchOpenCourse}/>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
@@ -141,6 +139,8 @@ const routes = (
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
+        <Route path="/backend/addvip" component={AddVipRiseMember}/>
+        <Route path="/backend/opencourse" component={BatchOpenCourse}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
