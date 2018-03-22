@@ -1,0 +1,6 @@
+{
+  "name": "forum-static",
+  "dependencies": {
+    "material-ui": "registry:npm/material-ui#0.15.1+20160817172421"
+  }
+}
