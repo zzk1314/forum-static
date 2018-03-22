@@ -83,6 +83,8 @@ import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
+import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
+import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 
 const routes = (
   <Route path="/">
@@ -137,6 +139,8 @@ const routes = (
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
+        <Route path="/backend/addvip" component={AddVipRiseMember}/>
+        <Route path="/backend/opencourse" component={BatchOpenCourse}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
