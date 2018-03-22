@@ -5,6 +5,7 @@ import { alertMsg, startLoad, endLoad } from '../../../redux/actions'
 import { loadTemplates, sendTemplateMsg } from './async'
 import './SendTemplate.less'
 import * as _ from 'lodash'
+import Confirm from '../../../components/Confirm'
 
 const forcePushs = [
   { id: 0, value: '是' },
@@ -19,6 +20,7 @@ export default class SendTemplate extends React.Component<any, any> {
     this.state = {
       templates: [],
       template: '',
+      forcePush: forcePushs[1],
       comment: '',
       first: '',
       remark: '',
@@ -27,9 +29,25 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword2: '',
       keyword3: '',
       openIds: '',
-      forcePush: '',
       source: '',
-      showImg: false
+      showImg: false,
+      showConfirm: false,
+      showConfirmModal: {
+        title: '提示',
+        content: '已经和开发人员确认模板消息内容无误？',
+        actions: [{
+          label: '已确认',
+          onClick: () => {
+            this.setState({ showConfirm: false })
+            this.sendTemplate()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      }
     }
   }
 
@@ -39,7 +57,6 @@ export default class SendTemplate extends React.Component<any, any> {
     loadTemplates().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-
         let temp = []
         for(let i = 0; i < res.msg.length; i++) {
           temp.push({
@@ -58,14 +75,14 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplateToMime = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source } = this.state
+    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, forcePush } = this.state
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
 
-    if(source.length>32){
+    if(source.length > 32) {
       dispatch(alertMsg('英文消息用途过长'))
       return
     }
@@ -107,7 +124,7 @@ export default class SendTemplate extends React.Component<any, any> {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
-    if(source.length>32){
+    if(source.length > 32) {
       dispatch(alertMsg('英文消息用途过长'))
       return
     }
@@ -140,8 +157,7 @@ export default class SendTemplate extends React.Component<any, any> {
   }
 
   render() {
-    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source, showImg } = this.state
-
+    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush } = this.state
     const renderSelectTemplate = () => {
       return (
         <div>
@@ -186,7 +202,7 @@ export default class SendTemplate extends React.Component<any, any> {
       return (
         <div>
           <div>
-            <TextField hintText='请输入消息用途' value={comment} onChange={(e, v) => this.setState({
+            <TextField hintText='请输入消息用途(中文)' value={comment} onChange={(e, v) => this.setState({
               comment: v
             })}/>
           </div>
@@ -203,26 +219,27 @@ export default class SendTemplate extends React.Component<any, any> {
       return (
         <div>
           <div>
-            <textarea placeholder='请输入内容' className='comment-container' value={first}
+            <textarea placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={first}
                       onChange={(e, v) => this.setState({ first: e.target.value })}></textarea>
           </div>
           <div>
-            <TextField hintText='请输入keyword1' fullWidth={200} value={keyword1} onChange={(e, v) => this.setState({
-              keyword1: v
-            })}/>
+            <TextField hintText='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword1}
+                       onChange={(e, v) => this.setState({
+                         keyword1: v
+                       })}/>
           </div>
           <div>
-            <TextField hintText='请输入keyword2' fullWidth={200} value={keyword2}
+            <TextField hintText='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword2}
                        onChange={(e, v) => this.setState({ keyword2: v })}/>
           </div>
-          <TextField hintText='请输入keyword3' fullWidth={200} value={keyword3}
+          <TextField hintText='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword3}
                      onChange={(e, v) => this.setState({ keyword3: v })}/>
           <div>
             <textarea placeholder="请输入remark" className='comment-container' value={remark}
                       onChange={(e, v) => this.setState({ remark: e.target.value })}/>
           </div>
           <div>
-            <TextField hintText='请输入跳转url（选填）' fullWidth={200} value={url}
+            <TextField hintText='请输入跳转url（如果需要跳转url请和开发人员沟通，如果不需要跳转则不用填写）' fullWidth={200} value={url}
                        onChange={(e, v) => this.setState({ url: v })}/>
           </div>
           <div>
@@ -246,7 +263,9 @@ export default class SendTemplate extends React.Component<any, any> {
             style={{ marginLeft: 30 }}
             label="发送模板消息" primary={true}
             onClick={() => {
-              this.sendTemplate()
+
+              this.setState({ showConfirm: true })
+              // this.sendTemplate()
             }}/>
         </div>
       )
@@ -277,6 +296,8 @@ export default class SendTemplate extends React.Component<any, any> {
         {renderRemark()}
         {renderSendInfo()}
         {renderSendBtn()}
+        <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
+                 handlerClose={() => this.setState({ showConfirmModal: false })}/>
       </div>
     )
   }
