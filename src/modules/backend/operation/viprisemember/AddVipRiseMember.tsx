@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { TextField, RaisedButton } from 'material-ui'
+import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui'
 import './AddVipRiseMember.less'
 import { openVipRiseMember } from '../async'
 import _ from 'lodash'
+import { connect } from 'react-redux'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 
+@connect(state => state)
 export default class AddVipRiseMember extends React.Component {
   constructor () {
     super()
@@ -16,19 +19,20 @@ export default class AddVipRiseMember extends React.Component {
 
   handleClickOpenRiseMember () {
     const { riseId, month, memo } = this.state
+    const { dispatch } = this.props
     if (_.isEmpty(riseId) || _.isEmpty(month) || _.isEmpty(month)) {
-      alert('请补充完整数据再提交')
+      dispatch(alertMsg('请补充完整数据再提交'))
       return
     }
     if (month < 0 || month > 12) {
-      alert('月份不能超过 12')
+      dispatch(alertMsg('月份不能超过 12'))
       return
     }
     openVipRiseMember(riseId, month, memo).then(res => {
       if (res.code === 200) {
-        alert('更新成功')
+        dispatch(alertMsg('更新成功'))
       } else {
-        alert('更新失败')
+        dispatch(alertMsg(res.msg))
       }
     })
   }
@@ -36,11 +40,17 @@ export default class AddVipRiseMember extends React.Component {
   render () {
     return (
       <div className="add-vip-risemember-container">
-        <TextField hintText="输入学员 riseid" onChange={(e, v) => this.setState({ riseId: v, })}/>
+        <TextField hintText="输入圈外 Id" onChange={(e, v) => this.setState({ riseId: v, })}/>
         <br/>
-        <TextField hintText="会员有效期（月），不超过 12" onChange={(e, v) => this.setState({ month: v })}/>
+        <SelectField value={this.state.month}
+                     floatingLabelText="选择会员有效期（月）"
+                     onChange={(e, idx, value) => this.setState({ month: value })}>
+          <MenuItem key={1} value={1} primaryText="1 个月"/>
+          <MenuItem key={2} value={6} primaryText="6 个月"/>
+          <MenuItem key={3} value={12} primaryText="12 个月"/>
+        </SelectField>
         <br/>
-        <TextField hintText="说明，必填" onChange={(e, v) => this.setState({ memo: v })}/>
+        <TextField hintText="用户身份（10字以内）" onChange={(e, v) => this.setState({ memo: v })}/>
         <br/>
         <RaisedButton label="提交" onClick={() => this.handleClickOpenRiseMember()} primary={true}/>
       </div>

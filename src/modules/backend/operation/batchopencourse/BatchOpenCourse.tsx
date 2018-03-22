@@ -5,7 +5,10 @@ import { ProblemSelector } from '../../import/component/ProblemSelector'
 import { formatDate } from '../../../../utils/helpers'
 import { openCourseByMemberIds } from '../async'
 import _ from 'lodash'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { connect } from 'react-redux'
 
+@connect(state => state)
 export default class BatchOpenCourse extends React.Component {
 
   constructor () {
@@ -20,16 +23,16 @@ export default class BatchOpenCourse extends React.Component {
 
   handleClickOpenCourse () {
     const { problemId, sendWelcomeMsg, memberIds, startDate } = this.state
-    console.log(this.state)
+    const { dispatch } = this.props
     if (problemId == 0 || memberIds.length == 0) {
-      alert('请补充完整数据再提交')
+      dispatch(alertMsg('请补充完整数据再提交'))
       return
     }
     openCourseByMemberIds(memberIds, problemId, startDate, sendWelcomeMsg).then(res => {
       if (res.code === 200) {
-        alert('开课成功，正在开课中，请稍后')
+        dispatch(alertMsg('开课成功，正在开课中，请稍后'))
       } else {
-        alert('开课失败，请练习系统管理员')
+        dispatch(alertMsg(res.msg))
       }
     }).catch(e => alert(e))
   }
