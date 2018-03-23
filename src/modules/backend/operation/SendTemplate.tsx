@@ -6,6 +6,7 @@ import { loadTemplates, sendTemplateMsg } from './async'
 import './SendTemplate.less'
 import * as _ from 'lodash'
 import Confirm from '../../../components/Confirm'
+import QYVideo from '../../../components/QYVideo'
 
 const forcePushs = [
   { id: 0, value: '是' },
@@ -158,6 +159,17 @@ export default class SendTemplate extends React.Component<any, any> {
 
   render() {
     const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush } = this.state
+
+    const renderVideo = ()=>{
+      return(
+        <div>
+          <video src="https://static.iqycamp.com/video/send_template_01.mp4"  poster='http://static.iqycamp.com/images/send_template_01.jpeg?imageslim' controls="controls" width="200px"/>
+        </div>
+      )
+    }
+
+
+
     const renderSelectTemplate = () => {
       return (
         <div>
@@ -239,7 +251,7 @@ export default class SendTemplate extends React.Component<any, any> {
                       onChange={(e, v) => this.setState({ remark: e.target.value })}/>
           </div>
           <div>
-            <TextField hintText='请输入跳转url（如果需要跳转url请和开发人员沟通，如果不需要跳转则不用填写）' fullWidth={200} value={url}
+            <TextField hintText='请输入跳转链接（如果需要跳转链接请和开发人员沟通，如果不需要跳转则不用填写）' fullWidth={200} value={url}
                        onChange={(e, v) => this.setState({ url: v })}/>
           </div>
           <div>
@@ -288,6 +300,8 @@ export default class SendTemplate extends React.Component<any, any> {
 
     return (
       <div className="template-container">
+        <div className="title-container">教学视频</div>
+        {renderVideo()}
         <div className="title-container">配置内容填写</div>
         {renderSelectTemplate()}
         {renderForcePushSelect()}
