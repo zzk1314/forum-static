@@ -160,148 +160,151 @@ export default class SendTemplate extends React.Component<any, any> {
   render() {
     const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush } = this.state
 
-    const renderVideo = ()=>{
-      return(
-        <div>
-          <video src="https://static.iqycamp.com/video/send_template_01.mp4"  poster='http://static.iqycamp.com/images/send_template_01.jpeg?imageslim' controls="controls" width="200px"/>
-        </div>
-      )
-    }
+      const renderLink = () => {
+        return (
+          <div style={{fontSize:15,marginTop:20}}>链接: https://pan.baidu.com/s/1i0OjM2Aqh9LBqm6E3cLtMg 密码: k9pz</div>
+        )
+      }
 
-
-
-    const renderSelectTemplate = () => {
-      return (
-        <div>
-          <SelectField
-            floatingLabelText='请选择模板消息类型'
-            value={template}
-            onChange={(event, index, value) => this.setState({ template: value })}
-          >
-            {
-              templates.map((item, idx) => {
-                return (
-                  <MenuItem key={idx} value={item} primaryText={item.value}/>
-                )
-              })
-            }
-          </SelectField>
-        </div>
-      )
-    }
-
-    const renderForcePushSelect = () => {
-      return (
-        <div>
-          <SelectField
-            floatingLabelText='请选择是否强制推送'
-            value={forcePush}
-            onChange={(event, index, value) => this.setState({ forcePush: value })}
-            maxHeight={400}>
-            {
-              forcePushs.map((item, idx) => {
-                return (
-                  <MenuItem key={idx} value={item} primaryText={item.value}/>
-                )
-              })
-            }
-          </SelectField>
-        </div>
-      )
-    }
-
-    const renderComment = () => {
-      return (
-        <div>
+      const  renderSelectTemplate = () => {
+        return (
           <div>
-            <TextField hintText='请输入消息用途(中文)' value={comment} onChange={(e, v) => this.setState({
-              comment: v
-            })}/>
+            <SelectField
+              floatingLabelText='请选择模板消息类型'
+              value={template}
+              onChange={(event, index, value) => this.setState({ template: value })}
+            >
+              {
+                templates.map((item, idx) => {
+                  return (
+                    <MenuItem key={idx} value={item} primaryText={item.value}/>
+                  )
+                })
+              }
+            </SelectField>
           </div>
-          <div>
-            <TextField hintText='请输入消息用途英文(格式xx_xx)' value={source} onChange={(e, v) => this.setState({
-              source: v
-            })}/>
-          </div>
-        </div>
-      )
-    }
+        )
+      }
 
-    const renderSendInfo = () => {
-      return (
-        <div>
+    const
+      renderForcePushSelect = () => {
+        return (
           <div>
+            <SelectField
+              floatingLabelText='请选择是否强制推送'
+              value={forcePush}
+              onChange={(event, index, value) => this.setState({ forcePush: value })}
+              maxHeight={400}>
+              {
+                forcePushs.map((item, idx) => {
+                  return (
+                    <MenuItem key={idx} value={item} primaryText={item.value}/>
+                  )
+                })
+              }
+            </SelectField>
+          </div>
+        )
+      }
+
+    const
+      renderComment = () => {
+        return (
+          <div>
+            <div>
+              <TextField hintText='请输入消息用途(中文)' value={comment} onChange={(e, v) => this.setState({
+                comment: v
+              })}/>
+            </div>
+            <div>
+              <TextField hintText='请输入消息用途英文(格式xx_xx)' value={source} onChange={(e, v) => this.setState({
+                source: v
+              })}/>
+            </div>
+          </div>
+        )
+      }
+
+    const
+      renderSendInfo = () => {
+        return (
+          <div>
+            <div>
             <textarea placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={first}
                       onChange={(e, v) => this.setState({ first: e.target.value })}></textarea>
-          </div>
-          <div>
-            <TextField hintText='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword1}
-                       onChange={(e, v) => this.setState({
-                         keyword1: v
-                       })}/>
-          </div>
-          <div>
-            <TextField hintText='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword2}
-                       onChange={(e, v) => this.setState({ keyword2: v })}/>
-          </div>
-          <TextField hintText='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword3}
-                     onChange={(e, v) => this.setState({ keyword3: v })}/>
-          <div>
+            </div>
+            <div>
+              <TextField hintText='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword1}
+                         onChange={(e, v) => this.setState({
+                           keyword1: v
+                         })}/>
+            </div>
+            <div>
+              <TextField hintText='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword2}
+                         onChange={(e, v) => this.setState({ keyword2: v })}/>
+            </div>
+            <TextField hintText='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword3}
+                       onChange={(e, v) => this.setState({ keyword3: v })}/>
+            <div>
             <textarea placeholder="请输入remark" className='comment-container' value={remark}
                       onChange={(e, v) => this.setState({ remark: e.target.value })}/>
-          </div>
-          <div>
-            <TextField hintText='请输入跳转链接（如果需要跳转链接请和开发人员沟通，如果不需要跳转则不用填写）' fullWidth={200} value={url}
-                       onChange={(e, v) => this.setState({ url: v })}/>
-          </div>
-          <div>
+            </div>
+            <div>
+              <TextField hintText='请输入跳转链接（如果需要跳转链接请和开发人员沟通，如果不需要跳转则不用填写）' fullWidth={200} value={url}
+                         onChange={(e, v) => this.setState({ url: v })}/>
+            </div>
+            <div>
             <textarea placeholder='请输入发送人员的openid（用换行符隔开）' className='comment-container' value={openIds}
                       onChange={(e, v) => this.setState({ openIds: e.target.value })}/>
+            </div>
           </div>
-        </div>
-      )
-    }
+        )
+      }
 
-    const renderSendBtn = () => {
-      return (
-        <div>
-          <RaisedButton
-            style={{ marginLeft: 30 }}
-            label="发送给自己" primary={true}
-            onClick={() => {
-              this.sendTemplateToMime()
-            }}/>
-          <RaisedButton
-            style={{ marginLeft: 30 }}
-            label="发送模板消息" primary={true}
-            onClick={() => {
+    const
+      renderSendBtn = () => {
+        return (
+          <div>
+            <RaisedButton
+              style={{ marginLeft: 30 }}
+              label="发送给自己" primary={true}
+              onClick={() => {
+                this.sendTemplateToMime()
+              }}/>
+            <RaisedButton
+              style={{ marginLeft: 30 }}
+              label="发送模板消息" primary={true}
+              onClick={() => {
 
-              this.setState({ showConfirm: true })
-              // this.sendTemplate()
-            }}/>
-        </div>
-      )
-    }
+                this.setState({ showConfirm: true })
+                // this.sendTemplate()
+              }}/>
+          </div>
+        )
+      }
 
-    const renderRemark = () => {
-      return (
-        <div className={`audio-words-container ${showImg ? 'show-all' : 'hide'}`}>
-          <img src="https://static.iqycamp.com/images/template.png" style={{ width: 200 }}/>
-          <div className={`words-text-mask`}>
-            <div className={`words-mask-tips`} onClick={() => this.setState({ showImg: !showImg })}>
+    const
+      renderRemark = () => {
+        return (
+          <div className={`audio-words-container ${showImg ? 'show-all' : 'hide'}`}>
+            <img src="https://static.iqycamp.com/images/template.png" style={{ width: 200 }}/>
+            <div className={`words-text-mask`}>
+              <div className={`words-mask-tips`} onClick={() => this.setState({ showImg: !showImg })}>
             <span className={`${showImg ? 'hide' : 'show'}`}>
               {showImg ? '收起' : '查看案例图片'}
             </span>
+              </div>
             </div>
           </div>
-        </div>
-      )
-    }
+        )
+      }
 
     return (
+
       <div className="template-container">
-        <div className="title-container">教学视频</div>
-        {renderVideo()}
+        <div className="title-container">教学视频地址</div>
+        {/*{renderVideo()}*/}
+        {renderLink()}
         <div className="title-container">配置内容填写</div>
         {renderSelectTemplate()}
         {renderForcePushSelect()}
