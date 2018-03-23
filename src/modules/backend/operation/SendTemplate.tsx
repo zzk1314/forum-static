@@ -6,7 +6,6 @@ import { loadTemplates, sendTemplateMsg } from './async'
 import './SendTemplate.less'
 import * as _ from 'lodash'
 import Confirm from '../../../components/Confirm'
-import QYVideo from '../../../components/QYVideo'
 
 const forcePushs = [
   { id: 0, value: '是' },
@@ -162,7 +161,10 @@ export default class SendTemplate extends React.Component<any, any> {
 
       const renderLink = () => {
         return (
-          <div style={{fontSize:15,marginTop:20}}>链接: https://pan.baidu.com/s/1i0OjM2Aqh9LBqm6E3cLtMg 密码: k9pz</div>
+          <div className="introduction-link">
+            如果你是初次使用本功能，请先观看教学视频!<br/>
+            链接: https://pan.baidu.com/s/1i0OjM2Aqh9LBqm6E3cLtMg 密码: k9pz
+          </div>
         )
       }
 
@@ -303,7 +305,6 @@ export default class SendTemplate extends React.Component<any, any> {
 
       <div className="template-container">
         <div className="title-container">教学视频地址</div>
-        {/*{renderVideo()}*/}
         {renderLink()}
         <div className="title-container">配置内容填写</div>
         {renderSelectTemplate()}
