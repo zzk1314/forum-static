@@ -19,7 +19,6 @@ export default class AddVipRiseMember extends React.Component {
 
   handleClickOpenRiseMember () {
     const { riseId, month, memo } = this.state
-    console.log(this.state)
     const { dispatch } = this.props
     if (_.isEmpty(riseId) || month === 0) {
       dispatch(alertMsg('请补充完整数据再提交'))

@@ -3,7 +3,10 @@ import './SubmitFile.less'
 import { FlatButton } from 'material-ui'
 import { uploadFile } from '../async'
 import AlertMessage from '../../../../components/AlertMessage'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { connect } from 'react-redux'
 
+@connect(state => state)
 export default class SubmitFile extends React.Component {
 
   constructor () {
@@ -15,29 +18,28 @@ export default class SubmitFile extends React.Component {
 
   handleSubmitFile () {
     let node = document.getElementById('file')
+    const { dispatch } = this.props
     if (node && node.files) {
       let file = node.files[0]
       if (file) {
         if (/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
-          alert('文件名不能包含中文')
+          dispatch(alertMsg('文件名不能包含中文'))
         } else {
           let formData = new FormData()
           formData.append('file', file)
           uploadFile(formData).then(res => {
-            console.log(res)
             if (res.code === 200) {
-              console.log(res.msg)
               this.setState({
                 showAlert: true,
                 copyValue: res.msg,
               })
             } else {
-              alert(res.msg)
+              dispatch(alertMsg(alert(res.msg)))
             }
           })
         }
       } else {
-        alert('您还未选择文件哦！')
+        dispatch(alertMsg('您还未选择文件哦！'))
       }
     }
   }
@@ -56,11 +58,7 @@ export default class SubmitFile extends React.Component {
             document.body.appendChild(input)
             input.setAttribute('value', this.state.copyValue)
             input.select()
-            if (document.execCommand('copy')) {
-              console.log('you copy the' + this.state.copyValue)
-            } else {
-              alert('复制失败，请重试')
-            }
+            document.execCommand('copy')
             document.body.removeChild(input)
             this.setState({ showAlert: false })
           },

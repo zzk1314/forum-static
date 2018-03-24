@@ -34,7 +34,7 @@ export default class BatchOpenCourse extends React.Component {
       } else {
         dispatch(alertMsg(res.msg))
       }
-    }).catch(e => alert(e))
+    }).catch(e => dispatch(alertMsg(e)))
   }
 
   render () {
