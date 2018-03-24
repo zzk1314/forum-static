@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Route, IndexRoute } from 'react-router'
-
 import Base from 'modules/base/Base.tsx'
 import RiseBase from 'modules/base/RiseBase.tsx'
 import Login from './modules/Login'
@@ -25,7 +24,6 @@ import CommentedList from './modules/asst/CommentedList'
 import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
 
 // pc rise 改版
-
 import Plan from './modules/fragment/plan/Plan'
 import Learn from './modules/fragment/plan/Learn'
 import Report from './modules/fragment/plan/Report'
@@ -83,6 +81,8 @@ import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
+import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
+import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 
@@ -104,12 +104,9 @@ const routes = (
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         </Route>
-        {/*<Route path="/backend/warmup" component={HotWarmupPractice}/>*/}
-
         <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
           <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
         </Route>
-
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
@@ -139,6 +136,8 @@ const routes = (
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
+        <Route path="/backend/upload/file" component={SubmitFile}/>
+        <Route path="/backend/upload/richtext" component={SubmitRichText}/>
         <Route path="/backend/addvip" component={AddVipRiseMember}/>
         <Route path="/backend/opencourse" component={BatchOpenCourse}/>
       </Route>
@@ -159,6 +158,7 @@ const routes = (
         <Route path="/asst/upgrade/info" component={UpGradeInfo}/>
       </Route>
     </Route>
+
     {/*Rise PC 改版*/}
     <Route component={RiseBase}>
       <Route path="/fragment/rise" component={Plan}/>
