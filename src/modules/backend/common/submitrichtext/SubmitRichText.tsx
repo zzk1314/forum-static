@@ -42,11 +42,7 @@ export default class SubmitRichText extends React.Component {
             document.body.appendChild(input)
             input.setAttribute('value', this.state.copyValue)
             input.select()
-            if (document.execCommand('copy')) {
-              console.log('you copy the' + this.state.copyValue)
-            } else {
-              alert('复制失败，请重试')
-            }
+            document.execCommand('copy')
             document.body.removeChild(input)
             this.setState({ showAlert: false })
           },
