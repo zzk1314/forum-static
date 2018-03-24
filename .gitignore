@@ -13,3 +13,5 @@ tags
 
 gulpfile.js
 __build__/
+
+typings

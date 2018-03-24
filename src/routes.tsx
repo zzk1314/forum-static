@@ -77,11 +77,14 @@ import Discuss from './modules/backend/warmup/Discuss'
 import WarmProblemList from './modules/backend/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/user/UserInfo'
+import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/warmup/WarmupList'
 import NewPracticeView from './modules/backend/warmup/NewPracticeView'
 import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
 import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
+import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
+import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 
 const routes = (
   <Route path="/">
@@ -106,6 +109,9 @@ const routes = (
         </Route>
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
+
+        <Route path="/backend/template" component={SendTemplate}/>
+
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
         </Route>
@@ -132,6 +138,8 @@ const routes = (
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
         <Route path="/backend/upload/file" component={SubmitFile}/>
         <Route path="/backend/upload/richtext" component={SubmitRichText}/>
+        <Route path="/backend/addvip" component={AddVipRiseMember}/>
+        <Route path="/backend/opencourse" component={BatchOpenCourse}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>

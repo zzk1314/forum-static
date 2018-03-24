@@ -138,6 +138,21 @@ export default class Fragment extends React.Component<any, any> {
               this.context.router.push({ pathname: '/asst/application/problem/list' })
             }}>应用练习评论
             </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/template'})
+            }}>
+              模板消息
+            </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/addvip'})
+            }}>
+              添加 vip 会员
+            </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/opencourse'})
+            }}>
+              课程解锁、新开
+            </div>
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>
               自动回复

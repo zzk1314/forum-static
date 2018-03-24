@@ -112,12 +112,12 @@ export default class AsstImport extends React.Component {
     const renderAdd = () => {
       return (
         <div>
-          <TextField style={{ height: 50, width: 200 }} hintText="如：天线宝宝" value={nickName}
+          <TextField style={{ height: 50, width: 300 }} hintText="根据昵称、学号、RiseId查询" value={nickName}
                      onChange={(e, v) => this.setState({
                        nickName: v
                      })}/>
           <RaisedButton
-            label="昵称查询"
+            label="查询"
             style={{ height: 30, marginLeft: 20 }}
             onClick={() => this.loadUnAssistByNickName()}/>
           <AsstDataTable ref="table" data={data} meta={meta} assistCatalogs={assistCatalogs}
