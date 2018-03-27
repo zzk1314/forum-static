@@ -73,6 +73,9 @@ export default class WarmupPracticeList extends React.Component<any, any> {
                 this.view(practice)
               }}>
                 {
+                  practice.example? '【例题】': `【第${practice.chapter}章第${practice.section}节第${practice.sequence}道】`
+                }
+                {
                   removeHtmlTags(practice.question).length > 40 ?
                     removeHtmlTags(practice.question).substring(0, 40).concat(' ...') : removeHtmlTags(practice.question)
                 }
