@@ -28,7 +28,6 @@ export default class CertificateOperate extends React.Component {
       showDialog: true,
       dialogContent: `点击生成${year}年${month}月的证书`,
       handleFunc: () => {
-        alert('正在生成证书')
         generateCertificate(year, month).then(res => {
           if (res.code == 200) {
             dispatch(alertMsg('证书正在生成中，生成成功你将收到模板消息提醒'))
@@ -53,7 +52,6 @@ export default class CertificateOperate extends React.Component {
       showDialog: true,
       dialogContent: `点击发送${year}年${month}月的证书（将会发送模板消息通知学员，谨慎操作）`,
       handleFunc: () => {
-        alert('发送证书拉')
         sendCertificate(year, month).then(res => {
           if (res.code == 200) {
             dispatch(alertMsg('证书正在发送中，发送成功你将收到模板消息提醒'))
