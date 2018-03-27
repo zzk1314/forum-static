@@ -53,7 +53,7 @@ export function openVipRiseMember (riseId, month, memo) {
 }
 
 export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelcomeMsg) {
-  return ppost(`/rise/b/open/course/memberid`, {
+  return ppost(`/rise/operation/backend/open/course/memberid`, {
     memberIds: memberIds,
     problemId: problemId,
     startDate: startDate,
@@ -62,9 +62,9 @@ export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelc
 }
 
 export function generateCertificate (year, month) {
-  return ppost(`/rise/b/generate/certificate`, { year: year, month: month })
+  return ppost(`/rise/operation/backend/generate/certificate`, { year: year, month: month })
 }
 
-export function sendCertificate(year, month) {
-  return ppost(`/rise/b/send/certificate?year=${year}&month=${month}`)
+export function sendCertificate (year, month) {
+  return ppost(`/rise/operation/backend/send/certificate?year=${year}&month=${month}`)
 }
