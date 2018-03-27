@@ -60,3 +60,11 @@ export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelc
     sendWelcomeMsg: sendWelcomeMsg,
   })
 }
+
+export function generateCertificate (year, month) {
+  return ppost(`/rise/b/generate/certificate`, { year: year, month: month })
+}
+
+export function sendCertificate(year, month) {
+  return ppost(`/rise/b/send/certificate?year=${year}&month=${month}`)
+}

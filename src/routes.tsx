@@ -85,6 +85,7 @@ import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichTe
 import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
+import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 
 const routes = (
   <Route path="/">
@@ -140,6 +141,7 @@ const routes = (
         <Route path="/backend/upload/richtext" component={SubmitRichText}/>
         <Route path="/backend/addvip" component={AddVipRiseMember}/>
         <Route path="/backend/opencourse" component={BatchOpenCourse}/>
+        <Route path="/backend/certificate" component={CertificateOperate}/>
       </Route>
       <Route component={AsstIndex}>
         <Route path="/asst" component={AsstWelcome}/>
