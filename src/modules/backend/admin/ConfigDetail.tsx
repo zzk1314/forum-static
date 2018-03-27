@@ -1,7 +1,7 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import * as _ from "lodash";
 import "./ConfigDetail.less"
+import { connect } from "react-redux";
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { addConfig, loadConfig, deleteConfig, updateConfig } from "./async"
 import { imgSrc } from "utils/imgSrc"
