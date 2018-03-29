@@ -67,6 +67,12 @@ const applyAwards = [
   { id: 2, value: '否' }
 ]
 
+const isAdmit = [
+  {id:0, value:'是'},
+  {id:1,value:'否'}
+]
+
+
 @connect(state => state)
 export default class BusinessSchoolApplication extends React.Component<any, any> {
   constructor(props) {
@@ -106,6 +112,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       showNoticeRejectModal: false,
       noticeNoticeSendModal: false,
       RasiedClicked: false,
+      targetAdmit:'',
       remark: '',
       noticeRejectModal: {
         title: '提示',
@@ -217,6 +224,15 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         }
       })
 
+      let targetAdmit = interviewRecord.admit
+      isAdmit.map((admit) => {
+        if(admit.id === targetAdmit) {
+          targetAdmit = admit
+          return
+        }
+      })
+
+
       this.setState({
         interviewTime,
         question: interviewRecord.question,
@@ -234,6 +250,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         editData: data,
         applyId: data.applyId,
         profileId: data.profileId,
+        targetAdmit,
         remark: interviewRecord.remark
       })
     } else {
@@ -268,7 +285,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       editData = {}, interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason,targetAdmit,remark
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -303,6 +320,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     if(!_.isEmpty(targetAward)){
       param = _.merge( param ,{applyAward:targetAward.id})
     }
+    if(!_.isEmpty(targetAdmit)){
+      param = _.merge(param,{admit:targetAdmit.id})
+    }
 
     rejectBusinessApplication(editData.id, param).then(res => {
       dispatch(endLoad())
@@ -321,14 +341,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       interviewTime, question, targetChannel,
       targetTouchDuration,
-      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, remark
+      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward,targetAdmit,remark
     } = this.state
-    const { dispatch } = this.props
 
     if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-      _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      // dispatch(alertMsg('请将信息填写完整'))
+      _.isEmpty(targetAward) || _.isEmpty(remark)||_.isEmpty(targetAdmit)) {
       alert('请将信息填写完成')
       return
     }
@@ -344,7 +362,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason,targetAdmit,remark
     } = this.state
 
     let param = {
@@ -362,49 +380,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: targetPotentialScore.id,
       applyAward: targetAward.id,
       applyReason,
+      admit:targetAdmit.id,
       remark
     }
 
     dispatch(startLoad())
     approveBusinessApplication(data.id, coupon, param).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.refreshPage()
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-  }
-
-  handleClickIgnoreApplication(data) {
-    const {
-      interviewTime, applyId, profileId, question, targetChannel,
-      focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
-    } = this.state
-    const { dispatch } = this.props
-    let param = {
-      applyId,
-      profileId,
-      interviewTime,
-      question,
-      focusChannel: targetChannel.value,
-      focusChannelName,
-      touchDuration: targetTouchDuration.value,
-      touchDurationName,
-      applyEvent: targetApplyEvent.value,
-      applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
-      applyReason,
-      remark
-    }
-    dispatch(startLoad())
-    ignoreBusinessApplication(data.id, param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.refreshPage()
@@ -441,6 +422,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: '',
       targetAward: '',
       applyReason: '',
+      targetAdmit:'',
       remark: ''
     }, () => {
       this.handlePageClick(this.state.page)
@@ -487,6 +469,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: '',
       targetAward: '',
       applyReason: '',
+      targetAdmit:'',
       remark: ''
     })
   }
@@ -642,10 +625,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
                     onClick={() => this.handleClickRejectApplicationBtn(editData)}/>
                   <RaisedButton
                     style={{ marginLeft: 30 }}
-                    label="私信" secondary={true}
-                    onClick={() => this.handleClickIgnoreApplication(editData)}/>
-                  <RaisedButton
-                    style={{ marginLeft: 30 }}
                     label="取消" secondary={true}
                     onClick={() => this.handleClickClose()}/>
                 </div>
@@ -712,6 +691,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
+          {renderIsAdmit()}
           <div className="backend-interview-container">
             <FlatButton label="面试备注"/>
           </div>
@@ -956,6 +936,32 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         </div>
       )
     }
+
+    const renderIsAdmit = () => {
+      const {targetAdmit} = this.state
+
+      return(
+        <div className="selector-inline">
+          <SelectField
+            value={targetAdmit}
+            floatingLabelText="是否录取"
+            onChange={(e, idx, value) => {
+              this.setState({ targetAdmit: value })
+            }
+            }
+          >
+            {
+              isAdmit.map((admit, idx) => {
+                return (
+                  <MenuItem key={idx} value={admit} primaryText={admit.value}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
+      )
+    }
+
 
     return (
       <div className="bs-container">
