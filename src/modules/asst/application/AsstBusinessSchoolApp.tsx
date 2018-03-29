@@ -63,6 +63,11 @@ const applyAwards = [
   { id: 2, value: '否' }
 ]
 
+const isAdmit = [
+  { id: 0, value: '是' },
+  { id: 1, value: '否' }
+]
+
 @connect(state => state)
 export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   constructor(props) {
@@ -96,6 +101,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       potentialScore: '',
       targetAward: '',
       applyReason: '',
+      targetAdmit: '',
       openDialog: false,
       RasiedClicked: false,
       remark: ''
@@ -122,8 +128,10 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   openDialog(data) {
     if(data.interviewRecord != null) {
       const { interviewRecord } = data
-      let interviewTime = new Date(interviewRecord.interviewTime)
-
+      let interviewTime
+      if(!_.isEmpty(interviewRecord.interviewTime)) {
+        interviewTime = new Date(interviewRecord.interviewTime)
+      }
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -178,6 +186,15 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         }
       })
 
+
+      let targetAdmit = interviewRecord.admit
+      isAdmit.map((admit) => {
+        if(admit.id === targetAdmit) {
+          targetAdmit = admit
+          return
+        }
+      })
+
       this.setState({
         interviewTime,
         question: interviewRecord.question,
@@ -195,7 +212,8 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         editData: data,
         applyId: data.applyId,
         profileId: data.profileId,
-        remark: interviewRecord.remark
+        remark: interviewRecord.remark,
+        targetAdmit
       })
     } else {
       this.setState({
@@ -226,6 +244,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       potentialScore: '',
       targetAward: '',
       applyReason: '',
+      targetAdmit: '',
       remark: ''
     }, () => {
       this.handlePageClick(this.state.page)
@@ -280,37 +299,60 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
   handleSubmit() {
     const { dispatch } = this.props
 
-
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, remark, targetAdmit
     } = this.state
 
-    if( interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
-      _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-      _.isEmpty(targetAward) || _.isEmpty(remark)) {
-      alert('请将信息填写完成')
+    if(_.isEmpty(remark)) {
+      alert('请填写面试备注')
       return
     }
-
+    //如果选择是否录取，则需要check字段
+    if(!_.isEmpty(targetAdmit)) {
+      if(interviewTime === undefined || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+        _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
+        _.isEmpty(targetAward) || _.isEmpty(remark)) {
+        alert('请将信息填写完成')
+        return
+      }
+    }
 
     let param = {
       applyId,
       profileId,
-      interviewTime,
       question,
-      focusChannel: targetChannel.value,
       focusChannelName,
-      touchDuration: targetTouchDuration.value,
       touchDurationName,
-      applyEvent: targetApplyEvent.value,
       applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
       applyReason,
       remark
+    }
+    if(interviewTime !== undefined) {
+      param = _.merge(param, { interviewTime: interviewTime })
+    }
+    if(!_.isEmpty(targetChannel)) {
+      param = _.merge(param, { focusChannel: targetChannel.value })
+    }
+    if(!_.isEmpty(targetTouchDuration)) {
+      param = _.merge(param, { touchDuration: targetTouchDuration.value })
+    }
+    if(!_.isEmpty(targetApplyEvent)) {
+      param = _.merge(param, { applyEvent: targetApplyEvent.value })
+    }
+    if(!_.isEmpty(targetLearningWill)) {
+      param = _.merge(param, { learningWill: targetLearningWill.id })
+    }
+    if(!_.isEmpty(targetPotentialScore)) {
+      param = _.merge(param, { potentialScore: targetPotentialScore.id })
+    }
+    if(!_.isEmpty(targetAward)) {
+      param = _.merge(param, { applyAward: targetAward.id })
+    }
+
+    if(!_.isEmpty(targetAdmit)) {
+      param = _.merge(param, { admit: targetAdmit.id })
     }
 
     addInterviewerRecord(param).then(res => {
@@ -415,6 +457,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
           {renderLearningWill()}
           {renderPotentialScore()}
           {renderAward()}
+          {renderIsAdmit()}
           <div className="interview-container">
             <FlatButton label="面试备注"/>
           </div>
@@ -655,6 +698,31 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
             </div>
             }
           </div>
+        </div>
+      )
+    }
+
+    const renderIsAdmit = () => {
+      const { targetAdmit } = this.state
+
+      return (
+        <div className="selector-inline">
+          <SelectField
+            value={targetAdmit}
+            floatingLabelText="是否录取"
+            onChange={(e, idx, value) => {
+              this.setState({ targetAdmit: value })
+            }
+            }
+          >
+            {
+              isAdmit.map((admit, idx) => {
+                return (
+                  <MenuItem key={idx} value={admit} primaryText={admit.value}/>
+                )
+              })
+            }
+          </SelectField>
         </div>
       )
     }
