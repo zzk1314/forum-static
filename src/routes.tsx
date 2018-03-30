@@ -86,6 +86,7 @@ import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
+import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
 
 const routes = (
   <Route path="/">
@@ -119,6 +120,9 @@ const routes = (
         <Route path="/backend/application/management" component={ProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
         </Route>
+
+        <Route path='/backend/knowledge/vote' component={KnowledgeComment}/>
+
         <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
         <Route path="/backend/camp/group" component={CampUserUnGroup}/>
