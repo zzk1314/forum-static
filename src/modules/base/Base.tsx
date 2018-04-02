@@ -12,6 +12,7 @@ import NavigatorBar from '../../components/NavigatorBar'
 import Loading from '../../components/Loading'
 import { isPending, renderExist } from '../../utils/helpers'
 import { pget } from '../../utils/request'
+import sa from 'sa-sdk-javascript';
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -34,7 +35,39 @@ export default class Main extends React.Component<any, any> {
       if(res.code === 200) {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
+
+        window.ENV.riseId = res.msg.riseId;
+        window.ENV.className = res.msg.className;
+        window.ENV.groupId = res.msg.groupId;
+        window.ENV.roleName = res.msg.roleName;
+        window.ENV.isAsst = res.msg.isAsst;
       }
+
+      sa.init({
+        name: 'sa',
+        web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
+        server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
+        heatmap: {},
+        is_single_page: true,
+      });
+      if(!!res.msg.riseId) {
+        sa.login(res.msg.riseId);
+      }
+      let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 1 };
+      if(!!window.ENV.className && !!window.ENV.groupId) {
+        merge(props, {
+          className: window.ENV.className,
+          groupId: window.ENV.groupId
+        });
+      }
+      if(!!res.msg.riseId) {
+        merge(props, {
+          riseId: res.msg.riseId
+        })
+      }
+      sa.registerPage(props);
+      sa.quick('autoTrack');
+
       this.setState({showPage: true})
     })
   }

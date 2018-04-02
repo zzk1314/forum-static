@@ -88,7 +88,9 @@ import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOp
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 
 const routes = (
-  <Route path="/">
+  <Route path="/" onChange={() => {
+    sa.quick('autoTrackSinglePage');
+  }}>
     <Route path="/login" component={Login}/>
     <Route component={Base}>
       <Route path="pc/static/reject" component={Reject}/>
