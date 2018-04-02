@@ -23,8 +23,6 @@ export default class Personal extends React.Component<any, PersonalStates> {
       return 1
     } else if(path === "/fragment/customer/account") {
       return 2
-    } else if(path === "/fragment/customer/help") {
-      return 3
     } else {
       return 1
     }
@@ -50,13 +48,13 @@ export default class Personal extends React.Component<any, PersonalStates> {
                    this.context.router.push({ pathname: "/fragment/customer/account" })
                  }}>我的账户
             </div>
-            <div
-              className={`last-column ${chooseColumn === 3 ? 'chosed' : ''}` }
-              onClick={() => {
-                this.setState({ chooseColumn: 3 })
-                this.context.router.push({ pathname: "/fragment/customer/help" })
-              }}>帮助
-            </div>
+            {/*<div*/}
+              {/*className={`last-column ${chooseColumn === 3 ? 'chosed' : ''}` }*/}
+              {/*onClick={() => {*/}
+                {/*this.setState({ chooseColumn: 3 })*/}
+                {/*this.context.router.push({ pathname: "/fragment/customer/help" })*/}
+              {/*}}>帮助*/}
+            {/*</div>*/}
           </div>
         </div>
       )
