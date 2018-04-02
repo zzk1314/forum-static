@@ -13,6 +13,8 @@ import Loading from '../../components/Loading'
 import { isPending, renderExist } from '../../utils/helpers'
 import { pget } from '../../utils/request'
 import sa from 'sa-sdk-javascript';
+import { merge } from 'lodash';
+
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
