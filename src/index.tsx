@@ -1,4 +1,4 @@
-require('es6-promise').polyfill()
+// require('es6-promise').polyfill()
 import './style.less'
 import 'whatwg-fetch'
 import * as React from 'react'
@@ -7,6 +7,8 @@ import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import configureStore from './redux/configureStore'
 import routes from './routes'
+
+require('babel-polyfill')
 
 var injectTapEventPlugin = require('react-tap-event-plugin')
 injectTapEventPlugin()
@@ -21,5 +23,5 @@ render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes}/>
   </Provider>
-  , document.getElementById(window.ENV.reactMountPoint)
+  , document.getElementById(window.ENV.reactMountPoint),
 )
