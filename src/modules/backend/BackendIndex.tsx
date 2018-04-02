@@ -176,6 +176,10 @@ export default class Fragment extends React.Component<any, any> {
                  onClick={() => {this.context.router.push({ pathname: '/backend/survey/config' })}}>
               问卷链接设置
             </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/certificate' })}}>
+              证书发送
+            </div>
           </div>
 
           <Subheader style={style.listTitle}>
