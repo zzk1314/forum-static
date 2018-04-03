@@ -87,9 +87,12 @@ import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRi
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
+import sa from 'sa-sdk-javascript';
 
 const routes = (
-  <Route path="/">
+  <Route path="/" onChange={() => {
+    sa.quick('autoTrackSinglePage');
+  }}>
     <Route path="/login" component={Login}/>
     <Route component={Base}>
       <Route path="pc/static/reject" component={Reject}/>
