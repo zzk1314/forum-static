@@ -46,6 +46,7 @@ export default class Main extends React.Component<any, any> {
       }
 
       sa.init({
+        heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
         name: 'sa',
         web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
         server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,

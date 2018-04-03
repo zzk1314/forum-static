@@ -86,6 +86,7 @@ import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
+import sa from 'sa-sdk-javascript';
 
 const routes = (
   <Route path="/" onChange={() => {
