@@ -15,26 +15,27 @@ import { pget } from '../../utils/request'
 import sa from 'sa-sdk-javascript';
 import { merge } from 'lodash';
 
+import RequestComponent from '../../components/RequestComponent'
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       open: false,
-      showPage: false
+      showPage: false,
     }
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount() {
+  componentWillMount () {
     // 通过此接口弥补 window.ENV
     pget('/rise/customer/info').then(res => {
-      if(res.code === 200) {
+      if (res.code === 200) {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
 
@@ -71,25 +72,26 @@ export default class Main extends React.Component<any, any> {
       sa.registerPage(props);
       sa.quick('autoTrack');
 
-      this.setState({showPage: true})
+      this.setState({ showPage: true })
     })
   }
 
-  closeBaseAlert() {
-    const {dispatch} = this.props
+  closeBaseAlert () {
+    const { dispatch } = this.props
     dispatch(set('base.showModal', false))
   }
 
-  render() {
-    if(!this.state.showPage) {
+  render () {
+    if (!this.state.showPage) {
       return <div></div>
     }
 
     return (
       <MuiThemeProvider>
         <div className="container">
+          <RequestComponent/>
           <NavigatorBar/>
-          <div style={{marginTop: 80}}>
+          <div style={{ marginTop: 80 }}>
             {this.props.children}
           </div>
           <AlertMessage open={this.props.base.showModal}
