@@ -29,6 +29,7 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword2: '',
       keyword3: '',
       openIds: '',
+      excludeOpenIds:'',
       source: '',
       showImg: false,
       showConfirm: false,
@@ -117,7 +118,7 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplate = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source } = this.state
+    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source,excludeOpenIds } = this.state
 
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
@@ -146,6 +147,7 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword3,
       openIds,
       source,
+      excludeOpenIds,
       forcePush: push,
       isMime: false
     }
@@ -157,7 +159,7 @@ export default class SendTemplate extends React.Component<any, any> {
   }
 
   render() {
-    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush } = this.state
+    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush,excludeOpenIds } = this.state
 
       const renderLink = () => {
         return (
@@ -259,6 +261,10 @@ export default class SendTemplate extends React.Component<any, any> {
             <textarea placeholder='请输入发送人员的openid（用换行符隔开）' className='comment-container' value={openIds}
                       onChange={(e, v) => this.setState({ openIds: e.target.value })}/>
             </div>
+            <div>
+              <textarea placeholder='请输入需要排除人员的openid（用换行符隔开，选填）' className='comment-container' value={excludeOpenIds}
+                        onChange={(e, v) => this.setState({ excludeOpenIds: e.target.value })}/>
+            </div>
           </div>
         )
       }
@@ -279,7 +285,6 @@ export default class SendTemplate extends React.Component<any, any> {
               onClick={() => {
 
                 this.setState({ showConfirm: true })
-                // this.sendTemplate()
               }}/>
           </div>
         )
