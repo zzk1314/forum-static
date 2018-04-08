@@ -3,7 +3,7 @@ import { get, post } from 'axios'
 import * as axios from 'axios'
 
 axios.defaults.headers.platform = 'pc'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post[ 'Content-Type' ] = 'application/json'
 
 // 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(function(response) {
@@ -46,7 +46,7 @@ function ppost(url: string, body: Object) {
 }
 
 function log(msg, url) {
-  return post('/b/log', JSON.stringify({ result: msg, cookie: document.cookie, url: url }))
+  return post('/b/log', { result: !!msg ? JSON.stringify(msg) : '', cookie: document.cookie, url: url });
 }
 
 function mark(param) {
