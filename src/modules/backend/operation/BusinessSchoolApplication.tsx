@@ -68,10 +68,9 @@ const applyAwards = [
 ]
 
 const isAdmit = [
-  {id:0, value:'是'},
-  {id:1,value:'否'}
+  { id: 0, value: '是' },
+  { id: 1, value: '否' }
 ]
-
 
 @connect(state => state)
 export default class BusinessSchoolApplication extends React.Component<any, any> {
@@ -81,6 +80,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'project', alias: '项目类型', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'interviewTime', alias: '合适的面试时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'workYear', alias: '首次工作时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
@@ -112,7 +112,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       showNoticeRejectModal: false,
       noticeNoticeSendModal: false,
       RasiedClicked: false,
-      targetAdmit:'',
+      targetAdmit: '',
       remark: '',
       noticeRejectModal: {
         title: '提示',
@@ -169,7 +169,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   openDialog(data) {
     if(data.interviewRecord != null) {
       const { interviewRecord } = data
-      let interviewTime = new Date(interviewRecord.interviewTime)
+      let interviewTime
+      if(!_.isEmpty(interviewRecord.interviewTime)) {
+        interviewTime = new Date(interviewRecord.interviewTime)
+      }
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -232,7 +235,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         }
       })
 
-
       this.setState({
         interviewTime,
         question: interviewRecord.question,
@@ -285,7 +287,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       editData = {}, interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason,targetAdmit,remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, targetAdmit, remark
     } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -302,26 +304,26 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       remark
     }
 
-    if(!_.isEmpty(targetChannel)){
-      param = _.merge( param ,{focusChannel:targetChannel.value})
+    if(!_.isEmpty(targetChannel)) {
+      param = _.merge(param, { focusChannel: targetChannel.value })
     }
-    if(!_.isEmpty(targetTouchDuration)){
-      param = _.merge( param ,{touchDuration:targetTouchDuration.value})
+    if(!_.isEmpty(targetTouchDuration)) {
+      param = _.merge(param, { touchDuration: targetTouchDuration.value })
     }
-    if(!_.isEmpty(targetApplyEvent)){
-      param = _.merge( param ,{applyEvent:targetApplyEvent.value})
+    if(!_.isEmpty(targetApplyEvent)) {
+      param = _.merge(param, { applyEvent: targetApplyEvent.value })
     }
-    if(!_.isEmpty(targetLearningWill)){
-      param = _.merge( param ,{learningWill:targetLearningWill.id})
+    if(!_.isEmpty(targetLearningWill)) {
+      param = _.merge(param, { learningWill: targetLearningWill.id })
     }
-    if(!_.isEmpty(targetPotentialScore)){
-      param = _.merge( param ,{potentialScore:targetPotentialScore.id})
+    if(!_.isEmpty(targetPotentialScore)) {
+      param = _.merge(param, { potentialScore: targetPotentialScore.id })
     }
-    if(!_.isEmpty(targetAward)){
-      param = _.merge( param ,{applyAward:targetAward.id})
+    if(!_.isEmpty(targetAward)) {
+      param = _.merge(param, { applyAward: targetAward.id })
     }
-    if(!_.isEmpty(targetAdmit)){
-      param = _.merge(param,{admit:targetAdmit.id})
+    if(!_.isEmpty(targetAdmit)) {
+      param = _.merge(param, { admit: targetAdmit.id })
     }
 
     rejectBusinessApplication(editData.id, param).then(res => {
@@ -341,12 +343,12 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       interviewTime, question, targetChannel,
       targetTouchDuration,
-      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward,targetAdmit,remark
+      targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, targetAdmit, remark
     } = this.state
 
     if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
-      _.isEmpty(targetAward) || _.isEmpty(remark)||_.isEmpty(targetAdmit)) {
+      _.isEmpty(targetAward) || _.isEmpty(remark) || _.isEmpty(targetAdmit)) {
       alert('请将信息填写完成')
       return
     }
@@ -362,7 +364,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const {
       interviewTime, applyId, profileId, question, targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
-      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason,targetAdmit,remark
+      targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, targetAdmit, remark
     } = this.state
 
     let param = {
@@ -380,7 +382,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: targetPotentialScore.id,
       applyAward: targetAward.id,
       applyReason,
-      admit:targetAdmit.id,
+      admit: targetAdmit.id,
       remark
     }
 
@@ -422,7 +424,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: '',
       targetAward: '',
       applyReason: '',
-      targetAdmit:'',
+      targetAdmit: '',
       remark: ''
     }, () => {
       this.handlePageClick(this.state.page)
@@ -469,7 +471,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       potentialScore: '',
       targetAward: '',
       applyReason: '',
-      targetAdmit:'',
+      targetAdmit: '',
       remark: ''
     })
   }
@@ -938,9 +940,9 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     }
 
     const renderIsAdmit = () => {
-      const {targetAdmit} = this.state
+      const { targetAdmit } = this.state
 
-      return(
+      return (
         <div className="selector-inline">
           <SelectField
             value={targetAdmit}
@@ -961,7 +963,6 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         </div>
       )
     }
-
 
     return (
       <div className="bs-container">

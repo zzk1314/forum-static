@@ -72,7 +72,7 @@ export default class Menu extends React.Component<any,any> {
             onTouchTap={()=>this.onClick('/asst/upgrade/info', 4)} />
 
           <Subheader style={style.listTitle}>
-            <div className="listTitle">商学院申请</div>
+            <div className="listTitle">面试申请</div>
           </Subheader>
           <Divider style={style.divider}/>
           <ListItem
