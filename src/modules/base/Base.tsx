@@ -20,7 +20,7 @@ import RequestComponent from '../../components/RequestComponent'
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       open: false,
@@ -32,10 +32,10 @@ export default class Main extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // 通过此接口弥补 window.ENV
     pget('/rise/customer/info').then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
 
@@ -53,6 +53,7 @@ export default class Main extends React.Component<any, any> {
         server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
         heatmap: {},
         is_single_page: true,
+        show_log: false
       });
       if(!!res.msg.riseId) {
         sa.login(res.msg.riseId);
@@ -76,13 +77,13 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
-  closeBaseAlert () {
+  closeBaseAlert() {
     const { dispatch } = this.props
     dispatch(set('base.showModal', false))
   }
 
-  render () {
-    if (!this.state.showPage) {
+  render() {
+    if(!this.state.showPage) {
       return <div></div>
     }
 
