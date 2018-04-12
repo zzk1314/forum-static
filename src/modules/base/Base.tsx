@@ -14,8 +14,7 @@ import { isPending, renderExist } from '../../utils/helpers'
 import { pget } from '../../utils/request'
 import sa from 'sa-sdk-javascript';
 import { merge } from 'lodash';
-
-import RequestComponent from '../../components/RequestComponent'
+import ProxyComponent from '../../components/proxy/ProxyComponent'
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -89,7 +88,7 @@ export default class Main extends React.Component<any, any> {
     return (
       <MuiThemeProvider>
         <div className="container">
-          <RequestComponent/>
+          <ProxyComponent/>
           <NavigatorBar/>
           <div style={{ marginTop: 80 }}>
             {this.props.children}
