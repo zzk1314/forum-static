@@ -1,37 +1,49 @@
-import * as React from "react";
-import { merge } from "lodash";
+import * as React from 'react'
+import { merge } from 'lodash'
 
 export default class AssetImg extends React.Component<any, any> {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      loading:true
+      loading: true,
     }
 
   }
 
-  sizeCheck(size){
-    if(size){
-      if(size.toString().indexOf("px")!==-1 || size.toString().indexOf("%")!==-1) {
-        return size;
+  sizeCheck (size) {
+    if (size) {
+      if (size.toString().indexOf('px') !== -1 || size.toString().indexOf('%') !== -1) {
+        return size
       } else {
-        return `${size}px`;
+        return `${size}px`
       }
     } else {
-      return size;
+      return size
     }
   }
 
-  render() {
-    const { size, type, width, height, marginTop, style, marginRight, onClick, marginLeft, marginBottom } = this.props
-    let {url} = this.props
+  render () {
+    const {
+      size,
+      type,
+      width,
+      height,
+      marginTop,
+      style,
+      marginRight,
+      onClick = () => {
+      },
+      marginLeft,
+      marginBottom,
+    } = this.props
+    let { url } = this.props
     //来自七牛云的图片，自动添加瘦身参数
-    if(url){
-      if(url.indexOf('static.iqycamp.com')!=-1 && url.indexOf('imageslim')!=-1){
+    if (url) {
+      if (url.indexOf('static.iqycamp.com') != -1 && url.indexOf('imageslim') != -1) {
         url = url + '?imageslim'
       }
     }
-    const { loading } = this.state;
+    const { loading } = this.state
     const _style = {
       width: this.sizeCheck(size || width),
       height: this.sizeCheck(size || height),
@@ -42,9 +54,11 @@ export default class AssetImg extends React.Component<any, any> {
     }
 
     return (
-      <img className={`${loading?'loading':''}`} src={type ? require(`./../../assets/img/${type}.png`) : url}
-           onClick={()=>onClick()}
-           onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
+      <img className={`${loading ? 'loading' : ''}`}
+           src={type ? require(`./../../assets/img/${type}.png`) : url}
+           onClick={() => onClick()}
+           onLoad={() => this.setState({ loading: false })}
+           style={merge(_style, style)}/>
     )
   }
 }
