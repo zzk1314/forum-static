@@ -83,13 +83,7 @@ export default class Main extends React.Component<any, any> {
     } ]
 
     const renderFeedBack = () => {
-      return (
-        <div className="feed-back">
-          <a href={`/pc/survey/wjx?activity=${window.ENV.feedBack}`} target="_blank">
-            <img src="https://static.iqycamp.com/images/pcFeedBack.png"/>
-          </a>
-        </div>
-      )
+      // 换成美洽
     }
 
     const renderOtherComponents = () => {
@@ -103,7 +97,7 @@ export default class Main extends React.Component<any, any> {
             handleClose={() => this.closeBaseAlert()}
             actions={actions}
           />
-          {renderFeedBack()}
+          {/*{renderFeedBack()}*/}
           {renderExist(isPending(this.props, 'base.loading'), <Loading/>)}
         </div>
       )
