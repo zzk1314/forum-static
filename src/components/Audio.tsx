@@ -152,7 +152,7 @@ export default class Audio extends React.Component<any, any> {
               </div>
           }
           <div className="audio-progress">
-            <Slider min={0} max={duration} value={currentSecond} onChange={()=>this.onProgressChange()}
+            <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
                     withBars={true}/>
           </div>
           <div className="audio-duration">
