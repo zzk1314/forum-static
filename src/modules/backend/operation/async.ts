@@ -1,4 +1,5 @@
 import { pget, ppost } from '../../../utils/request'
+import proxy from '../../../components/proxy/proxy'
 
 export function loadSurveyConfigs () {
   return pget('/pc/operation/survey/config/list')
@@ -61,10 +62,14 @@ export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelc
   })
 }
 
-export function generateCertificate (year, month) {
-  return ppost(`/rise/operation/backend/generate/certificate`, { year: year, month: month })
+export function generateCertificate (year, month, memberTypeId) {
+  return proxy.postProxy(`/rise/operation/backend/generate/certificate`, { year: year, month: month, memberTypeId: memberTypeId })
 }
 
-export function sendCertificate (year, month) {
-  return ppost(`/rise/operation/backend/send/certificate?year=${year}&month=${month}`)
+export function sendCertificate (year, month, memberTypeId) {
+  return proxy.postProxy(`/rise/operation/backend/send/certificate`, { year: year, month: month, memberTypeId: memberTypeId })
+}
+
+export function sendFullAttendance (year, month, memberTypeId) {
+  return proxy.postProxy(`/rise/operation/backend/generate/fullattendance`, { year: year, month: month, memberTypeId: memberTypeId })
 }

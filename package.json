@@ -12,7 +12,8 @@
     "beta": "NODE_ENV=production webpack; gulp beta",
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:8080/ npm start",
-    "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start"
+    "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start",
+    "felix": "RISE_PROXY=http://0.0.0.0:8080/ PROXY=http://0.0.0.0:8180/ npm start"
   },
   "repository": {
     "type": "git",
@@ -62,7 +63,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
-    "sa-sdk-javascript": "^1.9.11",
+    "sa-sdk-javascript": "^1.10.1",
     "shelljs": "^0.7.3",
     "simditor": "2.3.6",
     "whatwg-fetch": "^1.0.0"
