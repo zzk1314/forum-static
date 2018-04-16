@@ -1,13 +1,13 @@
-import requestProxy from '../../../utils/RequestProxy'
+import proxy from '../../../components/proxy/proxy'
 
 export function queryProblemKnowledges (problemId) {
-  return requestProxy.getProxy(`/pc/operation/knowledge/load/problem/knowledges?problemId=${problemId}`)
+  return proxy.getProxy(`/pc/operation/knowledge/load/problem/knowledges?problemId=${problemId}`)
 }
 
 export function queryKnowledgeDiscuss (knowledgeId) {
-  return requestProxy.getProxy(`/pc/operation/knowledge/load/discuss?knowledgeId=${knowledgeId}`)
+  return proxy.getProxy(`/pc/operation/knowledge/load/discuss?knowledgeId=${knowledgeId}`)
 }
 
 export function voteKnowledgeDiscuss (discussId, priority) {
-  return requestProxy.postProxy(`/pc/operation/knowledge/vote/discuss?discussId=${discussId}&priority=${priority}`)
+  return proxy.postProxy(`/pc/operation/knowledge/vote/discuss?discussId=${discussId}&priority=${priority}`)
 }
