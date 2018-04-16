@@ -75,14 +75,18 @@ export default class CertificateOperate extends React.Component {
       showDialog: true,
       dialogContent: `点击发送${year}年${month}月的全勤奖（将会发送模板消息通知学员，谨慎操作）`,
       handleFunc: async () => {
+        this.setState({
+          showDialog: false,
+        })
         if (memberTypeId === 0) {
+          return
+        }
+        if (memberTypeId === this.MEMBERTYPE.BUSINESS_THINKG) {
+          proxy.alertMessage('商业思维课程无需生成全勤奖')
           return
         }
         let res = await sendFullAttendance(year, month, memberTypeId)
         proxy.alertMessage('全勤奖正在发送中，发送成功你将收到模板消息提醒')
-        this.setState({
-          showDialog: false,
-        })
       },
     })
   }
