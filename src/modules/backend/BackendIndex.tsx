@@ -55,18 +55,10 @@ export default class Fragment extends React.Component<any, any> {
     const renderMenu = () => {
       return (
         <List>
-          {
-            window.ENV.isDevelopment ?
               <Subheader style={style.listTitle}>
                 <div className="listTitle">内容功能</div>
-              </Subheader> : null
-          }
-          {
-            window.ENV.isDevelopment ?
-              <Divider style={style.divider}/> : null
-          }
-          {
-            window.ENV.isDevelopment ?
+              </Subheader>
+              <Divider style={style.divider}/>
               <div className="catalog-area">
                 <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/problem/import' })
@@ -95,8 +87,7 @@ export default class Fragment extends React.Component<any, any> {
                   this.context.router.push({ pathname: '/backend/application/management' })
                 }}>应用题管理
                 </div>
-              </div> : null
-          }
+              </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">运营功能</div>
           </Subheader>
