@@ -88,6 +88,7 @@ import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOp
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
+import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscussComment'
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -95,6 +96,7 @@ const routes = (
   }}>
     <Route path="/login" component={Login}/>
     <Route component={Base}>
+
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
@@ -125,6 +127,7 @@ const routes = (
         </Route>
 
         <Route path='/backend/knowledge/vote' component={KnowledgeComment}/>
+        <Route path="/backend/knowledge/discuss/reply" component={KnowledgeDiscussComment}/>
 
         <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
