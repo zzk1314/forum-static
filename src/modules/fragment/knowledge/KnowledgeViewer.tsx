@@ -7,8 +7,8 @@ import {
   loadDiscuss,
   discussKnowledge,
   loadKnowledge,
-  learnKnowledge,
   loadKnowledges,
+  learnKnowledge,
   deleteKnowledgeDiscuss
 } from "./async"
 import AssetImg from "../../../components/AssetImg";
@@ -58,8 +58,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
-          loadDiscuss(res.msg[0].id, 1).then(res => {
+          this.setState({ knowledge: res.msg[ 0 ], referenceId: res.msg[ 0 ].id })
+          loadDiscuss(res.msg[ 0 ].id, 1).then(res => {
             if(res.code === 200) {
               this.setState({ discuss: res.msg })
             }
@@ -70,7 +70,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           dispatch(alertMsg(res.msg))
         }
       })
-      if (complete == 'false') {
+      if(complete == 'false') {
         dispatch(set('completePracticePlanId', practicePlanId));
       }
     } else if(id) {
@@ -208,39 +208,42 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   complete() {
+    const { practicePlanId } = this.props.location.query;
+    learnKnowledge(practicePlanId);
     window.history.back();
   }
 
   render() {
-    const { showTip, showDiscuss,knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
-    const { analysis, means, keynote, audio,audioWords, pic, example, analysisPic, meansPic, keynotePic,videoUrl,videoWords,videoPoster,
-        analysisAudio,analysisAudioWords, meansAudio,meansAudioWords, keynoteAudio,keynoteAudioWords} = knowledge
+    const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder, clickedCompleteBtn } = this.state
+    const {
+      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic, videoId, videoUrl, videoWords, videoPoster,
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, fileId
+    } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
 
     const renderKnowledgeContent = () => {
       return (
         <div>
-          {videoUrl && <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>}
-          {audio ? <div className="context-audio"><Audio url={audio} words={audioWords} /></div> : null }
-          {pic ?
+          {videoId && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords} fileId={fileId}/>}
+          {audio && <div className="context-audio"><Audio url={audio} words={audioWords}/></div> }
+          {pic &&
             <div className="context-img" style={{ textAlign: "center" }}>
-              <AssetImg url={pic} width="60%"/></div> :
-            null }
+              <AssetImg url={pic} width="60%"/></div> }
           {analysis ?
             <div>
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
               </div>
-              {analysisAudio ? <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null }
+              {analysisAudio &&
+                <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> }
               <div className="text">
-                <pre dangerouslySetInnerHTML={{ __html: analysis }} />
+                <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
               </div>
-              { analysisPic ?
+              { analysisPic &&
                 <div className="context-img">
                   <AssetImg width={'60%'} url={analysisPic}/>
-                </div> : null
-              }
+                </div> }
             </div> :
             null}
           {means ?
@@ -248,15 +251,15 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
               </div>
-              {meansAudio ? <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null }
+              {meansAudio &&
+                <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> }
               <div className="text">
-                <pre dangerouslySetInnerHTML={{ __html: means }} />
+                <pre dangerouslySetInnerHTML={{ __html: means }}/>
               </div>
-              { meansPic ?
+              { meansPic &&
                 <div className="context-img">
                   <AssetImg width={'60%'} url={meansPic}/>
-                </div>
-                : null }
+                </div> }
             </div> :
             null}
           {keynote ?
@@ -264,11 +267,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
               </div>
-              {keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div> : null }
+              {keynoteAudio &&
+                <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div> }
               <div className="text">
-                <pre dangerouslySetInnerHTML={{ __html: keynote }} />
+                <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
               </div>
-              { keynotePic ? <div className="context-img"><AssetImg width={'60%'} url={keynotePic}/></div> : null }
+              { keynotePic && <div className="context-img"><AssetImg width={'60%'} url={keynotePic}/></div> }
             </div> :
             null}
           {example ?
@@ -305,36 +309,36 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       return (
         <div className="discuss">
           {_.isEmpty(discuss) ? null : discuss.map((item, seq) => {
-            return (
-              <div key={seq}>
-                <DiscussShow
-                  discuss={item}
-                  reply={() => {
+              return (
+                <div key={seq}>
+                  <DiscussShow
+                    discuss={item}
+                    reply={() => {
                     this.reply(item)
                   }}
-                  onDelete={() => this.onDelete(item.id)} key={seq}/>
-                {
-                  this.state.showDiscuss && this.state.repliedId === item.id ?
-                    <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                             submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                             cancel={() => this.cancel()}/> :
-                    null
-                }
-              </div>
-            )
-          })}
+                    onDelete={() => this.onDelete(item.id)} key={seq}/>
+                  {
+                    this.state.showDiscuss && this.state.repliedId === item.id ?
+                      <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                               submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                               cancel={() => this.cancel()}/> :
+                      null
+                  }
+                </div>
+              )
+            })}
           { discuss ? (discuss.length > 0 ?
-            <div className="show-more">
-              你已经浏览完所有的讨论啦
-            </div>
-            :
-            <div className="discuss-end">
-              <div className="discuss-end-img">
-                <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
-                          height={92}/>
+              <div className="show-more">
+                你已经浏览完所有的讨论啦
               </div>
-              <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-            </div>)
+              :
+              <div className="discuss-end">
+                <div className="discuss-end-img">
+                  <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
+                            height={92}/>
+                </div>
+                <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+              </div>)
             : null}
         </div>
       )
@@ -345,7 +349,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
                                                   <span className={`index`}>
-                                                  {sequenceMap[idx]}
+                                                  {sequenceMap[ idx ]}
                                                   </span>
           <span className={`subject`}>{subject}</span>
         </div>
@@ -353,7 +357,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const renderClickBtn = () => {
@@ -398,7 +402,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+        {showDiscuss && <div className="padding-comment-dialog"/> }
       </div>
     )
 
