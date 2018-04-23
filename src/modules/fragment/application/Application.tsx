@@ -1,27 +1,28 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
-import './Application.less'
-import AssetImg from '../../../components/AssetImg'
-import Editor from '../../../components/editor/Editor'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions';
+import './Application.less';
+import AssetImg from '../../../components/AssetImg';
+import Editor from '../../../components/editor/Editor';
 import {
   loadApplicationPractice, vote, loadOtherList,
-  submitApplicationPractice, CommentType, autoSaveApplicationDraft
-} from './async'
-import Work from '../components/NewWork'
-import _ from 'lodash'
-import { Work } from '../components/NewWork'
-import { BreadCrumbs, TitleBar } from '../commons/FragmentComponent'
-import { ArticleViewModule } from '../../../utils/helpers'
-import { mark } from '../../../utils/request'
+  submitApplicationPractice, CommentType, autoSaveApplicationDraft, loadPriorityApplicationCommenst,
+} from './async';
+import Work from '../components/NewWork';
+import _ from 'lodash';
+import { Work } from '../components/NewWork';
+import { BreadCrumbs, TitleBar } from '../commons/FragmentComponent';
+import { ArticleViewModule } from '../../../utils/helpers';
+import { mark } from '../../../utils/request';
+import ApplicationDiscussDistrict from './components/ApplicationDiscussDistrict/ApplicationDiscussDistrict';
 
-let timer
+let timer;
 
 @connect(state => state)
 export default class Application extends React.Component<any, any> {
 
-  constructor() {
-    super()
+  constructor () {
+    super();
     this.state = {
       data: {},
       submitId: 0,
@@ -33,237 +34,241 @@ export default class Application extends React.Component<any, any> {
       edit: true,
       draft: '',
       autoPushDraftFlag: null,
-    }
+    };
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
+  };
+
+  async componentWillMount () {
+    mark({ module: '打点', function: 'RISE', action: 'PC打开应用题页', memo: 'PC' });
+    const { location, dispatch } = this.props;
+    const { integrated, id, planId } = location.query;
+    this.setState({ integrated });
+    let practiceRes = await loadApplicationPractice(id, planId);
+    console.log(practiceRes);
+    const { code, msg } = practiceRes;
+    this.setState({
+      edit: !msg.isSynchronized,
+      editorValue: msg.isSynchronized ? msg.content : msg.draft,
+      isSynchronized: msg.isSynchronized,
+      data: msg,
+      submitId: msg.submitId,
+      planId: msg.planId,
+      applicationScore: msg.applicationScore,
+      autoPushDraftFlag: false,
+      showApplicationCache: msg.draft && !msg.isSynchronized,
+    });
+
+    let commentsRes = await loadPriorityApplicationCommenst(id, planId);
+    this.setState({ commentsData: commentsRes.msg });
   }
 
-  componentWillMount() {
-    mark({ module: '打点', function: 'RISE', action: 'PC打开应用题页', memo: 'PC' })
-    const { location, dispatch } = this.props
-    const { integrated, id, planId } = location.query
-    this.setState({ integrated })
-    loadApplicationPractice(id, planId).then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        dispatch(endLoad())
-        this.setState({
-          edit: !msg.isSynchronized,
-          editorValue: msg.isSynchronized ? msg.content : msg.draft,
-          isSynchronized: msg.isSynchronized,
-          data: msg,
-          submitId: msg.submitId,
-          planId: msg.planId,
-          applicationScore: res.msg.applicationScore,
-          autoPushDraftFlag: false,
-        })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(ex => {
-      dispatch(alertMsg(ex))
-    })
-  }
-
-  componentDidUpdate() {
-    if(this.state.edit) {
-      this.autoSaveApplicationDraftTimer()
+  componentDidUpdate () {
+    if (this.state.edit) {
+      this.autoSaveApplicationDraftTimer();
     } else {
-      clearInterval(timer)
+      clearInterval(timer);
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(timer)
+  componentWillUnmount () {
+    clearInterval(timer);
   }
 
   // 定时保存方法
-  autoSaveApplicationDraftTimer() {
-    clearInterval(timer)
+  autoSaveApplicationDraftTimer () {
+    clearInterval(timer);
     timer = setInterval(() => {
-      const planId = this.state.planId
-      const applicationId = this.props.location.query.id
-      const draft = this.refs.editor.getValue()
-      if(draft.trim().length > 0) {
-        if(this.state.autoPushDraftFlag) {
-          autoSaveApplicationDraft(planId, applicationId, draft)
+      const planId = this.state.planId;
+      const applicationId = this.props.location.query.id;
+      const draft = this.refs.editor.getValue();
+      if (draft.trim().length > 0) {
+        if (this.state.autoPushDraftFlag) {
+          autoSaveApplicationDraft(planId, applicationId, draft);
           this.setState({ autoPushDraftFlag: false });
         }
       }
-    }, 10000)
+    }, 10000);
   }
 
-  onEdit() {
-    this.setState({ edit: true })
+  onEdit () {
+    this.setState({ edit: true });
   }
 
-  goComment(submitId) {
-    const { id, currentIndex, integrated, practicePlanId } = this.props.location.query
-    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, '_blank')
+  goComment (submitId) {
+    const { id, currentIndex, integrated, practicePlanId } = this.props.location.query;
+    window.open(`/fragment/application/comment?submitId=${submitId}&integrated=${integrated}&id=${id}&currentIndex=${currentIndex}&practicePlanId=${practicePlanId}`, '_blank');
   }
 
-  voted(id, voteStatus, voteCount, isMine, seq) {
-    if(!voteStatus) {
-      if(isMine) {
-        this.setState({ data: _.merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) })
+  voted (id, voteStatus, voteCount, isMine, seq) {
+    if (!voteStatus) {
+      if (isMine) {
+        this.setState({ data: _.merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
       } else {
-        let newOtherList = _.merge([], this.state.otherList)
-        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
-        _.set(newOtherList, `[${seq}].voteStatus`, 1)
-        this.setState({ otherList: newOtherList })
+        let newOtherList = _.merge([], this.state.otherList);
+        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1);
+        _.set(newOtherList, `[${seq}].voteStatus`, 1);
+        this.setState({ otherList: newOtherList });
       }
-      vote(id)
+      vote(id);
     }
   }
 
-  others() {
-    const { location, dispatch } = this.props
-    this.setState({ showOthers: true, loading: true })
+  others () {
+    const { location, dispatch } = this.props;
+    this.setState({ showOthers: true, loading: true });
     loadOtherList(location.query.id, this.state.page + 1).then(res => {
-      if(res.code === 200) {
-        this.setState({ loading: false })
-        if(res.msg && res.msg.list && res.msg.list.length !== 0) {
+      if (res.code === 200) {
+        this.setState({ loading: false });
+        if (res.msg && res.msg.list && res.msg.list.length !== 0) {
           _.remove(res.msg.list, (item) => {
-            return _.findIndex(this.state.otherList, item) !== -1
-          })
+            return _.findIndex(this.state.otherList, item) !== -1;
+          });
           this.setState({
             otherList: this.state.otherList.concat(res.msg.list),
             page: this.state.page + 1,
-            end: res.msg.end
-          })
+            end: res.msg.end,
+          });
         } else {
-          this.setState({ end: res.msg.end })
+          this.setState({ end: res.msg.end });
         }
       } else {
-        dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(res.msg));
       }
     }).catch(ex => {
-      dispatch(alertMsg(ex))
-    })
+      dispatch(alertMsg(ex));
+    });
   }
 
-  onSubmit() {
-    const { dispatch, location } = this.props
-    const { data, planId } = this.state
-    const { complete, practicePlanId } = location.query
-    const answer = this.refs.editor.getValue()
-    if(answer == null || answer.length === 0) {
-      dispatch(alertMsg(null, '先写内容再提交哦'))
-      return
+  onSubmit () {
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
+    const { complete, practicePlanId } = location.query;
+    const answer = this.refs.editor.getValue();
+    if (answer == null || answer.length === 0) {
+      dispatch(alertMsg(null, '先写内容再提交哦'));
+      return;
     }
-    this.setState({ showDisable: true })
+    this.setState({ showDisable: true });
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        if(complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId))
+      const { code, msg } = res;
+      if (code === 200) {
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
         }
         loadApplicationPractice(location.query.id, planId).then(res => {
-          const { code, msg } = res
-          if(code === 200) {
+          const { code, msg } = res;
+          if (code === 200) {
             this.setState({
               data: msg,
               submitId: msg.submitId,
               planId: msg.planId,
               edit: false,
-              editorValue: msg.content
-            })
+              editorValue: msg.content,
+            });
           }
-          clearInterval(timer)
-        })
-        this.setState({ showDisable: false })
+          clearInterval(timer);
+        });
+        this.setState({ showDisable: false });
       }
-    })
+    });
   }
 
-  loadMore() {
-    this.others()
+  loadMore () {
+    this.others();
   }
 
-  render() {
+  render () {
     const {
       data, otherList, end,
-      showOthers, edit, showDisable, integrated, loading
-    } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data
+      showOthers, edit, showDisable, integrated, loading,
+      commentsData = {},
+      showApplicationCache,
+    } = this.state;
+    const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data;
+    const { planId, id } = this.props.location.query;
 
     const renderList = (list) => {
-      if(list) {
+      if (list) {
         return list.map((item, seq) => {
           return (
-            <Work
-              onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}
-              goComment={() => this.goComment(item.submitId)}
-              type={CommentType.Application}
-              articleModule={ArticleViewModule.Application}
-              {...item}
+            <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}
+                  goComment={() => this.goComment(item.submitId)}
+                  type={CommentType.Application}
+                  articleModule={ArticleViewModule.Application}
+                  {...item}
             />
-          )
-        })
+          );
+        });
       }
-    }
+    };
 
     const renderTip = () => {
-      if(edit) {
+      if (edit) {
         return (
           <div className="no-comment">
             <div className="content"/>
           </div>
-        )
+        );
       } else {
         return (
           <div>
             <Work
-              {...data}
-              onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+              {...data} onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
               onEdit={() => this.onEdit()}
               headImage={window.ENV.headImgUrl}
               userName={window.ENV.userName}
               type={CommentType.Application}
               articleModule={ArticleViewModule.Application}
-              goComment={() => this.goComment(submitId)}
-            />
+              goComment={() => this.goComment(submitId)}/>
           </div>
-        )
+        );
       }
-    }
+    };
 
     const renderEnd = () => {
-      if(showOthers) {
-        if(loading) {
+      if (showOthers) {
+        if (loading) {
           return (
             <div style={{ textAlign: 'center', margin: '5px 0' }}>
-              <AssetImg url="https://static.iqycamp.com/images/loading2.gif" width={30}/>
+              <AssetImg url="https://static.iqycamp.com/images/loading2.gif"
+                        width={30}/>
             </div>
-          )
+          );
         }
-        if(!end) {
+        if (!end) {
           return (
-            <div onClick={() => this.loadMore()} className="show-more click-key"
+            <div onClick={() => this.loadMore()}
+                 className="show-more click-key"
                  style={{ borderTop: '1px solid #efefef' }}>点击加载更多消息</div>
-          )
+          );
         } else {
           return (
-            <div className="show-more" style={{ borderTop: '1px solid #efefef' }}>没有更多了</div>
-          )
+            <div className="show-more"
+                 style={{ borderTop: '1px solid #efefef' }}>没有更多了</div>
+          );
         }
       }
-    }
+    };
 
     return (
       <div>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="application-container">
             <div className="application-head">
-              <BreadCrumbs level={1} name={`应用题`}/>
+              <BreadCrumbs level={1}
+                           name={`应用题`}/>
               <div className="page-header">{topic}</div>
             </div>
             <div className="intro-container">
               <div className="context-img">
-                {pic ? <AssetImg url={pic}/> :
-                  <AssetImg url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
+                {
+                  pic ?
+                    <AssetImg url={pic}/> :
+                    <AssetImg url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>
+                }
               </div>
               <div className="application-context">
                 <div className="section1">
@@ -271,59 +276,31 @@ export default class Application extends React.Component<any, any> {
                   <p>优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分</p>
                 </div>
                 <div className="application-title">
-                  <AssetImg type="app" size={15}/><span>今日应用</span>
+                  <AssetImg type="app"
+                            size={15}/><span>今日应用</span>
                 </div>
-                <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+                <div className="section2"
+                     dangerouslySetInnerHTML={{ __html: description }}/>
               </div>
-              {integrated == 'false' ?
+              {
+                integrated == 'false' &&
                 <div className="knowledge-link click-key"
                      onClick={() =>
                        window.open(`/fragment/knowledge?id=${knowledgeId}`, '_blank')
-                     }>点击查看相关知识</div> :
-                null}
+                     }>点击查看相关知识</div>
+              }
+              <ApplicationDiscussDistrict data={commentsData}
+                                          id={id}
+                                          planId={planId}
+                                          showApplicationCache={showApplicationCache}
+                                          submitCallback={() => {
+                                            this.componentWillMount();
+                                          }}/>
             </div>
-            <div ref="workContainer" className="work-container">
-              {<TitleBar content={content === null ? '提交方式' : '我的作业'}/>}
-              {renderTip()}
-              {edit ?
-                <div className="editor">
-                  <Editor
-                    ref="editor"
-                    moduleId={3}
-                    onUploadError={(res) => {
-                      this.props.dispatch(alertMsg(res.msg))
-                    }}
-                    uploadStart={() => {
-                      this.props.dispatch(startLoad())
-                    }}
-                    uploadEnd={() => {
-                      this.props.dispatch(endLoad())
-                    }}
-                    defaultValue={this.state.editorValue}
-                    value={this.state.editorValue}
-                    onChange={()=>this.setState({autoPushDraftFlag:true})}
-                    placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
-                  />
-                </div> : null}
-            </div>
-            { showDisable ?
-              <div className="button-footer small disabled">提交中</div> :
-              edit ?
-                <div className="button-footer small" onClick={() => this.onSubmit()}>提交</div> : null
-            }
-            {!showOthers ?
-              <div className="show-others-tip click-key" onClick={() => this.others()}>同学的作业</div> : null}
-            {showOthers && !_.isEmpty(otherList) ?
-              <div>
-                <TitleBar content={'同学的作业'}/>
-                {renderList(otherList)}
-              </div> :
-              null}
-            {renderEnd()}
           </div>
         </div>
       </div>
-    )
+    );
   }
 
 }
