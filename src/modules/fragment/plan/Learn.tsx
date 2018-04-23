@@ -24,7 +24,8 @@ const typeMap = {
   20: '小课介绍',
   21: '小目标',
   31: '知识点',
-  32: '知识回顾'
+  32: '知识回顾',
+  41: '课前思考'
 }
 
 /**
@@ -104,7 +105,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   componentDidMount() {
     mark({ module: '打点', function: 'RISE', action: 'PC打开学习页', memo: 'PC' })
-    window.addEventListener('resize', ()=>this.resize())
+    window.addEventListener('resize', () => this.resize())
     const { planId } = this.props.location.query
     queryChapterList(planId).then(res => {
       if(res.code === 200) {
@@ -215,70 +216,62 @@ export default class PlanMain extends React.Component <any, any> {
       }
       if(item.status === 1) {
         this.context ? this.context.router.push({
-          pathname: '/fragment/warmup/analysis',
-          query: { practicePlanId, currentIndex, integrated, planId, complete }
-        }) : null
+            pathname: '/fragment/warmup/analysis',
+            query: { practicePlanId, currentIndex, integrated, planId, complete }
+          }) : null
       } else {
         this.context ? this.context.router.push({
-          pathname: '/fragment/warmup',
-          query: { practicePlanId, currentIndex, integrated, planId, complete }
-        }) : null
+            pathname: '/fragment/warmup',
+            query: { practicePlanId, currentIndex, integrated, planId, complete }
+          }) : null
       }
     } else if(type === 11) {
       this.context ? this.context.router.push({
-        pathname: '/fragment/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId, practicePlanId, complete }
-      }) : null
+          pathname: '/fragment/application',
+          query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: false, planId, practicePlanId, complete }
+        }) : null
     } else if(type === 12) {
       this.context ? this.context.router.push({
-        pathname: '/fragment/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId, practicePlanId, complete }
-      }) : null
-    } else if(type === 20){
-        this.context ? this.context.router.push({
-            pathname: '/fragment/problem/view',
-            query: { id: item.practiceIdList[0], complete, practicePlanId, show:true }
-          }) : null
+          pathname: '/fragment/application',
+          query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: true, planId, practicePlanId, complete }
+        }) : null
+    } else if(type === 20) {
+      this.context ? this.context.router.push({
+          pathname: '/fragment/problem/view',
+          query: { id: item.practiceIdList[ 0 ], complete, practicePlanId, show: true }
+        }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
-        pathname: '/fragment/challenge',
-        query: { id: item.practiceIdList[0], currentIndex, planId, practicePlanId, complete }
-      }) : null
+          pathname: '/fragment/challenge',
+          query: { id: item.practiceIdList[ 0 ], currentIndex, planId, practicePlanId, complete }
+        }) : null
     } else if(type === 31) {
-      if(!complete) {
-        learnKnowledge(practicePlanId).then(res => {
-          const { code, msg } = res
-          if(code === 200) {
-            this.context ? this.context.router.push({
-              pathname: '/fragment/knowledge',
-              query: { practicePlanId, currentIndex, planId, complete }
-            }) : null
-          }
-        })
-      } else {
-        this.context ? this.context.router.push({
+      this.context ? this.context.router.push({
           pathname: '/fragment/knowledge',
           query: { practicePlanId, currentIndex, planId, complete }
         }) : null
-      }
     } else if(type === 32) {
       if(!complete) {
         learnKnowledge(practicePlanId).then(res => {
           const { code, msg } = res
           if(code === 200) {
             this.context ? this.context.router.push({
-              pathname: '/fragment/knowledge/review',
-              query: { problemId, planId, practicePlanId, complete }
-            }) : null
+                pathname: '/fragment/knowledge/review',
+                query: { problemId, planId, practicePlanId, complete }
+              }) : null
           }
         })
       } else {
         this.context ? this.context.router.push({
-          pathname: '/fragment/knowledge/review',
-          query: { problemId, planId, practicePlanId, complete }
-        }) : null
+            pathname: '/fragment/knowledge/review',
+            query: { problemId, planId, practicePlanId, complete }
+          }) : null
       }
-
+    } else if(type === 41) {
+      this.context ? this.context.router.push({
+          pathname: '/fragment/preview',
+          query: { practicePlanId, currentIndex, planId, complete }
+        }) : null
     }
   }
 
@@ -287,12 +280,12 @@ export default class PlanMain extends React.Component <any, any> {
     window.open(`/fragment/problem/view?id=${problemId}&show=${true}`, '_blank')
   }
 
-  handleClickProblemExtension(problemId){
+  handleClickProblemExtension(problemId) {
     mark({
-      module:'打点',
-      function:'RISE',
-      action:'PC打开延伸学习',
-      memo:'PC'
+      module: '打点',
+      function: 'RISE',
+      action: 'PC打开延伸学习',
+      memo: 'PC'
     })
     window.open(`/fragment/problem/extension/view?problemId=${problemId}`, '_blank')
   }
@@ -421,7 +414,7 @@ export default class PlanMain extends React.Component <any, any> {
     const { selectProblem, planData } = this.state
     const { dispatch } = this.props
     let problemScores = questionList.map(item => {
-      if(item.choiceList){
+      if(item.choiceList) {
         let selectedChoice
         item.choiceList.forEach(choice => {
           if(choice.selected) {
@@ -429,7 +422,7 @@ export default class PlanMain extends React.Component <any, any> {
           }
         })
         return { question: item.id, choice: selectedChoice }
-      }else{
+      } else {
         return { question: item.id, comment: item.comment }
       }
     })
@@ -565,33 +558,33 @@ export default class PlanMain extends React.Component <any, any> {
               </div>
             </div>
             {chapterList ? chapterList.map((item, key) => {
-              return (
-                <div key={key} className={`chapter-area`}>
-                  <div className="cell">
-                    <div className="chapter">
-                      <div>
-                        <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
-                        <div className="str">{item.chapter}</div>
+                return (
+                  <div key={key} className={`chapter-area`}>
+                    <div className="cell">
+                      <div className="chapter">
+                        <div>
+                          <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
+                          <div className="str">{item.chapter}</div>
+                        </div>
                       </div>
-                    </div>
-                    {item.sectionList.map((section, index) => {
-                      return (
-                        <div id={`section${section.series}`}
-                             className={`hover-cursor ${currentIndex === section.series ? 'open' : ''} section`}
-                             onClick={() => {
+                      {item.sectionList.map((section, index) => {
+                        return (
+                          <div id={`section${section.series}`}
+                               className={`hover-cursor ${currentIndex === section.series ? 'open' : ''} section`}
+                               onClick={() => {
                                this.handleChangeSection(section.series)
                              }} key={index}>
-                          <div>
-                            <div className="label">{item.chapterId}.{section.sectionId}</div>
-                            <div className="str">{section.section}</div>
+                            <div>
+                              <div className="label">{item.chapterId}.{section.sectionId}</div>
+                              <div className="str">{section.section}</div>
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })}
+                    </div>
                   </div>
-                </div>
-              )
-            }) : null}
+                )
+              }) : null}
           </div>
         </div>
       )
@@ -640,6 +633,8 @@ export default class PlanMain extends React.Component <any, any> {
                   <div className="challenge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
                 {item.type === 31 || item.type === 32 ?
                   <div className="knowledge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
+                {item.type === 41 ?
+                  <div className="preview" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
               </div>
               {completePracticeRender(item)}
             </div>
@@ -647,11 +642,8 @@ export default class PlanMain extends React.Component <any, any> {
               <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
             }
             <div className="body">
-              <div className="title">{typeMap[item.type]}</div>
+              <div className="title">{typeMap[ item.type ]}</div>
             </div>
-            {/*<div className="footer">*/}
-              {/*{item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}*/}
-            {/*</div>*/}
           </div>
         )
       })
@@ -660,11 +652,11 @@ export default class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal,showEmptyPage,
-       riseMember, riseMemberTips, expired
+      currentIndex, planData, showScoreModal, showEmptyPage,
+      riseMember, riseMemberTips, expired
     } = this.state
     const {
-      problem = {}, sections = [], point,openRise, completeSeries, reportStatus
+      problem = {}, sections = [], point, openRise, completeSeries, reportStatus
     } = planData
 
     const renderOtherComponents = () => {
