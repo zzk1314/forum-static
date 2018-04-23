@@ -8,8 +8,8 @@ export default class QYVideo extends React.Component<any, any> {
   constructor() {
     super();
     this.state = {};
-    this.player = null;
-    this.playerId = randomStr(12);
+    this.player = null; //腾讯视频player
+    this.playerId = randomStr(12); //player id
   }
 
   componentDidMount() {

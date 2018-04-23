@@ -1,11 +1,11 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import './ProblemPreview.less'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './ProblemPreview.less';
 import {
   learnPreview, loadPreview
-} from './async'
-import { set } from 'redux/actions'
-import { mark } from 'utils/request'
+} from './async';
+import { set } from 'redux/actions';
+import { mark } from 'utils/request';
 
 
 @connect(state => state)
@@ -27,8 +27,8 @@ export default class ProblemPreview extends React.Component<any, any> {
     const { id, practicePlanId, complete } = this.props.location.query;
 
     if (practicePlanId) {
-      let res = await loadPreview(practicePlanId)
-      this.setState({ preview: res.msg })
+      let res = await loadPreview(practicePlanId);
+      this.setState({ preview: res.msg });
 
       if (complete == 'false') {
         // 完成练习动效
@@ -48,12 +48,12 @@ export default class ProblemPreview extends React.Component<any, any> {
   }
 
   render () {
-    const { preview, clickedCompleteBtn } = this.state
+    const { preview, clickedCompleteBtn } = this.state;
     const {
       description, audio, audioWords, videoUrl, videoPoster, videoWords, fileId,
-    } = preview
-    const { location } = this.props
-    const { practicePlanId, planId, complete } = location.query
+    } = preview;
+    const { location } = this.props;
+    const { practicePlanId, planId, complete } = location.query;
 
     return (
         <div className="preview-container">
