@@ -154,6 +154,8 @@ export default class PlanMain extends React.Component <any, any> {
           require('./LearnLessCategory/Purple.less')
           break
         default:
+          node.classList.add('rise-main-container-green')
+          require('./LearnLessCategory/Green.less')
           break
       }
     }
