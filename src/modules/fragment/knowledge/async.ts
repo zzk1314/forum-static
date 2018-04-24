@@ -6,7 +6,7 @@ export function loadKnowledges (practicePlanId) {
 }
 
 export function learnKnowledge (practicePlanId) {
-  return ppost(`/rise/practice/knowledge/learn/${practicePlanId}`);
+  return proxy.postProxy(`/rise/practice/knowledge/learn/${practicePlanId}`);
 }
 
 export function loadRoadMap () {

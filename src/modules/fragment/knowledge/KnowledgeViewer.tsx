@@ -249,7 +249,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       if (!location.query.tag) {
         return (
           <div className={`button-footer ${clickedCompleteBtn ? 'disable' : ''}`}
-               onClick={() => window.history.back()}>
+               onClick={() => {
+                 learnKnowledge(practicePlanId);
+                 window.history.back();
+               }}>
             标记完成</div>
         );
       }
