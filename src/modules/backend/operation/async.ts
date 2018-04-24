@@ -1,5 +1,5 @@
 import { pget, ppost } from '../../../utils/request'
-import proxy from '../../../components/proxy/proxy'
+import proxy from '../../../components/proxy/requestProxy'
 
 export function loadSurveyConfigs () {
   return pget('/pc/operation/survey/config/list')

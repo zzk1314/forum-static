@@ -7,14 +7,15 @@ html {
 }
 
 #react-app {
-  //height: 100vh;
   > * {
-    //height: 100%;
   }
 }
 
+p {
+  margin: auto;
+}
+
 .container {
-  //height: 100%;
   &.has-footer {
     height: ~"calc(100% - 40px)";
   }
@@ -49,8 +50,6 @@ body {
 
 .button-footer {
   display: block;
-  //position: fixed;
-  //bottom: 0;
   width: 100%;
   height: @button_footer_height;
   text-align: center;
@@ -275,11 +274,10 @@ body {
   text-align: center;
   padding: 20px 0;
 
-  &.more{
+  &.more {
     color: @color_strong;
   }
 }
-
 
 .pc-icon {
   height: 100px;
@@ -298,40 +296,40 @@ body {
 
 .writeDiscuss {
   position: fixed;
-  height:55px;
-  width:55px;
-  left:15px;
+  height: 55px;
+  width: 55px;
+  left: 15px;
   bottom: 68px;
 }
 
 ul.pagination {
   display: flex;
-  width:80%;
+  width: 80%;
   list-style-type: none;
-  min-width:400px;
+  min-width: 400px;
   li {
     text-align: center;
     outline: none;
-    flex:1;
+    flex: 1;
     cursor: pointer;
-    margin:0 10px;
-    padding:5px;
+    margin: 0 10px;
+    padding: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;;
-    &.previous,&.next {
+    &.previous, &.next {
       &.disabled {
         background: #e4e4e4;
       }
     }
     &.active {
-      background:#55CBCB;
+      background: #55CBCB;
     }
     a {
       display: inline-block;
       outline: none;
-      width:100%;
-      height:100%;
+      width: 100%;
+      height: 100%;
     }
   }
 }

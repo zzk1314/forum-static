@@ -1,7 +1,14 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：forum-static
+ 2. 文件功能：评论内容展示组件
+ 3. 作者： duanxianfeng@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 import * as React from 'react'
 import './DiscussDisplayComponent.less'
 import { deleteKnowledgeDiscuss } from '../../../fragment/knowledge/async'
-import proxy from '../../../../components/proxy/proxy'
+import proxy from '../../../../components/proxy/requestProxy'
 import { voteKnowledgeDiscuss } from '../async'
 import { Dialog, RaisedButton } from 'material-ui'
 

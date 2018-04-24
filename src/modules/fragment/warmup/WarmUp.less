@@ -7,9 +7,14 @@
   .warm-up-head {
     position: fixed;
     top: 80px;
-    width: ~"calc(62.5% - 100px)";
+    width: 62.5%;
+    min-width: 750px;
     background-color: #fff;
+    left: 50%;
     z-index: 150;
+    transform: translateX(-50%);
+    padding: 0 50px;
+    box-sizing: border-box;
 
     .page-header {
       width: 100%;
@@ -48,11 +53,11 @@
           text-align: center;
         }
       }
-      .sub-discuss-reply{
+      .sub-discuss-reply {
         background-color: @color_weak_background;
         margin-left: 30px;
       }
-      .discuss-triangle{
+      .discuss-triangle {
         width: 1px;
         height: 0;
         border-bottom: 10px solid @color_weak_background;
@@ -60,7 +65,7 @@
         border-right: 10px solid transparent;
         margin-left: 50px;
       }
-      .discuss-padding{
+      .discuss-padding {
         margin-bottom: 20px;
       }
     }

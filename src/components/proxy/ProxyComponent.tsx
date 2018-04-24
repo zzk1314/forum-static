@@ -1,5 +1,5 @@
 import * as React from 'react'
-import proxy from './proxy'
+import proxy from './requestProxy'
 import { Dialog, FlatButton } from 'material-ui'
 import Loading from '../Loading'
 
