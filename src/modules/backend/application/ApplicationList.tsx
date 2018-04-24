@@ -1,21 +1,23 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import Divider from 'material-ui/Divider';
-import { BreakSignal } from "../../../utils/request";
-import VerticalBarLoading from "../../../components/VerticalBarLoading"
-import Avatar from 'material-ui/Avatar';
-import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
-import _ from "lodash"
-import "./ApplicationList.less"
-import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice } from  "./async"
+import * as React from 'react'
+import { connect } from 'react-redux'
+import Divider from 'material-ui/Divider'
+import { BreakSignal } from '../../../utils/request'
+import VerticalBarLoading from '../../../components/VerticalBarLoading'
+import Avatar from 'material-ui/Avatar'
+import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import _ from 'lodash'
+import './ApplicationList.less'
+import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice } from './async'
 import Snackbar from 'material-ui/Snackbar'
-import { imgSrc } from "../../../utils/imgSrc"
+import { imgSrc } from '../../../utils/imgSrc'
 import Confirm from '../../../components/Confirm'
+import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
+import Toggle from 'material-ui/Toggle'
 
 export const CommentType = {
   Challenge: 1,
   Application: 2,
-  Subject: 3,
+  Subject: 3
 }
 
 @connect(state => state)
@@ -25,18 +27,19 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       other: [],
       hasMore: true,
       index: 1,
       otherLoading: true,
       application: {},
-      topic: "",
+      topic: '',
       topicEditable: false,
+      show:true,
       descriptionEditable: false,
       snackOpen: false,
-      message: "",
+      message: '',
       saving: false,
       showConfirm: false,
       showConfirm2: false,
@@ -45,7 +48,7 @@ export default class ApplicationList extends React.Component<any, any> {
       showConfirmModal: {
         title: '提示',
         content: '确认加精？',
-        actions: [ {
+        actions: [{
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm: false })
@@ -61,7 +64,7 @@ export default class ApplicationList extends React.Component<any, any> {
       showConfirmModal2: {
         title: '提示',
         content: '是否取消加精？',
-        actions: [ {
+        actions: [{
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm2: false })
@@ -78,38 +81,38 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { location, dispatch, page } = this.props;
+    const { location, dispatch, page } = this.props
     const { applicationId } = location.query
-    const { index } = this.state
-    const scrollValue = _.get(page, "scroll");
+    const { index,show } = this.state
+    const scrollValue = _.get(page, 'scroll')
 
     loadApplication(applicationId).then(res => {
       if(res.code === 200) {
-        this.setState({ application: res.msg, topic: res.msg.topic });
+        this.setState({ application: res.msg, topic: res.msg.topic })
       } else {
-        throw new BreakSignal(res.msg, "提示");
+        throw new BreakSignal(res.msg, '提示')
       }
     }).catch(err => {
       if(err instanceof BreakSignal) {
-        dispatch(alertMsg(err.title, err.msg));
+        dispatch(alertMsg(err.title, err.msg))
       }
     })
 
-    loadApplicationSubmit(applicationId, index).then(res => {
+    loadApplicationSubmit(applicationId, index,show).then(res => {
       if(res.code === 200) {
-        this.setState({ other: res.msg, otherLoading: false });
+        this.setState({ other: res.msg, otherLoading: false })
         if(scrollValue) {
-          scroll(scrollValue.x, scrollValue.y);
-          dispatch(set("page.scroll", { x: 0, y: 0 }));
+          scroll(scrollValue.x, scrollValue.y)
+          dispatch(set('page.scroll', { x: 0, y: 0 }))
         }
       } else {
-        this.setState({ otherLoading: false });
-        throw new BreakSignal(res.msg, "提示");
+        this.setState({ otherLoading: false })
+        throw new BreakSignal(res.msg, '提示')
       }
     }).catch(err => {
       if(err instanceof BreakSignal) {
-        this.setState({ otherLoading: false });
-        dispatch(alertMsg(err.title, err.msg));
+        this.setState({ otherLoading: false })
+        dispatch(alertMsg(err.title, err.msg))
       }
     })
   }
@@ -145,33 +148,33 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   showAlert(content, title) {
-    const { dispatch } = this.props;
-    dispatch(alertMsg(title, content));
+    const { dispatch } = this.props
+    dispatch(alertMsg(title, content))
     setTimeout(() => {
-      dispatch(set("base.showModal", false));
-    }, 1000);
+      dispatch(set('base.showModal', false))
+    }, 1000)
   }
 
   loadMoreContent() {
-    const { location, dispatch } = this.props;
+    const { location, dispatch } = this.props
     const { applicationId } = location.query
-    const { index, other } = this.state
+    const { index, other,show } = this.state
 
-    loadApplicationSubmit(applicationId, index + 1).then(res => {
+    loadApplicationSubmit(applicationId, index + 1,show).then(res => {
       if(res.code === 200) {
         let hasMore = true
         if(res.msg.length === 0) {
           hasMore = false
         } else {
-          res.msg.forEach(item => other.push(item));
+          res.msg.forEach(item => other.push(item))
         }
-        this.setState({ other, index: index + 1, hasMore });
+        this.setState({ other, index: index + 1, hasMore })
       } else {
-        throw new BreakSignal(res.msg, "提示");
+        throw new BreakSignal(res.msg, '提示')
       }
     }).catch(err => {
       if(err instanceof BreakSignal) {
-        dispatch(alertMsg(err.title, err.msg));
+        dispatch(alertMsg(err.title, err.msg))
       }
     })
   }
@@ -220,7 +223,7 @@ export default class ApplicationList extends React.Component<any, any> {
 
   onClickGoDetail(item) {
     this.context.router.push({
-      pathname: "/asst/application/view",
+      pathname: '/asst/application/view',
       query: {
         submitId: item.id,
         applicationId: item.applicationId,
@@ -266,15 +269,44 @@ export default class ApplicationList extends React.Component<any, any> {
     this.setState({ descriptionEditable: true })
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  是否显示加精作业开关
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  toggled(){
+    const {dispatch,location} = this.props
+    const { applicationId } = location.query
+    const {show } = this.state
+
+    if(this.refs.toggle){
+      console.log(this.refs.toggle)
+    }
+    console.log('hello')
+
+    loadApplicationSubmit(applicationId, 1,!show).then(res => {
+      if(res.code === 200) {
+        this.setState({ other: res.msg, otherLoading: false,index:1,show:!show})
+
+      } else {
+        this.setState({ otherLoading: false })
+        throw new BreakSignal(res.msg, '提示')
+      }
+    }).catch(err => {
+      if(err instanceof BreakSignal) {
+        this.setState({ otherLoading: false })
+        dispatch(alertMsg(err.title, err.msg))
+      }
+    })
+  }
+
   render() {
-    const { other = [], hasMore, otherLoading, application } = this.state;
+    const { other = [], hasMore, otherLoading, application} = this.state
     const renderOther = () => {
       return (
         <div className="otherContainer">
           {other.map((item, index) => {
-            const { id, upName, headPic, upTime, content, applicationId, priority, comment, commenting } = item;
+            const { id, upName, headPic, upTime, content, applicationId, priority, comment, commenting } = item
             return (
-              <div key={index} className="workItemContainer" style={{marginTop: 50}}>
+              <div key={index} className="workItemContainer" style={{ marginTop: 50 }}>
                 <div className="titleArea">
                   <div className="leftArea">
                     <div className="author">
@@ -286,13 +318,13 @@ export default class ApplicationList extends React.Component<any, any> {
                       </div>
                       <div className="upInfo">
                         <div className="upName">{upName}</div>
-                        <div className="upTime">{upTime + "上传"}</div>
+                        <div className="upTime">{upTime + '上传'}</div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="workContentContainer">
-                  <div className="content" dangerouslySetInnerHTML={{__html: content}}>
+                  <div className="content" dangerouslySetInnerHTML={{ __html: content }}>
                   </div>
                   <div className="rightArea">
                     {priority === 0 ?
@@ -301,14 +333,14 @@ export default class ApplicationList extends React.Component<any, any> {
                       </div> :
                       <div className="function-button" onClick={() => this.unhighlight(id)}>
                         取消加精
-                      </div> }
+                      </div>}
                     <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
                   </div>
                   {commenting === 1 ?
                     <div className="commentSubmit">
                                 <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
                                           onChange={(e) => {
-                                            this.setState({comment: e.target.value})
+                                            this.setState({ comment: e.target.value })
                                           }}/>
                       <div className="commentBtn" onClick={() => this.comment(id)}>提交</div>
                     </div> : null
@@ -320,13 +352,26 @@ export default class ApplicationList extends React.Component<any, any> {
         </div>
       )
     }
-
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      是否显示已加精作业
+      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    const renderToggle = () => {
+      return (
+        <div className="toggle-container">
+          <Toggle ref="toggle"
+            label="是否显示加精作业"
+            defaultToggled={true} onToggle={(e,v)=>this.toggled()}
+          />
+        </div>
+      )
+    }
     const renderDiscuss = () => {
       return (
         <div>
           <div className="title">
             <span className="title-text">圈柚的作业</span>
           </div>
+          {renderToggle()}
           {otherLoading ? <VerticalBarLoading/> : renderOther()}
           <Divider/>
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
@@ -342,7 +387,7 @@ export default class ApplicationList extends React.Component<any, any> {
         </div>
         <hr/>
         <div className="myApplicationContainer">
-          <div className="desc" dangerouslySetInnerHTML={{__html: application.description}}/>
+          <div className="desc" dangerouslySetInnerHTML={{ __html: application.description }}/>
           {
             renderDiscuss()
           }
