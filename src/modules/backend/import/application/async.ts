@@ -38,3 +38,9 @@ export function saveApplicationPractice(applicationId, topic, description) {
 export function submitComment(type,submitId,content){
   return ppost(`/pc/operation/comment/${type}/${submitId}`,{content:content});
 }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+加载应用题类型
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+export function loadAllApplicationTypes(){
+  return pget('/pc/operation/application/load/type')
+}

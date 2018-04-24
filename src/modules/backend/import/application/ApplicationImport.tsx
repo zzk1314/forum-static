@@ -4,7 +4,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import * as _ from 'lodash'
 
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
-import { insertApplicationPractice, loadApplication, updateApplicationPractice } from './async'
+import { insertApplicationPractice, loadAllApplicationTypes, loadApplication, updateApplicationPractice } from './async'
 import { loadAllProblemsAndKnowledges, loadAllKnowledges } from '../knowledge/async'
 
 import './ApplicationImport.less'
@@ -20,7 +20,6 @@ interface ApplicationImportState {
   sequence: number;//顺序
   problemId: number;//专题id
   pic: string;//应用题图片
-  practiceUid: string;//练习唯一id
   updated: number;
   problems: object;//返回所有小课列表
   knowledges: object;//返回所有知识点列表
@@ -28,6 +27,8 @@ interface ApplicationImportState {
   problemSelect: number; // 选择 problem
   knowledgeSelect: number; //选择 知识点
   sequenceSelect;
+  typeSelect;
+  types:object;
   showSnackBar: boolean; // 提交成功提示消息
   isEdit: boolean;//判断是新增还是修改
 }
@@ -45,16 +46,17 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       knowledgesForSelect: [],
       showSnackBar: false,
       difficulty: -1,
-      isEdit: false
+      isEdit: false,
+      types:[]
     }
   }
 
   componentWillMount(nextProps) {
-
-    const { location } = nextProps || this.props;
+    const { dispatch } = this.props
+    const { location } = nextProps || this.props
     if(location.query.applicationId) {
       this.setState({
-        isEdit:true
+        isEdit: true
       })
 
       loadAllKnowledges().then(res => {
@@ -68,42 +70,57 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
 
       loadApplication(location.query.applicationId).then(res => {
         const { code, msg } = res
-        if(res.code === 200) {
+        if(code === 200) {
           this.setState({
             problemSelect: msg.problemId,
             knowledgeSelect: msg.knowledgeId,
-            practiceUid: msg.practiceUid,
             sequence: msg.sequence,
             topic: msg.topic,
             description: msg.description,
             difficulty: msg.difficulty,
-            sequenceSelect: msg.sequence
+            sequenceSelect: msg.sequence,
+            typeSelect: msg.types
           })
         }
       })
     }
 
-    else{
+    else {
       this.clear()
-      if(this.refs.description){
+      if(this.refs.description) {
         this.refs.description.setValue('')
       }
     }
 
     loadAllProblemsAndKnowledges().then(res => {
       const { code, msg } = res
-      if(res.code === 200) {
+      if(code === 200) {
         this.setState({
           problems: msg.problems,
           knowledges: msg.knowledges
         })
       }
     })
+
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    获得所有的应用题种类
+      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+    loadAllApplicationTypes().then(res => {
+      if(res.code === 200) {
+        this.setState({
+          types: res.msg
+        })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    })
+
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.location.query.applicationId !== nextProps.location.query.applicationId){
-      this.componentWillMount(nextProps);
+    if(this.props.location.query.applicationId !== nextProps.location.query.applicationId) {
+      this.componentWillMount(nextProps)
     }
   }
 
@@ -111,7 +128,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
    * 应用题提交
    **/
   submitApplication() {
-    const { topic, difficulty, sequenceSelect, pic, practiceUid, knowledgeSelect, problemSelect } = this.state
+    const { topic, difficulty, sequenceSelect, typeSelect, knowledgeSelect, problemSelect } = this.state
     let description = this.refs.description.getValue()
     const param = {
       topic: _.trim(topic),
@@ -121,12 +138,12 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       updated: 2,
       sequence: sequenceSelect,
       problemId: problemSelect,
-      pic:null,
-      practiceUid: _.trim(practiceUid),
+      pic: null,
+      type: _.trim(typeSelect),
       knowledgeId: knowledgeSelect
     }
     const { dispatch } = this.props
-    if(param.topic == '' || param.description == '' || param.difficulty == -1 || param.sequence == null || param.problemId == '' || param.practiceUid == '' || param.knowledgeId == '') {
+    if(param.topic == '' || param.description == '' || param.difficulty == -1 || param.sequence == null || param.problemId == '' || param.type == '' || param.knowledgeId == '') {
       dispatch(alertMsg('数据必输项未填写完成，请重试'))
     } else if(isNaN(param.sequence)) {
       dispatch(alertMsg('数据格式异常，请重试'))
@@ -178,7 +195,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
       sequenceSelect: null,
       problemSelect: null,
       knowledgeSelect: null,
-      practiceUid: '',
+      typeSelect: '',
       sequence: '',
       topic: '',
       pic: '',
@@ -197,7 +214,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
     let isEdit = this.props.location.query.applicationId ? true : false
     const {
       topic, difficulty, description,
-      sequenceSelect, pic, practiceUid,
+      sequenceSelect, typeSelect,
       problems, knowledges, knowledgesForSelect,
       problemSelect, knowledgeSelect, showSnackBar
     } = this.state
@@ -299,15 +316,8 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
             <div className="application-step">Step2、录入基本要点</div>
             <br/>
             <div className="basis-flex-box">
-              <TextField
-                hintText="在这里输入练习id" floatingLabelText=" 练习唯一 id(practiceUid)" value={practiceUid} disabled={isEdit}
-                onChange={(ev, value) => {
-                  this.setState({ practiceUid: value })
-                }}
-              />
               {renderChooseSequence()}
             </div>
-
           </div>
 
           <div className="application-main">
@@ -338,7 +348,7 @@ export default class ApplicationImport extends React.Component<any, ApplicationI
           </div>
 
           <RaisedButton className="submit-btn" primary={true} label="提交题目"
-                        onTouchTap={()=>this.submitApplication()}/>
+                        onTouchTap={() => this.submitApplication()}/>
         </div>
         {renderOtherComponents()}
       </div>
