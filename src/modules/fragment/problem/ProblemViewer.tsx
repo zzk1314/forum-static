@@ -26,11 +26,11 @@ export default class ProblemViewer extends React.Component<any, any> {
         actions: [
           {
             label: '再看看',
-            onClick: ()=>this.close()
+            onClick: () => this.close()
           },
           {
             label: '想好了',
-            onClick: ()=>this.submitProblem()
+            onClick: () => this.submitProblem()
           }
         ]
       },
@@ -94,7 +94,10 @@ export default class ProblemViewer extends React.Component<any, any> {
   render() {
     const { data, showTip } = this.state
     const { show } = this.props.location.query
-    const { authorPic, length, why, what, who, audio, audioWords, chapterList, problem, videoUrl, videoWords, videoPoster } = data
+    const {
+      authorPic, length, why, what, who, audio, audioWords, chapterList, problem, videoUrl,
+      videoWords, videoPoster, fileId, videoId
+    } = data
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -122,10 +125,8 @@ export default class ProblemViewer extends React.Component<any, any> {
               <BreadCrumbs level={1} name="课程介绍"/>
               <div className="page-header">{problem}</div>
             </div>
-            {videoUrl &&
-            <div className="video-container">
-              <QYVideo videoUrl={videoUrl} videoWords={videoWords} videoPoster={videoPoster}>您的设备不支持video标签</QYVideo>
-            </div>}
+            {videoId &&
+            <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords} fileId={fileId}/>}
             <div className="page-content">
               {audio && <div className="context-audio">
                 <Audio url={audio} words={audioWords}/>
@@ -137,8 +138,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/what_2.png"/>
               </div>
               {what && <pre dangerouslySetInnerHTML={{ __html: what }}/> }
-              <div
-                className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
+              <div className="roadmap">{chapterList && chapterList.map((chapter, idx) => renderRoadMap(chapter, idx))}</div>
 
               <div className="context-title-img">
                 <AssetImg width={'60%'} url="https://static.iqycamp.com/images/fragment/who_2.png"/>
@@ -169,7 +169,7 @@ export default class ProblemViewer extends React.Component<any, any> {
           </div>
         </div>
         {!show && <div className="button-footer" onClick={() => this.show()}>
-            学习该课程 </div>
+          学习该课程 </div>
         } <AlertMessage {...this.state.alert} open={this.state.showAlert}>
         <p className="global-pre">选择后，需要先学完该课程，才能选择下一课程，想好了吗？</p>
       </AlertMessage>

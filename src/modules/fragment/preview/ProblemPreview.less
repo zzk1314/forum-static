@@ -1,0 +1,23 @@
+@import "../../../style/variable";
+
+.preview-container {
+  box-sizing: border-box;
+  padding: 2.5rem 2.5rem 6rem;
+  overflow-x: hidden;
+  &.no-footer {
+    z-index: 1 !important;
+    padding-bottom: 4.9rem;
+  }
+
+  .intro-container {
+    .description {
+      margin: 3rem 0;
+      line-height: 200%;
+      font-size: @font_context;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow: hidden;
+      color: #666;
+    }
+  }
+}

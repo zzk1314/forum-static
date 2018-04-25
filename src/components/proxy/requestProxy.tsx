@@ -1,7 +1,7 @@
 'use strict'
 import { pget, ppost } from '../../utils/request'
 
-class Proxy {
+class RequestProxy {
 
   observer = {}
 
@@ -55,5 +55,5 @@ class Proxy {
 
 }
 
-let proxy = new Proxy()
-export default proxy
+let requestProxy = new RequestProxy()
+export default requestProxy

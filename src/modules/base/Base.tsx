@@ -13,7 +13,7 @@ import Loading from '../../components/Loading'
 import { isPending, renderExist } from '../../utils/helpers'
 import { pget } from '../../utils/request'
 import sa from 'sa-sdk-javascript';
-import { merge } from 'lodash';
+import { merge, isEmpty, isPlainObject, isArray } from 'lodash';
 import ProxyComponent from '../../components/proxy/ProxyComponent'
 
 @connect(state => state)
@@ -37,12 +37,10 @@ export default class Main extends React.Component<any, any> {
       if(res.code === 200) {
         window.ENV.userName = res.msg.nickname
         window.ENV.headImgUrl = res.msg.headimgurl
-
         window.ENV.riseId = res.msg.riseId;
-        window.ENV.className = res.msg.className;
-        window.ENV.groupId = res.msg.groupId;
-        window.ENV.roleName = res.msg.roleName;
         window.ENV.isAsst = res.msg.isAsst;
+        window.ENV.roleNames = res.msg.roleNames;
+        window.ENV.classGroupMaps = res.msg.classGroupMaps;
       }
 
       sa.init({
@@ -52,18 +50,22 @@ export default class Main extends React.Component<any, any> {
         server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
         heatmap: {},
         is_single_page: true,
-        show_log: false
+        show_log: true
       });
       if(!!res.msg.riseId) {
         sa.login(res.msg.riseId);
       }
-      let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 1 };
-      if(!!window.ENV.className && !!window.ENV.groupId) {
-        merge(props, {
-          className: window.ENV.className,
-          groupId: window.ENV.groupId
-        });
+
+      let props = { isAsst: window.ENV.isAsst, platformType: 1 };
+
+      if(!isEmpty(window.ENV.classGroupMaps) && isPlainObject(window.ENV.classGroupMaps)) {
+        // merge班组信息
+        merge(props, window.ENV.classGroupMaps);
       }
+      if(!isEmpty(window.ENV.roleNames) && isArray(window.ENV.roleNames)) {
+        merge(props, { 'roleNames': window.ENV.roleNames })
+      }
+
       if(!!res.msg.riseId) {
         merge(props, {
           riseId: res.msg.riseId

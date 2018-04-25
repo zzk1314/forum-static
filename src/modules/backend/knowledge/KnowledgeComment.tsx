@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { RaisedButton, SelectField, MenuItem } from 'material-ui'
 import { ProblemSelector } from '../import/component/ProblemSelector'
-import { queryKnowledgeDiscuss, queryProblemKnowledges } from './async'
-import KnowledgeComments from './components/KnowledgeComments'
+import { queryKnowledgeDiscusses, queryProblemKnowledges } from './async'
+import KnowledgeVote from './components/KnowledgeVote'
 
 export default class KnowledgeComment extends React.Component {
 
@@ -33,7 +33,7 @@ export default class KnowledgeComment extends React.Component {
 
   async loadKnowledgeDiscuss (knowledgeId) {
     if (knowledgeId == -1) return
-    let res = await queryKnowledgeDiscuss(knowledgeId)
+    let res = await queryKnowledgeDiscusses(knowledgeId)
     if (res.code === 200) {
       this.setState({ discusses: res.msg })
     }
@@ -56,7 +56,9 @@ export default class KnowledgeComment extends React.Component {
                      onChange={(event, index, value) => this.setState({ selectKnowledgeId: value })}>
           {
             knowledges.map((knowledge) => {
-              return <MenuItem key={knowledge.id} value={knowledge.id} primaryText={knowledge.knowledge}/>
+              return <MenuItem key={knowledge.id}
+                               value={knowledge.id}
+                               primaryText={knowledge.knowledge}/>
             })
           }
         </SelectField>
@@ -65,7 +67,7 @@ export default class KnowledgeComment extends React.Component {
                       primary={true}
                       onClick={() => this.loadKnowledgeDiscuss(selectKnowledgeId)}></RaisedButton>
         <br/><br/>
-        <KnowledgeComments data={discusses}/>
+        <KnowledgeVote data={discusses}/>
       </div>
     )
   }
