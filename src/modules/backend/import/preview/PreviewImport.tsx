@@ -1,38 +1,37 @@
 import * as React from 'react'
-import { connect } from "react-redux"
-import { loadKnowledgeDetail, updateKnowledge } from './async'
-import _ from 'lodash'
-import { loadProblem } from '../problem/async'
-import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
-import Editor from '../../../../components/editor/Editor'
+import { FlatButton, MenuItem, RaisedButton, SelectField, Snackbar } from 'material-ui'
 import { ProblemSelector } from '../component/ProblemSelector'
-import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import { AudioModal } from '../component/AudioModal'
+import { loadProblem } from '../problem/async'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { connect } from 'react-redux'
+import Editor from '../../../../components/editor/Editor'
+import { loadDescription, updatePreview } from './async'
+import _ from 'lodash'
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：forum-static
+ 2. 文件功能：课前思考内容导入
+ 3. 作者： yangren@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 @connect(state => state)
 export default class PreviewImport extends React.Component<any, any> {
 
-  constructor() {
-    super()
-    // 设置初始值
+  constructor(props) {
+    super(props)
     this.state = {
-      add: false,
+      select: false,
+      targetChapter: '',
+      targetSection: '',
       snackShow: false,
-      snackMessage: '',
-
-      targetChapter: 1,
-      targetSection: 1,
-      audioId:0,
+      snackMessage: ''
     }
   }
 
-  componentWillMount() {
-  }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return JSON.stringify(this.state) !== JSON.stringify(nextState)
-  }
-
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  选择课程
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   onSelect(id) {
     const { dispatch } = this.props
     // 加载当前操作小课名称
@@ -41,138 +40,104 @@ export default class PreviewImport extends React.Component<any, any> {
       if(code === 200) {
         this.setState({
           problemId: msg.id,
-          problemName: msg.problem,
-          schedules: msg.schedules
+          problemName: msg.problem
         })
       } else {
         dispatch(alertMsg(msg))
       }
-    }).catch(e=>{
+    }).catch(e => {
       dispatch(alertMsg(e))
     })
   }
 
-  /**
-   * 获取知识点详细信息
-   */
-  handleLoadKnowledgeDetail(knowledgeId) {
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    修改章节
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  onChangeChapter(value) {
+    const { problemId, targetSection } = this.state
     const { dispatch } = this.props
 
-    loadKnowledgeDetail(knowledgeId).then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        if(msg.audioId===null){
-          msg.audioId= 0
-        }
-        if(msg.analysisAudioId===null){
-          msg.analysisAudioId= 0
-        }
-        if(msg.analysisAudioId===null){
-          msg.analysisAudioId= 0
-        }
-        if(msg.meansAudioId===null){
-          msg.meansAudioId= 0
-        }
-        if(msg.keynoteAudioId===null){
-          msg.keynoteAudioId= 0
-        }
-        this.setState({
-          // snackBar
-          snackShow: true,
-          snackMessage: "加载数据成功",
+    this.setState({ targetChapter: value })
 
-          knowledge: msg,
-          targetChapter: msg.chapter,
-          targetSection: msg.section,
-          targetKnowledge: msg.knowledge,
-          targetStep: msg.step,
-          targetAnalysis: msg.analysis,
-          targetMeans: msg.means,
-          targetKeynote: msg.keynote,
-          audioId: msg.audioId,
-          analysisAudioId:msg.analysisAudioId,
-          meansAudioId:msg.meansAudioId,
-          keynoteAudioId:msg.keynoteAudioId,
-          targetDescription:msg.description
-        })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(e=>{
-      dispatch(alertMsg(e))
-    })
+    if(problemId > 0 && targetSection > 0) {
+      loadDescription(problemId, value, targetSection).then(res => {
+        if(res.code === 200) {
+          this.setState({
+            targetChapter: value,
+            targetDescription: res.msg
+          })
+        } else {
+          this.setState({ targetChapter: value })
+          dispatch(alertMsg(res.msg))
+        }
+
+      })
+    } else {
+      this.setState({ targetChapter: value })
+    }
+
   }
 
-  handleClickUpdateKnowledge() {
-    const { problemId, knowledge, targetKnowledge, targetStep,
-    analysisAudioId, keynoteAudioId, meansAudioId, audioId, targetChapter, targetSection} = this.state
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  修改小节
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  onChangeSection(value) {
+    const { problemId, targetChapter } = this.state
     const { dispatch } = this.props
-
-    const analysis = this.refs.analysis.getValue()
-    const means = this.refs.means.getValue()
-    const keynote = this.refs.keynote.getValue()
-    const description = this.refs.description.getValue()
-    let id = 0
-    if(knowledge.id){
-      id = knowledge.id
+    if(problemId > 0 && targetChapter > 0) {
+      loadDescription(problemId, targetChapter, value).then(res => {
+        if(res.code === 200) {
+          this.setState({
+            targetSection: value,
+            targetDescription: res.msg
+          })
+        } else {
+          this.setState({ targetSection: value })
+          dispatch(alertMsg(res.msg))
+        }
+      })
+    } else {
+      this.setState({ targetSection: value })
     }
-
-    let param = { analysis, means, keynote, knowledge: targetKnowledge, step: targetStep, chapter:targetChapter,
-      section:targetSection, id, analysisAudioId, keynoteAudioId, meansAudioId, audioId,description}
-    if(_.isEmpty(targetKnowledge) || _.isEmpty(targetStep)) {
-      dispatch(alertMsg('请将所有信息填写完毕'))
-      return
-    }
-
-    updateKnowledge(problemId, param).then(res => {
-      if(res.code === 200) {
-        this.setState({ snackShow: true, snackMessage: '添加知识点成功', add:false, select:true })
-      }else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e=>{
-      dispatch(alertMsg(e))
-    })
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  关闭提示
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   closeSnackShow() {
     this.setState({ snackShow: false })
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  提交内容
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  handleClickUpdatePreview() {
+    const { dispatch } = this.props
+    const { problemId, targetChapter, targetSection } = this.state
+    const description = this.refs.description.getValue()
+
+    if(problemId == 0 || targetChapter == 0 || targetSection == 0 || _.isEmpty(description)) {
+      dispatch(alertMsg('请将课程、章节和内容填写完整'))
+      return
+    }
+
+    let param = { chapter: targetChapter, section: targetSection, description }
+
+    //添加或者更新
+    updatePreview(problemId, param).then(res => {
+      if(res.code === 200) {
+        this.setState({ snackShow: true, snackMessage: '添加课前思考成功' })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    })
+  }
+
   render() {
-    const { problemId,snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
-      targetChapter, targetSection, targetPreview, targetStep, targetAnalysis, targetMeans, targetKeynote,targetDescription,
-      audioId, analysisAudioId, keynoteAudioId, meansAudioId } = this.state
+    const { targetChapter, targetSection, snackShow, snackMessage, targetDescription } = this.state
 
-    const renderSelect = () => {
+    const renderAddName = () => {
       return (
-        <div>
-          <RaisedButton
-            label="添加课前思考" primary={true}
-            style={{marginRight:50}}
-            onClick={() => this.setState({add:true, select:true})}
-          />
-          <RaisedButton
-            label="更新课前思考" primary={true}
-            onClick={() => this.setState({add:false, select:true})}
-          />
-        </div>
-      )
-    }
-
-    const renderAudio = (prefix, audioId, upload, close)=>{
-      return (
-        <AudioModal ref="problemAudio" prefix={prefix} upload={(id)=>upload(id)} audioId={audioId}
-                    close={()=>close()}></AudioModal>
-      )
-    }
-
-
-    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     选择章节（如果有则展示内容，没有则是添加）
-      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    const renderChapterAndSection = () => {
-      return(
         <div>
           {renderChapterSelector()}
           {renderSectionSelector()}
@@ -181,14 +146,13 @@ export default class PreviewImport extends React.Component<any, any> {
     }
 
     const renderChapterSelector = () => {
-      let chapterList = [1,2,3,4,5,6,7,8,9]
+      let chapterList = [1, 2, 3, 4, 5, 6, 7, 8, 9]
       return (
         <div>
-          <FlatButton label="章节" /><br/>
+          <FlatButton label="章节"/><br/>
           <SelectField
             value={targetChapter}
-            disabled={!add}
-            onChange={(e, idx, value) => this.setState({ targetChapter: value })}
+            onChange={(e, idx, value) => this.onChangeChapter(value)}
           >
             {
               chapterList.map((chapter, idx) => {
@@ -203,14 +167,13 @@ export default class PreviewImport extends React.Component<any, any> {
     }
 
     const renderSectionSelector = () => {
-      let sectionList = [1,2,3,4,5,6,7,8,9]
+      let sectionList = [1, 2, 3, 4, 5, 6, 7, 8, 9]
       return (
         <div>
-          <FlatButton label="小节" /><br/>
+          <FlatButton label="小节"/><br/>
           <SelectField
             value={targetSection}
-            disabled={!add}
-            onChange={(e, idx, value) => this.setState({ targetSection: value })}
+            onChange={(e, idx, value) => this.onChangeSection(value)}
           >
             {
               sectionList.map((section, idx) => {
@@ -227,73 +190,21 @@ export default class PreviewImport extends React.Component<any, any> {
     return (
       <div className="preview-import-container">
         <div style={{ padding: 50 }}>
-          <FlatButton label="课程" /><br/>
-          <ProblemSelector select={(id)=>this.onSelect(id)}></ProblemSelector>
+          <FlatButton label="课程"/><br/>
+          <ProblemSelector select={(id) => this.onSelect(id)}></ProblemSelector>
           <br/>
-          <FlatButton label="一、课前思考" /><br/>
-          {renderChapterAndSection()}
+          <FlatButton label="一、课前思考"/><br/>
+          {renderAddName()}
           <br/>
+          <FlatButton label="课前思考内容"/><br/>
+          <div style={{ marginBottom: '30px' }}>
+            <Editor
+              id="description" ref="description" value={targetDescription}/>
+          </div>
 
-
-          <FlatButton label="知识点语音"/><br/>
-          {knowledgeAudio? renderAudio('rise_kn', audioId, (id)=>this.setState({audioId:id}),
-              ()=>this.setState({knowledgeAudio:false})) :
-            <RaisedButton
-              label="上传语音" primary={true}
-              onClick={() => this.setState({knowledgeAudio:true})}
-            />}
-          <br/>
-          <FlatButton label="二、步骤" /><br/>
-          <TextField
-            hintText="步骤"
-            value={targetStep}
-            onChange={(e, v) => this.setState({ targetStep: v })}
-          /><br/>
-          <FlatButton label="三、知识点正文(商业思维课程)"/><br/>
-          <Editor
-          id="description" ref="description" value={targetDescription}/>
-          <FlatButton label="四、作用" /><br/>
-          <Editor
-            id="analysis" ref="analysis"
-            value={targetAnalysis}
-          />
-          <FlatButton label="作用语音"/><br/>
-          {analysisAudio? renderAudio('rise_a', analysisAudioId, (id)=>this.setState({analysisAudioId:id}),
-              ()=>this.setState({analysisAudio:false})) :
-            <RaisedButton
-              label="上传语音" primary={true}
-              onClick={() => this.setState({analysisAudio:true})}
-            />}
-          <br/>
-          <FlatButton label="五、方法" /><br/>
-          <Editor
-            id="means" ref="means"
-            value={targetMeans}
-          />
-          <FlatButton label="方法语音"/><br/>
-          {meansAudio? renderAudio('rise_m', meansAudioId, (id)=>this.setState({meansAudioId:id}),
-              ()=>this.setState({meansAudio:false})) :
-            <RaisedButton
-              label="上传语音" primary={true}
-              onClick={() => this.setState({meansAudio:true})}
-            />}
-          <br/>
-          <FlatButton label="六、要点" /><br/>
-          <Editor
-            id="keynote" ref="keynote"
-            value={targetKeynote}
-          /><br/>
-          <FlatButton label="要点语音"/><br/>
-          {keynoteAudio? renderAudio('rise_k', keynoteAudioId, (id)=>this.setState({keynoteAudioId:id}),
-              ()=>this.setState({keynoteAudio:false})) :
-            <RaisedButton
-              label="上传语音" primary={true}
-              onClick={() => this.setState({keynoteAudio:true})}
-            />}
-          <br/><br/><br/>
           <RaisedButton
             label="更新数据" primary={true}
-            onClick={() => this.handleClickUpdateKnowledge()}
+            onClick={() => this.handleClickUpdatePreview()}
           /><br/>
           <Snackbar
             open={snackShow}
@@ -302,6 +213,8 @@ export default class PreviewImport extends React.Component<any, any> {
             onRequestClose={() => this.closeSnackShow()}
           />
         </div>
+
+
       </div>
     )
   }

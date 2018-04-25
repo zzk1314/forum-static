@@ -37,6 +37,7 @@ import WarmUpAnalysis from './modules/fragment/warmup/Analysis'
 import AnalysisNew from './modules/fragment/warmup/AnalysisNew'
 import KnowledgeViewer from './modules/fragment/knowledge/KnowledgeViewer'
 import KnowledgeReview from './modules/fragment/knowledge/KnowledgeReview'
+import ProblemPreview from './modules/fragment/preview/ProblemPreview'
 import ProblemViewer from './modules/fragment/problem/ProblemViewer'
 import Profile from './modules/fragment/customer/personal/Profile'
 import { Comment as SubjectComment } from './modules/fragment/subject/Comment'
@@ -88,6 +89,7 @@ import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOp
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
+import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscussComment'
 import PreviewImport from './modules/backend/import/preview/PreviewImport'
 
 const routes = (
@@ -96,6 +98,7 @@ const routes = (
   }}>
     <Route path="/login" component={Login}/>
     <Route component={Base}>
+
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
@@ -126,6 +129,7 @@ const routes = (
         </Route>
 
         <Route path='/backend/knowledge/vote' component={KnowledgeComment}/>
+        <Route path="/backend/knowledge/discuss/reply" component={KnowledgeDiscussComment}/>
 
         <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/add" component={CampUserAdd}/>
@@ -180,6 +184,7 @@ const routes = (
       <Route path="/fragment/problem/view" component={ProblemViewer}/>
       <Route path="/fragment/problem/extension/view" component={ProblemExtension}/>
       <Route path="/fragment/knowledge" component={KnowledgeViewer}/>
+      <Route path="/fragment/preview" component={ProblemPreview}/>
       <Route path="/fragment/warmup" component={WarmUp}/>
       <Route path="/fragment/warmup/result" component={WarmupResult}/>
       <Route path="/fragment/warmup/analysis" component={WarmUpAnalysis}/>
