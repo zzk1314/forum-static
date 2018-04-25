@@ -197,7 +197,7 @@ export default class PersonalDiscussDistrict extends React.Component {
               }
             </div>
             <div className={`comment ${showDiscussAll ? '' : 'hidden'}`}>
-              <div dangerouslySetInnerHTML={{ __html: showDiscussAll ? discuss.content : removeHtmlTags(discuss.content), }}></div>
+              <pre dangerouslySetInnerHTML={{ __html: showDiscussAll ? discuss.content : removeHtmlTags(discuss.content), }}></pre>
             </div>
             {
               (discuss.content && (getRealLength(removeHtmlTags(discuss.content)) > 90 || discuss.content.indexOf('<p') > -1 || discuss.content.indexOf('<img') > -1)) &&
