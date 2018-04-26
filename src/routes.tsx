@@ -90,6 +90,7 @@ import CertificateOperate from './modules/backend/operation/certificate/Certific
 import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
 import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscussComment'
+import PreviewImport from './modules/backend/import/preview/PreviewImport'
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -143,6 +144,7 @@ const routes = (
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
+        <Route path="/backend/preview/import" component={PreviewImport} />
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>
