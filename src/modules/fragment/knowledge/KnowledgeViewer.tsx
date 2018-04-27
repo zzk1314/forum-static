@@ -67,7 +67,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         dispatch(set('completePracticePlanId', practicePlanId));
       }
     } else if (id) {
-      let knowledge = await loadKnowledges(id);
+      let knowledge = await loadKnowledge(id);
       this.setState({ knowledge: knowledge.msg });
       let discussRes = await loadKnowledgePriorityDiscuss(id, 1);
       this.setState({ discussData: discussRes.msg });
