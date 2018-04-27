@@ -1,4 +1,3 @@
-// require('es6-promise').polyfill()
 import './style.less'
 import 'whatwg-fetch'
 import * as React from 'react'

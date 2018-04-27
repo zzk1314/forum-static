@@ -3,7 +3,7 @@ import { Dialog, SelectField, MenuItem, RaisedButton } from 'material-ui'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { generateCertificate, sendCertificate, sendFullAttendance } from '../async'
-import proxy from '../../../../components/proxy/proxy'
+import proxy from '../../../../components/proxy/requestProxy'
 
 @connect(state => state)
 export default class CertificateOperate extends React.Component {

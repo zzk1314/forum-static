@@ -1,0 +1,84 @@
+.application-submit-component {
+  width: 100%;
+  .editor-box {
+    margin: 0 auto;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding-bottom: 2rem;
+    border-radius: 4px;
+    overflow: hidden;
+    .editor {
+      .simditor-wrapper {
+        height: 25rem !important;
+        .simditor-body {
+          height: 21rem !important;
+          box-sizing: border-box !important;
+          min-height: inherit !important;
+        }
+      }
+    }
+    .bottom-tip {
+      color: #999;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .footerbutton {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .temp-save {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 13rem;
+        height: 4rem;
+        font-size: 1.4rem;
+        line-height: 4rem;
+        color: #ffa301;
+        text-align: center;
+        border: 1px solid #ffa301;
+        border-radius: 4px;
+      }
+      .submit {
+        display: inline-block;
+        box-sizing: border-box;
+        background-color: #ffa301;
+        width: 13rem;
+        height: 4rem;
+        font-size: 1.4rem;
+        line-height: 4rem;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+      }
+      .pc-submit {
+        margin: 2rem 0;
+        display: inline-block;
+        box-sizing: border-box;
+        background-color: #5bcaca;
+        width: 13rem;
+        height: 4rem;
+        font-size: 1.4rem;
+        line-height: 4rem;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+      }
+    }
+  }
+  .simditor-body {
+    max-height: 30rem !important;
+  }
+  .mask {
+    position: fixed;
+    width: 100%;
+    min-height: 100%;
+    background: rgba(0, 0, 0, 0.70);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 135;
+  }
+}

@@ -5,7 +5,7 @@ import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
 import { connect } from "react-redux";
 import { alertMsg } from "../../../redux/actions";
-import { requestCommentByType } from "./async";
+import { requestApplicationComment } from "./async";
 import AlertMessage from "../../../components/AlertMessage";
 
 @connect(state => state)
@@ -67,8 +67,8 @@ export default class Work extends React.Component<any,any> {
   }
 
   onRequestComment() {
-    const { dispatch, submitId, type } = this.props;
-    requestCommentByType(type, submitId).then(res => {
+    const { dispatch, submitId } = this.props;
+    requestApplicationComment(submitId).then(res => {
       let { code, msg } = res;
       if(code === 200) {
         this.setState({ request: true })

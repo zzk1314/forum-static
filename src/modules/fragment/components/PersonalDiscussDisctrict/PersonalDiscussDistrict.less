@@ -1,0 +1,167 @@
+.personal-discuss-district-component {
+  display: block;
+  box-sizing: border-box;
+  background-color: #FFF;
+  margin: 3rem 0;
+  .personal-block {
+    position: relative;
+    .headimg {
+      display: inline-block;
+      width: 3.4rem;
+      height: 3.4rem;
+      border-radius: 50%;
+      vertical-align: top;
+      margin-top: 1px;
+    }
+    .right-block {
+      display: inline-block;
+      width: ~"calc(100% - 4.6rem)";
+      margin-left: 1.2rem;
+      .person-detail {
+        position: relative;
+        height: 18px;
+        .nickname {
+          position: relative;
+          font-size: 14px;
+          color: #666666;
+          height: 18px;
+          line-height: 18px;
+          display: inline-block;
+        }
+        .person-title {
+          position: absolute;
+          display: inline-block;
+          line-height: 18px;
+          height: 18px;
+          margin-left: 4px;
+          top: 0;
+        }
+        .switch-edit {
+          position: absolute;
+          display: inline-block;
+          right: 13rem;
+          bottom: 0;
+          line-height: 18px;
+          font-size: 14px;
+          cursor: pointer;
+          .icon {
+            display: inline-block;
+            bottom: 0;
+            right: 10px;
+            width: 18px;
+            height: 18px;
+            vertical-align: bottom;
+          }
+          .edit-span {
+            margin-left: 0.8rem;
+            color: #999;
+            display: inline-block;
+            line-height: 18px;
+          }
+        }
+        .request-comment {
+          position: absolute;
+          display: inline-block;
+          right: 5rem;
+          bottom: 0;
+          line-height: 18px;
+          font-size: 14px;
+          cursor: pointer;
+          .icon {
+            display: inline-block;
+            bottom: 0;
+            right: 10px;
+            width: 18px;
+            height: 18px;
+            vertical-align: bottom;
+          }
+          .request-span {
+            margin-left: 0.8rem;
+            color: #999;
+            display: inline-block;
+            line-height: 18px;
+          }
+        }
+        .vote-data {
+          position: absolute;
+          display: inline-block;
+          right: 0;
+          bottom: 0;
+          line-height: 14px;
+          cursor: pointer;
+          .icon {
+            display: inline-block;
+            bottom: 0;
+            right: 10px;
+            width: 18px;
+            height: 18px;
+            vertical-align: bottom;
+          }
+          .vote-count {
+            font-size: 14px;
+            color: #999;
+            line-height: 18px;
+          }
+        }
+      }
+      .comment {
+        left: 4.5rem;
+        font-size: 15px;
+        line-height: 25px;
+        color: #333333;
+        &.hidden {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          /* 最多显示 5 行的时候，最大的高度 */
+          max-height: 125px;
+        }
+      }
+      .show-tips {
+        display: inline-block;
+        font-size: 1.4rem;
+        color: #56cec0;
+      }
+      .bottom-data {
+        position: relative;
+        height: 14px;
+        margin-top: 6px;
+        .publish {
+          position: absolute;
+          display: inline-block;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 1.2rem;
+          color: #999999;
+          height: 14px;
+          line-height: 14px;
+        }
+        .delete {
+          position: absolute;
+          display: inline-block;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #666;
+          font-size: 1.2rem;
+          line-height: 14px;
+          cursor: pointer;
+        }
+      }
+      .vote {
+        font-size: 1.2rem;
+        color: #999999;
+        display: inline-block;
+        float: right;
+        margin-top: 1rem;
+      }
+    }
+  }
+  .comment-block {
+    margin: 1.2rem 0 0 4.6rem;
+    width: ~"calc(100% - 4.6rem)";
+  }
+}

@@ -21,6 +21,7 @@ const typeMap = {
   2: '选择题',
   11: '应用题',
   12: '应用题',
+  13:'小组作业',
   20: '小课介绍',
   21: '小目标',
   31: '知识点',
@@ -154,6 +155,8 @@ export default class PlanMain extends React.Component <any, any> {
           require('./LearnLessCategory/Purple.less')
           break
         default:
+          node.classList.add('rise-main-container-green')
+          require('./LearnLessCategory/Green.less')
           break
       }
     }
@@ -235,7 +238,13 @@ export default class PlanMain extends React.Component <any, any> {
           pathname: '/fragment/application',
           query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: true, planId, practicePlanId, complete }
         }) : null
-    } else if(type === 20) {
+    }else if(type===13){
+      this.context ? this.context.router.push({
+        pathname: '/fragment/application',
+        query: { id: item.practiceIdList[ 0 ], currentIndex, integrated: true, planId, practicePlanId, complete }
+      }) : null
+    }
+    else if(type === 20) {
       this.context ? this.context.router.push({
           pathname: '/fragment/problem/view',
           query: { id: item.practiceIdList[ 0 ], complete, practicePlanId, show: true }
@@ -627,7 +636,7 @@ export default class PlanMain extends React.Component <any, any> {
                 <div className="bottom-platform"/>
                 {item.type === 1 || item.type === 2 ?
                   <div className="warmup" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
-                {item.type === 11 || item.type === 12 ?
+                {item.type === 11 || item.type === 12 || item.type===13 ?
                   <div className="application" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
                 {item.type === 20 || item.type === 21 ?
                   <div className="challenge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}

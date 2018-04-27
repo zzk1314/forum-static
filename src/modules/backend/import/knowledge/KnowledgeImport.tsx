@@ -37,6 +37,7 @@ interface KnowledgeImportState {
   targetStep: string,
   targetAnalysis: string,
   targetMeans: string,
+  targetDescription:string,
   targetKeynote: string
 }
 
@@ -97,7 +98,6 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
    * 获取知识点详细信息
    */
   handleLoadKnowledgeDetail(knowledgeId) {
-    const { schedules, targetChapter, targetSection } = this.state
     const { dispatch } = this.props
 
     loadKnowledgeDetail(knowledgeId).then(res => {
@@ -135,6 +135,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
           analysisAudioId:msg.analysisAudioId,
           meansAudioId:msg.meansAudioId,
           keynoteAudioId:msg.keynoteAudioId,
+          targetDescription:msg.description
         })
       } else {
         dispatch(alertMsg(msg))
@@ -145,20 +146,21 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   handleClickUpdateKnowledge() {
-    const { problemId, knowledge, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,
+    const { problemId, knowledge, targetKnowledge, targetStep,
     analysisAudioId, keynoteAudioId, meansAudioId, audioId, targetChapter, targetSection} = this.state
     const { dispatch } = this.props
 
     const analysis = this.refs.analysis.getValue()
     const means = this.refs.means.getValue()
     const keynote = this.refs.keynote.getValue()
+    const description = this.refs.description.getValue()
     let id = 0
     if(knowledge.id){
       id = knowledge.id
     }
 
     let param = { analysis, means, keynote, knowledge: targetKnowledge, step: targetStep, chapter:targetChapter,
-      section:targetSection, id, analysisAudioId, keynoteAudioId, meansAudioId, audioId }
+      section:targetSection, id, analysisAudioId, keynoteAudioId, meansAudioId, audioId,description}
     if(_.isEmpty(targetKnowledge) || _.isEmpty(targetStep)) {
       dispatch(alertMsg('请将所有信息填写完毕'))
       return
@@ -180,8 +182,8 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
   }
 
   render() {
-    const { problemId, problemName, schedules, knowledge, snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
-      targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,
+    const { problemId,snackShow, snackMessage, select, add, knowledgeAudio, analysisAudio, meansAudio, keynoteAudio,
+      targetChapter, targetSection, targetKnowledge, targetStep, targetAnalysis, targetMeans, targetKeynote,targetDescription,
       audioId, analysisAudioId, keynoteAudioId, meansAudioId } = this.state
 
     const renderSelect = () => {
@@ -295,7 +297,10 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
             value={targetStep}
             onChange={(e, v) => this.setState({ targetStep: v })}
           /><br/>
-          <FlatButton label="三、作用" /><br/>
+          <FlatButton label="三、知识点正文(商业思维课程)"/><br/>
+          <Editor
+          id="description" ref="description" value={targetDescription}/>
+          <FlatButton label="四、作用" /><br/>
           <Editor
             id="analysis" ref="analysis"
             value={targetAnalysis}
@@ -308,7 +313,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
               onClick={() => this.setState({analysisAudio:true})}
             />}
           <br/>
-          <FlatButton label="四、方法" /><br/>
+          <FlatButton label="五、方法" /><br/>
           <Editor
             id="means" ref="means"
             value={targetMeans}
@@ -321,7 +326,7 @@ export default class KnowledgeImport extends React.Component<any, KnowledgeImpor
               onClick={() => this.setState({meansAudio:true})}
             />}
           <br/>
-          <FlatButton label="五、要点" /><br/>
+          <FlatButton label="六、要点" /><br/>
           <Editor
             id="keynote" ref="keynote"
             value={targetKeynote}
