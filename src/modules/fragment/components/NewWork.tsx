@@ -5,7 +5,7 @@ import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
 import { connect } from "react-redux";
 import { alertMsg } from "../../../redux/actions";
-import { requestCommentByType, IncreaseArticleShow } from "./async";
+import { requestCommentByType } from "./async";
 import AlertMessage from "../../../components/AlertMessage";
 
 @connect(state => state)
@@ -81,11 +81,6 @@ export default class Work extends React.Component<any,any> {
   }
 
   show(showAll) {
-    const { articleModule, submitId } = this.props;
-    if(!showAll && articleModule) {
-      // 展开 模块
-      IncreaseArticleShow(articleModule, submitId);
-    }
     this.setState({ showAll: !showAll })
   }
 
