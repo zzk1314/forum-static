@@ -62,7 +62,7 @@ export default class ApplicationList extends React.Component<any, any> {
       groupId: '',
       selected: false,
       classSearch: false,
-      isClick:false
+      isClick: false
     }
   }
 
@@ -113,13 +113,12 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
-
   componentWillReceiveProps(newProps) {
     const { problemId } = newProps.location.query
     if(this.props.location.query.problemId === problemId) {
       return
     } else {
-      this.setState({ search: [],selected:false,classSearch:false,isClick:false,className:'',groupId:''})
+      this.setState({ search: [], selected: false, classSearch: false, isClick: false, className: '', groupId: '' })
       this.componentWillMount(newProps.location.query.problemId)
     }
   }
@@ -139,15 +138,24 @@ export default class ApplicationList extends React.Component<any, any> {
     const { className, groupId, classSearch } = this.state
     if(classSearch) {
       if(className != '' && groupId != '') {
+        dispatch(startLoad());
         loadSubmitByProblemIdClassNameGroup(problemId, className, groupId).then(res => {
+          dispatch(endLoad());
           const { code, msg } = res
           if(code === 200) {
-            this.setState({
-              isClick:true,
-              search: msg
-            })
+            if(msg && msg.length > 0) {
+              this.setState({
+                isClick: true,
+                search: msg
+              })
+            } else {
+              dispatch(alertMsg('没有查到哦'));
+            }
           }
-        })
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(ex);
+        });
       }
       else {
         dispatch(alertMsg('请选择班级和小组'))
@@ -157,20 +165,38 @@ export default class ApplicationList extends React.Component<any, any> {
       let nickName = document.getElementById('nickName').value
       let memberId = document.getElementById('memberId').value
       if(nickName && !memberId) {
+        dispatch(startLoad());
         loadApplicationListByNickName(problemId, nickName).then(res => {
+          dispatch(endLoad());
           if(res.code === 200) {
-            this.setState({ search: res.msg })
+            if(res.msg && res.msg.length > 0) {
+              this.setState({ search: res.msg })
+            } else {
+              dispatch(alertMsg('没有查到哦'));
+            }
           } else {
             dispatch(alertMsg(res.msg))
           }
-        }).catch(e => dispatch(alertMsg(e)))
+        }).catch(e => {
+          dispatch(endLoad());
+          dispatch(alertMsg(e))
+        })
       } else if(!nickName && memberId) {
+        dispatch(startLoad());
         loadApplicationListByMemberId(problemId, memberId).then(res => {
+          dispatch(endLoad());
           if(res.code === 200) {
-            this.setState({ search: res.msg })
+            if(res.msg && res.msg.length > 0) {
+              this.setState({ search: res.msg })
+            } else {
+              dispatch(alertMsg('没有查到哦'));
+            }
           } else {
             dispatch(alertMsg(res.msg))
           }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(e))
         })
       }
       else {
@@ -180,7 +206,7 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   render() {
-    const { other = [], search = [], otherLoading, todayComment, totalComment, selected, classSearch,isClick} = this.state
+    const { other = [], search = [], otherLoading, todayComment, totalComment, selected, classSearch, isClick } = this.state
     const renderSubmits = () => {
       if(isClick) {
         return renderWorkItems(search)
